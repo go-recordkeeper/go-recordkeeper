@@ -3,6 +3,7 @@ import pytest
 
 from record.models import Game
 
+
 @pytest.fixture()
 def game_factory():
     def factory(owner=None):
@@ -12,7 +13,9 @@ def game_factory():
         game = Game(owner=owner)
         game.save()
         return game
+
     return factory
+
 
 @pytest.fixture()
 def game(game_factory):
