@@ -37,5 +37,6 @@ setup(
     install_requires=[
         'django~=4.1.0',
         'djangorestframework',
+        'psycopg2',
     ],
 )
