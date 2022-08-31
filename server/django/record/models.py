@@ -1,13 +1,14 @@
-from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
 from django.utils.translation import gettext_lazy as _
+
 
 class Game(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
-class Move(models.Model):
 
+class Move(models.Model):
     class Color(models.TextChoices):
         BLACK = 'B', _('Black')
         WHITE = 'W', _('White')
@@ -20,9 +21,5 @@ class Move(models.Model):
     move = models.PositiveIntegerField()
 
     class Meta:
-        indexes = [
-            models.Index(fields=['game', 'move'])
-        ]
-        constraints = [
-            models.UniqueConstraint(name='unique_move', fields=['game', 'move'])
-        ]
+        indexes = [models.Index(fields=['game', 'move'])]
+        constraints = [models.UniqueConstraint(name='unique_move', fields=['game', 'move'])]

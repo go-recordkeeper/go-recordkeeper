@@ -40,11 +40,11 @@ setup(
         'djangorestframework',
         'psycopg2',
     ],
-    extras_require = {
+    extras_require={
         'test': [
             'pytest',
             'pytest-django',
             'tox',
         ]
-    }
+    },
 )

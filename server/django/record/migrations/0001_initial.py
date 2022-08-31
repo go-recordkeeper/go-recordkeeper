@@ -18,19 +18,62 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Game',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name='ID'
+                    ),
+                ),
+                (
+                    'owner',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='Move',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('x', models.IntegerField(validators=[django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(18)])),
-                ('y', models.IntegerField(validators=[django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(18)])),
-                ('color', models.CharField(choices=[('B', 'Black'), ('W', 'White'), ('P', 'Pass')], max_length=1)),
+                (
+                    'id',
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name='ID'
+                    ),
+                ),
+                (
+                    'x',
+                    models.IntegerField(
+                        validators=[
+                            django.core.validators.MinValueValidator(0),
+                            django.core.validators.MaxValueValidator(18),
+                        ]
+                    ),
+                ),
+                (
+                    'y',
+                    models.IntegerField(
+                        validators=[
+                            django.core.validators.MinValueValidator(0),
+                            django.core.validators.MaxValueValidator(18),
+                        ]
+                    ),
+                ),
+                (
+                    'color',
+                    models.CharField(
+                        choices=[('B', 'Black'), ('W', 'White'), ('P', 'Pass')], max_length=1
+                    ),
+                ),
                 ('move', models.PositiveIntegerField()),
-                ('game', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='moves', to='record.game')),
+                (
+                    'game',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='moves',
+                        to='record.game',
+                    ),
+                ),
             ],
         ),
         migrations.AddIndex(
