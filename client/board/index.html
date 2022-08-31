@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>hello</title>
+    <script src="dest/goban.js"></script>
+</head>
+
+<body>
+    <div>hello</div>
+    <div id="goban" />
+    <script>
+        let nextStone = Stone.Black;
+        let onClick = function (x, y) {
+            goban.placeStone(nextStone, x, y);
+            goban.draw();
+            if (nextStone == Stone.Black) {
+                nextStone = Stone.White;
+            } else {
+                nextStone = Stone.Black;
+            }
+        }
+        let gobanElement = document.getElementById("goban");
+        let goban = new Goban(gobanElement, 9, onClick);
+        goban.draw()
+    </script>
+</body>
+
+</html>

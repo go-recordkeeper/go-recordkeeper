@@ -1,0 +1,27 @@
+{
+  "name": "go-board",
+  "version": "0.0.1",
+  "description": "A go board renderer",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dchiquito/go-board.git"
+  },
+  "keywords": [
+    "go",
+    "baduk",
+    "weiqi"
+  ],
+  "author": "Daniel Chiquito",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dchiquito/go-board/issues"
+  },
+  "homepage": "https://github.com/dchiquito/go-board#readme",
+  "dependencies": {
+    "typescript": "^4.8.2"
+  }
+}
