@@ -23,3 +23,4 @@ class Move(models.Model):
     class Meta:
         indexes = [models.Index(fields=['game', 'move'])]
         constraints = [models.UniqueConstraint(name='unique_move', fields=['game', 'move'])]
+        ordering = ['move']
