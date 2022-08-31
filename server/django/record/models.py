@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
 
 class Game(models.Model):
-    owner = User()
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Move(models.Model):
 
