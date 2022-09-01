@@ -69,7 +69,7 @@ def test_capture_corner(board):
     board.place_stone(Stone.WHITE, 0, 0)
     board.place_stone(Stone.BLACK, 0, 1)
     board.place_stone(Stone.BLACK, 1, 1)
-    board.place_stone(Stone.BLACK, 1, 0)
+    assert board.place_stone(Stone.BLACK, 1, 0) == [(0, 0)]
     assert board.moves == {
         (0, 1): Stone.BLACK,
         (1, 1): Stone.BLACK,
@@ -85,7 +85,7 @@ def test_capture_middle(board):
     board.place_stone(Stone.WHITE, 0, 1)
     board.place_stone(Stone.WHITE, 2, 1)
     board.place_stone(Stone.WHITE, 1, 0)
-    board.place_stone(Stone.WHITE, 1, 2)
+    assert board.place_stone(Stone.WHITE, 1, 2) == [(1, 1)]
     assert board.moves == {
         (0, 1): Stone.WHITE,
         (2, 1): Stone.WHITE,

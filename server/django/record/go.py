@@ -1,5 +1,4 @@
 from enum import Enum
-from operator import is_
 
 
 class IllegalMoveException(Exception):
@@ -20,7 +19,7 @@ class Board:
         self.group_index = {}
         self.groups = set()
 
-    def place_stone(self, stone, x, y):
+    def place_stone(self, stone: Stone, x: int, y: int) -> list[tuple[int, int]]:
         if (x, y) in self.moves:
             raise IllegalMoveException('space is already occupied')
         self.moves[(x, y)] = stone
@@ -43,6 +42,7 @@ class Board:
         # Add the newly minted group to the groups set
         self.groups.add(frozenset(group))
 
+        removals = []
         # Check if any adjacent groups of the opposite color were killed
         for adj in self.adjacents((x, y)):
             if (
@@ -50,16 +50,19 @@ class Board:
                 and self.moves[adj] != stone
                 and self.is_dead(self.group_index[adj])
             ):
-                self.remove_group(self.group_index[adj])
+                removals.extend(self.remove_group(self.group_index[adj]))
 
         # Check if the move was actually suicidal
         if self.is_dead(self.group_index[(x, y)]):
             raise IllegalMoveException('move is suicidal')
 
-    def remove_group(self, group):
+        return removals
+
+    def remove_group(self, group: set[tuple[int, int]]):
         for point in group:
             del self.moves[point]
             del self.group_index[point]
+            yield point
         self.groups.remove(group)
 
     def is_dead(self, group):
