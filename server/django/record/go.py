@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class IllegalMoveException(Exception):
+class IllegalMoveError(Exception):
     pass
 
 
@@ -21,7 +21,7 @@ class Board:
 
     def place_stone(self, stone: Stone, x: int, y: int) -> list[tuple[int, int]]:
         if (x, y) in self.moves:
-            raise IllegalMoveException('space is already occupied')
+            raise IllegalMoveError('space is already occupied')
         self.moves[(x, y)] = stone
         # This is the new group the new stone will belong to
         group = set()
@@ -54,7 +54,7 @@ class Board:
 
         # Check if the move was actually suicidal
         if self._is_dead(self.group_index[(x, y)]):
-            raise IllegalMoveException('move is suicidal')
+            raise IllegalMoveError('move is suicidal')
 
         return removals
 

@@ -1,6 +1,6 @@
 import pytest
 
-from record.go import Board, IllegalMoveException, Stone
+from record.go import Board, IllegalMoveError, Stone
 
 
 @pytest.fixture
@@ -108,14 +108,14 @@ def test_capture_middle(board):
 
 def test_existing_stone(board):
     board.place_stone(Stone.BLACK, 0, 0)
-    with pytest.raises(IllegalMoveException, match='space is already occupied'):
+    with pytest.raises(IllegalMoveError, match='space is already occupied'):
         board.place_stone(Stone.BLACK, 0, 0)
-    with pytest.raises(IllegalMoveException, match='space is already occupied'):
+    with pytest.raises(IllegalMoveError, match='space is already occupied'):
         board.place_stone(Stone.WHITE, 0, 0)
 
 
 def test_suicide(board):
     board.place_stone(Stone.BLACK, 0, 1)
     board.place_stone(Stone.BLACK, 1, 0)
-    with pytest.raises(IllegalMoveException, match='move is suicidal'):
+    with pytest.raises(IllegalMoveError, match='move is suicidal'):
         board.place_stone(Stone.WHITE, 0, 0)
