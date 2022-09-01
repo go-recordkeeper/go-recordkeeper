@@ -7,6 +7,29 @@ from django.utils.translation import gettext_lazy as _
 class Game(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    @property
+    def next_move_number(self):
+        if self.moves.exists():
+            return self.moves.last().move + 1
+        return 1
+
+    @property
+    def next_move_color(self):
+        if self.moves.exists():
+            last_color = self.moves.last().color
+            if last_color == 'B':
+                return 'W'
+        return 'B'
+
+    def next_move(self, x, y) -> 'Move':
+        return Move(
+            game=self,
+            x=x,
+            y=y,
+            color=self.next_move_color,
+            move=self.next_move_number,
+        )
+
 
 class Move(models.Model):
     class Color(models.TextChoices):
