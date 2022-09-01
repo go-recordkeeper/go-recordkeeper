@@ -42,6 +42,7 @@ class Move(models.Model):
     y = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(18)])
     color = models.CharField(max_length=1, choices=Color.choices)
     move = models.PositiveIntegerField()
+    # captured_by = models.ForeignKey('Move', blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:
         indexes = [models.Index(fields=['game', 'move'])]
