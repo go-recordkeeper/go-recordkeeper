@@ -20,7 +20,7 @@ def board(size=9):
     ids=['1-1', '2-1', '1-2', '2-2', '9-9'],
 )
 def test_adjacents(board, point, adjacents):
-    assert list(board.adjacents(point)) == adjacents
+    assert list(board._adjacents(point)) == adjacents
 
 
 def test_play_black_stone(board):

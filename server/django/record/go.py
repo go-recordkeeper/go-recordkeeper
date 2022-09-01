@@ -27,7 +27,7 @@ class Board:
         group = set()
         group.add((x, y))
         # Add any adjacent groups to the new group
-        for adj in self.adjacents((x, y)):
+        for adj in self._adjacents((x, y)):
             if adj in self.group_index and self.moves[adj] == stone:
                 group = group.union(self.group_index[adj])
                 # Remove the old subgroup from the groups list
@@ -44,35 +44,35 @@ class Board:
 
         removals = []
         # Check if any adjacent groups of the opposite color were killed
-        for adj in self.adjacents((x, y)):
+        for adj in self._adjacents((x, y)):
             if (
                 adj in self.group_index
                 and self.moves[adj] != stone
-                and self.is_dead(self.group_index[adj])
+                and self._is_dead(self.group_index[adj])
             ):
-                removals.extend(self.remove_group(self.group_index[adj]))
+                removals.extend(self._remove_group(self.group_index[adj]))
 
         # Check if the move was actually suicidal
-        if self.is_dead(self.group_index[(x, y)]):
+        if self._is_dead(self.group_index[(x, y)]):
             raise IllegalMoveException('move is suicidal')
 
         return removals
 
-    def remove_group(self, group: set[tuple[int, int]]):
+    def _remove_group(self, group: set[tuple[int, int]]):
         for point in group:
             del self.moves[point]
             del self.group_index[point]
             yield point
         self.groups.remove(group)
 
-    def is_dead(self, group):
+    def _is_dead(self, group):
         for point in group:
-            for adj in self.adjacents(point):
+            for adj in self._adjacents(point):
                 if adj not in self.moves:
                     return False
         return True
 
-    def adjacents(self, point):
+    def _adjacents(self, point):
         x, y = point
         if x > 0:
             yield (x - 1, y)
