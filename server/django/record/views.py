@@ -27,7 +27,7 @@ class GameViewSet(
     mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
     # mixins.UpdateModelMixin,
-    # mixins.DestroyModelMixin,
+    mixins.DestroyModelMixin,
     mixins.ListModelMixin,
     viewsets.GenericViewSet,
 ):

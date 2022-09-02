@@ -140,3 +140,9 @@ def test_play_big_capture(client: Client, game):
         'add': [{'x': 2, 'y': 1, 'color': 'W'}],
         'remove': [{'x': 0, 'y': 0}, {'x': 1, 'y': 0}, {'x': 0, 'y': 1}, {'x': 1, 'y': 1}],
     }
+
+@pytest.mark.django_db
+def test_delete_game(client: Client, game):
+    response = client.delete(f'/games/{game.id}/')
+    assert response.status_code == 204
+    assert Game.objects.count() == 0
