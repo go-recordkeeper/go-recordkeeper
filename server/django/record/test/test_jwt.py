@@ -1,8 +1,7 @@
 from django.conf import settings
-from django.contrib.auth.models import User
 import jwt
 import pytest
-    
+
 
 @pytest.mark.django_db
 def test_login(client, user):
@@ -11,6 +10,6 @@ def test_login(client, user):
     )
     assert response.status_code == 200
     token = response.json()
-    payload = jwt.decode(token, key=settings.SECRET_KEY, algorithms="HS256")
+    payload = jwt.decode(token, key=settings.SECRET_KEY, algorithms='HS256')
     # If no exception, it's a valid token
     assert payload['id'] == user.id

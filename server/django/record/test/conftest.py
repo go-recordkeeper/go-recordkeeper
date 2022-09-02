@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
+from django.test import Client
 import pytest
 
 from record.auth import generate_token
 from record.models import Game
-from django.test import Client
 
 
 @pytest.fixture
@@ -15,10 +15,12 @@ def user():
     user.save()
     return user
 
+
 @pytest.fixture
 def authenticated_client(client: Client, user):
     client.defaults['HTTP_AUTHORIZATION'] = f'Bearer {generate_token(user)}'
     return client
+
 
 @pytest.fixture
 def game_factory(user):

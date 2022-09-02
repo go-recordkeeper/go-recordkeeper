@@ -1,12 +1,11 @@
-from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework import mixins, serializers, status, viewsets
 from rest_framework.decorators import action, api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from record.auth import generate_token
 
+from record.auth import generate_token
 from record.go import Board, Stone
 from record.models import Game, Move
 
