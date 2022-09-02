@@ -36,6 +36,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'django~=4.1.0',
+        'django-cors-headers',
         'django-extensions',
         'djangorestframework',
         'psycopg2',
