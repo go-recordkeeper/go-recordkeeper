@@ -1,10 +1,24 @@
-<script setup lang="ts">
+<script lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import { Goban } from 'go-board';
+import Client from './client';
+
+export default {
+  mounted() {
+    console.log('MOUNTO')
+    const client = new Client();
+    const goban = new Goban('#goban', 9, (x, y) => {
+      console.log('clicky', x, y);
+      client.playStone(x, y).then(() => {console.log('PLAYED!')})
+    });
+    goban.draw()
+  }
+}
 </script>
 
 <template>
-  <header>
+  <!-- <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
@@ -15,9 +29,12 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/about">About</RouterLink>
       </nav>
     </div>
-  </header>
+  </header> -->
+  <div style="width:100%; padding-top: 100%; position: relative;">
+    <canvas id="goban" style="position:absolute; top: 0; width: 100%;"></canvas>
+  </div>
 
-  <RouterView />
+  <!-- <RouterView /> -->
 </template>
 
 <style scoped>
