@@ -47,14 +47,15 @@ class GameViewSet(
     def retrieve(self, request, **kwargs):
         game = self.get_object()
         last_move = game.last_move
+        serializer = GameSerializer(instance=game)
         board: Board = last_move.board_state if last_move is not None else Board(game.size)
-        update = {
-            'add': [
+        response = {
+            **serializer.data,
+            'stones': [
                 {'x': x, 'y': y, 'color': color.value} for (x, y), color in board.moves.items()
             ],
-            'remove': [],
         }
-        return Response(update, status=status.HTTP_200_OK)
+        return Response(response, status=status.HTTP_200_OK)
 
     @action(methods=['POST'], detail=True)
     def play(self, request, **kwargs):

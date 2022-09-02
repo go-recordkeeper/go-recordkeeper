@@ -35,8 +35,10 @@ def test_get_game(client, game):
     response = client.get(f'/games/{game.id}/')
     assert response.status_code == 200
     assert response.data == {
-        'add': [],
-        'remove': [],
+        'id': game.id,
+        'owner': game.owner.id,
+        'size': game.size,
+        'stones': [],
     }
 
 
@@ -46,8 +48,10 @@ def test_get_game_with_move(client, game):
     response = client.get(f'/games/{game.id}/')
     assert response.status_code == 200
     assert response.data == {
-        'add': [{'x': 0, 'y': 0, 'color': 'B'}],
-        'remove': [],
+        'id': game.id,
+        'owner': game.owner.id,
+        'size': game.size,
+        'stones': [{'x': 0, 'y': 0, 'color': 'B'}],
     }
 
 
@@ -61,12 +65,14 @@ def test_get_game_after_capture(client, game):
     response = client.get(f'/games/{game.id}/')
     assert response.status_code == 200
     assert response.data == {
-        'add': [
+        'id': game.id,
+        'owner': game.owner.id,
+        'size': game.size,
+        'stones': [
             {'x': 0, 'y': 1, 'color': 'W'},
             {'x': 8, 'y': 8, 'color': 'B'},
             {'x': 1, 'y': 0, 'color': 'W'},
         ],
-        'remove': [],
     }
 
 
