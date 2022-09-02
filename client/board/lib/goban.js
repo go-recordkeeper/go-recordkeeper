@@ -15,20 +15,15 @@ var Stone;
 })(Stone || (Stone = {}));
 exports.Stone = Stone;
 class Goban {
-    constructor(root, size, onClick = () => { }) {
+    constructor(selector, size, onClick = () => { }) {
         _Goban_instances.add(this);
-        let container = document.createElement("div");
-        root.appendChild(container);
-        container.style.width = "100%";
-        container.style.paddingTop = "100%";
-        container.style.position = "relative";
-        this.canvas = document.createElement("canvas");
-        this.canvas.style.position = "absolute";
-        this.canvas.style.top = "0";
-        this.canvas.style.width = "100%";
+        let canvas = document.querySelector(selector);
+        if (canvas === null) {
+            throw `Cannot locate ${selector}`;
+        }
+        this.canvas = canvas;
         this.canvas.width = 100 * size;
         this.canvas.height = 100 * size;
-        container.appendChild(this.canvas);
         this.size = size;
         // Initialize stones played
         this.matrix = [];

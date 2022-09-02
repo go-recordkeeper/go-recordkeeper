@@ -8,7 +8,7 @@ declare class Goban {
     canvas: HTMLCanvasElement;
     size: number;
     matrix: Stone[][];
-    constructor(root: HTMLElement, size: number, onClick?: (x: number, y: number) => void);
+    constructor(selector: string, size: number, onClick?: (x: number, y: number) => void);
     placeStone(stone: Stone, x: number, y: number): void;
     draw(): void;
 }

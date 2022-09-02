@@ -3,12 +3,15 @@
 
 <head>
     <title>hello</title>
-    <script src="dest/goban.js"></script>
+    <script> var exports = {}; </script>
+    <script src="lib/goban.js"></script>
 </head>
 
 <body>
     <div>hello</div>
-    <div id="goban" />
+    <div style="width:100%; padding-top: 100%; position: relative;">
+        <canvas id="goban" style="position:absolute; top: 0; width: 100%;"></canvas>
+    </div>
     <script>
         let nextStone = Stone.Black;
         let onClick = function (x, y) {
@@ -20,8 +23,7 @@
                 nextStone = Stone.Black;
             }
         }
-        let gobanElement = document.getElementById("goban");
-        let goban = new Goban(gobanElement, 9, onClick);
+        let goban = new Goban('#goban', 9, onClick);
         goban.draw()
     </script>
 </body>
