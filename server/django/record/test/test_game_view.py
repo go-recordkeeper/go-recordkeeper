@@ -6,11 +6,12 @@ from record.models import Game
 
 @pytest.mark.django_db
 def test_create_game(client, admin_user):
-    response = client.post('/games/')
+    response = client.post('/games/', {'size': 9}, content_type='application/json')
     assert response.status_code == 201
     assert response.data == {
         'id': 1,
         'owner': 1,
+        'size': 9,
     }
     assert Game.objects.filter(id=1).exists()
 

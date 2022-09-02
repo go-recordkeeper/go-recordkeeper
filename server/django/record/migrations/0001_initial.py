@@ -30,6 +30,7 @@ class Migration(migrations.Migration):
                         on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
                     ),
                 ),
+                ('size', models.IntegerField()),
             ],
         ),
         migrations.CreateModel(
@@ -75,6 +76,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
+            options={'ordering': ['move']},
         ),
         migrations.AddIndex(
             model_name='move',

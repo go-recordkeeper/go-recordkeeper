@@ -8,6 +8,7 @@ from .go import Board, Stone
 
 class Game(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    size = models.IntegerField()
 
     @property
     def last_move(self):
@@ -57,8 +58,7 @@ class Move(models.Model):
 
     @property
     def board_state(self):
-        # TODO game size
-        board = Board(9)
+        board = Board(self.game.size)
         for (color, x, y) in self.game.moves.filter(move__lte=self.move).values_list(
             'color', 'x', 'y'
         ):

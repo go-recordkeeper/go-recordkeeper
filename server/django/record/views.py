@@ -10,7 +10,11 @@ from record.models import Game, Move
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ['id', 'owner']
+        fields = ['id', 'owner', 'size']
+
+
+class CreateGameSerializer(serializers.Serializer):
+    size = serializers.IntegerField()
 
 
 class MoveSerializer(serializers.ModelSerializer):
@@ -31,8 +35,11 @@ class GameViewSet(
     serializer_class = GameSerializer
 
     def create(self, request, **kwargs):
+        serializer = CreateGameSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        size = serializer.data['size']
         # TODO have an actual user
-        game = Game(owner=User.objects.first())
+        game = Game(owner=User.objects.first(), size=size)
         game.save()
         serializer = GameSerializer(instance=game)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -40,8 +47,7 @@ class GameViewSet(
     def retrieve(self, request, **kwargs):
         game = self.get_object()
         last_move = game.last_move
-        # TODO size
-        board: Board = last_move.board_state if last_move is not None else Board(9)
+        board: Board = last_move.board_state if last_move is not None else Board(game.size)
         update = {
             'add': [
                 {'x': x, 'y': y, 'color': color.value} for (x, y), color in board.moves.items()
@@ -61,8 +67,7 @@ class GameViewSet(
         moves = (
             (Stone(color), x, y) for (color, x, y) in game.moves.values_list('color', 'x', 'y')
         )
-        # TODO game size
-        replay = Board(9)
+        replay = Board(game.size)
         for (stone, x, y) in moves:
             replay.place_stone(stone, x, y)
         removals = replay.place_stone(Stone(move.color), move.x, move.y)

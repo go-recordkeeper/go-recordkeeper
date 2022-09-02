@@ -6,11 +6,11 @@ from record.models import Game
 
 @pytest.fixture()
 def game_factory():
-    def factory(owner=None):
+    def factory(owner=None, size=9):
         if owner is None:
             owner = User(email='test@chiquit.ooo', username='Ms. Test')
         owner.save()
-        game = Game(owner=owner)
+        game = Game(owner=owner, size=size)
         game.save()
         return game
 
