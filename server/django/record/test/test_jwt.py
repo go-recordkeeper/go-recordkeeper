@@ -2,14 +2,6 @@ from django.conf import settings
 from django.contrib.auth.models import User
 import jwt
 import pytest
-
-@pytest.fixture
-def user():
-    username = 'John Doe'
-    password = 'hunter12'
-    user = User(username=username)
-    user.set_password(password)
-    user.save()
     
 
 @pytest.mark.django_db

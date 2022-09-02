@@ -1,12 +1,11 @@
-from datetime import datetime, timedelta, timezone
-
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-import jwt
 from rest_framework import mixins, serializers, status, viewsets
 from rest_framework.decorators import action, api_view
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from record.auth import generate_token
 
 from record.go import Board, Stone
 from record.models import Game, Move
@@ -38,6 +37,10 @@ class GameViewSet(
 ):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Game.objects.filter(owner=self.request.user)
 
     def create(self, request, **kwargs):
         serializer = CreateGameSerializer(data=request.data)
@@ -101,9 +104,5 @@ def login_view(request):
     user = authenticate(**serializer.validated_data)
     if not user:
         return Response(None, status=status.HTTP_401_UNAUTHORIZED)
-    token = jwt.encode(
-        {'id': user.id, 'exp': datetime.now(tz=timezone.utc) + timedelta(days=1)},
-        key=settings.SECRET_KEY,
-        algorithm="HS256",
-    )
+    token = generate_token(user)
     return Response(token, status=status.HTTP_200_OK)
