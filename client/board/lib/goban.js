@@ -6,7 +6,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 };
 var _Goban_instances, _Goban_fillBackground, _Goban_drawLines, _Goban_drawDots, _Goban_drawStone, _Goban_drawCircle;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Stone = exports.Goban = void 0;
+exports.stoneFromColor = exports.Stone = exports.Goban = void 0;
 var Stone;
 (function (Stone) {
     Stone[Stone["None"] = 0] = "None";
@@ -14,6 +14,13 @@ var Stone;
     Stone[Stone["White"] = 2] = "White";
 })(Stone || (Stone = {}));
 exports.Stone = Stone;
+function stoneFromColor(color) {
+    switch (color) {
+        case 'B': return Stone.Black;
+        case 'W': return Stone.White;
+    }
+}
+exports.stoneFromColor = stoneFromColor;
 class Goban {
     constructor(selector, size, onClick = () => { }) {
         _Goban_instances.add(this);

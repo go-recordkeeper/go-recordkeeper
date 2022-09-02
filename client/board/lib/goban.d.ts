@@ -3,6 +3,7 @@ declare enum Stone {
     Black = 1,
     White = 2
 }
+declare function stoneFromColor(color: 'B' | 'W'): Stone;
 declare class Goban {
     #private;
     canvas: HTMLCanvasElement;
@@ -12,4 +13,4 @@ declare class Goban {
     placeStone(stone: Stone, x: number, y: number): void;
     draw(): void;
 }
-export { Goban, Stone };
+export { Goban, Stone, stoneFromColor };

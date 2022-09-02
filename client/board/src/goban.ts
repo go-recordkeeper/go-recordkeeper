@@ -4,6 +4,13 @@ enum Stone {
     White,
 }
 
+function stoneFromColor(color: 'B' | 'W'): Stone {
+    switch (color) {
+        case 'B': return Stone.Black;
+        case 'W': return Stone.White;
+    }
+}
+
 class Goban {
     canvas: HTMLCanvasElement;
     size: number;
@@ -136,4 +143,4 @@ class Goban {
     }
 }
 
-export { Goban, Stone };
+export { Goban, Stone, stoneFromColor };
