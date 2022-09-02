@@ -140,3 +140,5 @@ class Goban {
         ctx.fill();
     }
 }
+
+export { Goban, Stone };

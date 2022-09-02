@@ -12,3 +12,4 @@ declare class Goban {
     placeStone(stone: Stone, x: number, y: number): void;
     draw(): void;
 }
+export { Goban, Stone };

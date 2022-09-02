@@ -5,12 +5,15 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
 var _Goban_instances, _Goban_fillBackground, _Goban_drawLines, _Goban_drawDots, _Goban_drawStone, _Goban_drawCircle;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Stone = exports.Goban = void 0;
 var Stone;
 (function (Stone) {
     Stone[Stone["None"] = 0] = "None";
     Stone[Stone["Black"] = 1] = "Black";
     Stone[Stone["White"] = 2] = "White";
 })(Stone || (Stone = {}));
+exports.Stone = Stone;
 class Goban {
     constructor(root, size, onClick = () => { }) {
         _Goban_instances.add(this);
@@ -58,6 +61,7 @@ class Goban {
         }
     }
 }
+exports.Goban = Goban;
 _Goban_instances = new WeakSet(), _Goban_fillBackground = function _Goban_fillBackground(ctx) {
     ctx.fillStyle = "#f4e5b8";
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
