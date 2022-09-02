@@ -56,7 +56,7 @@ class Board:
         if self._is_dead(self.group_index[(x, y)]):
             raise IllegalMoveError('move is suicidal')
 
-        return removals
+        return sorted(removals, key=lambda t: t[0] + t[1] * 100)
 
     def _remove_group(self, group: set[tuple[int, int]]):
         for point in group:
@@ -82,7 +82,3 @@ class Board:
             yield (x, y - 1)
         if y < self.size - 1:
             yield (x, y + 1)
-
-
-def replay():
-    pass

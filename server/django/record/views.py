@@ -22,6 +22,19 @@ class GameViewSet(viewsets.ModelViewSet):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
 
+    def retrieve(self, request, **kwargs):
+        game = self.get_object()
+        last_move = game.last_move
+        # TODO size
+        board: Board = last_move.board_state if last_move is not None else Board(9)
+        update = {
+            'add': [
+                {'x': x, 'y': y, 'color': color.value} for (x, y), color in board.moves.items()
+            ],
+            'remove': [],
+        }
+        return Response(update, status=status.HTTP_200_OK)
+
     @action(methods=['POST'], detail=True)
     def play(self, request, **kwargs):
         game = self.get_object()
@@ -41,4 +54,10 @@ class GameViewSet(viewsets.ModelViewSet):
         print(removals)
         # No problems placing the stone, save it
         move.save()
-        return Response(removals, status=status.HTTP_201_CREATED)
+
+        update = {
+            'add': [{'x': move.x, 'y': move.y, 'color': move.color}],
+            'remove': [{'x': x, 'y': y} for (x, y) in removals],
+        }
+
+        return Response(update, status=status.HTTP_201_CREATED)

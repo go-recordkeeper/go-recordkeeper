@@ -3,9 +3,15 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from .go import Board, Stone
+
 
 class Game(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    @property
+    def last_move(self):
+        return self.moves.last()
 
     @property
     def next_move_number(self):
@@ -48,3 +54,13 @@ class Move(models.Model):
         indexes = [models.Index(fields=['game', 'move'])]
         constraints = [models.UniqueConstraint(name='unique_move', fields=['game', 'move'])]
         ordering = ['move']
+
+    @property
+    def board_state(self):
+        # TODO game size
+        board = Board(9)
+        for (color, x, y) in self.game.moves.filter(move__lte=self.move).values_list(
+            'color', 'x', 'y'
+        ):
+            board.place_stone(Stone(color), x, y)
+        return board
