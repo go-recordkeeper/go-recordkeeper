@@ -5,6 +5,11 @@ class Client {
             method: 'GET',
         });
     }
+    async #delete(url: string) {
+        return fetch(url, {
+            method: 'DELETE',
+        });
+    }
     async #post(url: string, body: any) {
         return fetch(url, {
             method: 'POST',
@@ -24,12 +29,15 @@ class Client {
         let json = await response.json();
         return json['id'];
     }
+    async deleteBoard(id: number) {
+        await this.#delete(`http://localhost:8000/games/${id}/`);
+    }
     async getBoard(id: number) {
         let response = await this.#get(`http://localhost:8000/games/${id}/`);
         let json = await response.json();
         return json;
     }
-    async playStone(id:number, x: number, y: number) {
+    async playStone(id: number, x: number, y: number) {
         let response = await this.#post(`http://localhost:8000/games/${id}/play/`, { x, y });
         return await response.json();
     }

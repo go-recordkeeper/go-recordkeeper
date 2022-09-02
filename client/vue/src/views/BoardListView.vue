@@ -13,6 +13,11 @@ async function newBoard() {
     await client.createNewBoard(9);
     boards.value = await client.getBoards();
 }
+
+async function deleteBoard(id: number) {
+    await client.deleteBoard(id);
+    boards.value = await client.getBoards();
+}
 </script>
     
 <template>
@@ -22,6 +27,7 @@ async function newBoard() {
             <router-link :to="{ name: 'board', params: { id: board.id }}">
                 board {{ board.id }}
             </router-link>
+            <button @click="deleteBoard(board.id)">delete me</button>
         </div>
         <button @click="newBoard">Make a new board</button>
     </div>
