@@ -14,13 +14,23 @@ class Client {
             })
         });
     }
-    async getBoard() {
-        let response = await this.#get('http://localhost:8000/games/1/');
+    async getBoards(): Promise<Array<any>> {
+        let response = await this.#get('http://localhost:8000/games/');
         let json = await response.json();
-        return json['add'];
+        return json
     }
-    async playStone(x: number, y: number) {
-        let response = await this.#post('http://localhost:8000/games/1/play/', { x, y });
+    async createNewBoard(size: number): Promise<number> {
+        let response = await this.#post('http://localhost:8000/games/', { size });
+        let json = await response.json();
+        return json['id'];
+    }
+    async getBoard(id: number) {
+        let response = await this.#get(`http://localhost:8000/games/${id}/`);
+        let json = await response.json();
+        return json;
+    }
+    async playStone(id:number, x: number, y: number) {
+        let response = await this.#post(`http://localhost:8000/games/${id}/play/`, { x, y });
         return await response.json();
     }
 }

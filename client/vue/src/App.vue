@@ -1,39 +1,5 @@
-<script lang="ts">
+<script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import { Goban, Stone, stoneFromColor } from 'go-board';
-import Client from './client';
-
-export default {
-  mounted() {
-    console.log('MOUNTO')
-    const client = new Client();
-    const goban = new Goban('#goban', 9, (x, y) => {
-      console.log('clicky', x, y);
-      client.playStone(x, y).then(({ add, remove }) => {
-        console.log('PLAYED!', add, remove);
-        for (let move of add) {
-          let { x, y, color } = move;
-          goban.placeStone(stoneFromColor(color), x, y);
-        }
-        for (let capture of remove) {
-          let { x, y} = capture;
-          goban.placeStone(Stone.None, x, y);
-        }
-        goban.draw();
-      })
-    });
-    goban.draw()
-    client.getBoard().then((board) => {
-      console.log('BOARD GOT', board)
-      for (let move of board) {
-        let { x, y, color } = move;
-        goban.placeStone(stoneFromColor(color), x, y);
-      }
-      goban.draw();
-    });
-  }
-}
 </script>
 
 <template>
@@ -49,11 +15,12 @@ export default {
       </nav>
     </div>
   </header> -->
-  <div style="width:100%; padding-top: 100%; position: relative;">
-    <canvas id="goban" style="position:absolute; top: 0; width: 100%;"></canvas>
-  </div>
 
-  <!-- <RouterView /> -->
+  <nav>
+    <RouterLink :to="{'name': 'boards'}">All Boards</RouterLink>
+  </nav>
+
+  <RouterView />
 </template>
 
 <style scoped>
