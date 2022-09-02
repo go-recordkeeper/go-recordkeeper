@@ -2,7 +2,7 @@
   "name": "go-board",
   "version": "0.0.1",
   "description": "A go board renderer",
-  "main": "index.ts",
+  "main": "lib/goban.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -9,7 +9,7 @@ class Goban {
     size: number;
     matrix: Stone[][];
 
-    constructor(root: HTMLElement, size: number, onClick: (x: number, y: number) => void = () => {}) {
+    constructor(root: HTMLElement, size: number, onClick: (x: number, y: number) => void = () => { }) {
         let container = document.createElement("div");
         root.appendChild(container);
         container.style.width = "100%";
