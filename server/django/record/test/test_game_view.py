@@ -1,6 +1,19 @@
 from django.test import Client
 import pytest
 
+from record.models import Game
+
+
+@pytest.mark.django_db
+def test_create_game(client, admin_user):
+    response = client.post('/games/')
+    assert response.status_code == 201
+    assert response.data == {
+        'id': 1,
+        'owner': 1,
+    }
+    assert Game.objects.filter(id=1).exists()
+
 
 @pytest.mark.django_db
 def test_get_games_empty(client):

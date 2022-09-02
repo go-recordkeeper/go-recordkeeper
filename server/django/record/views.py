@@ -1,4 +1,5 @@
-from rest_framework import serializers, status, viewsets
+from django.contrib.auth.models import User
+from rest_framework import mixins, serializers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -18,9 +19,23 @@ class MoveSerializer(serializers.ModelSerializer):
         fields = ['x', 'y']
 
 
-class GameViewSet(viewsets.ModelViewSet):
+class GameViewSet(
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    # mixins.UpdateModelMixin,
+    # mixins.DestroyModelMixin,
+    mixins.ListModelMixin,
+    viewsets.GenericViewSet,
+):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
+
+    def create(self, request, **kwargs):
+        # TODO have an actual user
+        game = Game(owner=User.objects.first())
+        game.save()
+        serializer = GameSerializer(instance=game)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, **kwargs):
         game = self.get_object()
