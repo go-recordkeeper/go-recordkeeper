@@ -40,6 +40,7 @@ setup(
         'django-extensions',
         'djangorestframework',
         'psycopg2',
+        'pyjwt',
     ],
     extras_require={
         'test': [
