@@ -45,8 +45,7 @@ class GameViewSet(
         serializer = CreateGameSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         size = serializer.data['size']
-        # TODO have an actual user
-        game = Game(owner=User.objects.first(), size=size)
+        game = Game(owner=request.user, size=size)
         game.save()
         serializer = GameSerializer(instance=game)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
