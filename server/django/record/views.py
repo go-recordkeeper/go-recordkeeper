@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework import mixins, serializers, status, viewsets
-from rest_framework.decorators import action, api_view
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -96,6 +96,12 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField()
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email']
+
+
 @api_view(['POST'])
 def login_view(request):
     serializer = LoginSerializer(data=request.data)
@@ -105,3 +111,10 @@ def login_view(request):
         return Response(None, status=status.HTTP_401_UNAUTHORIZED)
     token = generate_token(user)
     return Response(token, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_view(request):
+    serializer = UserSerializer(instance=request.user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
