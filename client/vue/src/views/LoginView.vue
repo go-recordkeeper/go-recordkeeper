@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { inject, ref } from "vue";
 import Client from "@/client";
+import type { User } from "@/client";
+import type { Ref } from "vue";
 
+let user = inject<Ref<User | null>>('user') as Ref<User | null>;
 let client = new Client();
 let username = ref("");
 let password = ref("");
@@ -9,8 +12,8 @@ let password = ref("");
 async function login(e: Event) {
     e.preventDefault();
     console.log("Login in", username.value, password.value);
-    let token = await client.login(username.value, password.value);
-    console.log('token',token);
+    await client.login(username.value, password.value);
+    user.value = await client.getCurrentUser();
 }
 </script>
 

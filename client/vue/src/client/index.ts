@@ -1,3 +1,8 @@
+interface User {
+    id: number,
+    username: string,
+    email: string,
+}
 
 
 class Client {
@@ -7,6 +12,9 @@ class Client {
     }
     #setToken(token: string) {
         localStorage.setItem('token', token);
+    }
+    #deleteToken() {
+        localStorage.removeItem('token');
     }
     #headers() {
         let token = this.#getToken();
@@ -45,8 +53,23 @@ class Client {
     }
     async login(username: string, password: string) {
         let response = await this.#post('http://localhost:8000/login/', { username, password });
+        if (response.status != 200) {
+            throw 'Bad credentials';
+        }
         let token = await response.json();
         this.#setToken(token);
+    }
+    async logout() {
+        this.#deleteToken();
+    }
+    async getCurrentUser(): Promise<User> {
+        let response = await this.#get('http://localhost:8000/user/');
+        if (response.status != 200) {
+            this.#deleteToken();
+            throw 'Not logged in';
+        }
+        let user = await response.json();
+        return user;
     }
     async getBoards(): Promise<Array<any>> {
         let response = await this.#get('http://localhost:8000/games/');
@@ -73,3 +96,4 @@ class Client {
 }
 
 export default Client;
+export type { User };
