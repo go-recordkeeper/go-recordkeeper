@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.models import User
 import jwt
 import pytest
 
@@ -13,6 +14,14 @@ def test_login(client, user):
     payload = jwt.decode(token, key=settings.SECRET_KEY, algorithms='HS256')
     # If no exception, it's a valid token
     assert payload['id'] == user.id
+
+
+@pytest.mark.django_db
+def test_login_wrong_password(client, user):
+    response = client.post(
+        '/login/', {'username': 'John Doe', 'password': 'hunter13'}, content_type='application/json'
+    )
+    assert response.status_code == 401
 
 
 @pytest.mark.django_db
@@ -44,3 +53,28 @@ def test_login_with_token(authenticated_client, user):
     payload = jwt.decode(token, key=settings.SECRET_KEY, algorithms='HS256')
     # If no exception, it's a valid token
     assert payload['id'] == user.id
+
+
+@pytest.mark.django_db
+def test_register(client):
+    response = client.post(
+        '/register/',
+        {
+            'username': 'jane.doe',
+            'email': 'jane.doe@chiquit.ooo',
+            'password': 'hunter13',
+        },
+        content_type='application/json',
+    )
+    assert response.status_code == 201
+    user = User.objects.filter(username='jane.doe', email='jane.doe@chiquit.ooo').get()
+    assert response.json() == {
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+    }
+    # Verify the new user can log in
+    response = client.post(
+        '/login/', {'username': 'jane.doe', 'password': 'hunter13'}, content_type='application/json'
+    )
+    assert response.status_code == 200

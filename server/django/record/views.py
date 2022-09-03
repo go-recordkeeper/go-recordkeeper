@@ -96,6 +96,12 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField()
 
 
+class RegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password']
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -111,6 +117,17 @@ def login_view(request):
         return Response(None, status=status.HTTP_401_UNAUTHORIZED)
     token = generate_token(user)
     return Response(token, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def register_view(request):
+    serializer = RegisterSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    user = User(**serializer.validated_data)
+    user.set_password(serializer.validated_data['password'])
+    user.save()
+    response_serializer = UserSerializer(instance=user)
+    return Response(response_serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
