@@ -62,6 +62,13 @@ class Client {
     async logout() {
         this.#deleteToken();
     }
+    async register(username: string, email: string, password: string) {
+        let response = await this.#post('http://localhost:8000/register/', { username, email, password });
+        if (response.status != 201) {
+            throw 'Couldnt register';
+        }
+        return await this.login(username, password);
+    }
     async getCurrentUser(): Promise<User> {
         let response = await this.#get('http://localhost:8000/user/');
         if (response.status != 200) {

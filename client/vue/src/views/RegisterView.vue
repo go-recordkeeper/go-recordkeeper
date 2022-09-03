@@ -8,12 +8,13 @@ import router from "@/router";
 let user = inject<Ref<User | null>>('user') as Ref<User | null>;
 let client = new Client();
 let username = ref("");
+let email = ref("");
 let password = ref("");
 
-async function login(e: Event) {
+async function register(e: Event) {
     e.preventDefault();
-    console.log("Login in", username.value, password.value);
-    await client.login(username.value, password.value);
+    console.log("Register", username.value, email.value, password.value);
+    await client.register(username.value, email.value, password.value);
     user.value = await client.getCurrentUser();
     router.push({"name": "boards"});
 }
@@ -21,17 +22,18 @@ async function login(e: Event) {
 
 <template>
     <div class="about">
-        <h1>would you like to log in?</h1>
-        <form @submit="login">
+        <h1>would you like to register?</h1>
+        <form @submit="register">
             <div>
                 <input v-model="username" type="text" />
+            </div>
+            <div>
+                <input v-model="email" type="email" />
             </div>
             <div>
                 <input v-model="password" type="password" />
             </div>
             <button type="submit">Go!</button>
         </form>
-        <h1>Maybe you wanna register?</h1>
-        <RouterLink :to="{ 'name': 'register' }">Sign up!</RouterLink>
     </div>
 </template>
