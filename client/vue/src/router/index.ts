@@ -27,6 +27,11 @@ const router = createRouter({
       name: 'board',
       props: true,
       component: () => import('@/views/BoardView.vue')
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/LoginView.vue')
     }
   ]
 })

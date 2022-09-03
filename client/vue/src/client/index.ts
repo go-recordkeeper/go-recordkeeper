@@ -1,23 +1,52 @@
+
+
 class Client {
     constructor() { }
+    #getToken() {
+        return localStorage.getItem('token');
+    }
+    #setToken(token: string) {
+        localStorage.setItem('token', token);
+    }
+    #headers() {
+        let token = this.#getToken();
+        let headers = new Headers({});
+        if (token) {
+            console.log('HEADERS', token)
+            console.log(`Bearer ${token}`)
+            console.log(token);
+            headers.append('Authorization', `Bearer ${token}`);
+        }
+        return headers;
+    }
+    #contentHeaders() {
+        let headers = this.#headers();
+        headers.append('Content-Type', 'application/json');
+        return headers;
+    }
     async #get(url: string) {
         return fetch(url, {
             method: 'GET',
+            headers: this.#headers(),
         });
     }
     async #delete(url: string) {
         return fetch(url, {
             method: 'DELETE',
+            headers: this.#headers(),
         });
     }
     async #post(url: string, body: any) {
         return fetch(url, {
             method: 'POST',
             body: JSON.stringify(body),
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            })
+            headers: this.#contentHeaders(),
         });
+    }
+    async login(username: string, password: string) {
+        let response = await this.#post('http://localhost:8000/login/', { username, password });
+        let token = await response.json();
+        this.#setToken(token);
     }
     async getBoards(): Promise<Array<any>> {
         let response = await this.#get('http://localhost:8000/games/');

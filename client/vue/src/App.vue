@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { provide, ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
+import AuthWidget from '@/components/AuthWidget.vue';
+let userRef = ref(null);
+provide('user', userRef);
 </script>
 
 <template>
@@ -17,7 +21,9 @@ import { RouterLink, RouterView } from 'vue-router'
   </header> -->
 
   <nav>
+    <!-- <RouterLink :to="{'name': 'login'}">Log in</RouterLink> -->
     <RouterLink :to="{'name': 'boards'}">All Boards</RouterLink>
+    <AuthWidget />
   </nav>
 
   <RouterView />
@@ -86,3 +92,7 @@ nav a:first-of-type {
   }
 }
 </style>
+
+function loadUser(): any {
+  throw new Error('Function not implemented.');
+}

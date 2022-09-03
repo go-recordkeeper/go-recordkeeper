@@ -19,12 +19,12 @@ async function deleteBoard(id: number) {
     boards.value = await client.getBoards();
 }
 </script>
-    
+
 <template>
     <div class="about">
         <h1>This is the board list</h1>
         <div v-for="board of boards" :key="board.id">
-            <router-link :to="{ name: 'board', params: { id: board.id }}">
+            <router-link :to="{ name: 'board', params: { id: board.id } }">
                 board {{ board.id }}
             </router-link>
             <button @click="deleteBoard(board.id)">delete me</button>
