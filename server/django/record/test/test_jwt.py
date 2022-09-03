@@ -31,10 +31,13 @@ def test_get_user_unauthenticated(client, user):
     response = client.get('/user/')
     assert response.status_code == 403
 
+
 @pytest.mark.django_db
 def test_login_with_token(authenticated_client, user):
     response = authenticated_client.post(
-        '/login/', {'username': 'John Doe', 'password': 'hunter12'}, content_type='application/json',
+        '/login/',
+        {'username': 'John Doe', 'password': 'hunter12'},
+        content_type='application/json',
     )
     assert response.status_code == 200
     token = response.json()
