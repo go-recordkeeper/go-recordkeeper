@@ -18,6 +18,7 @@ function stoneFromColor(color) {
     switch (color) {
         case 'B': return Stone.Black;
         case 'W': return Stone.White;
+        case ' ': return Stone.None;
     }
 }
 exports.stoneFromColor = stoneFromColor;
@@ -27,15 +28,6 @@ class Goban {
         this.canvasSelector = selector;
         this.size = size;
         this.onClick = onClick;
-        // Initialize stones played
-        this.matrix = [];
-        for (let x = 0; x < size; x += 1) {
-            let column = [];
-            for (let y = 0; y < size; y += 1) {
-                column.push(Stone.None);
-            }
-            this.matrix.push(column);
-        }
     }
     initialize() {
         let canvas = __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_getCanvas).call(this);
@@ -49,13 +41,8 @@ class Goban {
             let y = Math.floor(this.size * event.offsetY / canvas.clientHeight);
             this.onClick(x, y);
         });
-        this.draw();
-        ;
     }
-    placeStone(stone, x, y) {
-        this.matrix[x][y] = stone;
-    }
-    draw() {
+    draw(matrix) {
         let canvas = __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_getCanvas).call(this);
         let ctx = canvas.getContext("2d");
         __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_fillBackground).call(this, ctx);
@@ -63,7 +50,7 @@ class Goban {
         __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_drawDots).call(this, ctx);
         for (let x = 0; x < this.size; x += 1) {
             for (let y = 0; y < this.size; y += 1) {
-                __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_drawStone).call(this, ctx, this.matrix[x][y], x, y);
+                __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_drawStone).call(this, ctx, matrix[x][y], x, y);
             }
         }
     }

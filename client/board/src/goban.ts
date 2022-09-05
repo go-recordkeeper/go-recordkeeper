@@ -4,32 +4,25 @@ enum Stone {
     White,
 }
 
-function stoneFromColor(color: 'B' | 'W'): Stone {
+function stoneFromColor(color: 'B' | 'W' | ' '): Stone {
     switch (color) {
         case 'B': return Stone.Black;
         case 'W': return Stone.White;
+        case ' ': return Stone.None;
     }
 }
+
+type BoardState = Stone[][];
 
 class Goban {
     canvasSelector: string;
     size: number;
-    matrix: Stone[][];
     onClick: (x: number, y: number) => void;
 
     constructor(selector: string, size: number, onClick: (x: number, y: number) => void = () => { }) {
         this.canvasSelector = selector;
         this.size = size;
         this.onClick = onClick;
-        // Initialize stones played
-        this.matrix = [];
-        for (let x = 0; x < size; x += 1) {
-            let column = [];
-            for (let y = 0; y < size; y += 1) {
-                column.push(Stone.None);
-            }
-            this.matrix.push(column);
-        }
     }
 
     #getCanvas() {
@@ -48,14 +41,9 @@ class Goban {
             let y = Math.floor(this.size * event.offsetY / canvas.clientHeight);
             this.onClick(x, y);
         });
-        this.draw();
     }
 
-    placeStone(stone: Stone, x: number, y: number) {
-        this.matrix[x][y] = stone;
-    }
-
-    draw() {
+    draw(matrix: BoardState) {
         let canvas = this.#getCanvas();
         let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
         this.#fillBackground(ctx);
@@ -64,7 +52,7 @@ class Goban {
 
         for (let x = 0; x < this.size; x += 1) {
             for (let y = 0; y < this.size; y += 1) {
-                this.#drawStone(ctx, this.matrix[x][y], x, y);
+                this.#drawStone(ctx, matrix[x][y], x, y);
             }
         }
     }

@@ -3,16 +3,15 @@ declare enum Stone {
     Black = 1,
     White = 2
 }
-declare function stoneFromColor(color: 'B' | 'W'): Stone;
+declare function stoneFromColor(color: 'B' | 'W' | ' '): Stone;
+declare type BoardState = Stone[][];
 declare class Goban {
     #private;
     canvasSelector: string;
     size: number;
-    matrix: Stone[][];
     onClick: (x: number, y: number) => void;
     constructor(selector: string, size: number, onClick?: (x: number, y: number) => void);
     initialize(): void;
-    placeStone(stone: Stone, x: number, y: number): void;
-    draw(): void;
+    draw(matrix: BoardState): void;
 }
 export { Goban, Stone, stoneFromColor };
