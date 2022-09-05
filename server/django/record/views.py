@@ -78,7 +78,6 @@ class GameViewSet(
         for (stone, x, y) in moves:
             replay.place_stone(stone, x, y)
         removals = replay.place_stone(Stone(move.color), move.x, move.y)
-        print(removals)
         # No problems placing the stone, save it
         move.save()
 
@@ -88,6 +87,33 @@ class GameViewSet(
         }
 
         return Response(update, status=status.HTTP_201_CREATED)
+
+    @action(methods=['POST'], detail=True)
+    def undo(self, request, **kwargs):
+        game = self.get_object()
+        # hack to get the color of the captured stones being restored
+        removal_color = game.next_move_color
+        move = game.last_move
+        if move is None:
+            return Response('no moves to undo', status=status.HTTP_400_BAD_REQUEST)
+        move.delete()
+
+        # TODO filter passes
+        moves = (
+            (Stone(color), x, y) for (color, x, y) in game.moves.values_list('color', 'x', 'y')
+        )
+        replay = Board(game.size)
+        for (stone, x, y) in moves:
+            replay.place_stone(stone, x, y)
+        removals = replay.place_stone(Stone(move.color), move.x, move.y)
+
+        # Re-add the stones that would have been captured by playing the undo'd move
+        update = {
+            'add': [{'x': x, 'y': y, 'color': removal_color} for (x, y) in removals],
+            'remove': [{'x': move.x, 'y': move.y}],
+        }
+
+        return Response(update, status=status.HTTP_200_OK)
 
 
 class LoginSerializer(serializers.Serializer):

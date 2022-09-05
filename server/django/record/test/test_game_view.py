@@ -146,3 +146,29 @@ def test_delete_game(authenticated_client, game):
     response = authenticated_client.delete(f'/games/{game.id}/')
     assert response.status_code == 204
     assert Game.objects.count() == 0
+
+
+@pytest.mark.django_db
+def test_undo(authenticated_client, game):
+    game.next_move(0, 0).save()
+    response = authenticated_client.post(
+        f'/games/{game.id}/undo/',
+    )
+    assert response.data == {'add': [], 'remove': [{'x': 0, 'y': 0}]}
+    game.refresh_from_db()
+    assert not game.moves.exists()
+
+
+@pytest.mark.django_db
+def test_undo_capture(authenticated_client, game):
+    game.next_move(0, 0).save()
+    game.next_move(0, 1).save()
+    game.next_move(1, 1).save()
+    # This move captures the 1-1 stone
+    game.next_move(1, 0).save()
+    response = authenticated_client.post(
+        f'/games/{game.id}/undo/',
+    )
+    assert response.data == {'add': [{'x': 0, 'y': 0, 'color': 'B'}], 'remove': [{'x': 1, 'y': 0}]}
+    game.refresh_from_db()
+    assert game.moves.count() == 3
