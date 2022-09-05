@@ -30,7 +30,7 @@ client.getCurrentUser().then((user) => {
 
   <nav>
     <!-- <RouterLink :to="{'name': 'login'}">Log in</RouterLink> -->
-    <RouterLink :to="{ 'name': 'boards' }">All Boards</RouterLink>
+    <RouterLink :to="{ 'name': 'records' }">All Game Records</RouterLink>
     <AuthWidget />
   </nav>
 

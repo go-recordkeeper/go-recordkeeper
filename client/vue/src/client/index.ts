@@ -4,6 +4,18 @@ interface User {
     email: string,
 }
 
+export interface Record {
+    id: number,
+    owner: number,
+    board_size: number,
+}
+
+export interface RecordDetail {
+    id: number,
+    owner: number,
+    board_size: number,
+    stones: any[],
+}
 
 class Client {
     constructor() { }
@@ -75,30 +87,30 @@ class Client {
         let user = await response.json();
         return user;
     }
-    async getBoards(): Promise<Array<any>> {
-        let response = await this.#get('http://localhost:8000/games/');
+    async getRecords(): Promise<Array<Record>> {
+        let response = await this.#get('http://localhost:8000/records/');
         let json = await response.json();
         return json
     }
-    async createNewBoard(size: number): Promise<number> {
-        let response = await this.#post('http://localhost:8000/games/', { size });
+    async createNewRecord(board_size: number): Promise<number> {
+        let response = await this.#post('http://localhost:8000/records/', { board_size });
         let json = await response.json();
         return json['id'];
     }
-    async deleteBoard(id: number) {
-        await this.#delete(`http://localhost:8000/games/${id}/`);
+    async deleteRecord(id: number) {
+        await this.#delete(`http://localhost:8000/records/${id}/`);
     }
-    async getBoard(id: number) {
-        let response = await this.#get(`http://localhost:8000/games/${id}/`);
+    async getRecord(id: number): Promise<RecordDetail> {
+        let response = await this.#get(`http://localhost:8000/records/${id}/`);
         let json = await response.json();
         return json;
     }
     async playStone(id: number, x: number, y: number) {
-        let response = await this.#post(`http://localhost:8000/games/${id}/play/`, { x, y });
+        let response = await this.#post(`http://localhost:8000/records/${id}/play/`, { x, y });
         return await response.json();
     }
     async undo(id: number) {
-        let response = await this.#post(`http://localhost:8000/games/${id}/undo/`);
+        let response = await this.#post(`http://localhost:8000/records/${id}/undo/`);
         return await response.json();
     }
 }

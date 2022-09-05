@@ -16,7 +16,7 @@ async function register(e: Event) {
     console.log("Register", username.value, email.value, password.value);
     await client.register(username.value, email.value, password.value);
     user.value = await client.getCurrentUser();
-    router.push({"name": "boards"});
+    router.push({"name": "records"});
 }
 </script>
 

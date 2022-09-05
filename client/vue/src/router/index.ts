@@ -18,15 +18,15 @@ const router = createRouter({
     //   component: () => import('../views/AboutView.vue')
     // },
     {
-      path: '/boards',
-      name: 'boards',
-      component: () => import('@/views/BoardListView.vue')
+      path: '/records',
+      name: 'records',
+      component: () => import('@/views/RecordListView.vue')
     },
     {
-      path: '/boards/:id',
-      name: 'board',
+      path: '/records/:id',
+      name: 'record',
       props: true,
-      component: () => import('@/views/BoardView.vue')
+      component: () => import('@/views/RecordView.vue')
     },
     {
       path: '/login',

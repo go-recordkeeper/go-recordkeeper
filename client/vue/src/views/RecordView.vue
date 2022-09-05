@@ -18,9 +18,9 @@ let size = ref(0);
 // Initialize stones played
 let matrix: ('B' | 'W' | ' ')[][] = reactive([]);
 
-client.getBoard(id).then((board) => {
-  size.value = board.size;
-  console.log(board);
+client.getRecord(id).then((record) => {
+  size.value = record.board_size;
+  console.log(record);
   for (let x = 0; x < size.value; x += 1) {
     let column: ('B' | 'W' | ' ')[] = reactive([]);
     for (let y = 0; y < size.value; y += 1) {
@@ -28,7 +28,7 @@ client.getBoard(id).then((board) => {
     }
     matrix.push(column);
   }
-  for (let {x, y, color} of board.stones) {
+  for (let {x, y, color} of record.stones) {
     matrix[x][y] = color;
   }
 });
