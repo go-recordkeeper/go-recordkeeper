@@ -118,6 +118,7 @@ class Goban {
         if (stone == Stone.None) {
             return;
         }
+        console.log('RENDERING', stone, x, y);
         if (stone == Stone.Black) {
             ctx.fillStyle = "#000000";
         }

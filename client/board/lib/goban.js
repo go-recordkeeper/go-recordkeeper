@@ -112,6 +112,7 @@ _Goban_instances = new WeakSet(), _Goban_getCanvas = function _Goban_getCanvas()
     if (stone == Stone.None) {
         return;
     }
+    console.log('RENDERING', stone, x, y);
     if (stone == Stone.Black) {
         ctx.fillStyle = "#000000";
     }
