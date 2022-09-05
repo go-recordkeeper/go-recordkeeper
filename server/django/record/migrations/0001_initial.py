@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Game',
+            name='Record',
             fields=[
                 (
                     'id',
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                         on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
                     ),
                 ),
-                ('size', models.IntegerField()),
+                ('board_size', models.IntegerField()),
             ],
         ),
         migrations.CreateModel(
@@ -68,11 +68,11 @@ class Migration(migrations.Migration):
                 ),
                 ('move', models.PositiveIntegerField()),
                 (
-                    'game',
+                    'record',
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name='moves',
-                        to='record.game',
+                        to='record.record',
                     ),
                 ),
             ],
@@ -80,10 +80,10 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name='move',
-            index=models.Index(fields=['game', 'move'], name='record_move_game_id_6d3ec7_idx'),
+            index=models.Index(fields=['record', 'move'], name='record_move_record__eced10_idx'),
         ),
         migrations.AddConstraint(
             model_name='move',
-            constraint=models.UniqueConstraint(fields=('game', 'move'), name='unique_move'),
+            constraint=models.UniqueConstraint(fields=('record', 'move'), name='unique_move'),
         ),
     ]

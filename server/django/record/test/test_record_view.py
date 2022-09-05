@@ -1,18 +1,20 @@
 import pytest
 
-from record.models import Game
+from record.models import Record
 
 
 @pytest.mark.django_db
 def test_create_record(authenticated_client, admin_user, user):
-    response = authenticated_client.post('/records/', {'size': 9}, content_type='application/json')
+    response = authenticated_client.post(
+        '/records/', {'board_size': 9}, content_type='application/json'
+    )
     assert response.status_code == 201
     assert response.data == {
         'id': 1,
         'owner': user.id,
-        'size': 9,
+        'board_size': 9,
     }
-    assert Game.objects.filter(id=1).exists()
+    assert Record.objects.filter(id=1).exists()
 
 
 @pytest.mark.django_db
@@ -23,50 +25,50 @@ def test_get_records_empty(authenticated_client):
 
 
 @pytest.mark.django_db
-def test_get_records(authenticated_client, game):
+def test_get_records(authenticated_client, record):
     response = authenticated_client.get('/records/')
     assert response.status_code == 200
     assert len(response.data) == 1
 
 
 @pytest.mark.django_db
-def test_get_record(authenticated_client, game):
-    response = authenticated_client.get(f'/records/{game.id}/')
+def test_get_record(authenticated_client, record):
+    response = authenticated_client.get(f'/records/{record.id}/')
     assert response.status_code == 200
     assert response.data == {
-        'id': game.id,
-        'owner': game.owner.id,
-        'size': game.size,
+        'id': record.id,
+        'owner': record.owner.id,
+        'board_size': record.board_size,
         'stones': [],
     }
 
 
 @pytest.mark.django_db
-def test_get_record_with_move(authenticated_client, game):
-    game.next_move(0, 0).save()
-    response = authenticated_client.get(f'/records/{game.id}/')
+def test_get_record_with_move(authenticated_client, record):
+    record.next_move(0, 0).save()
+    response = authenticated_client.get(f'/records/{record.id}/')
     assert response.status_code == 200
     assert response.data == {
-        'id': game.id,
-        'owner': game.owner.id,
-        'size': game.size,
+        'id': record.id,
+        'owner': record.owner.id,
+        'board_size': record.board_size,
         'stones': [{'x': 0, 'y': 0, 'color': 'B'}],
     }
 
 
 @pytest.mark.django_db
-def test_get_record_after_capture(authenticated_client, game):
+def test_get_record_after_capture(authenticated_client, record):
     # This first black stone will be capture
-    game.next_move(0, 0).save()
-    game.next_move(0, 1).save()
-    game.next_move(8, 8).save()
-    game.next_move(1, 0).save()
-    response = authenticated_client.get(f'/records/{game.id}/')
+    record.next_move(0, 0).save()
+    record.next_move(0, 1).save()
+    record.next_move(8, 8).save()
+    record.next_move(1, 0).save()
+    response = authenticated_client.get(f'/records/{record.id}/')
     assert response.status_code == 200
     assert response.data == {
-        'id': game.id,
-        'owner': game.owner.id,
-        'size': game.size,
+        'id': record.id,
+        'owner': record.owner.id,
+        'board_size': record.board_size,
         'stones': [
             {'x': 0, 'y': 1, 'color': 'W'},
             {'x': 8, 'y': 8, 'color': 'B'},
@@ -76,17 +78,17 @@ def test_get_record_after_capture(authenticated_client, game):
 
 
 @pytest.mark.django_db
-def test_play_move(authenticated_client, game):
+def test_play_move(authenticated_client, record):
     response = authenticated_client.post(
-        f'/records/{game.id}/play/',
+        f'/records/{record.id}/play/',
         {'x': 0, 'y': 0, 'color': 'B'},
         content_type='application/json',
     )
     assert response.status_code == 201
     assert response.data == {'add': [{'x': 0, 'y': 0, 'color': 'B'}], 'remove': []}
-    game.refresh_from_db()
-    assert game.moves.count() == 1
-    move = game.moves.first()
+    record.refresh_from_db()
+    assert record.moves.count() == 1
+    move = record.moves.first()
     assert move.color == 'B'
     assert move.x == 0
     assert move.y == 0
@@ -94,22 +96,22 @@ def test_play_move(authenticated_client, game):
 
 
 @pytest.mark.django_db
-def test_play_two_moves(authenticated_client, game):
+def test_play_two_moves(authenticated_client, record):
     authenticated_client.post(
-        f'/records/{game.id}/play/',
+        f'/records/{record.id}/play/',
         {'x': 0, 'y': 0},
         content_type='application/json',
     )
     response = authenticated_client.post(
-        f'/records/{game.id}/play/',
+        f'/records/{record.id}/play/',
         {'x': 0, 'y': 1},
         content_type='application/json',
     )
     assert response.status_code == 201
     assert response.data == {'add': [{'x': 0, 'y': 1, 'color': 'W'}], 'remove': []}
-    game.refresh_from_db()
-    assert game.moves.count() == 2
-    move = game.moves.last()
+    record.refresh_from_db()
+    assert record.moves.count() == 2
+    move = record.moves.last()
     assert move.color == 'W'
     assert move.x == 0
     assert move.y == 1
@@ -117,20 +119,20 @@ def test_play_two_moves(authenticated_client, game):
 
 
 @pytest.mark.django_db
-def test_play_big_capture(authenticated_client, game):
+def test_play_big_capture(authenticated_client, record):
     # B1 B3 W6
     # B5 B7 W8
     # W2 W4
-    game.next_move(0, 0).save()
-    game.next_move(0, 2).save()
-    game.next_move(1, 0).save()
-    game.next_move(1, 2).save()
-    game.next_move(0, 1).save()
-    game.next_move(2, 0).save()
-    game.next_move(1, 1).save()
+    record.next_move(0, 0).save()
+    record.next_move(0, 2).save()
+    record.next_move(1, 0).save()
+    record.next_move(1, 2).save()
+    record.next_move(0, 1).save()
+    record.next_move(2, 0).save()
+    record.next_move(1, 1).save()
 
     response = authenticated_client.post(
-        f'/records/{game.id}/play/',
+        f'/records/{record.id}/play/',
         {'x': 2, 'y': 1},
         content_type='application/json',
     )
@@ -142,33 +144,33 @@ def test_play_big_capture(authenticated_client, game):
 
 
 @pytest.mark.django_db
-def test_delete_record(authenticated_client, game):
-    response = authenticated_client.delete(f'/records/{game.id}/')
+def test_delete_record(authenticated_client, record):
+    response = authenticated_client.delete(f'/records/{record.id}/')
     assert response.status_code == 204
-    assert Game.objects.count() == 0
+    assert Record.objects.count() == 0
 
 
 @pytest.mark.django_db
-def test_undo(authenticated_client, game):
-    game.next_move(0, 0).save()
+def test_undo(authenticated_client, record):
+    record.next_move(0, 0).save()
     response = authenticated_client.post(
-        f'/records/{game.id}/undo/',
+        f'/records/{record.id}/undo/',
     )
     assert response.data == {'add': [], 'remove': [{'x': 0, 'y': 0}]}
-    game.refresh_from_db()
-    assert not game.moves.exists()
+    record.refresh_from_db()
+    assert not record.moves.exists()
 
 
 @pytest.mark.django_db
-def test_undo_capture(authenticated_client, game):
-    game.next_move(0, 0).save()
-    game.next_move(0, 1).save()
-    game.next_move(1, 1).save()
+def test_undo_capture(authenticated_client, record):
+    record.next_move(0, 0).save()
+    record.next_move(0, 1).save()
+    record.next_move(1, 1).save()
     # This move captures the 1-1 stone
-    game.next_move(1, 0).save()
+    record.next_move(1, 0).save()
     response = authenticated_client.post(
-        f'/records/{game.id}/undo/',
+        f'/records/{record.id}/undo/',
     )
     assert response.data == {'add': [{'x': 0, 'y': 0, 'color': 'B'}], 'remove': [{'x': 1, 'y': 0}]}
-    game.refresh_from_db()
-    assert game.moves.count() == 3
+    record.refresh_from_db()
+    assert record.moves.count() == 3

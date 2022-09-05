@@ -7,17 +7,17 @@ from rest_framework.response import Response
 
 from record.auth import generate_token
 from record.go import Board, Stone
-from record.models import Game, Move
+from record.models import Move, Record
 
 
-class GameSerializer(serializers.ModelSerializer):
+class RecordSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Game
-        fields = ['id', 'owner', 'size']
+        model = Record
+        fields = ['id', 'owner', 'board_size']
 
 
-class CreateGameSerializer(serializers.Serializer):
-    size = serializers.IntegerField()
+class CreateRecordSerializer(serializers.Serializer):
+    board_size = serializers.IntegerField()
 
 
 class MoveSerializer(serializers.ModelSerializer):
@@ -34,27 +34,27 @@ class RecordViewSet(
     mixins.ListModelMixin,
     viewsets.GenericViewSet,
 ):
-    queryset = Game.objects.all()
-    serializer_class = GameSerializer
+    queryset = Record.objects.all()
+    serializer_class = RecordSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Game.objects.filter(owner=self.request.user)
+        return Record.objects.filter(owner=self.request.user)
 
     def create(self, request, **kwargs):
-        serializer = CreateGameSerializer(data=request.data)
+        serializer = CreateRecordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        size = serializer.data['size']
-        game = Game(owner=request.user, size=size)
-        game.save()
-        serializer = GameSerializer(instance=game)
+        board_size = serializer.data['board_size']
+        record = Record(owner=request.user, board_size=board_size)
+        record.save()
+        serializer = RecordSerializer(instance=record)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, **kwargs):
-        game = self.get_object()
-        last_move = game.last_move
-        serializer = GameSerializer(instance=game)
-        board: Board = last_move.board_state if last_move is not None else Board(game.size)
+        record = self.get_object()
+        last_move = record.last_move
+        serializer = RecordSerializer(instance=record)
+        board: Board = last_move.board_state if last_move is not None else Board(record.board_size)
         response = {
             **serializer.data,
             'stones': [
@@ -65,16 +65,16 @@ class RecordViewSet(
 
     @action(methods=['POST'], detail=True)
     def play(self, request, **kwargs):
-        game = self.get_object()
+        record = self.get_object()
         move_serializer = MoveSerializer(data=request.data)
         move_serializer.is_valid(raise_exception=True)
-        move = game.next_move(**move_serializer.validated_data)
+        move = record.next_move(**move_serializer.validated_data)
 
         # TODO filter passes
         moves = (
-            (Stone(color), x, y) for (color, x, y) in game.moves.values_list('color', 'x', 'y')
+            (Stone(color), x, y) for (color, x, y) in record.moves.values_list('color', 'x', 'y')
         )
-        replay = Board(game.size)
+        replay = Board(record.board_size)
         for (stone, x, y) in moves:
             replay.place_stone(stone, x, y)
         removals = replay.place_stone(Stone(move.color), move.x, move.y)
@@ -90,19 +90,19 @@ class RecordViewSet(
 
     @action(methods=['POST'], detail=True)
     def undo(self, request, **kwargs):
-        game = self.get_object()
+        record = self.get_object()
         # hack to get the color of the captured stones being restored
-        removal_color = game.next_move_color
-        move = game.last_move
+        removal_color = record.next_move_color
+        move = record.last_move
         if move is None:
             return Response('no moves to undo', status=status.HTTP_400_BAD_REQUEST)
         move.delete()
 
         # TODO filter passes
         moves = (
-            (Stone(color), x, y) for (color, x, y) in game.moves.values_list('color', 'x', 'y')
+            (Stone(color), x, y) for (color, x, y) in record.moves.values_list('color', 'x', 'y')
         )
-        replay = Board(game.size)
+        replay = Board(record.board_size)
         for (stone, x, y) in moves:
             replay.place_stone(stone, x, y)
         removals = replay.place_stone(Stone(move.color), move.x, move.y)

@@ -3,7 +3,7 @@ from django.test import Client
 import pytest
 
 from record.auth import generate_token
-from record.models import Game
+from record.models import Record
 
 
 @pytest.fixture
@@ -23,18 +23,18 @@ def authenticated_client(client: Client, user):
 
 
 @pytest.fixture
-def game_factory(user):
-    def factory(owner=None, size=9):
+def record_factory(user):
+    def factory(owner=None, board_size=9):
         if owner is None:
             owner = user
         owner.save()
-        game = Game(owner=owner, size=size)
-        game.save()
-        return game
+        record = Record(owner=owner, board_size=board_size)
+        record.save()
+        return record
 
     return factory
 
 
 @pytest.fixture()
-def game(game_factory):
-    return game_factory()
+def record(record_factory):
+    return record_factory()

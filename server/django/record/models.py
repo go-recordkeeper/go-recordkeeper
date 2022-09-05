@@ -6,9 +6,9 @@ from django.utils.translation import gettext_lazy as _
 from .go import Board, Stone
 
 
-class Game(models.Model):
+class Record(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    size = models.IntegerField()
+    board_size = models.IntegerField()
 
     @property
     def last_move(self):
@@ -30,7 +30,7 @@ class Game(models.Model):
 
     def next_move(self, x, y) -> 'Move':
         return Move(
-            game=self,
+            record=self,
             x=x,
             y=y,
             color=self.next_move_color,
@@ -44,7 +44,7 @@ class Move(models.Model):
         WHITE = 'W', _('White')
         PASS = 'P', _('Pass')
 
-    game = models.ForeignKey(Game, related_name='moves', on_delete=models.CASCADE)
+    record = models.ForeignKey(Record, related_name='moves', on_delete=models.CASCADE)
     x = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(18)])
     y = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(18)])
     color = models.CharField(max_length=1, choices=Color.choices)
@@ -52,14 +52,14 @@ class Move(models.Model):
     # captured_by = models.ForeignKey('Move', blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:
-        indexes = [models.Index(fields=['game', 'move'])]
-        constraints = [models.UniqueConstraint(name='unique_move', fields=['game', 'move'])]
+        indexes = [models.Index(fields=['record', 'move'])]
+        constraints = [models.UniqueConstraint(name='unique_move', fields=['record', 'move'])]
         ordering = ['move']
 
     @property
     def board_state(self):
-        board = Board(self.game.size)
-        for (color, x, y) in self.game.moves.filter(move__lte=self.move).values_list(
+        board = Board(self.record.board_size)
+        for (color, x, y) in self.record.moves.filter(move__lte=self.move).values_list(
             'color', 'x', 'y'
         ):
             board.place_stone(Stone(color), x, y)
