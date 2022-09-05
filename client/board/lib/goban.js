@@ -4,7 +4,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _Goban_instances, _Goban_fillBackground, _Goban_drawLines, _Goban_drawDots, _Goban_drawStone, _Goban_drawCircle;
+var _Goban_instances, _Goban_getCanvas, _Goban_fillBackground, _Goban_drawLines, _Goban_drawDots, _Goban_drawStone, _Goban_drawCircle;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stoneFromColor = exports.Stone = exports.Goban = void 0;
 var Stone;
@@ -24,14 +24,9 @@ exports.stoneFromColor = stoneFromColor;
 class Goban {
     constructor(selector, size, onClick = () => { }) {
         _Goban_instances.add(this);
-        let canvas = document.querySelector(selector);
-        if (canvas === null) {
-            throw `Cannot locate ${selector}`;
-        }
-        this.canvas = canvas;
-        this.canvas.width = 100 * size;
-        this.canvas.height = 100 * size;
+        this.canvasSelector = selector;
         this.size = size;
+        this.onClick = onClick;
         // Initialize stones played
         this.matrix = [];
         for (let x = 0; x < size; x += 1) {
@@ -41,17 +36,27 @@ class Goban {
             }
             this.matrix.push(column);
         }
-        this.canvas.addEventListener("click", (event) => {
-            let x = Math.floor(size * event.offsetX / this.canvas.clientWidth);
-            let y = Math.floor(size * event.offsetY / this.canvas.clientHeight);
-            onClick(x, y);
+    }
+    initialize() {
+        let canvas = __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_getCanvas).call(this);
+        if (canvas === null) {
+            throw `Cannot locate ${this.canvasSelector}`;
+        }
+        canvas.width = 100 * this.size;
+        canvas.height = 100 * this.size;
+        canvas.addEventListener("click", (event) => {
+            let x = Math.floor(this.size * event.offsetX / canvas.clientWidth);
+            let y = Math.floor(this.size * event.offsetY / canvas.clientHeight);
+            this.onClick(x, y);
         });
+        this.draw();
+        ;
     }
     placeStone(stone, x, y) {
         this.matrix[x][y] = stone;
     }
     draw() {
-        let { canvas } = this;
+        let canvas = __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_getCanvas).call(this);
         let ctx = canvas.getContext("2d");
         __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_fillBackground).call(this, ctx);
         __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_drawLines).call(this, ctx);
@@ -64,9 +69,12 @@ class Goban {
     }
 }
 exports.Goban = Goban;
-_Goban_instances = new WeakSet(), _Goban_fillBackground = function _Goban_fillBackground(ctx) {
+_Goban_instances = new WeakSet(), _Goban_getCanvas = function _Goban_getCanvas() {
+    return document.querySelector(this.canvasSelector);
+}, _Goban_fillBackground = function _Goban_fillBackground(ctx) {
+    let canvas = __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_getCanvas).call(this);
     ctx.fillStyle = "#f4e5b8";
-    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 }, _Goban_drawLines = function _Goban_drawLines(ctx) {
     ctx.lineWidth = 4;
     ctx.strokeStyle = "#000000";

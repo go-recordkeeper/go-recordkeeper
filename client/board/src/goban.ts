@@ -12,19 +12,15 @@ function stoneFromColor(color: 'B' | 'W'): Stone {
 }
 
 class Goban {
-    canvas: HTMLCanvasElement;
+    canvasSelector: string;
     size: number;
     matrix: Stone[][];
+    onClick: (x: number, y: number) => void;
 
     constructor(selector: string, size: number, onClick: (x: number, y: number) => void = () => { }) {
-        let canvas = document.querySelector(selector);
-        if (canvas === null) {
-            throw `Cannot locate ${selector}`;
-        }
-        this.canvas = canvas as HTMLCanvasElement;
-        this.canvas.width = 100 * size;
-        this.canvas.height = 100 * size;
+        this.canvasSelector = selector;
         this.size = size;
+        this.onClick = onClick;
         // Initialize stones played
         this.matrix = [];
         for (let x = 0; x < size; x += 1) {
@@ -34,11 +30,25 @@ class Goban {
             }
             this.matrix.push(column);
         }
-        this.canvas.addEventListener("click", (event: MouseEvent) => {
-            let x = Math.floor(size * event.offsetX / this.canvas.clientWidth);
-            let y = Math.floor(size * event.offsetY / this.canvas.clientHeight);
-            onClick(x, y);
+    }
+
+    #getCanvas() {
+        return document.querySelector(this.canvasSelector) as HTMLCanvasElement;
+    }
+
+    initialize() {
+        let canvas = this.#getCanvas();
+        if (canvas === null) {
+            throw `Cannot locate ${this.canvasSelector}`;
+        }
+        canvas.width = 100 * this.size;
+        canvas.height = 100 * this.size;
+        canvas.addEventListener("click", (event: MouseEvent) => {
+            let x = Math.floor(this.size * event.offsetX / canvas.clientWidth);
+            let y = Math.floor(this.size * event.offsetY / canvas.clientHeight);
+            this.onClick(x, y);
         });
+        this.draw();
     }
 
     placeStone(stone: Stone, x: number, y: number) {
@@ -46,7 +56,7 @@ class Goban {
     }
 
     draw() {
-        let { canvas } = this;
+        let canvas = this.#getCanvas();
         let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
         this.#fillBackground(ctx);
         this.#drawLines(ctx);
@@ -60,8 +70,9 @@ class Goban {
     }
 
     #fillBackground(ctx: CanvasRenderingContext2D) {
+        let canvas = this.#getCanvas();
         ctx.fillStyle = "#f4e5b8";
-        ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
     }
 
     #drawLines(ctx: CanvasRenderingContext2D) {
