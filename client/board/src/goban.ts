@@ -69,12 +69,14 @@ class Goban {
 
         // Draw vertical lines
         for (let x = 0; x < this.size; x += 1) {
+            ctx.beginPath();
             ctx.moveTo(100 * x + 50, 48);
             ctx.lineTo(100 * x + 50, (this.size * 100) - 48);
             ctx.stroke();
         }
         // Draw horizontal lines
         for (let y = 0; y < this.size; y += 1) {
+            ctx.beginPath();
             ctx.moveTo(50, 100 * y + 50);
             ctx.lineTo((this.size * 100) - 50, 100 * y + 50);
             ctx.stroke();
@@ -118,7 +120,6 @@ class Goban {
         if (stone == Stone.None) {
             return;
         }
-        console.log('RENDERING', stone, x, y);
         if (stone == Stone.Black) {
             ctx.fillStyle = "#000000";
         }
