@@ -32,9 +32,6 @@ class Client {
         let token = this.#getToken();
         let headers = new Headers({});
         if (token) {
-            console.log('HEADERS', token)
-            console.log(`Bearer ${token}`)
-            console.log(token);
             headers.append('Authorization', `Bearer ${token}`);
         }
         return headers;

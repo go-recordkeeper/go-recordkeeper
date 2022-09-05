@@ -13,7 +13,6 @@ let password = ref("");
 
 async function register(e: Event) {
     e.preventDefault();
-    console.log("Register", username.value, email.value, password.value);
     await client.register(username.value, email.value, password.value);
     user.value = await client.getCurrentUser();
     router.push({"name": "records"});

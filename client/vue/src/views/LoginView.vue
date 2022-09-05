@@ -12,7 +12,6 @@ let password = ref("");
 
 async function login(e: Event) {
     e.preventDefault();
-    console.log("Login in", username.value, password.value);
     await client.login(username.value, password.value);
     user.value = await client.getCurrentUser();
     router.push({"name": "records"});

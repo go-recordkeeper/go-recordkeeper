@@ -6,7 +6,6 @@ import { RouterLink } from 'vue-router'
 import Client from '@/client';
 
 let user = inject<Ref<User | null>>('user') as Ref<User | null>;
-console.log('my user is', user, !user, !!user, !user.value, !!user.value);
 let client = new Client();
 
 function logout() {

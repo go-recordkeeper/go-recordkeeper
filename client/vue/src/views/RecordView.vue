@@ -20,7 +20,6 @@ let matrix: ('B' | 'W' | ' ')[][] = reactive([]);
 
 client.getRecord(id).then((record) => {
   size.value = record.board_size;
-  console.log(record);
   for (let x = 0; x < size.value; x += 1) {
     let column: ('B' | 'W' | ' ')[] = reactive([]);
     for (let y = 0; y < size.value; y += 1) {
@@ -47,7 +46,6 @@ async function onClick(x: number, y: number) {
 }
 
 async function undo() {
-  console.log('undooo');
   let { add, remove } = await client.undo(id);
   for (let move of add) {
     let { x, y, color } = move;
