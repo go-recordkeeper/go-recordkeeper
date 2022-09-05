@@ -43,21 +43,14 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    'x',
+                    'position',
                     models.IntegerField(
+                        blank=True,
+                        null=True,
                         validators=[
                             django.core.validators.MinValueValidator(0),
-                            django.core.validators.MaxValueValidator(18),
-                        ]
-                    ),
-                ),
-                (
-                    'y',
-                    models.IntegerField(
-                        validators=[
-                            django.core.validators.MinValueValidator(0),
-                            django.core.validators.MaxValueValidator(18),
-                        ]
+                            django.core.validators.MaxValueValidator(360),
+                        ],
                     ),
                 ),
                 (

@@ -29,10 +29,22 @@ class Record(models.Model):
         return 'B'
 
     def next_move(self, x, y) -> 'Move':
+        # TODO throw a useful exception
+        assert x >= 0
+        assert y >= 0
+        assert x < self.board_size
+        assert y < self.board_size
         return Move(
             record=self,
-            x=x,
-            y=y,
+            position=x + self.board_size * y,
+            color=self.next_move_color,
+            move=self.next_move_number,
+        )
+
+    def pass_turn(self) -> 'Move':
+        return Move(
+            record=self,
+            position=None,
             color=self.next_move_color,
             move=self.next_move_number,
         )
@@ -45,8 +57,9 @@ class Move(models.Model):
         PASS = 'P', _('Pass')
 
     record = models.ForeignKey(Record, related_name='moves', on_delete=models.CASCADE)
-    x = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(18)])
-    y = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(18)])
+    position = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator((19 * 19) - 1)], blank=True, null=True
+    )
     color = models.CharField(max_length=1, choices=Color.choices)
     move = models.PositiveIntegerField()
     # captured_by = models.ForeignKey('Move', blank=True, null=True, on_delete=models.CASCADE)
@@ -57,10 +70,20 @@ class Move(models.Model):
         ordering = ['move']
 
     @property
+    def x(self):
+        return self.position % self.record.board_size
+
+    @property
+    def y(self):
+        return self.position // self.record.board_size
+
+    @property
     def board_state(self):
         board = Board(self.record.board_size)
-        for (color, x, y) in self.record.moves.filter(move__lte=self.move).values_list(
-            'color', 'x', 'y'
+        for (color, position) in self.record.moves.filter(move__lte=self.move).values_list(
+            'color',
+            'position',
         ):
-            board.place_stone(Stone(color), x, y)
+            if position is not None:
+                board.place_stone(Stone(color), position % board.size, position // board.size)
         return board

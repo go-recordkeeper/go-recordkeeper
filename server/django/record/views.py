@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 from record.auth import generate_token
 from record.go import Board, Stone
-from record.models import Move, Record
+from record.models import Record
 
 
 class RecordSerializer(serializers.ModelSerializer):
@@ -20,10 +20,9 @@ class CreateRecordSerializer(serializers.Serializer):
     board_size = serializers.IntegerField()
 
 
-class MoveSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Move
-        fields = ['x', 'y']
+class MoveSerializer(serializers.Serializer):
+    x = serializers.IntegerField()
+    y = serializers.IntegerField()
 
 
 class RecordViewSet(
@@ -72,7 +71,8 @@ class RecordViewSet(
 
         # TODO filter passes
         moves = (
-            (Stone(color), x, y) for (color, x, y) in record.moves.values_list('color', 'x', 'y')
+            (Stone(color), position % record.board_size, position // record.board_size)
+            for (color, position) in record.moves.values_list('color', 'position')
         )
         replay = Board(record.board_size)
         for (stone, x, y) in moves:
@@ -100,7 +100,8 @@ class RecordViewSet(
 
         # TODO filter passes
         moves = (
-            (Stone(color), x, y) for (color, x, y) in record.moves.values_list('color', 'x', 'y')
+            (Stone(color), position % record.board_size, position // record.board_size)
+            for (color, position) in record.moves.values_list('color', 'position')
         )
         replay = Board(record.board_size)
         for (stone, x, y) in moves:
