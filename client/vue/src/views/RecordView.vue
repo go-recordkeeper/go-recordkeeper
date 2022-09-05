@@ -57,10 +57,15 @@ async function undo() {
   }
 }
 
+async function pass() {
+  await client.pass(id);
+}
+
 </script>
     
 <template>
   <button @click="undo">Undo</button>
+  <button @click="pass">Pass</button>
   <Goban v-if="size" :size="size" :matrix="matrix" :onClick="onClick">
   </Goban>
   <div v-else>Loading game...{{size}}</div>

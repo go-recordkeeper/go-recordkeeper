@@ -110,6 +110,9 @@ class Client {
         let response = await this.#post(`http://localhost:8000/records/${id}/undo/`);
         return await response.json();
     }
+    async pass(id: number) {
+        await this.#post(`http://localhost:8000/records/${id}/pass/`);
+    }
 }
 
 export default Client;
