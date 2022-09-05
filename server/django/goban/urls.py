@@ -2,10 +2,10 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 
-from record.views import GameViewSet, login_view, register_view, user_view
+from record.views import RecordViewSet, login_view, register_view, user_view
 
 router = routers.DefaultRouter()
-router.register(r'games', GameViewSet)
+router.register(r'records', RecordViewSet)
 # router.register(r'login', login_view)
 
 

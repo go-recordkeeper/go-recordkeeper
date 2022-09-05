@@ -4,8 +4,8 @@ from record.models import Game
 
 
 @pytest.mark.django_db
-def test_create_game(authenticated_client, admin_user, user):
-    response = authenticated_client.post('/games/', {'size': 9}, content_type='application/json')
+def test_create_record(authenticated_client, admin_user, user):
+    response = authenticated_client.post('/records/', {'size': 9}, content_type='application/json')
     assert response.status_code == 201
     assert response.data == {
         'id': 1,
@@ -16,22 +16,22 @@ def test_create_game(authenticated_client, admin_user, user):
 
 
 @pytest.mark.django_db
-def test_get_games_empty(authenticated_client):
-    response = authenticated_client.get('/games/')
+def test_get_records_empty(authenticated_client):
+    response = authenticated_client.get('/records/')
     assert response.status_code == 200
     assert response.data == []
 
 
 @pytest.mark.django_db
-def test_get_games(authenticated_client, game):
-    response = authenticated_client.get('/games/')
+def test_get_records(authenticated_client, game):
+    response = authenticated_client.get('/records/')
     assert response.status_code == 200
     assert len(response.data) == 1
 
 
 @pytest.mark.django_db
-def test_get_game(authenticated_client, game):
-    response = authenticated_client.get(f'/games/{game.id}/')
+def test_get_record(authenticated_client, game):
+    response = authenticated_client.get(f'/records/{game.id}/')
     assert response.status_code == 200
     assert response.data == {
         'id': game.id,
@@ -42,9 +42,9 @@ def test_get_game(authenticated_client, game):
 
 
 @pytest.mark.django_db
-def test_get_game_with_move(authenticated_client, game):
+def test_get_record_with_move(authenticated_client, game):
     game.next_move(0, 0).save()
-    response = authenticated_client.get(f'/games/{game.id}/')
+    response = authenticated_client.get(f'/records/{game.id}/')
     assert response.status_code == 200
     assert response.data == {
         'id': game.id,
@@ -55,13 +55,13 @@ def test_get_game_with_move(authenticated_client, game):
 
 
 @pytest.mark.django_db
-def test_get_game_after_capture(authenticated_client, game):
+def test_get_record_after_capture(authenticated_client, game):
     # This first black stone will be capture
     game.next_move(0, 0).save()
     game.next_move(0, 1).save()
     game.next_move(8, 8).save()
     game.next_move(1, 0).save()
-    response = authenticated_client.get(f'/games/{game.id}/')
+    response = authenticated_client.get(f'/records/{game.id}/')
     assert response.status_code == 200
     assert response.data == {
         'id': game.id,
@@ -78,7 +78,7 @@ def test_get_game_after_capture(authenticated_client, game):
 @pytest.mark.django_db
 def test_play_move(authenticated_client, game):
     response = authenticated_client.post(
-        f'/games/{game.id}/play/',
+        f'/records/{game.id}/play/',
         {'x': 0, 'y': 0, 'color': 'B'},
         content_type='application/json',
     )
@@ -96,12 +96,12 @@ def test_play_move(authenticated_client, game):
 @pytest.mark.django_db
 def test_play_two_moves(authenticated_client, game):
     authenticated_client.post(
-        f'/games/{game.id}/play/',
+        f'/records/{game.id}/play/',
         {'x': 0, 'y': 0},
         content_type='application/json',
     )
     response = authenticated_client.post(
-        f'/games/{game.id}/play/',
+        f'/records/{game.id}/play/',
         {'x': 0, 'y': 1},
         content_type='application/json',
     )
@@ -130,7 +130,7 @@ def test_play_big_capture(authenticated_client, game):
     game.next_move(1, 1).save()
 
     response = authenticated_client.post(
-        f'/games/{game.id}/play/',
+        f'/records/{game.id}/play/',
         {'x': 2, 'y': 1},
         content_type='application/json',
     )
@@ -142,8 +142,8 @@ def test_play_big_capture(authenticated_client, game):
 
 
 @pytest.mark.django_db
-def test_delete_game(authenticated_client, game):
-    response = authenticated_client.delete(f'/games/{game.id}/')
+def test_delete_record(authenticated_client, game):
+    response = authenticated_client.delete(f'/records/{game.id}/')
     assert response.status_code == 204
     assert Game.objects.count() == 0
 
@@ -152,7 +152,7 @@ def test_delete_game(authenticated_client, game):
 def test_undo(authenticated_client, game):
     game.next_move(0, 0).save()
     response = authenticated_client.post(
-        f'/games/{game.id}/undo/',
+        f'/records/{game.id}/undo/',
     )
     assert response.data == {'add': [], 'remove': [{'x': 0, 'y': 0}]}
     game.refresh_from_db()
@@ -167,7 +167,7 @@ def test_undo_capture(authenticated_client, game):
     # This move captures the 1-1 stone
     game.next_move(1, 0).save()
     response = authenticated_client.post(
-        f'/games/{game.id}/undo/',
+        f'/records/{game.id}/undo/',
     )
     assert response.data == {'add': [{'x': 0, 'y': 0, 'color': 'B'}], 'remove': [{'x': 1, 'y': 0}]}
     game.refresh_from_db()

@@ -26,7 +26,7 @@ class MoveSerializer(serializers.ModelSerializer):
         fields = ['x', 'y']
 
 
-class GameViewSet(
+class RecordViewSet(
     mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
     # mixins.UpdateModelMixin,
