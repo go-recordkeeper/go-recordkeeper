@@ -69,10 +69,10 @@ class RecordViewSet(
         move_serializer.is_valid(raise_exception=True)
         move = record.next_move(**move_serializer.validated_data)
 
-        # TODO filter passes
         moves = (
             (Stone(color), position % record.board_size, position // record.board_size)
             for (color, position) in record.moves.values_list('color', 'position')
+            if position is not None
         )
         replay = Board(record.board_size)
         for (stone, x, y) in moves:
@@ -88,6 +88,14 @@ class RecordViewSet(
 
         return Response(update, status=status.HTTP_201_CREATED)
 
+    @action(url_path='pass', methods=['POST'], detail=True)
+    def pass_turn(self, request, **kwargs):
+        record = self.get_object()
+        move = record.pass_turn()
+        move.save()
+
+        return Response(None, status=status.HTTP_201_CREATED)
+
     @action(methods=['POST'], detail=True)
     def undo(self, request, **kwargs):
         record = self.get_object()
@@ -98,21 +106,24 @@ class RecordViewSet(
             return Response('no moves to undo', status=status.HTTP_400_BAD_REQUEST)
         move.delete()
 
-        # TODO filter passes
-        moves = (
-            (Stone(color), position % record.board_size, position // record.board_size)
-            for (color, position) in record.moves.values_list('color', 'position')
-        )
-        replay = Board(record.board_size)
-        for (stone, x, y) in moves:
-            replay.place_stone(stone, x, y)
-        removals = replay.place_stone(Stone(move.color), move.x, move.y)
+        if move.position is not None:
+            moves = (
+                (Stone(color), position % record.board_size, position // record.board_size)
+                for (color, position) in record.moves.values_list('color', 'position')
+                if position is not None
+            )
+            replay = Board(record.board_size)
+            for (stone, x, y) in moves:
+                replay.place_stone(stone, x, y)
+            removals = replay.place_stone(Stone(move.color), move.x, move.y)
 
-        # Re-add the stones that would have been captured by playing the undo'd move
-        update = {
-            'add': [{'x': x, 'y': y, 'color': removal_color} for (x, y) in removals],
-            'remove': [{'x': move.x, 'y': move.y}],
-        }
+            # Re-add the stones that would have been captured by playing the undo'd move
+            update = {
+                'add': [{'x': x, 'y': y, 'color': removal_color} for (x, y) in removals],
+                'remove': [{'x': move.x, 'y': move.y}],
+            }
+        else:
+            update = {'add': [], 'remove': []}
 
         return Response(update, status=status.HTTP_200_OK)
 
