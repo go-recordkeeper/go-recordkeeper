@@ -27,11 +27,6 @@ class Client {
         }
         return headers;
     }
-    #contentHeaders() {
-        let headers = this.#headers();
-        headers.append('Content-Type', 'application/json');
-        return headers;
-    }
     async #get(url: string) {
         return fetch(url, {
             method: 'GET',
@@ -44,12 +39,14 @@ class Client {
             headers: this.#headers(),
         });
     }
-    async #post(url: string, body: any) {
-        return fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: this.#contentHeaders(),
-        });
+    async #post(url: string, body?: any) {
+        let headers = this.#headers();
+        let request: RequestInit = { method: 'POST', headers };
+        if (body) {
+            request['body'] = JSON.stringify(body);
+            headers.append('Content-Type', 'application/json');
+        }
+        return fetch(url, request);
     }
     async login(username: string, password: string) {
         let response = await this.#post('http://localhost:8000/login/', { username, password });
@@ -98,6 +95,10 @@ class Client {
     }
     async playStone(id: number, x: number, y: number) {
         let response = await this.#post(`http://localhost:8000/games/${id}/play/`, { x, y });
+        return await response.json();
+    }
+    async undo(id: number) {
+        let response = await this.#post(`http://localhost:8000/games/${id}/undo/`);
         return await response.json();
     }
 }
