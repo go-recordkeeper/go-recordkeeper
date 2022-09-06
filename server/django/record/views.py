@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from rest_framework import mixins, serializers, status, viewsets
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -8,6 +9,7 @@ from rest_framework.response import Response
 from record.auth import generate_token
 from record.go import Board, Stone
 from record.models import Record
+from record.sgf import export_sgf
 
 
 class RecordSerializer(serializers.ModelSerializer):
@@ -126,6 +128,14 @@ class RecordViewSet(
             update = {'add': [], 'remove': []}
 
         return Response(update, status=status.HTTP_200_OK)
+
+    @action(methods=['GET'], detail=True)
+    def download(self, request, **kwargs):
+        record = self.get_object()
+        content = export_sgf(record)
+        return HttpResponse(
+            content, headers={'Content-Disposition': 'attachment; filename="game.sgf"'}
+        )
 
 
 class LoginSerializer(serializers.Serializer):

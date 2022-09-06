@@ -143,3 +143,4 @@ REST_FRAMEWORK = {
 
 # TODO lock this down in prod
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_EXPOSE_HEADERS = ['Content-Disposition']

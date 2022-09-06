@@ -41,6 +41,7 @@ setup(
         'djangorestframework',
         'psycopg2',
         'pyjwt',
+        'sgfmill',
     ],
     extras_require={
         'test': [
