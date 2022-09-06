@@ -11,13 +11,17 @@ client.getRecords().then((rs) => {
 });
 
 async function newRecord() {
-    await client.createNewRecord(9);
+    await client.createNewRecord(19);
     records.value = await client.getRecords();
 }
 
 async function deleteRecord(id: number) {
     await client.deleteRecord(id);
     records.value = await client.getRecords();
+}
+
+async function downloadRecord(id: number) {
+    await client.downloadRecord(id);
 }
 </script>
 
@@ -29,6 +33,7 @@ async function deleteRecord(id: number) {
                 record {{ record.id }}
             </router-link>
             <button @click="deleteRecord(record.id)">delete me</button>
+            <button @click="downloadRecord(record.id)">SGF</button>
         </div>
         <button @click="newRecord">Make a new record</button>
     </div>

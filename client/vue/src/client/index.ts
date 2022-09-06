@@ -113,6 +113,19 @@ class Client {
     async pass(id: number) {
         await this.#post(`http://localhost:8000/records/${id}/pass/`);
     }
+    async downloadRecord(id: number) {
+        let response = await this.#get(`http://localhost:8000/records/${id}/download/`)
+        let blob = await response.blob();
+        var urlObject = window.URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = urlObject;
+        let contentDisposition = response.headers.get('content-disposition') as string;
+        let filename = (contentDisposition.match(/filename="(.*)"/) as RegExpMatchArray)[1];
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
 }
 
 export default Client;
