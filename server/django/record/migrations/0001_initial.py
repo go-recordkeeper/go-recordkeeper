@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
                 (
                     'ruleset',
                     models.CharField(
-                        choices=[('AGA', 'AGA'), ('JAP', 'Japanese'), ('CHN', 'Chinese')],
+                        choices=[('AGA', 'AGA'), ('JPN', 'Japanese'), ('CHN', 'Chinese')],
                         max_length=3,
                         default='AGA',
                     ),

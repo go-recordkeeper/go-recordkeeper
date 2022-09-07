@@ -19,7 +19,7 @@ class Record(models.Model):
     integer_komi = models.IntegerField(default=7)
     ruleset = models.CharField(
         max_length=3,
-        choices=[('AGA', 'AGA'), ('JAP', 'Japanese'), ('CHN', 'Chinese')],
+        choices=[('AGA', 'AGA'), ('JPN', 'Japanese'), ('CHN', 'Chinese')],
         default='AGA',
     )
 
