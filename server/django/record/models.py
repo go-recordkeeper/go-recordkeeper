@@ -18,7 +18,9 @@ class Record(models.Model):
     # 0.5 less than the actual komi
     integer_komi = models.IntegerField(default=7)
     ruleset = models.CharField(
-        max_length=3, choices=[('AGA', 'AGA'), ('JAP', 'Japanese'), ('CHN', 'Chinese')]
+        max_length=3,
+        choices=[('AGA', 'AGA'), ('JAP', 'Japanese'), ('CHN', 'Chinese')],
+        default='AGA',
     )
 
     @property

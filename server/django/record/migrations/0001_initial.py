@@ -42,6 +42,7 @@ class Migration(migrations.Migration):
                     models.CharField(
                         choices=[('AGA', 'AGA'), ('JAP', 'Japanese'), ('CHN', 'Chinese')],
                         max_length=3,
+                        default='AGA',
                     ),
                 ),
                 (
