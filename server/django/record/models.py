@@ -9,7 +9,7 @@ from .go import Board, Stone
 class Record(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     board_size = models.IntegerField()
-    created = models.DateTimeField()
+    created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=200, blank=True, null=True)
     black_player = models.CharField(max_length=200, default='Black')
     white_player = models.CharField(max_length=200, default='White')

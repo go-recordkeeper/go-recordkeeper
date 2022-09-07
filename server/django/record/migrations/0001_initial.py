@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ('board_size', models.IntegerField()),
-                ('created', models.DateTimeField()),
+                ('created', models.DateTimeField(auto_now_add=True)),
                 ('name', models.CharField(blank=True, max_length=200, null=True)),
                 ('black_player', models.CharField(default='Black', max_length=200)),
                 ('white_player', models.CharField(default='White', max_length=200)),
