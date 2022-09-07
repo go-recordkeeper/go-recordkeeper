@@ -9,6 +9,21 @@ from .go import Board, Stone
 class Record(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     board_size = models.IntegerField()
+    created = models.DateTimeField()
+    name = models.CharField(max_length=200, blank=True, null=True)
+    black_player = models.CharField(max_length=200, default='Black')
+    white_player = models.CharField(max_length=200, default='White')
+    comment = models.CharField(max_length=400, default='')
+    handicap = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    # 0.5 less than the actual komi
+    integer_komi = models.IntegerField(default=7)
+    ruleset = models.CharField(
+        max_length=3, choices=[('AGA', 'AGA'), ('JAP', 'Japanese'), ('CHN', 'Chinese')]
+    )
+
+    @property
+    def komi(self) -> float:
+        return self.integer_komi + 0.5
 
     @property
     def last_move(self):
