@@ -14,7 +14,7 @@ def komi_validator(komi: float):
     if komi == 0:
         return
     if floor(komi) + 0.5 != komi:
-        raise ValidationError(_("Enter a valid komi."), code="invalid", params={"value": komi})
+        raise ValidationError(_('Enter a valid komi.'), code='invalid', params={'value': komi})
 
 
 class Record(models.Model):
