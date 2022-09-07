@@ -1,9 +1,20 @@
+from math import floor
+
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from .go import Board, Stone
+
+
+def komi_validator(komi: float):
+    # 0 is an acceptable komi value
+    if komi == 0:
+        return
+    if floor(komi) + 0.5 != komi:
+        raise ValidationError(_("Enter a valid komi."), code="invalid", params={"value": komi})
 
 
 class Record(models.Model):
@@ -15,17 +26,12 @@ class Record(models.Model):
     white_player = models.CharField(max_length=200, default='White')
     comment = models.CharField(max_length=400, default='')
     handicap = models.IntegerField(default=0, validators=[MinValueValidator(0)])
-    # 0.5 less than the actual komi
-    integer_komi = models.IntegerField(default=7)
+    komi = models.FloatField(default=7.5, validators=[komi_validator])
     ruleset = models.CharField(
         max_length=3,
         choices=[('AGA', 'AGA'), ('JPN', 'Japanese'), ('CHN', 'Chinese')],
         default='AGA',
     )
-
-    @property
-    def komi(self) -> float:
-        return self.integer_komi + 0.5
 
     @property
     def last_move(self):
