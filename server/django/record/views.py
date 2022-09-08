@@ -67,7 +67,7 @@ class MoveSerializer(serializers.Serializer):
 class RecordViewSet(
     mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
-    # mixins.UpdateModelMixin,
+    mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
     mixins.ListModelMixin,
     viewsets.GenericViewSet,
@@ -83,6 +83,14 @@ class RecordViewSet(
         serializer = CreateRecordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         record = serializer.save(owner=request.user)
+        response_serializer = RecordSerializer(instance=record)
+        return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, **kwargs):
+        record = self.get_object()
+        serializer = UpdateRecordSerializer(record, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        record = serializer.save()
         response_serializer = RecordSerializer(instance=record)
         return Response(response_serializer.data, status=status.HTTP_201_CREATED)
 

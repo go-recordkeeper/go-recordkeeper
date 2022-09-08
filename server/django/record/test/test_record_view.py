@@ -5,6 +5,7 @@ from record.models import Record
 
 
 @pytest.mark.django_db
+# The admin user fixture is ensuring there is another user in the DB
 def test_create_sparse_record(authenticated_client, admin_user, user):
     response = authenticated_client.post(
         '/records/', {'board_size': 9}, content_type='application/json'
@@ -27,7 +28,7 @@ def test_create_sparse_record(authenticated_client, admin_user, user):
 
 
 @pytest.mark.django_db
-def test_create_record(authenticated_client, admin_user, user):
+def test_create_record(authenticated_client, user):
     response = authenticated_client.post(
         '/records/',
         {
@@ -57,6 +58,45 @@ def test_create_record(authenticated_client, admin_user, user):
         'ruleset': 'JPN',
     }
     assert Record.objects.filter(id=response.data['id']).exists()
+
+
+@pytest.mark.django_db
+def test_update_record(authenticated_client, user, record):
+    response = authenticated_client.put(
+        f'/records/{record.id}/',
+        {
+            'name': 'Kickass Game',
+            'black_player': 'Preto',
+            'white_player': 'Branco',
+            'comment': 'tee hee',
+            'handicap': 6,
+            'komi': 0,
+            'ruleset': 'JPN',
+        },
+        content_type='application/json',
+    )
+    assert response.status_code == 201
+    assert response.data == {
+        'id': ANY_INT,
+        'owner': user.id,
+        'board_size': 9,
+        'created': ANY_DATETIME_STR,
+        'name': 'Kickass Game',
+        'black_player': 'Preto',
+        'white_player': 'Branco',
+        'comment': 'tee hee',
+        'handicap': 6,
+        'komi': 0.0,
+        'ruleset': 'JPN',
+    }
+    record.refresh_from_db()
+    assert record.name == response.data['name']
+    assert record.black_player == response.data['black_player']
+    assert record.white_player == response.data['white_player']
+    assert record.comment == response.data['comment']
+    assert record.handicap == response.data['handicap']
+    assert record.komi == response.data['komi']
+    assert record.ruleset == response.data['ruleset']
 
 
 @pytest.mark.django_db
