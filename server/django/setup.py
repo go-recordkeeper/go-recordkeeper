@@ -45,6 +45,7 @@ setup(
     ],
     extras_require={
         'test': [
+            'anys',
             'pytest',
             'pytest-django',
             'tox',

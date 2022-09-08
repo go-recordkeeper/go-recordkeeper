@@ -15,11 +15,48 @@ from record.sgf import export_sgf
 class RecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Record
-        fields = ['id', 'owner', 'board_size']
+        fields = [
+            'id',
+            'owner',
+            'board_size',
+            'created',
+            'name',
+            'black_player',
+            'white_player',
+            'comment',
+            'handicap',
+            'komi',
+            'ruleset',
+        ]
 
 
-class CreateRecordSerializer(serializers.Serializer):
-    board_size = serializers.IntegerField()
+class CreateRecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Record
+        fields = [
+            'board_size',
+            'name',
+            'black_player',
+            'white_player',
+            'comment',
+            'handicap',
+            'komi',
+            'ruleset',
+        ]
+
+
+class UpdateRecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Record
+        fields = [
+            'name',
+            'black_player',
+            'white_player',
+            'comment',
+            'handicap',
+            'komi',
+            'ruleset',
+        ]
 
 
 class MoveSerializer(serializers.Serializer):
@@ -45,11 +82,9 @@ class RecordViewSet(
     def create(self, request, **kwargs):
         serializer = CreateRecordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        board_size = serializer.data['board_size']
-        record = Record(owner=request.user, board_size=board_size)
-        record.save()
-        serializer = RecordSerializer(instance=record)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        record = serializer.save(owner=request.user)
+        response_serializer = RecordSerializer(instance=record)
+        return Response(response_serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, **kwargs):
         record = self.get_object()

@@ -1,20 +1,62 @@
+from anys import ANY_DATETIME_STR, ANY_INT
 import pytest
 
 from record.models import Record
 
 
 @pytest.mark.django_db
-def test_create_record(authenticated_client, admin_user, user):
+def test_create_sparse_record(authenticated_client, admin_user, user):
     response = authenticated_client.post(
         '/records/', {'board_size': 9}, content_type='application/json'
     )
     assert response.status_code == 201
     assert response.data == {
-        'id': 1,
+        'id': ANY_INT,
         'owner': user.id,
         'board_size': 9,
+        'created': ANY_DATETIME_STR,
+        'name': None,
+        'black_player': 'Black',
+        'white_player': 'White',
+        'comment': '',
+        'handicap': 0,
+        'komi': 7.5,
+        'ruleset': 'AGA',
     }
-    assert Record.objects.filter(id=1).exists()
+    assert Record.objects.filter(id=response.data['id']).exists()
+
+
+@pytest.mark.django_db
+def test_create_record(authenticated_client, admin_user, user):
+    response = authenticated_client.post(
+        '/records/',
+        {
+            'board_size': 19,
+            'name': 'Kickass Game',
+            'black_player': 'Preto',
+            'white_player': 'Branco',
+            'comment': 'tee hee',
+            'handicap': 6,
+            'komi': 0,
+            'ruleset': 'JPN',
+        },
+        content_type='application/json',
+    )
+    assert response.status_code == 201
+    assert response.data == {
+        'id': ANY_INT,
+        'owner': user.id,
+        'board_size': 19,
+        'created': ANY_DATETIME_STR,
+        'name': 'Kickass Game',
+        'black_player': 'Preto',
+        'white_player': 'Branco',
+        'comment': 'tee hee',
+        'handicap': 6,
+        'komi': 0.0,
+        'ruleset': 'JPN',
+    }
+    assert Record.objects.filter(id=response.data['id']).exists()
 
 
 @pytest.mark.django_db
@@ -39,6 +81,14 @@ def test_get_record(authenticated_client, record):
         'id': record.id,
         'owner': record.owner.id,
         'board_size': record.board_size,
+        'created': ANY_DATETIME_STR,
+        'name': record.name,
+        'black_player': record.black_player,
+        'white_player': record.white_player,
+        'comment': record.comment,
+        'handicap': record.handicap,
+        'komi': record.komi,
+        'ruleset': record.ruleset,
         'stones': [],
     }
 
@@ -52,6 +102,14 @@ def test_get_record_with_move(authenticated_client, record):
         'id': record.id,
         'owner': record.owner.id,
         'board_size': record.board_size,
+        'created': ANY_DATETIME_STR,
+        'name': record.name,
+        'black_player': record.black_player,
+        'white_player': record.white_player,
+        'comment': record.comment,
+        'handicap': record.handicap,
+        'komi': record.komi,
+        'ruleset': record.ruleset,
         'stones': [{'x': 0, 'y': 0, 'color': 'B'}],
     }
 
@@ -65,6 +123,14 @@ def test_get_record_with_pass(authenticated_client, record):
         'id': record.id,
         'owner': record.owner.id,
         'board_size': record.board_size,
+        'created': ANY_DATETIME_STR,
+        'name': record.name,
+        'black_player': record.black_player,
+        'white_player': record.white_player,
+        'comment': record.comment,
+        'handicap': record.handicap,
+        'komi': record.komi,
+        'ruleset': record.ruleset,
         'stones': [],
     }
 
@@ -82,6 +148,14 @@ def test_get_record_after_capture(authenticated_client, record):
         'id': record.id,
         'owner': record.owner.id,
         'board_size': record.board_size,
+        'created': ANY_DATETIME_STR,
+        'name': record.name,
+        'black_player': record.black_player,
+        'white_player': record.white_player,
+        'comment': record.comment,
+        'handicap': record.handicap,
+        'komi': record.komi,
+        'ruleset': record.ruleset,
         'stones': [
             {'x': 0, 'y': 1, 'color': 'W'},
             {'x': 1, 'y': 0, 'color': 'W'},
