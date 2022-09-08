@@ -3,6 +3,7 @@ import Client from '@/client';
 import type { Record } from '@/client';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
+import router from '@/router';
 
 let client = new Client();
 let records: Ref<Record[]> = ref([]);
@@ -11,8 +12,7 @@ client.getRecords().then((rs) => {
 });
 
 async function newRecord() {
-    await client.createNewRecord(19);
-    records.value = await client.getRecords();
+    await router.push({name: 'create'});
 }
 
 async function deleteRecord(id: number) {
