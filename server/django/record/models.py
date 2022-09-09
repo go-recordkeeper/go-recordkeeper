@@ -72,6 +72,16 @@ class Record(models.Model):
             move=self.next_move_number,
         )
 
+    @property
+    def sgf_name(self):
+        date = self.created.strftime(r'%Y_%m_%d')
+        if self.name:
+            return f'{self.name}_{date}.sgf'
+        else:
+            black = self.black_player.replace(' ', '_')
+            white = self.white_player.replace(' ', '_')
+            return f'{black}_vs_{white}_{date}.sgf'
+
 
 class Move(models.Model):
     class Color(models.TextChoices):

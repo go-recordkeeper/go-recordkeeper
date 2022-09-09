@@ -177,7 +177,7 @@ class RecordViewSet(
         record = self.get_object()
         content = export_sgf(record)
         return HttpResponse(
-            content, headers={'Content-Disposition': 'attachment; filename="game.sgf"'}
+            content, headers={'Content-Disposition': f'attachment; filename="{record.sgf_name}"'}
         )
 
 
