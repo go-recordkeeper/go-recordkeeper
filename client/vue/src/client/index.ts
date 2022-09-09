@@ -21,8 +21,7 @@ export interface Record {
     ruleset: Ruleset,
 }
 
-export interface CreateRecordRequest {
-    board_size: number,
+export interface UpdateRecordRequest {
     name: string | null,
     black_player: string,
     white_player: string,
@@ -30,6 +29,10 @@ export interface CreateRecordRequest {
     handicap: number,
     komi: number,
     ruleset: Ruleset
+}
+
+export interface CreateRecordRequest extends UpdateRecordRequest{
+    board_size: number,
 }
 
 export interface RecordDetail {
