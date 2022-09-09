@@ -29,10 +29,10 @@ class Migration(migrations.Migration):
                 ),
                 ('board_size', models.IntegerField()),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('name', models.CharField(blank=True, max_length=200, null=True)),
+                ('name', models.CharField(blank=True, max_length=200, default='')),
                 ('black_player', models.CharField(default='Black', max_length=200)),
                 ('white_player', models.CharField(default='White', max_length=200)),
-                ('comment', models.CharField(default='', max_length=400)),
+                ('comment', models.CharField(blank=True, default='', max_length=400)),
                 (
                     'handicap',
                     models.IntegerField(

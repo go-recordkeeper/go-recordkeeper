@@ -16,7 +16,7 @@ def test_create_sparse_record(authenticated_client, admin_user, user):
         'owner': user.id,
         'board_size': 9,
         'created': ANY_DATETIME_STR,
-        'name': None,
+        'name': '',
         'black_player': 'Black',
         'white_player': 'White',
         'comment': '',

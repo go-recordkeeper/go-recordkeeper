@@ -21,10 +21,10 @@ class Record(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     board_size = models.IntegerField()
     created = models.DateTimeField(auto_now_add=True)
-    name = models.CharField(max_length=200, blank=True, null=True)
+    name = models.CharField(max_length=200, blank=True, default='')
     black_player = models.CharField(max_length=200, default='Black')
     white_player = models.CharField(max_length=200, default='White')
-    comment = models.CharField(max_length=400, default='')
+    comment = models.CharField(max_length=400, blank=True, default='')
     handicap = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     komi = models.FloatField(default=7.5, validators=[komi_validator])
     ruleset = models.CharField(
