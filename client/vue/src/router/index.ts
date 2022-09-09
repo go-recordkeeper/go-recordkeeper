@@ -34,6 +34,12 @@ const router = createRouter({
       component: () => import('@/views/CreateRecordView.vue')
     },
     {
+      path: '/records/:id/update',
+      name: 'update',
+      props: true,
+      component: () => import('@/views/UpdateRecordView.vue')
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/LoginView.vue')

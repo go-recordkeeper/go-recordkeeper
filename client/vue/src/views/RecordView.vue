@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Client from '@/client';
 import Goban from '@/components/Goban.vue';
+import router from '@/router';
 import { reactive, ref } from 'vue';
 
 const props = defineProps({
@@ -57,6 +58,10 @@ async function undo() {
   }
 }
 
+async function modify() {
+  router.push({name: 'update', params: { id }})
+}
+
 async function pass() {
   await client.pass(id);
 }
@@ -69,4 +74,5 @@ async function pass() {
   <Goban v-if="size" :size="size" :matrix="matrix" :onClick="onClick">
   </Goban>
   <div v-else>Loading game...{{size}}</div>
+  <div><button @click="modify">Modify settings</button></div>
 </template>

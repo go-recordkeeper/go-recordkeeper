@@ -82,6 +82,15 @@ class Client {
         }
         return fetch(url, request);
     }
+    async #put(url: string, body?: any) {
+        let headers = this.#headers();
+        let request: RequestInit = { method: 'PUT', headers };
+        if (body) {
+            request['body'] = JSON.stringify(body);
+            headers.append('Content-Type', 'application/json');
+        }
+        return fetch(url, request);
+    }
     async login(username: string, password: string) {
         let response = await this.#post('http://localhost:8000/login/', { username, password });
         if (response.status != 200) {
@@ -118,6 +127,9 @@ class Client {
         let response = await this.#post('http://localhost:8000/records/', request);
         let json = await response.json();
         return json['id'];
+    }
+    async updateRecord(id: number, request: UpdateRecordRequest): Promise<void> {
+        await this.#put(`http://localhost:8000/records/${id}/`, request);
     }
     async deleteRecord(id: number) {
         await this.#delete(`http://localhost:8000/records/${id}/`);
