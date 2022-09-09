@@ -4,10 +4,32 @@ interface User {
     email: string,
 }
 
+
+export type Ruleset = 'AGA' | 'JPN' | 'CHN';
+
 export interface Record {
     id: number,
     owner: number,
     board_size: number,
+    created: string,
+    name: string | null,
+    black_player: string,
+    white_player: string,
+    comment: string,
+    handicap: number,
+    komi: number,
+    ruleset: Ruleset,
+}
+
+export interface CreateRecordRequest {
+    board_size: number,
+    name: string | null,
+    black_player: string,
+    white_player: string,
+    comment: string,
+    handicap: number,
+    komi: number,
+    ruleset: Ruleset
 }
 
 export interface RecordDetail {
@@ -89,8 +111,8 @@ class Client {
         let json = await response.json();
         return json
     }
-    async createNewRecord(board_size: number): Promise<number> {
-        let response = await this.#post('http://localhost:8000/records/', { board_size });
+    async createNewRecord(request: CreateRecordRequest): Promise<number> {
+        let response = await this.#post('http://localhost:8000/records/', request);
         let json = await response.json();
         return json['id'];
     }
