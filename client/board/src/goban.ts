@@ -18,6 +18,9 @@ class Goban {
     canvasSelector: string;
     size: number;
     onClick: (x: number, y: number) => void;
+    isPointerDown: boolean = false;
+    pointerCoordinates: { x: number, y: number } | null = null;
+    lastMatrix: BoardState | null = null;
 
     constructor(selector: string, size: number, onClick: (x: number, y: number) => void = () => { }) {
         this.canvasSelector = selector;
@@ -29,6 +32,13 @@ class Goban {
         return document.querySelector(this.canvasSelector) as HTMLCanvasElement;
     }
 
+    #getPointerEventCoordinates(canvas: HTMLCanvasElement, event: PointerEvent) {
+        return {
+            x: Math.floor(this.size * event.offsetX / canvas.clientWidth),
+            y: Math.floor(this.size * event.offsetY / canvas.clientHeight),
+        }
+    }
+
     initialize() {
         let canvas = this.#getCanvas();
         if (canvas === null) {
@@ -36,23 +46,49 @@ class Goban {
         }
         canvas.width = 100 * this.size;
         canvas.height = 100 * this.size;
-        canvas.addEventListener("click", (event: MouseEvent) => {
-            let x = Math.floor(this.size * event.offsetX / canvas.clientWidth);
-            let y = Math.floor(this.size * event.offsetY / canvas.clientHeight);
+        canvas.addEventListener("pointerdown", (event: PointerEvent) => {
+            this.isPointerDown = true;
+            this.pointerCoordinates = this.#getPointerEventCoordinates(canvas, event);
+            this.draw();
+        });
+        canvas.addEventListener("pointerup", (event: PointerEvent) => {
+            let { x, y } = this.#getPointerEventCoordinates(canvas, event);
             this.onClick(x, y);
+            this.isPointerDown = false;
+            this.draw();
+        });
+        canvas.addEventListener("pointercancel", (event: PointerEvent) => {
+            // lg('tc');
+            this.isPointerDown = false;
+            this.draw();
+        });
+        canvas.addEventListener("pointermove", (event: PointerEvent) => {
+            // lg('tm');
+            if (this.isPointerDown) {
+                this.pointerCoordinates = this.#getPointerEventCoordinates(canvas, event);
+                this.draw()
+            }
         });
     }
 
-    draw(matrix: BoardState) {
+    draw(matrix?: BoardState) {
+        if (matrix) {
+            this.lastMatrix = matrix;
+        } else if (this.lastMatrix) {
+            matrix = this.lastMatrix;
+        }
         let canvas = this.#getCanvas();
         let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
         this.#fillBackground(ctx);
         this.#drawLines(ctx);
         this.#drawDots(ctx);
+        this.#drawMouseHighlighter(ctx);
 
-        for (let x = 0; x < this.size; x += 1) {
-            for (let y = 0; y < this.size; y += 1) {
-                this.#drawStone(ctx, matrix[x][y], x, y);
+        if (matrix) {
+            for (let x = 0; x < this.size; x += 1) {
+                for (let y = 0; y < this.size; y += 1) {
+                    this.#drawStone(ctx, matrix[x][y], x, y);
+                }
             }
         }
     }
@@ -113,6 +149,19 @@ class Goban {
             this.#drawCircle(ctx, (this.size * 100) - 350, this.size * 50, dotSize);
             this.#drawCircle(ctx, this.size * 50, 350, dotSize);
             this.#drawCircle(ctx, this.size * 50, (this.size * 100) - 350, dotSize);
+        }
+    }
+
+    #drawMouseHighlighter(ctx: CanvasRenderingContext2D) {
+        if (this.isPointerDown && this.pointerCoordinates) {
+            ctx.strokeStyle = "#ff0000"
+            let { x, y } = this.pointerCoordinates;
+            ctx.beginPath();
+            ctx.moveTo(0, (y * 100) + 50)
+            ctx.lineTo(this.size * 100, (y * 100) + 50)
+            ctx.moveTo((x * 100) + 50, 0);
+            ctx.lineTo((x * 100) + 50, this.size * 100);
+            ctx.stroke();
         }
     }
 

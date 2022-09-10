@@ -8,14 +8,13 @@
 </head>
 
 <body>
-    <div>hello</div>
     <div style="width:100%; padding-top: 100%; position: relative;">
         <canvas id="goban" style="position:absolute; top: 0; width: 100%;"></canvas>
     </div>
     <script>
         let nextStone = Stone.Black;
         let matrix = [];
-        let size = 9;
+        let size = 19;
         for (let x = 0; x < size; x += 1) {
             let column = [];
             for (let y = 0; y < size; y += 1) {

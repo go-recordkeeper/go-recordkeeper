@@ -4,7 +4,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _Goban_instances, _Goban_getCanvas, _Goban_fillBackground, _Goban_drawLines, _Goban_drawDots, _Goban_drawStone, _Goban_drawCircle;
+var _Goban_instances, _Goban_getCanvas, _Goban_getPointerEventCoordinates, _Goban_fillBackground, _Goban_drawLines, _Goban_drawDots, _Goban_drawMouseHighlighter, _Goban_drawStone, _Goban_drawCircle;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.stoneFromColor = exports.Stone = exports.Goban = void 0;
 var Stone;
@@ -25,6 +25,9 @@ exports.stoneFromColor = stoneFromColor;
 class Goban {
     constructor(selector, size, onClick = () => { }) {
         _Goban_instances.add(this);
+        this.isPointerDown = false;
+        this.pointerCoordinates = null;
+        this.lastMatrix = null;
         this.canvasSelector = selector;
         this.size = size;
         this.onClick = onClick;
@@ -36,21 +39,48 @@ class Goban {
         }
         canvas.width = 100 * this.size;
         canvas.height = 100 * this.size;
-        canvas.addEventListener("click", (event) => {
-            let x = Math.floor(this.size * event.offsetX / canvas.clientWidth);
-            let y = Math.floor(this.size * event.offsetY / canvas.clientHeight);
+        canvas.addEventListener("pointerdown", (event) => {
+            this.isPointerDown = true;
+            this.pointerCoordinates = __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_getPointerEventCoordinates).call(this, canvas, event);
+            this.draw();
+        });
+        canvas.addEventListener("pointerup", (event) => {
+            let { x, y } = __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_getPointerEventCoordinates).call(this, canvas, event);
             this.onClick(x, y);
+            this.isPointerDown = false;
+            this.draw();
+        });
+        canvas.addEventListener("pointercancel", (event) => {
+            // lg('tc');
+            this.isPointerDown = false;
+            this.draw();
+        });
+        canvas.addEventListener("pointermove", (event) => {
+            // lg('tm');
+            if (this.isPointerDown) {
+                this.pointerCoordinates = __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_getPointerEventCoordinates).call(this, canvas, event);
+                this.draw();
+            }
         });
     }
     draw(matrix) {
+        if (matrix) {
+            this.lastMatrix = matrix;
+        }
+        else if (this.lastMatrix) {
+            matrix = this.lastMatrix;
+        }
         let canvas = __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_getCanvas).call(this);
         let ctx = canvas.getContext("2d");
         __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_fillBackground).call(this, ctx);
         __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_drawLines).call(this, ctx);
         __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_drawDots).call(this, ctx);
-        for (let x = 0; x < this.size; x += 1) {
-            for (let y = 0; y < this.size; y += 1) {
-                __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_drawStone).call(this, ctx, matrix[x][y], x, y);
+        __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_drawMouseHighlighter).call(this, ctx);
+        if (matrix) {
+            for (let x = 0; x < this.size; x += 1) {
+                for (let y = 0; y < this.size; y += 1) {
+                    __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_drawStone).call(this, ctx, matrix[x][y], x, y);
+                }
             }
         }
     }
@@ -58,6 +88,11 @@ class Goban {
 exports.Goban = Goban;
 _Goban_instances = new WeakSet(), _Goban_getCanvas = function _Goban_getCanvas() {
     return document.querySelector(this.canvasSelector);
+}, _Goban_getPointerEventCoordinates = function _Goban_getPointerEventCoordinates(canvas, event) {
+    return {
+        x: Math.floor(this.size * event.offsetX / canvas.clientWidth),
+        y: Math.floor(this.size * event.offsetY / canvas.clientHeight),
+    };
 }, _Goban_fillBackground = function _Goban_fillBackground(ctx) {
     let canvas = __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_getCanvas).call(this);
     ctx.fillStyle = "#f4e5b8";
@@ -109,6 +144,17 @@ _Goban_instances = new WeakSet(), _Goban_getCanvas = function _Goban_getCanvas()
         __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_drawCircle).call(this, ctx, (this.size * 100) - 350, this.size * 50, dotSize);
         __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_drawCircle).call(this, ctx, this.size * 50, 350, dotSize);
         __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_drawCircle).call(this, ctx, this.size * 50, (this.size * 100) - 350, dotSize);
+    }
+}, _Goban_drawMouseHighlighter = function _Goban_drawMouseHighlighter(ctx) {
+    if (this.isPointerDown && this.pointerCoordinates) {
+        ctx.strokeStyle = "#ff0000";
+        let { x, y } = this.pointerCoordinates;
+        ctx.beginPath();
+        ctx.moveTo(0, (y * 100) + 50);
+        ctx.lineTo(this.size * 100, (y * 100) + 50);
+        ctx.moveTo((x * 100) + 50, 0);
+        ctx.lineTo((x * 100) + 50, this.size * 100);
+        ctx.stroke();
     }
 }, _Goban_drawStone = function _Goban_drawStone(ctx, stone, x, y) {
     if (stone == Stone.None) {

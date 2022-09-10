@@ -10,8 +10,14 @@ declare class Goban {
     canvasSelector: string;
     size: number;
     onClick: (x: number, y: number) => void;
+    isPointerDown: boolean;
+    pointerCoordinates: {
+        x: number;
+        y: number;
+    } | null;
+    lastMatrix: BoardState | null;
     constructor(selector: string, size: number, onClick?: (x: number, y: number) => void);
     initialize(): void;
-    draw(matrix: BoardState): void;
+    draw(matrix?: BoardState): void;
 }
 export { Goban, Stone, stoneFromColor };
