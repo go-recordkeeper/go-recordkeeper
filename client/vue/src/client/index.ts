@@ -12,7 +12,7 @@ export interface Record {
     owner: number,
     board_size: number,
     created: string,
-    name: string | null,
+    name: string,
     black_player: string,
     white_player: string,
     comment: string,
@@ -39,6 +39,14 @@ export interface RecordDetail {
     id: number,
     owner: number,
     board_size: number,
+    created: string,
+    name: string,
+    black_player: string,
+    white_player: string,
+    comment: string,
+    handicap: number,
+    komi: number,
+    ruleset: Ruleset,
     stones: any[],
 }
 
