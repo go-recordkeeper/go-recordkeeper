@@ -16,10 +16,16 @@ function logout() {
 
 <template>
     <div v-if="!user">
-        <RouterLink :to="{ 'name': 'login' }">Log in</RouterLink>
+        <RouterLink :to="{ 'name': 'login' }"
+            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Log in
+        </RouterLink>
     </div>
     <div v-else>
-        Welcome {{user.username}}!
-        <button @click="logout">Log out</button>
+        <span class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium">
+            Welcome {{user.username}}!
+        </span>
+        <button @click="logout" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+            Log out
+        </button>
     </div>
 </template>
