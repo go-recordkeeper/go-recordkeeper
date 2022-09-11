@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { PencilIcon } from '@heroicons/vue/24/outline';
 import Client from '@/client';
 import Goban from '@/components/Goban.vue';
 import router from '@/router';
@@ -28,7 +29,7 @@ client.getRecord(id).then((record) => {
     }
     matrix.push(column);
   }
-  for (let {x, y, color} of record.stones) {
+  for (let { x, y, color } of record.stones) {
     matrix[x][y] = color;
   }
 });
@@ -59,7 +60,7 @@ async function undo() {
 }
 
 async function modify() {
-  router.push({name: 'update', params: { id }})
+  router.push({ name: 'update', params: { id } })
 }
 
 async function pass() {
@@ -69,10 +70,12 @@ async function pass() {
 </script>
     
 <template>
-  <button @click="undo">Undo</button>
-  <button @click="pass">Pass</button>
   <Goban v-if="size" :size="size" :matrix="matrix" :onClick="onClick">
   </Goban>
   <div v-else>Loading game...{{size}}</div>
-  <div><button @click="modify">Modify settings</button></div>
-</template>
+  <div class="flex items-center">
+    <button @click="modify" class="rounded-md ring m-2"><PencilIcon class="block h-8 w-8 m-2" /></button>
+    <button @click="pass" class="grow m-2 h-12 rounded-md bg-red-600 text-gray-800">Pass</button>
+    <button @click="undo" class="grow m-2 h-12 rounded-md bg-yellow-600 text-gray-800">Undo</button>
+  </div>
+  </template>
