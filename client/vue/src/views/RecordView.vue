@@ -73,7 +73,7 @@ async function pass() {
   <Goban v-if="size" :size="size" :matrix="matrix" :onClick="onClick">
   </Goban>
   <div v-else>Loading game...{{size}}</div>
-  <div class="flex items-center">
+  <div class="flex items-center mx-auto" style="max-width: calc(100vh - 128px);">
     <button @click="modify" class="rounded-md ring m-2"><PencilIcon class="block h-8 w-8 m-2" /></button>
     <button @click="pass" class="grow m-2 h-12 rounded-md bg-red-600 text-gray-800">Pass</button>
     <button @click="undo" class="grow m-2 h-12 rounded-md bg-yellow-600 text-gray-800">Undo</button>

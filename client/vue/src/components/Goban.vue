@@ -34,7 +34,9 @@ export default defineComponent({
 </script>
     
 <template>
-    <div style="width:100%; padding-top: 100%; position: relative;">
-        <canvas id="goban" style="position:absolute; top: 0; width: 100%;"></canvas>
-    </div>
+    <!-- <div style="width: 100%; padding-top: 100%;" class="relative">
+        <canvas id="goban" style="position:absolute; top: 0; max-height: 100%; aspect-ratio: 1 / 1;"></canvas>
+    </div> -->
+    <canvas id="goban" class="mx-auto w-full h-full"
+        style="max-width: calc(100vh - 128px); max-height: calc(100vh - 128px); aspect-ratio: 1 / 1;"></canvas>
 </template>
