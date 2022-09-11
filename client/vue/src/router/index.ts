@@ -25,7 +25,7 @@ const router = createRouter({
     {
       path: '/records/:id',
       name: 'record',
-      props: true,
+      props: (route) => ({ id: Number(route.params.id)}),
       component: () => import('@/views/RecordView.vue')
     },
     {
@@ -36,7 +36,7 @@ const router = createRouter({
     {
       path: '/records/:id/update',
       name: 'update',
-      props: true,
+      props: (route) => ({ id: Number(route.params.id)}),
       component: () => import('@/views/UpdateRecordView.vue')
     },
     {

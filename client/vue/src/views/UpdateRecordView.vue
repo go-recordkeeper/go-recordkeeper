@@ -23,7 +23,6 @@ client.getRecord(props.id).then((detail) => {
 })
 
 async function updateRecord(request: UpdateRecordRequest) {
-    console.log('called updateRecord', props.id, props, request);
     await client.updateRecord(props.id, request);
     await router.push({ name: 'record', params: { id: props.id } });
 }
