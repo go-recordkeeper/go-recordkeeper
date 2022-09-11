@@ -31,8 +31,5 @@ async function updateRecord(request: UpdateRecordRequest) {
 </script>
 
 <template>
-    <div class="about">
-        <h1>Make a new record</h1>
-        <GameSettings v-if="isLoaded" :defaults="record" :update="updateRecord" />
-    </div>
+    <GameSettings v-if="isLoaded" :defaults="record" :update="updateRecord" />
 </template>

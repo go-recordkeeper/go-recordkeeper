@@ -55,36 +55,61 @@ async function _submit(e: Event) {
     
 <template>
     <form @submit="_submit">
-        <select v-model="board_size" v-if="includeBoardSize">
-            <option :value="9">9x9</option>
-            <option :value="13">13x13</option>
-            <option :value="19">19x19</option>
-        </select>
-        <div>
-            Black <input v-model="black_player" />
+        <div class="m-6 flex">
+            <div class="grow">
+                <input v-model="black_player" class="px-2 bg-gray-900 text-gray-200 w-full rounded-md" />
+            </div>
+            <div class="grow">
+                <input v-model="white_player"
+                    class="px-2 bg-white text-gray-900 placeholder:italic placeholder:text-gray-300 w-full rounded-md" />
+            </div>
         </div>
-        <div>
-            White <input v-model="white_player" />
+        <div v-if="includeBoardSize" class="m-6 flex">
+            <div class="mr-4">
+                Board Size
+            </div>
+            <select v-model="board_size"  class="grow rounded-md">
+                <option :value="9">9x9</option>
+                <option :value="13">13x13</option>
+                <option :value="19">19x19</option>
+            </select>
         </div>
-        <div>
-            Name of the game <input v-model="name" />
+        <div class="m-6 flex">
+            <div class="mr-4">
+                Handicap
+            </div>
+            <input v-model="handicap" class="grow rounded-md" />
         </div>
-        <div>
-            Comment <input v-model="comment" />
+        <div class="m-6 flex">
+            <div class="mr-4">
+                Komi
+            </div>
+            <input v-model="komi" class="grow rounded-md" />
         </div>
-        <div>
-            Handicapp <input v-model="handicap" />
+        <div class="m-6 flex">
+            <div class="mr-4">
+                Ruleset
+            </div>
+            <select v-model="ruleset" class="grow rounded-md">
+                <option value="AGA">AGA</option>
+                <option value="JPN">Japanese</option>
+                <option value="CHN">Chinese</option>
+            </select>
         </div>
-        <div>
-            Komi <input v-model="komi" />
+        <div class="m-6 flex">
+            <div class="mr-4">
+                Name
+            </div>
+            <input v-model="name" placeholder="Optional" class="grow rounded-md" />
         </div>
-        <select v-model="ruleset">
-            <option value="AGA">AGA</option>
-            <option value="JPN">Japanese</option>
-            <option value="CHN">Chinese</option>
-        </select>
+        <div class="m-6 flex">
+            <div class="mr-4">
+                Comment
+            </div>
+            <textarea v-model="comment" placeholder="Optional" class="grow rounded-md" />
+        </div>
 
-        <button type="submit">Create</button>
+        <button type="submit" class="my-2 w-full bg-gray-200 rounded-md">Done</button>
     </form>
 </template>
     

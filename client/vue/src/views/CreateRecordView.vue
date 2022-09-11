@@ -14,8 +14,5 @@ async function createRecord(request: CreateRecordRequest) {
 </script>
 
 <template>
-    <div class="about">
-        <h1>Make a new record</h1>
-        <GameSettings :create="createRecord" />
-    </div>
+    <GameSettings :create="createRecord" />
 </template>
