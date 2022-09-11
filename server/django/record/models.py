@@ -33,6 +33,9 @@ class Record(models.Model):
         default='AGA',
     )
 
+    class Meta:
+        ordering = ['-created']
+
     @property
     def last_move(self):
         return self.moves.last()
