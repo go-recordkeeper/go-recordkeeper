@@ -20,8 +20,11 @@ def export_sgf(record: Record) -> bytes:
         # position increments left to right, then top to bottom
         # sgfmill considers (0,0) to be the lower left corner
         # Therefore, we need to invert y
-        x = move.position % record.board_size
-        y = record.board_size - (move.position // record.board_size) - 1
-        # and also flip x/y??? whatever dude
-        node.set_move(move.color.lower(), (y, x))
+        if move.position is not None:
+            x = move.position % record.board_size
+            y = record.board_size - (move.position // record.board_size) - 1
+            # and also flip x/y??? whatever dude
+            node.set_move(move.color.lower(), (y, x))
+        else:
+            node.set_move(move.color.lower(), None)
     return game.serialise()
