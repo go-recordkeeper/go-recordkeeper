@@ -22,6 +22,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_HOST: postgres # this refers to the postgres service above ^
+      VIRTUAL_HOST: go.chiquit.ooo
+      VIRTUAL_PORT: 8000
+      VIRTUAL_PATH: /api
     depends_on:
       - postgres
 
@@ -33,6 +36,8 @@ services:
       - 443:443
     volumes:
       - /etc/nginx/conf.d
+      - ./vhost.d:/etc/nginx/vhost.d
+      - ./dist:/dist
 
   dockergen:
     image: nginxproxy/docker-gen

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mkdir -p dist
+mkdir -p dist/static
 
-docker run --rm -v $(pwd)/goban-vue:/goban-vue -w /goban-vue -v $(pwd)/dist:/dist node npm install && \
-docker run --rm -v $(pwd)/goban-vue:/goban-vue -w /goban-vue -v $(pwd)/dist:/dist node npm run build-only -- --emptyOutDir --outDir /dist
+docker run --rm -v $(pwd)/goban-vue:/goban-vue -w /goban-vue -v $(pwd)/dist/static:/outDir node npm install && \
+docker run --rm -v $(pwd)/goban-vue:/goban-vue -w /goban-vue -v $(pwd)/dist/static:/outDir node npm run build-only -- --emptyOutDir --outDir /outDir --base /static/
