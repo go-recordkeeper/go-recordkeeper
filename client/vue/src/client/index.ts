@@ -51,7 +51,10 @@ export interface RecordDetail {
 }
 
 class Client {
-    constructor() { }
+    baseUrl: string;
+    constructor() {
+        this.baseUrl = import.meta.env.VITE_API_URL;
+    }
     #getToken() {
         return localStorage.getItem('token');
     }
@@ -69,38 +72,38 @@ class Client {
         }
         return headers;
     }
-    async #get(url: string) {
-        return fetch(url, {
+    async #get(endpoint: string) {
+        return fetch(`${this.baseUrl}${endpoint}/`, {
             method: 'GET',
             headers: this.#headers(),
         });
     }
-    async #delete(url: string) {
-        return fetch(url, {
+    async #delete(endpoint: string) {
+        return fetch(`${this.baseUrl}${endpoint}/`, {
             method: 'DELETE',
             headers: this.#headers(),
         });
     }
-    async #post(url: string, body?: any) {
+    async #post(endpoint: string, body?: any) {
         let headers = this.#headers();
         let request: RequestInit = { method: 'POST', headers };
         if (body) {
             request['body'] = JSON.stringify(body);
             headers.append('Content-Type', 'application/json');
         }
-        return fetch(url, request);
+        return fetch(`${this.baseUrl}${endpoint}/`, request);
     }
-    async #put(url: string, body?: any) {
+    async #put(endpoint: string, body?: any) {
         let headers = this.#headers();
         let request: RequestInit = { method: 'PUT', headers };
         if (body) {
             request['body'] = JSON.stringify(body);
             headers.append('Content-Type', 'application/json');
         }
-        return fetch(url, request);
+        return fetch(`${this.baseUrl}${endpoint}/`, request);
     }
     async login(username: string, password: string) {
-        let response = await this.#post('http://localhost:8000/login/', { username, password });
+        let response = await this.#post('login', { username, password });
         if (response.status != 200) {
             throw 'Bad credentials';
         }
@@ -111,14 +114,14 @@ class Client {
         this.#deleteToken();
     }
     async register(username: string, email: string, password: string) {
-        let response = await this.#post('http://localhost:8000/register/', { username, email, password });
+        let response = await this.#post('register', { username, email, password });
         if (response.status != 201) {
             throw 'Couldnt register';
         }
         return await this.login(username, password);
     }
     async getCurrentUser(): Promise<User> {
-        let response = await this.#get('http://localhost:8000/user/');
+        let response = await this.#get('user');
         if (response.status != 200) {
             this.#deleteToken();
             throw 'Not logged in';
@@ -127,39 +130,39 @@ class Client {
         return user;
     }
     async getRecords(): Promise<Array<Record>> {
-        let response = await this.#get('http://localhost:8000/records/');
+        let response = await this.#get('records');
         let json = await response.json();
         return json
     }
     async createNewRecord(request: CreateRecordRequest): Promise<number> {
-        let response = await this.#post('http://localhost:8000/records/', request);
+        let response = await this.#post('records', request);
         let json = await response.json();
         return json['id'];
     }
     async updateRecord(id: number, request: UpdateRecordRequest): Promise<void> {
-        await this.#put(`http://localhost:8000/records/${id}/`, request);
+        await this.#put(`records/${id}`, request);
     }
     async deleteRecord(id: number) {
-        await this.#delete(`http://localhost:8000/records/${id}/`);
+        await this.#delete(`records/${id}`);
     }
     async getRecord(id: number): Promise<RecordDetail> {
-        let response = await this.#get(`http://localhost:8000/records/${id}/`);
+        let response = await this.#get(`records/${id}`);
         let json = await response.json();
         return json;
     }
     async playStone(id: number, x: number, y: number) {
-        let response = await this.#post(`http://localhost:8000/records/${id}/play/`, { x, y });
+        let response = await this.#post(`records/${id}/play`, { x, y });
         return await response.json();
     }
     async undo(id: number) {
-        let response = await this.#post(`http://localhost:8000/records/${id}/undo/`);
+        let response = await this.#post(`records/${id}/undo`);
         return await response.json();
     }
     async pass(id: number) {
-        await this.#post(`http://localhost:8000/records/${id}/pass/`);
+        await this.#post(`records/${id}/pass`);
     }
     async downloadRecord(id: number) {
-        let response = await this.#get(`http://localhost:8000/records/${id}/download/`)
+        let response = await this.#get(`records/${id}/download`)
         let blob = await response.blob();
         var urlObject = window.URL.createObjectURL(blob);
         var a = document.createElement('a');
