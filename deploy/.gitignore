@@ -1,3 +1,6 @@
+acme/
+certs/
+conf.d/
 dist/
 goban-vue/
 goban-python/
