@@ -259,6 +259,7 @@ server {
 {{ $upstream_name := when (or $is_regexp $sha1_upstream_name) (sha1 $host) $host }}
 
 {{ $paths := groupBy $containers "Env.VIRTUAL_PATH" }}
+{{ $skip_root_response := groupBy $containers "Env.VIRTUAL_SKIP_ROOT_RESPONSE" }}
 {{ $nPaths := len $paths }}
 
 {{ if eq $nPaths 0 }}
@@ -401,11 +402,6 @@ server {
 			{{ $dest := (or (first (groupByKeys $container "Env.VIRTUAL_DEST")) "") }}
 			{{ template "location" (dict "Path" $path "Proto" $proto "Upstream" $upstream "Host" $host "VhostRoot" $vhost_root "Dest" $dest "NetworkTag" $network_tag) }}
 		{{ end }}
-		{{ if (not (contains $paths "/")) }}
-			location / {
-				return {{ $default_root_response }};
-			}
-		{{ end }}
 	{{ end }}
 }
 
@@ -448,11 +444,6 @@ server {
 			{{ $upstream := printf "%s-%s" $upstream_name $sum }}
 			{{ $dest := (or (first (groupByKeys $container "Env.VIRTUAL_DEST")) "") }}
 			{{ template "location" (dict "Path" $path "Proto" $proto "Upstream" $upstream "Host" $host "VhostRoot" $vhost_root "Dest" $dest "NetworkTag" $network_tag) }}
-		{{ end }}
-		{{ if (not (contains $paths "/")) }}
-			location / {
-				return {{ $default_root_response }};
-			}
 		{{ end }}
 	{{ end }}
 }
