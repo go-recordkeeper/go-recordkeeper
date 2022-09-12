@@ -16,6 +16,7 @@ services:
     ports:
       - 8000:8000
     environment:
+      GOBAN_DEVELOPMENT: true
       POSTGRES_NAME: default
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres

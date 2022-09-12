@@ -17,16 +17,15 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(@ppnpk$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+if os.environ.get('GOBAN_DEVELOPMENT', False):
+    SECRET_KEY = 'django-insecure-(@ppnpk$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj'
+    DEBUG = True
+    CORS_ALLOW_ALL_ORIGINS = True
+    CORS_EXPOSE_HEADERS = ['Content-Disposition']
+else:
+    SECRET_KEY = os.environ.get('GOBAN_SECRET_KEY')
+    DEBUG = False
+    ALLOWED_HOSTS = [os.environ.get('GOBAN_HOST')]
 
 
 # Application definition
@@ -140,7 +139,3 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': ['record.auth.JWTAuthentication'],
 }
-
-# TODO lock this down in prod
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_EXPOSE_HEADERS = ['Content-Disposition']
