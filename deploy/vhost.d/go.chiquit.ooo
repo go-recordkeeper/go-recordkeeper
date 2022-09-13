@@ -1,3 +1,4 @@
 location / {
     root /dist/;
+    try_files $uri $uri/ /;
 }
