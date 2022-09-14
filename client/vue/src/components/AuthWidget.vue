@@ -3,13 +3,11 @@ import type { PropType, Ref } from 'vue';
 import type { User } from '@/client';
 import { inject } from 'vue';
 import { RouterLink } from 'vue-router'
-import Client from '@/client';
+import Client, { user } from '@/client';
 
 const props = defineProps({
     closeDialog: Function as PropType<() => {}>,
 })
-
-let user = inject<Ref<User | null>>('user') as Ref<User | null>;
 let client = new Client();
 
 function logout() {
@@ -34,7 +32,8 @@ function pleaseCloseDialog() {
         </div>
         <div class="sm:hidden">
             <RouterLink :to="{ 'name': 'login' }" @click="pleaseCloseDialog"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Log in
+                class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                Log in
             </RouterLink>
         </div>
     </div>

@@ -1,3 +1,5 @@
+import { ref, type Ref } from "vue";
+
 interface User {
     id: number,
     username: string,
@@ -31,7 +33,7 @@ export interface UpdateRecordRequest {
     ruleset: Ruleset
 }
 
-export interface CreateRecordRequest extends UpdateRecordRequest{
+export interface CreateRecordRequest extends UpdateRecordRequest {
     board_size: number,
 }
 
@@ -126,8 +128,7 @@ class Client {
             this.#deleteToken();
             throw 'Not logged in';
         }
-        let user = await response.json();
-        return user;
+        return await response.json();
     }
     async getRecords(): Promise<Array<Record>> {
         let response = await this.#get('records');
@@ -176,5 +177,12 @@ class Client {
     }
 }
 
+let user: Ref<User | null> = ref(null);
+let client = new Client();
+client.getCurrentUser().then((currentUser) => {
+    user.value = currentUser;
+});
+
 export default Client;
+export { user };
 export type { User };

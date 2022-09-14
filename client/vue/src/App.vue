@@ -7,13 +7,6 @@ import { RouterLink, RouterView } from 'vue-router'
 import AuthWidget from '@/components/AuthWidget.vue';
 import Client from '@/client';
 import type { User } from '@/client';
-
-let userRef: Ref<User | null> = ref(null);
-provide('user', userRef);
-let client = new Client();
-client.getCurrentUser().then((user) => {
-  userRef.value = user;
-});
 </script>
 
 <template>
