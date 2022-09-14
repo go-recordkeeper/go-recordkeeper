@@ -15,7 +15,7 @@ function logout() {
     client.logout();
     user.value = null;
     pleaseCloseDialog();
-    router.push({name: 'home'});
+    router.push({ name: 'home' });
 }
 
 function pleaseCloseDialog() {
@@ -29,13 +29,22 @@ function pleaseCloseDialog() {
     <div v-if="!user">
         <div class="hidden sm:block">
             <RouterLink :to="{ 'name': 'login' }" @click="pleaseCloseDialog"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Log in
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                Log in
+            </RouterLink>
+            <RouterLink :to="{ 'name': 'register' }" @click="pleaseCloseDialog"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                Sign up
             </RouterLink>
         </div>
         <div class="sm:hidden">
             <RouterLink :to="{ 'name': 'login' }" @click="pleaseCloseDialog"
                 class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
                 Log in
+            </RouterLink>
+            <RouterLink :to="{ 'name': 'register' }" @click="pleaseCloseDialog"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                Sign up
             </RouterLink>
         </div>
     </div>
