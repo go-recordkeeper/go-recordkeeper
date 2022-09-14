@@ -17,13 +17,13 @@ services:
       - ./goban-python/:/goban
     ports:
       - 8000:8000
+    env_file:
+      - .env.django
     environment:
       POSTGRES_NAME: default
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_HOST: postgres # this refers to the postgres service above ^
-      # TODO no public secrets
-      GOBAN_SECRET_KEY: django-insecure-(@ppnpk$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj
       GOBAN_HOST: go.chiquit.ooo
       LETSENCRYPT_HOST: go.chiquit.ooo
       VIRTUAL_HOST: go.chiquit.ooo
