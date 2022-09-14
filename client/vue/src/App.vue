@@ -72,7 +72,7 @@ import type { User } from '@/client';
 
       <DisclosurePanel class="sm:hidden" v-slot="{ close }">
         <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-          <RouterLink :to="{ 'name': 'Home' }" @click="close"
+          <RouterLink :to="{ 'name': 'home' }" @click="close"
             class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 reounded-md text-base font-medium">
             Home
           </RouterLink>
