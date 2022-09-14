@@ -2,6 +2,7 @@
 import type { CreateRecordRequest, Record, Ruleset, UpdateRecordRequest } from '@/client';
 import type { PropType, Ref } from 'vue';
 import { ref } from 'vue';
+import router from '@/router';
 
 const props = defineProps({
     defaults: Object as PropType<Record>,
@@ -51,6 +52,11 @@ async function _submit(e: Event) {
     }
 }
 
+async function cancel(e: Event) {
+    e.preventDefault();
+    router.back();
+}
+
 </script>
     
 <template>
@@ -68,7 +74,7 @@ async function _submit(e: Event) {
             <div class="mr-4">
                 Board Size
             </div>
-            <select v-model="board_size"  class="grow rounded-md">
+            <select v-model="board_size" class="grow rounded-md">
                 <option :value="9">9x9</option>
                 <option :value="13">13x13</option>
                 <option :value="19">19x19</option>
@@ -109,7 +115,10 @@ async function _submit(e: Event) {
             <textarea v-model="comment" placeholder="Optional" class="grow rounded-md" />
         </div>
 
-        <button type="submit" class="my-2 w-full bg-gray-200 rounded-md">Done</button>
+        <div class="m-6 flex">
+            <button @click="cancel" class="grow m-2 w-full bg-gray-200 rounded-md">Cancel</button>
+            <button type="submit" class="grow m-2 w-full bg-gray-300 rounded-md">Done</button>
+        </div>
     </form>
 </template>
     
