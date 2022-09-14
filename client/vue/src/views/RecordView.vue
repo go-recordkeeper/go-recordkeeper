@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PencilIcon } from '@heroicons/vue/24/outline';
+import { DocumentArrowDownIcon, PencilIcon } from '@heroicons/vue/24/outline';
 import Client from '@/client';
 import Goban from '@/components/Goban.vue';
 import router from '@/router';
@@ -59,6 +59,10 @@ async function undo() {
   }
 }
 
+async function download() {
+  await client.downloadRecord(id);
+}
+
 async function modify() {
   router.push({ name: 'update', params: { id } })
 }
@@ -74,8 +78,13 @@ async function pass() {
   </Goban>
   <div v-else>Loading game...{{size}}</div>
   <div class="flex items-center mx-auto" style="max-width: calc(100vh - 128px);">
-    <button @click="modify" class="rounded-md ring m-2"><PencilIcon class="block h-8 w-8 m-2" /></button>
+    <button @click="download" class="rounded-md ring m-2">
+      <DocumentArrowDownIcon class="block h-8 w-8 m-2" />
+    </button>
+    <button @click="modify" class="rounded-md ring m-2">
+      <PencilIcon class="block h-8 w-8 m-2" />
+    </button>
     <button @click="pass" class="grow m-2 h-12 rounded-md bg-red-600 text-gray-800">Pass</button>
     <button @click="undo" class="grow m-2 h-12 rounded-md bg-yellow-600 text-gray-800">Undo</button>
   </div>
-  </template>
+</template>
