@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
+import { user } from '@/client';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,7 +26,7 @@ const router = createRouter({
     {
       path: '/records/:id',
       name: 'record',
-      props: (route) => ({ id: Number(route.params.id)}),
+      props: (route) => ({ id: Number(route.params.id) }),
       component: () => import('@/views/RecordView.vue')
     },
     {
@@ -36,7 +37,7 @@ const router = createRouter({
     {
       path: '/records/:id/update',
       name: 'update',
-      props: (route) => ({ id: Number(route.params.id)}),
+      props: (route) => ({ id: Number(route.params.id) }),
       component: () => import('@/views/UpdateRecordView.vue')
     },
     {
@@ -51,5 +52,13 @@ const router = createRouter({
     },
   ]
 })
+router.beforeEach((to, from) => {
+  if (user.value === null) {
+    let { name } = to;
+    if (name !== 'login' && name !== 'register') {
+      return { name: 'login' };
+    }
+  }
+});
 
 export default router
