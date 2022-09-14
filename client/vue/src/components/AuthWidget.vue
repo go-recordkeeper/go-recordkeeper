@@ -4,6 +4,7 @@ import type { User } from '@/client';
 import { inject } from 'vue';
 import { RouterLink } from 'vue-router'
 import Client, { user } from '@/client';
+import router from '@/router';
 
 const props = defineProps({
     closeDialog: Function as PropType<() => {}>,
@@ -14,6 +15,7 @@ function logout() {
     client.logout();
     user.value = null;
     pleaseCloseDialog();
+    router.push({name: 'home'});
 }
 
 function pleaseCloseDialog() {

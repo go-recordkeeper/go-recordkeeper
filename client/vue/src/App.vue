@@ -37,6 +37,10 @@ import type { User } from '@/client';
                 <!-- <a v-for="item in navigation" :key="item.name" :href="item.href"
                   :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 reounded-md text-sm font-medium']"
                   :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a> -->
+                <RouterLink :to="{ 'name': 'home' }"
+                  class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 reounded-md text-sm font-medium">
+                  Home
+                </RouterLink>
                 <RouterLink :to="{ 'name': 'records' }" v-if="user"
                   class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 reounded-md text-sm font-medium">
                   Games
@@ -68,6 +72,10 @@ import type { User } from '@/client';
 
       <DisclosurePanel class="sm:hidden" v-slot="{ close }">
         <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
+          <RouterLink :to="{ 'name': 'Home' }" @click="close"
+            class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 reounded-md text-base font-medium">
+            Home
+          </RouterLink>
           <RouterLink :to="{ 'name': 'records' }" v-if="user" @click="close"
             class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 reounded-md text-base font-medium">
             Games
