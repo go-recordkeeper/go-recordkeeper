@@ -19,19 +19,26 @@ async function register(e: Event) {
 </script>
 
 <template>
-    <div class="about">
-        <h1>would you like to register?</h1>
+    <div class="mx-auto max-w-lg">
+        <div class="my-10 text-4xl text-center">Sign up</div>
         <form @submit="register">
-            <div>
-                <input v-model="username" type="text" />
+            <div class="my-6 flex">
+                <div class="mr-4">Username</div>
+                <input v-model="username" type="text" class="grow rounded-md" />
             </div>
-            <div>
-                <input v-model="email" type="email" />
+            <div class="my-6 flex">
+                <div class="mr-4">Email</div>
+                <input v-model="email" type="email" class="grow rounded-md" />
             </div>
-            <div>
-                <input v-model="password" type="password" />
+            <div class="my-6 flex">
+                <div class="mr-4">Password</div>
+                <input v-model="password" type="password" class="grow rounded-md" />
             </div>
-            <button type="submit">Go!</button>
+            <button type="submit" class="my-2 w-full bg-gray-200 rounded-md">Sign up</button>
         </form>
+        <div class="my-6 text-center">
+            Already have an account?
+            <RouterLink :to="{ 'name': 'login' }" class="text-blue-800 underline">Log in!</RouterLink>
+        </div>
     </div>
 </template>
