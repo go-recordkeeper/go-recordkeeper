@@ -13,23 +13,27 @@ async function login(e: Event) {
     e.preventDefault();
     await client.login(username.value, password.value);
     user.value = await client.getCurrentUser();
-    router.push({"name": "records"});
+    router.push({ "name": "records" });
 }
 </script>
 
 <template>
-    <div class="about">
-        <h1>would you like to log in?</h1>
+    <div class="mx-auto max-w-lg">
+        <div class="my-10 text-4xl text-center">Log in</div>
         <form @submit="login">
-            <div>
-                <input v-model="username" type="text" />
+            <div class="my-6 flex">
+                <div class="mr-4">Username</div>
+                <input v-model="username" type="text" class="grow rounded-md" />
             </div>
-            <div>
-                <input v-model="password" type="password" />
+            <div class="my-6 flex">
+                <div class="mr-4">Password</div>
+                <input v-model="password" type="password" class="grow rounded-md" />
             </div>
-            <button type="submit">Go!</button>
+            <button type="submit" class="my-2 w-full bg-gray-200 rounded-md">Log in</button>
         </form>
-        <h1>Maybe you wanna register?</h1>
-        <RouterLink :to="{ 'name': 'register' }">Sign up!</RouterLink>
+        <div class="my-6 text-center">
+            No account?
+            <RouterLink :to="{ 'name': 'register' }" class="text-blue-800 underline">Sign up!</RouterLink>
+        </div>
     </div>
 </template>
