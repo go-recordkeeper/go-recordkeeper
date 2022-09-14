@@ -104,6 +104,14 @@ class Client {
         }
         return fetch(`${this.baseUrl}${endpoint}/`, request);
     }
+    async initializeUser() {
+        try {
+            let currentUser = await this.getCurrentUser();
+            user.value = currentUser;
+        } catch {
+            user.value = null;
+        }
+    }
     async login(username: string, password: string) {
         let response = await this.#post('login', { username, password });
         if (response.status != 200) {
@@ -180,10 +188,6 @@ class Client {
 }
 
 let user: Ref<User | null> = ref(null);
-let client = new Client();
-client.getCurrentUser().then((currentUser) => {
-    user.value = currentUser;
-});
 
 export default Client;
 export { user };

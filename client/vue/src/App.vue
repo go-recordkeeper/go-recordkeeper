@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline';
-import { provide, ref } from 'vue';
-import type { Ref } from 'vue';
+import { defineComponent, provide, ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
 import AuthWidget from '@/components/AuthWidget.vue';
-import Client, { user } from '@/client';
-import type { User } from '@/client';
+import { user } from '@/client';
 </script>
 
 <template>
