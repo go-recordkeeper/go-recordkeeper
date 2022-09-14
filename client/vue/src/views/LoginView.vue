@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { inject, ref } from "vue";
-import Client, { user } from "@/client";
-import type { User } from "@/client";
-import type { Ref } from "vue";
+import { ref } from "vue";
+import Client from "@/client";
 import router from "@/router";
 
 let client = new Client();
@@ -12,7 +10,6 @@ let password = ref("");
 async function login(e: Event) {
     e.preventDefault();
     await client.login(username.value, password.value);
-    user.value = await client.getCurrentUser();
     router.push({ "name": "records" });
 }
 </script>

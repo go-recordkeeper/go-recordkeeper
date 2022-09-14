@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import type { PropType, Ref } from 'vue';
-import type { User } from '@/client';
-import { inject } from 'vue';
 import { RouterLink } from 'vue-router'
 import Client, { user } from '@/client';
 import router from '@/router';
@@ -13,7 +11,6 @@ let client = new Client();
 
 function logout() {
     client.logout();
-    user.value = null;
     pleaseCloseDialog();
     router.push({ name: 'home' });
 }

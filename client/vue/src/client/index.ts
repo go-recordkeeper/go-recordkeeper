@@ -111,9 +111,11 @@ class Client {
         }
         let token = await response.json();
         this.#setToken(token);
+        user.value = await this.getCurrentUser();
     }
     async logout() {
         this.#deleteToken();
+        user.value = null;
     }
     async register(username: string, email: string, password: string) {
         let response = await this.#post('register', { username, email, password });
