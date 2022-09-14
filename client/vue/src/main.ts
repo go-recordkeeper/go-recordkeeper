@@ -6,10 +6,11 @@ import Client from '@/client';
 
 // import './assets/main.css'
 const client = new Client();
-await client.initializeUser();
+client.initializeUser().then(() => {
+    const app = createApp(App)
 
-const app = createApp(App)
+    app.use(router)
+    
+    app.mount('#app')
+});
 
-app.use(router)
-
-app.mount('#app')
