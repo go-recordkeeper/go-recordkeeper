@@ -1,1 +1,0 @@
-import{d as c,j as o,o as n,C as s,k as i}from"./index.bf3110c5.js";import{_}from"./GameSettings.vue_vue_type_script_setup_true_lang.9d16ef01.js";const f=c({__name:"CreateRecordView",setup(m){let r=new s;async function t(e){let a=await r.createNewRecord(e);await i.push({name:"record",params:{id:a}})}return(e,a)=>(n(),o(_,{create:t}))}});export{f as default};
