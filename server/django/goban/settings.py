@@ -26,6 +26,7 @@ else:
     SECRET_KEY = os.environ.get('GOBAN_SECRET_KEY')
     DEBUG = False
     ALLOWED_HOSTS = [os.environ.get('GOBAN_HOST')]
+    STATIC_ROOT = '/dist/static'
 
 
 # Application definition
