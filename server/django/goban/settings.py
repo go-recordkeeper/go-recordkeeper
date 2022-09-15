@@ -24,7 +24,7 @@ if os.environ.get('GOBAN_DEVELOPMENT', False):
     CORS_EXPOSE_HEADERS = ['Content-Disposition']
 else:
     SECRET_KEY = os.environ.get('GOBAN_SECRET_KEY')
-    DEBUG = False
+    DEBUG = os.environ.get('GOBAN_DEBUG', False)
     ALLOWED_HOSTS = [os.environ.get('GOBAN_HOST')]
     STATIC_ROOT = '/dist/static'
 
