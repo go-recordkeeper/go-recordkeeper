@@ -29,7 +29,6 @@ services:
       VIRTUAL_HOST: go.chiquit.ooo
       VIRTUAL_PORT: 8000
       VIRTUAL_PATH: /api/
-      VIRTUAL_DEST: /
       VIRTUAL_PROTO: http
     depends_on:
       - postgres
