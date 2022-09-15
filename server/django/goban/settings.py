@@ -26,6 +26,7 @@ else:
     SECRET_KEY = os.environ.get('GOBAN_SECRET_KEY')
     DEBUG = os.environ.get('GOBAN_DEBUG', False)
     ALLOWED_HOSTS = [os.environ.get('GOBAN_HOST')]
+    CSRF_COOKIE_DOMAIN = os.environ.get('GOBAN_HOST')
     STATIC_ROOT = '/dist/static'
 
 
