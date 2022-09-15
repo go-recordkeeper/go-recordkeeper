@@ -7,7 +7,7 @@ import pytest
 @pytest.mark.django_db
 def test_login(client, user):
     response = client.post(
-        '/login/', {'username': 'John Doe', 'password': 'hunter12'}, content_type='application/json'
+        '/api/login/', {'username': 'John Doe', 'password': 'hunter12'}, content_type='application/json'
     )
     assert response.status_code == 200
     token = response.json()
@@ -19,14 +19,14 @@ def test_login(client, user):
 @pytest.mark.django_db
 def test_login_wrong_password(client, user):
     response = client.post(
-        '/login/', {'username': 'John Doe', 'password': 'hunter13'}, content_type='application/json'
+        '/api/login/', {'username': 'John Doe', 'password': 'hunter13'}, content_type='application/json'
     )
     assert response.status_code == 401
 
 
 @pytest.mark.django_db
 def test_get_user(authenticated_client, user):
-    response = authenticated_client.get('/user/')
+    response = authenticated_client.get('/api/user/')
     assert response.status_code == 200
     assert response.json() == {
         'id': user.id,
@@ -37,14 +37,14 @@ def test_get_user(authenticated_client, user):
 
 @pytest.mark.django_db
 def test_get_user_unauthenticated(client, user):
-    response = client.get('/user/')
+    response = client.get('/api/user/')
     assert response.status_code == 403
 
 
 @pytest.mark.django_db
 def test_login_with_token(authenticated_client, user):
     response = authenticated_client.post(
-        '/login/',
+        '/api/login/',
         {'username': 'John Doe', 'password': 'hunter12'},
         content_type='application/json',
     )
@@ -58,7 +58,7 @@ def test_login_with_token(authenticated_client, user):
 @pytest.mark.django_db
 def test_register(client):
     response = client.post(
-        '/register/',
+        '/api/register/',
         {
             'username': 'jane.doe',
             'email': 'jane.doe@chiquit.ooo',
@@ -75,6 +75,6 @@ def test_register(client):
     }
     # Verify the new user can log in
     response = client.post(
-        '/login/', {'username': 'jane.doe', 'password': 'hunter13'}, content_type='application/json'
+        '/api/login/', {'username': 'jane.doe', 'password': 'hunter13'}, content_type='application/json'
     )
     assert response.status_code == 200

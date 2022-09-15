@@ -10,9 +10,9 @@ router.register(r'records', RecordViewSet)
 
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('login/', login_view),
-    path('register/', register_view),
-    path('user/', user_view),
-    path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
+    path('api/login/', login_view),
+    path('api/register/', register_view),
+    path('api/user/', user_view),
+    path('api/admin/', admin.site.urls),
 ]

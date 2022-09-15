@@ -8,7 +8,7 @@ from record.models import Record
 # The admin user fixture is ensuring there is another user in the DB
 def test_create_sparse_record(authenticated_client, admin_user, user):
     response = authenticated_client.post(
-        '/records/', {'board_size': 9}, content_type='application/json'
+        '/api/records/', {'board_size': 9}, content_type='application/json'
     )
     assert response.status_code == 201
     assert response.data == {
@@ -30,7 +30,7 @@ def test_create_sparse_record(authenticated_client, admin_user, user):
 @pytest.mark.django_db
 def test_create_record(authenticated_client, user):
     response = authenticated_client.post(
-        '/records/',
+        '/api/records/',
         {
             'board_size': 19,
             'name': 'Kickass Game',
@@ -63,7 +63,7 @@ def test_create_record(authenticated_client, user):
 @pytest.mark.django_db
 def test_update_record(authenticated_client, user, record):
     response = authenticated_client.put(
-        f'/records/{record.id}/',
+        f'/api/records/{record.id}/',
         {
             'name': 'Kickass Game',
             'black_player': 'Preto',
@@ -101,21 +101,21 @@ def test_update_record(authenticated_client, user, record):
 
 @pytest.mark.django_db
 def test_get_records_empty(authenticated_client):
-    response = authenticated_client.get('/records/')
+    response = authenticated_client.get('/api/records/')
     assert response.status_code == 200
     assert response.data == []
 
 
 @pytest.mark.django_db
 def test_get_records(authenticated_client, record):
-    response = authenticated_client.get('/records/')
+    response = authenticated_client.get('/api/records/')
     assert response.status_code == 200
     assert len(response.data) == 1
 
 
 @pytest.mark.django_db
 def test_get_record(authenticated_client, record):
-    response = authenticated_client.get(f'/records/{record.id}/')
+    response = authenticated_client.get(f'/api/records/{record.id}/')
     assert response.status_code == 200
     assert response.data == {
         'id': record.id,
@@ -136,7 +136,7 @@ def test_get_record(authenticated_client, record):
 @pytest.mark.django_db
 def test_get_record_with_move(authenticated_client, record):
     record.next_move(0, 0).save()
-    response = authenticated_client.get(f'/records/{record.id}/')
+    response = authenticated_client.get(f'/api/records/{record.id}/')
     assert response.status_code == 200
     assert response.data == {
         'id': record.id,
@@ -157,7 +157,7 @@ def test_get_record_with_move(authenticated_client, record):
 @pytest.mark.django_db
 def test_get_record_with_pass(authenticated_client, record):
     record.pass_turn().save()
-    response = authenticated_client.get(f'/records/{record.id}/')
+    response = authenticated_client.get(f'/api/records/{record.id}/')
     assert response.status_code == 200
     assert response.data == {
         'id': record.id,
@@ -182,7 +182,7 @@ def test_get_record_after_capture(authenticated_client, record):
     record.next_move(0, 1).save()
     record.pass_turn().save()
     record.next_move(1, 0).save()
-    response = authenticated_client.get(f'/records/{record.id}/')
+    response = authenticated_client.get(f'/api/records/{record.id}/')
     assert response.status_code == 200
     assert response.data == {
         'id': record.id,
@@ -206,7 +206,7 @@ def test_get_record_after_capture(authenticated_client, record):
 @pytest.mark.django_db
 def test_play_move(authenticated_client, record):
     response = authenticated_client.post(
-        f'/records/{record.id}/play/',
+        f'/api/records/{record.id}/play/',
         {'x': 0, 'y': 0, 'color': 'B'},
         content_type='application/json',
     )
@@ -224,12 +224,12 @@ def test_play_move(authenticated_client, record):
 @pytest.mark.django_db
 def test_play_two_moves(authenticated_client, record):
     authenticated_client.post(
-        f'/records/{record.id}/play/',
+        f'/api/records/{record.id}/play/',
         {'x': 0, 'y': 0},
         content_type='application/json',
     )
     response = authenticated_client.post(
-        f'/records/{record.id}/play/',
+        f'/api/records/{record.id}/play/',
         {'x': 0, 'y': 1},
         content_type='application/json',
     )
@@ -248,7 +248,7 @@ def test_play_two_moves(authenticated_client, record):
 def test_play_after_pass(authenticated_client, record):
     record.pass_turn().save()
     response = authenticated_client.post(
-        f'/records/{record.id}/play/',
+        f'/api/records/{record.id}/play/',
         {'x': 0, 'y': 0},
         content_type='application/json',
     )
@@ -277,7 +277,7 @@ def test_play_big_capture(authenticated_client, record):
     record.next_move(1, 1).save()
 
     response = authenticated_client.post(
-        f'/records/{record.id}/play/',
+        f'/api/records/{record.id}/play/',
         {'x': 2, 'y': 1},
         content_type='application/json',
     )
@@ -290,7 +290,7 @@ def test_play_big_capture(authenticated_client, record):
 
 @pytest.mark.django_db
 def test_delete_record(authenticated_client, record):
-    response = authenticated_client.delete(f'/records/{record.id}/')
+    response = authenticated_client.delete(f'/api/records/{record.id}/')
     assert response.status_code == 204
     assert Record.objects.count() == 0
 
@@ -299,7 +299,7 @@ def test_delete_record(authenticated_client, record):
 def test_undo(authenticated_client, record):
     record.next_move(0, 0).save()
     response = authenticated_client.post(
-        f'/records/{record.id}/undo/',
+        f'/api/records/{record.id}/undo/',
     )
     assert response.data == {'add': [], 'remove': [{'x': 0, 'y': 0}]}
     record.refresh_from_db()
@@ -314,7 +314,7 @@ def test_undo_capture(authenticated_client, record):
     # This move captures the 1-1 stone
     record.next_move(1, 0).save()
     response = authenticated_client.post(
-        f'/records/{record.id}/undo/',
+        f'/api/records/{record.id}/undo/',
     )
     assert response.data == {'add': [{'x': 0, 'y': 0, 'color': 'B'}], 'remove': [{'x': 1, 'y': 0}]}
     record.refresh_from_db()
@@ -325,7 +325,7 @@ def test_undo_capture(authenticated_client, record):
 def test_undo_pass(authenticated_client, record):
     record.pass_turn().save()
     response = authenticated_client.post(
-        f'/records/{record.id}/undo/',
+        f'/api/records/{record.id}/undo/',
     )
     assert response.data == {'add': [], 'remove': []}
     record.refresh_from_db()
@@ -335,7 +335,7 @@ def test_undo_pass(authenticated_client, record):
 @pytest.mark.django_db
 def test_pass(authenticated_client, record):
     response = authenticated_client.post(
-        f'/records/{record.id}/pass/',
+        f'/api/records/{record.id}/pass/',
     )
     assert response.data is None
     record.refresh_from_db()
