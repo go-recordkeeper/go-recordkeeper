@@ -28,6 +28,7 @@ def test_play_black_stone(board):
     assert board.moves == {(3, 3): Stone.BLACK}
     assert board.group_index == {(3, 3): {(3, 3)}}
     assert board.groups == {frozenset([(3, 3)])}
+    assert board.removals == [[]]
 
 
 def test_play_two_black_stones(board):
@@ -38,6 +39,7 @@ def test_play_two_black_stones(board):
     assert board.group_index == {(3, 3): group, (3, 2): group}
     assert board.group_index[(3, 2)] is board.group_index[(3, 3)]
     assert board.groups == {frozenset([(3, 2), (3, 3)])}
+    assert board.removals == [[], []]
 
 
 def test_play_four_black_stones(board):
@@ -55,6 +57,7 @@ def test_play_four_black_stones(board):
     assert board.group_index == {(0, 0): group, (0, 1): group, (1, 0): group, (1, 1): group}
     assert board.group_index[(0, 0)] is board.group_index[(1, 1)]
     assert board.groups == {frozenset([(0, 0), (0, 1), (1, 0), (1, 1)])}
+    assert board.removals == [[], [], [], []]
 
 
 def test_play_two_turns(board):
@@ -63,6 +66,7 @@ def test_play_two_turns(board):
     assert board.moves == {(0, 0): Stone.BLACK, (0, 1): Stone.WHITE}
     assert board.group_index == {(0, 0): {(0, 0)}, (0, 1): {(0, 1)}}
     assert board.groups == {frozenset([(0, 0)]), frozenset([(0, 1)])}
+    assert board.removals == [[], []]
 
 
 def test_capture_corner(board):
@@ -78,6 +82,7 @@ def test_capture_corner(board):
     group = {(0, 1), (1, 1), (1, 0)}
     assert board.group_index == {(0, 1): group, (1, 1): group, (1, 0): group}
     assert board.groups == {frozenset(group)}
+    assert board.removals == [[], [], [], [(0, 0)]]
 
 
 def test_capture_middle(board):
@@ -104,6 +109,7 @@ def test_capture_middle(board):
         frozenset({(1, 0)}),
         frozenset({(1, 2)}),
     }
+    assert board.removals == [[], [], [], [], [(1, 1)]]
 
 
 def test_existing_stone(board):

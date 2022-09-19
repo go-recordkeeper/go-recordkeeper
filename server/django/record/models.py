@@ -128,4 +128,6 @@ class Move(models.Model):
         ):
             if position is not None:
                 board.place_stone(Stone(color), position % board.size, position // board.size)
+            else:
+                board.pass_turn()
         return board

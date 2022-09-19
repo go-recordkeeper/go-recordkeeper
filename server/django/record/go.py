@@ -18,6 +18,7 @@ class Board:
         self.moves = {}
         self.group_index = {}
         self.groups = set()
+        self.removals: list[list[tuple[int, int]]] = []
 
     def place_stone(self, stone: Stone, x: int, y: int) -> list[tuple[int, int]]:
         if (x, y) in self.moves:
@@ -56,7 +57,12 @@ class Board:
         if self._is_dead(self.group_index[(x, y)]):
             raise IllegalMoveError('move is suicidal')
 
-        return sorted(removals, key=lambda t: t[0] + t[1] * 100)
+        removals = sorted(removals, key=lambda t: t[0] + t[1] * 100)
+        self.removals.append(removals)
+        return removals
+
+    def pass_turn(self):
+        self.removals.append([])
 
     def _remove_group(self, group: set[tuple[int, int]]):
         for point in group:
