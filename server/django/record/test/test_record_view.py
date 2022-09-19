@@ -11,7 +11,7 @@ def test_create_sparse_record(authenticated_client, admin_user, user):
         '/api/records/', {'board_size': 9}, content_type='application/json'
     )
     assert response.status_code == 201
-    assert response.data == {
+    assert response.json() == {
         'id': ANY_INT,
         'owner': user.id,
         'board_size': 9,
@@ -25,7 +25,7 @@ def test_create_sparse_record(authenticated_client, admin_user, user):
         'ruleset': 'AGA',
         'winner': 'U',
     }
-    assert Record.objects.filter(id=response.data['id']).exists()
+    assert Record.objects.filter(id=response.json()['id']).exists()
 
 
 @pytest.mark.django_db
@@ -45,7 +45,7 @@ def test_create_record(authenticated_client, user):
         content_type='application/json',
     )
     assert response.status_code == 201
-    assert response.data == {
+    assert response.json() == {
         'id': ANY_INT,
         'owner': user.id,
         'board_size': 19,
@@ -59,7 +59,7 @@ def test_create_record(authenticated_client, user):
         'ruleset': 'JPN',
         'winner': 'U',
     }
-    assert Record.objects.filter(id=response.data['id']).exists()
+    assert Record.objects.filter(id=response.json()['id']).exists()
 
 
 @pytest.mark.django_db
@@ -79,7 +79,7 @@ def test_update_record(authenticated_client, user, record):
         content_type='application/json',
     )
     assert response.status_code == 201
-    assert response.data == {
+    assert response.json() == {
         'id': ANY_INT,
         'owner': user.id,
         'board_size': 9,
@@ -94,35 +94,35 @@ def test_update_record(authenticated_client, user, record):
         'winner': 'W',
     }
     record.refresh_from_db()
-    assert record.name == response.data['name']
-    assert record.black_player == response.data['black_player']
-    assert record.white_player == response.data['white_player']
-    assert record.comment == response.data['comment']
-    assert record.handicap == response.data['handicap']
-    assert record.komi == response.data['komi']
-    assert record.ruleset == response.data['ruleset']
-    assert record.winner == response.data['winner']
+    assert record.name == response.json()['name']
+    assert record.black_player == response.json()['black_player']
+    assert record.white_player == response.json()['white_player']
+    assert record.comment == response.json()['comment']
+    assert record.handicap == response.json()['handicap']
+    assert record.komi == response.json()['komi']
+    assert record.ruleset == response.json()['ruleset']
+    assert record.winner == response.json()['winner']
 
 
 @pytest.mark.django_db
 def test_get_records_empty(authenticated_client):
     response = authenticated_client.get('/api/records/')
     assert response.status_code == 200
-    assert response.data == []
+    assert response.json() == []
 
 
 @pytest.mark.django_db
 def test_get_records(authenticated_client, record):
     response = authenticated_client.get('/api/records/')
     assert response.status_code == 200
-    assert len(response.data) == 1
+    assert len(response.json()) == 1
 
 
 @pytest.mark.django_db
 def test_get_record(authenticated_client, record):
     response = authenticated_client.get(f'/api/records/{record.id}/')
     assert response.status_code == 200
-    assert response.data == {
+    assert response.json() == {
         'id': record.id,
         'owner': record.owner.id,
         'board_size': record.board_size,
@@ -145,7 +145,7 @@ def test_get_record_with_move(authenticated_client, record):
     record.next_move(0, 0).save()
     response = authenticated_client.get(f'/api/records/{record.id}/')
     assert response.status_code == 200
-    assert response.data == {
+    assert response.json() == {
         'id': record.id,
         'owner': record.owner.id,
         'board_size': record.board_size,
@@ -168,7 +168,7 @@ def test_get_record_with_pass(authenticated_client, record):
     record.pass_turn().save()
     response = authenticated_client.get(f'/api/records/{record.id}/')
     assert response.status_code == 200
-    assert response.data == {
+    assert response.json() == {
         'id': record.id,
         'owner': record.owner.id,
         'board_size': record.board_size,
@@ -195,7 +195,7 @@ def test_get_record_after_capture(authenticated_client, record):
     record.next_move(1, 0).save()
     response = authenticated_client.get(f'/api/records/{record.id}/')
     assert response.status_code == 200
-    assert response.data == {
+    assert response.json() == {
         'id': record.id,
         'owner': record.owner.id,
         'board_size': record.board_size,
@@ -229,7 +229,7 @@ def test_play_move(authenticated_client, record):
         content_type='application/json',
     )
     assert response.status_code == 201
-    assert response.data == {'add': [{'x': 0, 'y': 0, 'color': 'B'}], 'remove': []}
+    assert response.json() == {'add': [{'x': 0, 'y': 0, 'color': 'B'}], 'remove': []}
     record.refresh_from_db()
     assert record.moves.count() == 1
     move = record.moves.first()
@@ -252,7 +252,7 @@ def test_play_two_moves(authenticated_client, record):
         content_type='application/json',
     )
     assert response.status_code == 201
-    assert response.data == {'add': [{'x': 0, 'y': 1, 'color': 'W'}], 'remove': []}
+    assert response.json() == {'add': [{'x': 0, 'y': 1, 'color': 'W'}], 'remove': []}
     record.refresh_from_db()
     assert record.moves.count() == 2
     move = record.moves.last()
@@ -271,7 +271,7 @@ def test_play_after_pass(authenticated_client, record):
         content_type='application/json',
     )
     assert response.status_code == 201
-    assert response.data == {'add': [{'x': 0, 'y': 0, 'color': 'W'}], 'remove': []}
+    assert response.json() == {'add': [{'x': 0, 'y': 0, 'color': 'W'}], 'remove': []}
     record.refresh_from_db()
     assert record.moves.count() == 2
     move = record.moves.last()
@@ -300,7 +300,7 @@ def test_play_big_capture(authenticated_client, record):
         content_type='application/json',
     )
     assert response.status_code == 201
-    assert response.data == {
+    assert response.json() == {
         'add': [{'x': 2, 'y': 1, 'color': 'W'}],
         'remove': [{'x': 0, 'y': 0}, {'x': 1, 'y': 0}, {'x': 0, 'y': 1}, {'x': 1, 'y': 1}],
     }
@@ -319,7 +319,7 @@ def test_undo(authenticated_client, record):
     response = authenticated_client.post(
         f'/api/records/{record.id}/undo/',
     )
-    assert response.data == {'add': [], 'remove': [{'x': 0, 'y': 0}]}
+    assert response.json() == {'add': [], 'remove': [{'x': 0, 'y': 0}]}
     record.refresh_from_db()
     assert not record.moves.exists()
 
@@ -334,7 +334,7 @@ def test_undo_capture(authenticated_client, record):
     response = authenticated_client.post(
         f'/api/records/{record.id}/undo/',
     )
-    assert response.data == {'add': [{'x': 0, 'y': 0, 'color': 'B'}], 'remove': [{'x': 1, 'y': 0}]}
+    assert response.json() == {'add': [{'x': 0, 'y': 0, 'color': 'B'}], 'remove': [{'x': 1, 'y': 0}]}
     record.refresh_from_db()
     assert record.moves.count() == 3
 
@@ -345,7 +345,7 @@ def test_undo_pass(authenticated_client, record):
     response = authenticated_client.post(
         f'/api/records/{record.id}/undo/',
     )
-    assert response.data == {'add': [], 'remove': []}
+    assert response.json() == {'add': [], 'remove': []}
     record.refresh_from_db()
     assert record.moves.count() == 0
 
