@@ -74,7 +74,7 @@ async function pass() {
 </script>
     
 <template>
-  <Goban v-if="size" :size="size" :matrix="matrix" :onClick="onClick">
+  <Goban v-if="size" :size="size" :matrix="matrix" :onClick="onClick" style="max-width: calc(100vh - 128px); max-height: calc(100vh - 128px); ">
   </Goban>
   <div v-else>Loading game...{{size}}</div>
   <div class="flex items-center mx-auto" style="max-width: calc(100vh - 128px);">
