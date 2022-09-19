@@ -107,8 +107,10 @@ class RecordViewSet(
                 {'x': x, 'y': y, 'color': color.value} for (x, y), color in board.moves.items()
             ],
             'moves': [
-                {'position': position, 'color': color}
-                for position, color in record.moves.values_list('position', 'color')
+                {'position': position, 'color': color, 'captures': captures}
+                for (position, color), captures in zip(
+                    record.moves.values_list('position', 'color'), board.removals
+                )
             ],
         }
         return Response(response, status=status.HTTP_200_OK)
