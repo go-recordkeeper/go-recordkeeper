@@ -7,7 +7,9 @@ import pytest
 @pytest.mark.django_db
 def test_login(client, user):
     response = client.post(
-        '/api/login/', {'username': 'John Doe', 'password': 'hunter12'}, content_type='application/json'
+        '/api/login/',
+        {'username': 'John Doe', 'password': 'hunter12'},
+        content_type='application/json',
     )
     assert response.status_code == 200
     token = response.json()
@@ -19,7 +21,9 @@ def test_login(client, user):
 @pytest.mark.django_db
 def test_login_wrong_password(client, user):
     response = client.post(
-        '/api/login/', {'username': 'John Doe', 'password': 'hunter13'}, content_type='application/json'
+        '/api/login/',
+        {'username': 'John Doe', 'password': 'hunter13'},
+        content_type='application/json',
     )
     assert response.status_code == 401
 
@@ -75,6 +79,8 @@ def test_register(client):
     }
     # Verify the new user can log in
     response = client.post(
-        '/api/login/', {'username': 'jane.doe', 'password': 'hunter13'}, content_type='application/json'
+        '/api/login/',
+        {'username': 'jane.doe', 'password': 'hunter13'},
+        content_type='application/json',
     )
     assert response.status_code == 200

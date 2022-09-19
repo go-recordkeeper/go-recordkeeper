@@ -13,6 +13,10 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='record',
             name='winner',
-            field=models.CharField(choices=[('B', 'Black'), ('W', 'White'), ('U', 'Undecided')], default='U', max_length=1),
+            field=models.CharField(
+                choices=[('B', 'Black'), ('W', 'White'), ('U', 'Undecided')],
+                default='U',
+                max_length=1,
+            ),
         ),
     ]

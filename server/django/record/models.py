@@ -22,7 +22,7 @@ class Record(models.Model):
         BLACK = 'B', _('Black')
         WHITE = 'W', _('White')
         UNDECIDED = 'U', _('Undecided')
-    
+
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     board_size = models.IntegerField()
     created = models.DateTimeField(auto_now_add=True)
