@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DocumentArrowDownIcon, PencilIcon } from '@heroicons/vue/24/outline';
+import { DocumentArrowDownIcon, PencilIcon, EyeIcon } from '@heroicons/vue/24/outline';
 import Client from '@/client';
 import Goban from '@/components/Goban.vue';
 import router from '@/router';
@@ -67,6 +67,10 @@ async function modify() {
   router.push({ name: 'update', params: { id } })
 }
 
+async function replay() {
+  router.push({ name: 'replay', params: { id }});
+}
+
 async function pass() {
   await client.pass(id);
 }
@@ -83,6 +87,9 @@ async function pass() {
     </button>
     <button @click="modify" class="rounded-md ring m-2">
       <PencilIcon class="block h-8 w-8 m-2" />
+    </button>
+    <button @click="replay" class="rounded-md ring m-2">
+      <EyeIcon class="block h-8 w-8 m-2" />
     </button>
     <button @click="pass" class="grow m-2 h-12 rounded-md bg-red-600 text-gray-800">Pass</button>
     <button @click="undo" class="grow m-2 h-12 rounded-md bg-yellow-600 text-gray-800">Undo</button>
