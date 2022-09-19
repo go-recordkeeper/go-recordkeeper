@@ -107,7 +107,11 @@ class RecordViewSet(
                 {'x': x, 'y': y, 'color': color.value} for (x, y), color in board.moves.items()
             ],
             'moves': [
-                {'position': position, 'color': color, 'captures': captures}
+                {
+                    'position': position,
+                    'color': color,
+                    'captures': [{'x': x, 'y': y} for (x, y) in captures],
+                }
                 for (position, color), captures in zip(
                     record.moves.values_list('position', 'color'), board.removals
                 )
