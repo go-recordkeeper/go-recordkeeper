@@ -106,6 +106,10 @@ class RecordViewSet(
             'stones': [
                 {'x': x, 'y': y, 'color': color.value} for (x, y), color in board.moves.items()
             ],
+            'moves': [
+                {'position': position, 'color': color}
+                for position, color in record.moves.values_list('position', 'color')
+            ],
         }
         return Response(response, status=status.HTTP_200_OK)
 
