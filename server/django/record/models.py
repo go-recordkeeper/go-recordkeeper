@@ -18,6 +18,11 @@ def komi_validator(komi: float):
 
 
 class Record(models.Model):
+    class Winner(models.TextChoices):
+        BLACK = 'B', _('Black')
+        WHITE = 'W', _('White')
+        UNDECIDED = 'U', _('Undecided')
+    
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     board_size = models.IntegerField()
     created = models.DateTimeField(auto_now_add=True)
@@ -32,6 +37,7 @@ class Record(models.Model):
         choices=[('AGA', 'AGA'), ('JPN', 'Japanese'), ('CHN', 'Chinese')],
         default='AGA',
     )
+    winner = models.CharField(max_length=1, choices=Winner.choices, default=Winner.UNDECIDED)
 
     class Meta:
         ordering = ['-created']
