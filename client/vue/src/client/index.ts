@@ -26,7 +26,8 @@ export interface Record {
 }
 
 export interface RecordDetail extends Record {
-    stones: any[],
+    stones: { x: number, y: number, color: 'B' | 'W' }[],
+    moves: { position: number | null, color: 'B' | 'W', captures: {x: number, y:number}[] }[],
 }
 
 export interface UpdateRecordRequest {
