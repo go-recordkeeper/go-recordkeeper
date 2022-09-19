@@ -15,7 +15,7 @@ export default defineComponent({
             required: true,
         },
         onClick: {
-            type: Function as PropType<(x: number, y: number) => {}>,
+            type: Function as PropType<(x: number, y: number) => void>,
             required: true,
         },
     },
