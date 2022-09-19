@@ -23,6 +23,7 @@ def test_create_sparse_record(authenticated_client, admin_user, user):
         'handicap': 0,
         'komi': 7.5,
         'ruleset': 'AGA',
+        'winner': 'U',
     }
     assert Record.objects.filter(id=response.data['id']).exists()
 
@@ -56,6 +57,7 @@ def test_create_record(authenticated_client, user):
         'handicap': 6,
         'komi': 0.0,
         'ruleset': 'JPN',
+        'winner': 'U',
     }
     assert Record.objects.filter(id=response.data['id']).exists()
 
@@ -72,6 +74,7 @@ def test_update_record(authenticated_client, user, record):
             'handicap': 6,
             'komi': 0,
             'ruleset': 'JPN',
+            'winner': 'W',
         },
         content_type='application/json',
     )
@@ -88,6 +91,7 @@ def test_update_record(authenticated_client, user, record):
         'handicap': 6,
         'komi': 0.0,
         'ruleset': 'JPN',
+        'winner': 'W',
     }
     record.refresh_from_db()
     assert record.name == response.data['name']
@@ -97,6 +101,7 @@ def test_update_record(authenticated_client, user, record):
     assert record.handicap == response.data['handicap']
     assert record.komi == response.data['komi']
     assert record.ruleset == response.data['ruleset']
+    assert record.winner == response.data['winner']
 
 
 @pytest.mark.django_db
@@ -129,6 +134,7 @@ def test_get_record(authenticated_client, record):
         'handicap': record.handicap,
         'komi': record.komi,
         'ruleset': record.ruleset,
+        'winner': 'U',
         'stones': [],
     }
 
@@ -150,6 +156,7 @@ def test_get_record_with_move(authenticated_client, record):
         'handicap': record.handicap,
         'komi': record.komi,
         'ruleset': record.ruleset,
+        'winner': 'U',
         'stones': [{'x': 0, 'y': 0, 'color': 'B'}],
     }
 
@@ -171,6 +178,7 @@ def test_get_record_with_pass(authenticated_client, record):
         'handicap': record.handicap,
         'komi': record.komi,
         'ruleset': record.ruleset,
+        'winner': 'U',
         'stones': [],
     }
 
@@ -196,6 +204,7 @@ def test_get_record_after_capture(authenticated_client, record):
         'handicap': record.handicap,
         'komi': record.komi,
         'ruleset': record.ruleset,
+        'winner': 'U',
         'stones': [
             {'x': 0, 'y': 1, 'color': 'W'},
             {'x': 1, 'y': 0, 'color': 'W'},
