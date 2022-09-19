@@ -27,6 +27,7 @@ class RecordSerializer(serializers.ModelSerializer):
             'handicap',
             'komi',
             'ruleset',
+            'winner',
         ]
 
 
@@ -56,6 +57,7 @@ class UpdateRecordSerializer(serializers.ModelSerializer):
             'handicap',
             'komi',
             'ruleset',
+            'winner',
         ]
 
 
