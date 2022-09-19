@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CreateRecordRequest, Record, Ruleset, UpdateRecordRequest } from '@/client';
+import type { CreateRecordRequest, Record, Ruleset, UpdateRecordRequest, Winner } from '@/client';
 import type { PropType, Ref } from 'vue';
 import { ref } from 'vue';
 import router from '@/router';
@@ -11,16 +11,9 @@ const props = defineProps({
 })
 
 let includeBoardSize = !!props.create;
-// let boardSize = ref(19);
-// let name = ref('');
-// let blackPlayer = ref('Black');
-// let whitePlayer = ref('White');
-// let comment = ref('');
-// let handicap = ref(0);
-// let komi = ref(7.5);
-// let ruleset: Ref<Ruleset> = ref('AGA');
+let includeWinner = !props.create;
 
-let { board_size, name, black_player, white_player, comment, handicap, komi, ruleset } = {
+let { board_size, name, black_player, white_player, comment, handicap, komi, ruleset, winner } = {
     board_size: ref(19),
     name: ref(''),
     black_player: ref('Black'),
@@ -29,6 +22,7 @@ let { board_size, name, black_player, white_player, comment, handicap, komi, rul
     handicap: ref(0),
     komi: ref(7.5),
     ruleset: ref('AGA') as Ref<Ruleset>,
+    winner: ref('U') as Ref<Winner>,
 };
 if (props.defaults) {
     board_size.value = props.defaults.board_size;
@@ -39,6 +33,7 @@ if (props.defaults) {
     handicap.value = props.defaults.handicap;
     komi.value = props.defaults.komi;
     ruleset.value = props.defaults.ruleset;
+    winner.value = props.defaults.winner;
 }
 
 async function _submit(e: Event) {
@@ -47,7 +42,7 @@ async function _submit(e: Event) {
         let createRequest: CreateRecordRequest = { board_size: board_size.value, name: name.value, black_player: black_player.value, white_player: white_player.value, comment: comment.value, handicap: handicap.value, komi: komi.value, ruleset: ruleset.value };
         props.create(createRequest);
     } else if (!!props.update) {
-        let updateRequest: UpdateRecordRequest = { name: name.value, black_player: black_player.value, white_player: white_player.value, comment: comment.value, handicap: handicap.value, komi: komi.value, ruleset: ruleset.value };
+        let updateRequest: UpdateRecordRequest = { name: name.value, black_player: black_player.value, white_player: white_player.value, comment: comment.value, handicap: handicap.value, komi: komi.value, ruleset: ruleset.value, winner: winner.value };
         props.update(updateRequest);
     }
 }
@@ -113,6 +108,16 @@ async function cancel(e: Event) {
                 Comment
             </div>
             <textarea v-model="comment" placeholder="Optional" class="grow rounded-md" />
+        </div>
+        <div v-if="includeWinner" class="m-6 flex">
+            <div class="mr-4">
+                Winner
+            </div>
+            <select v-model="winner" class="grow rounded-md">
+                <option value="U">Undecided</option>
+                <option value="B">Black</option>
+                <option value="W">White</option>
+            </select>
         </div>
 
         <div class="m-6 flex">
