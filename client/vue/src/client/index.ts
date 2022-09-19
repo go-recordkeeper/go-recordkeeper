@@ -8,6 +8,7 @@ interface User {
 
 
 export type Ruleset = 'AGA' | 'JPN' | 'CHN';
+export type Winner = 'B' | 'W' | 'U';
 
 export interface Record {
     id: number,
@@ -21,6 +22,11 @@ export interface Record {
     handicap: number,
     komi: number,
     ruleset: Ruleset,
+    winner: Winner,
+}
+
+export interface RecordDetail extends Record {
+    stones: any[],
 }
 
 export interface UpdateRecordRequest {
@@ -30,26 +36,19 @@ export interface UpdateRecordRequest {
     comment: string,
     handicap: number,
     komi: number,
-    ruleset: Ruleset
+    ruleset: Ruleset,
+    winner: Winner,
 }
 
-export interface CreateRecordRequest extends UpdateRecordRequest {
+export interface CreateRecordRequest {
     board_size: number,
-}
-
-export interface RecordDetail {
-    id: number,
-    owner: number,
-    board_size: number,
-    created: string,
-    name: string,
+    name: string | null,
     black_player: string,
     white_player: string,
     comment: string,
     handicap: number,
     komi: number,
     ruleset: Ruleset,
-    stones: any[],
 }
 
 class Client {
