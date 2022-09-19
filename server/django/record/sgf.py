@@ -14,6 +14,10 @@ def export_sgf(record: Record) -> bytes:
     root_node.set('PW', record.white_player)
     root_node.set('KM', record.komi)
     root_node.set('HA', record.handicap)
+    if record.winner != Record.Winner.UNDECIDED:
+        root_node.set('RE', f'{record.winner}+R')
+    else:
+        root_node.set('RE', 'Void')
 
     for move in record.moves.all():
         node = game.extend_main_sequence()
