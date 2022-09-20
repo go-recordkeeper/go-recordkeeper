@@ -7,8 +7,12 @@ import GameSettings from '@/components/GameSettings.vue';
 let client = new Client();
 
 async function createRecord(request: CreateRecordRequest) {
-    let id = await client.createNewRecord(request);
-    await router.push({ name: 'record', params: { id } });
+    let response = await client.createNewRecord(request);
+    console.log('crated', response);
+    if (response.is_ok()) {
+        await router.push({ name: 'record', params: { id: response.json().id } });
+    }
+    return response;
 }
 
 </script>

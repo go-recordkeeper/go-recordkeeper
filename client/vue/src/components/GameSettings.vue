@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { CreateRecordRequest, Record, Ruleset, UpdateRecordRequest, Winner } from '@/client';
+import type { APIResponse, CreateRecordRequest, Record, RecordError, Ruleset, UpdateRecordRequest, Winner } from '@/client';
 import type { PropType, Ref } from 'vue';
 import { ref } from 'vue';
 import router from '@/router';
 
 const props = defineProps({
     defaults: Object as PropType<Record>,
-    create: Function as PropType<(request: CreateRecordRequest) => Promise<void>>,
-    update: Function as PropType<(request: UpdateRecordRequest) => Promise<void>>,
+    create: Function as PropType<(request: CreateRecordRequest) => Promise<APIResponse<Record, RecordError>>>,
+    update: Function as PropType<(request: UpdateRecordRequest) => Promise<APIResponse<Record, RecordError>>>,
 })
 
 let includeBoardSize = !!props.create;
@@ -35,15 +35,21 @@ if (props.defaults) {
     ruleset.value = props.defaults.ruleset;
     winner.value = props.defaults.winner;
 }
+let fieldErrors: Ref<RecordError> = ref({});
 
 async function _submit(e: Event) {
     e.preventDefault();
+    let response: APIResponse<Record, RecordError> | null = null;
     if (!!props.create) {
         let createRequest: CreateRecordRequest = { board_size: board_size.value, name: name.value, black_player: black_player.value, white_player: white_player.value, comment: comment.value, handicap: handicap.value, komi: komi.value, ruleset: ruleset.value };
-        props.create(createRequest);
+        response = await props.create(createRequest);
     } else if (!!props.update) {
         let updateRequest: UpdateRecordRequest = { name: name.value, black_player: black_player.value, white_player: white_player.value, comment: comment.value, handicap: handicap.value, komi: komi.value, ruleset: ruleset.value, winner: winner.value };
-        props.update(updateRequest);
+        response = await props.update(updateRequest);
+    }
+    if (response && response.is_err()) {
+        console.error('erroneous', response.error());
+        fieldErrors.value = response.error();
     }
 }
 
@@ -58,11 +64,25 @@ async function cancel(e: Event) {
     <form @submit="_submit">
         <div class="m-6 flex">
             <div class="grow">
-                <input v-model="black_player" class="px-2 bg-gray-900 text-gray-200 w-full rounded-md" />
+                <div>
+                    <input v-model="black_player" class="px-2 bg-gray-900 text-gray-200 w-full rounded-md" />
+                </div>
+                <ul v-if="fieldErrors.black_player">
+                    <li v-for="error in fieldErrors.black_player" :key="error" class="text-sm text-red-600">
+                        {{ error }}
+                    </li>
+                </ul>
             </div>
             <div class="grow">
-                <input v-model="white_player"
-                    class="px-2 bg-white text-gray-900 placeholder:italic placeholder:text-gray-300 w-full rounded-md" />
+                <div>
+                    <input v-model="white_player"
+                        class="px-2 bg-white text-gray-900 placeholder:italic placeholder:text-gray-300 w-full rounded-md" />
+                </div>
+                <ul v-if="fieldErrors.white_player">
+                    <li v-for="error in fieldErrors.white_player" :key="error" class="text-sm text-red-600">
+                        {{ error }}
+                    </li>
+                </ul>
             </div>
         </div>
         <div v-if="includeBoardSize" class="m-6 flex">
@@ -79,13 +99,31 @@ async function cancel(e: Event) {
             <div class="mr-4">
                 Handicap
             </div>
-            <input v-model="handicap" class="grow rounded-md" />
+            <div class="grow">
+                <div>
+                    <input v-model="handicap" class="w-full rounded-md" />
+                </div>
+                <ul v-if="fieldErrors.handicap">
+                    <li v-for="error in fieldErrors.handicap" :key="error" class="text-sm text-red-600">
+                        {{ error }}
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="m-6 flex">
             <div class="mr-4">
                 Komi
             </div>
-            <input v-model="komi" class="grow rounded-md" />
+            <div class="grow">
+                <div>
+                    <input v-model="komi" class="w-full rounded-md" />
+                </div>
+                <ul v-if="fieldErrors.komi">
+                    <li v-for="error in fieldErrors.komi" :key="error" class="text-sm text-red-600">
+                        {{ error }}
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="m-6 flex">
             <div class="mr-4">
