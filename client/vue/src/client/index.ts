@@ -165,10 +165,11 @@ class Client {
         this.#deleteToken();
         user.value = null;
     }
-    async register(username: string, email: string, password: string) {
+    async register(username: string, email: string, password: string): Promise<APIResponse<User, UserAuthError>> {
         let response = await this.#post('register', { username, email, password });
-        if (response.status != 201) {
-            throw 'Couldnt register';
+        if (response.status == 400) {
+            let json = await response.json();
+            return new APIResponse({ error: json });
         }
         return await this.login(username, password);
     }
