@@ -1,14 +1,14 @@
 #!/bin/bash
 
-if [[ ! -d goban-python ]]; then
-  git clone https://github.com/dchiquito/goban-python.git
+if [[ ! -d goban-server-django ]]; then
+  git clone https://github.com/go-recordkeeper/goban-server-django.git
 fi
 
 if [[ ! -d goban-vue ]]; then
-  git clone https://github.com/dchiquito/goban-vue.git
+  git clone https://github.com/go-recordkeeper/goban-vue.git
 fi
 
-cd goban-python
+cd goban-server-django
 git pull origin main
 cd ..
 

@@ -2,6 +2,6 @@ acme/
 certs/
 conf.d/
 goban-vue/
-goban-python/
+goban-server-django/
 .env.django
 
