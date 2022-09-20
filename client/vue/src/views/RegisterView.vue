@@ -16,7 +16,7 @@ async function register(e: Event) {
     e.preventDefault();
     let response = await client.register(username.value, email.value, password.value);
     if (response.is_ok()) {
-        router.push({ "name": "records" });
+        router.push({ name: "records" });
     } else {
         fieldErrors.value = response.error();
     }

@@ -15,7 +15,7 @@ async function login(e: Event) {
     e.preventDefault();
     let response = await client.login(username.value, password.value);
     if (response.is_ok()) {
-        router.push({ "name": "records" });
+        router.push({ name: "records" });
     } else {
         fieldErrors.value = response.error();
     }
