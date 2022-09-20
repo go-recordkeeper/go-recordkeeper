@@ -307,6 +307,34 @@ def test_play_big_capture(authenticated_client, record):
 
 
 @pytest.mark.django_db
+@pytest.mark.parametrize(
+    ['handicap', 'colors'],
+    [
+        [0, ['B', 'W', 'B', 'W']],
+        [1, ['B', 'W', 'B', 'W']],  # 1 stone handicap means no komi
+        [2, ['B', 'B', 'W', 'B', 'W']],  # 2 stone handicap means an extra move
+        [3, ['B', 'B', 'B', 'W', 'B', 'W']],
+    ],
+    ids=['0', '1', '2', '3'],
+)
+def test_play_with_handicap(authenticated_client, record, handicap, colors):
+    record.handicap = handicap
+    record.save()
+
+    for i, color in enumerate(colors):
+        response = authenticated_client.post(
+            f'/api/records/{record.id}/play/',
+            {'x': i, 'y': 0},
+            content_type='application/json',
+        )
+        assert response.status_code == 201
+        assert response.json() == {
+            'add': [{'x': i, 'y': 0, 'color': color}],
+            'remove': [],
+        }
+
+
+@pytest.mark.django_db
 def test_delete_record(authenticated_client, record):
     response = authenticated_client.delete(f'/api/records/{record.id}/')
     assert response.status_code == 204

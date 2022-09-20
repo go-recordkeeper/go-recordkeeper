@@ -54,6 +54,8 @@ class Record(models.Model):
 
     @property
     def next_move_color(self):
+        if self.handicap > self.moves.count():
+            return 'B'
         if self.moves.exists():
             last_color = self.moves.last().color
             if last_color == 'B':
