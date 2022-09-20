@@ -27,13 +27,13 @@ export interface Record {
 
 export interface RecordDetail extends Record {
     stones: { x: number, y: number, color: 'B' | 'W' }[],
-    moves: { position: number | null, color: 'B' | 'W', captures: {x: number, y:number}[] }[],
+    moves: { position: number | null, color: 'B' | 'W', captures: { x: number, y: number }[] }[],
 }
 
 export class APIResponse<T, E> {
     #json: T | undefined;
     #error: E | undefined;
-    constructor(arg: {json?: T, error?: E}) {
+    constructor(arg: { json?: T, error?: E }) {
         let { json, error } = arg;
         this.#json = json;
         this.#error = error;
@@ -50,6 +50,13 @@ export class APIResponse<T, E> {
     error(): E {
         return this.#error as E;
     }
+}
+
+export interface UserAuthError {
+    username?: string[],
+    email?: string[],
+    password?: string[],
+    authFailed?: boolean,
 }
 
 export interface UpdateRecordRequest {
@@ -141,14 +148,18 @@ class Client {
             user.value = null;
         }
     }
-    async login(username: string, password: string) {
+    async login(username: string, password: string): Promise<APIResponse<User, UserAuthError>> {
         let response = await this.#post('login', { username, password });
-        if (response.status != 200) {
-            throw 'Bad credentials';
+        if (response.status == 400) {
+            let json = await response.json();
+            return new APIResponse({ error: json });
+        } else if (response.status == 401) {
+            return new APIResponse({ error: { authFailed: true } });
         }
         let token = await response.json();
         this.#setToken(token);
         user.value = await this.getCurrentUser();
+        return new APIResponse({ json: user.value });
     }
     async logout() {
         this.#deleteToken();
