@@ -48,7 +48,6 @@ async function _submit(e: Event) {
         response = await props.update(updateRequest);
     }
     if (response && response.is_err()) {
-        console.error('erroneous', response.error());
         fieldErrors.value = response.error();
     }
 }

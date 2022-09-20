@@ -23,8 +23,11 @@ client.getRecord(props.id).then((detail) => {
 })
 
 async function updateRecord(request: UpdateRecordRequest) {
-    await client.updateRecord(props.id, request);
-    await router.push({ name: 'record', params: { id: props.id } });
+    let response = await client.updateRecord(props.id, request);
+    if (response.is_ok()) {
+        await router.push({ name: 'record', params: { id: props.id } });
+    }
+    return response;
 }
 
 </script>

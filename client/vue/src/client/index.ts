@@ -182,8 +182,13 @@ class Client {
         }
         return new APIResponse({ json });
     }
-    async updateRecord(id: number, request: UpdateRecordRequest): Promise<void> {
-        await this.#put(`records/${id}`, request);
+    async updateRecord(id: number, request: UpdateRecordRequest): Promise<APIResponse<Record, RecordError>> {
+        let response = await this.#put(`records/${id}`, request);
+        let json = await response.json();
+        if (response.status == 400) {
+            return new APIResponse({ error: json });
+        }
+        return new APIResponse({ json });
     }
     async deleteRecord(id: number) {
         await this.#delete(`records/${id}`);
