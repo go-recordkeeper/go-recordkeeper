@@ -30,6 +30,28 @@ export interface RecordDetail extends Record {
     moves: { position: number | null, color: 'B' | 'W', captures: {x: number, y:number}[] }[],
 }
 
+export class APIResponse<T, E> {
+    #json: T | undefined;
+    #error: E | undefined;
+    constructor(arg: {json?: T, error?: E}) {
+        let { json, error } = arg;
+        this.#json = json;
+        this.#error = error;
+    }
+    is_ok() {
+        return this.#json !== undefined;
+    }
+    is_err() {
+        return this.#error !== undefined;
+    }
+    json(): T {
+        return this.#json as T;
+    }
+    error(): E {
+        return this.#error as E;
+    }
+}
+
 export interface UpdateRecordRequest {
     name: string | null,
     black_player: string,
@@ -50,6 +72,13 @@ export interface CreateRecordRequest {
     handicap: number,
     komi: number,
     ruleset: Ruleset,
+}
+
+export interface RecordError {
+    black_player?: string[],
+    white_player?: string[],
+    komi?: string[],
+    handicap?: string[],
 }
 
 class Client {
