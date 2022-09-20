@@ -174,10 +174,13 @@ class Client {
         let json = await response.json();
         return json
     }
-    async createNewRecord(request: CreateRecordRequest): Promise<number> {
+    async createNewRecord(request: CreateRecordRequest): Promise<APIResponse<Record, RecordError>> {
         let response = await this.#post('records', request);
         let json = await response.json();
-        return json['id'];
+        if (response.status === 400) {
+            return new APIResponse({ error: json });
+        }
+        return new APIResponse({ json });
     }
     async updateRecord(id: number, request: UpdateRecordRequest): Promise<void> {
         await this.#put(`records/${id}`, request);
