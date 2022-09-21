@@ -6,6 +6,7 @@ from datetime import datetime, timedelta, timezone
 import hashlib
 import math
 import os
+import secrets
 from typing import Optional
 from fastapi import HTTPException, Request
 
@@ -33,6 +34,20 @@ def force_bytes(s, encoding="utf-8", errors="strict"):
     if isinstance(s, memoryview):
         return bytes(s)
     return str(s).encode(encoding, errors)
+
+
+def get_random_string(length, allowed_chars=RANDOM_STRING_CHARS):
+    """
+    Return a securely generated random string.
+
+    The bit length of the returned value can be calculated with the formula:
+        log_2(len(allowed_chars)^length)
+
+    For example, with default `allowed_chars` (26+26+10), this gives:
+      * length: 12, bit length =~ 71 bits
+      * length: 22, bit length =~ 131 bits
+    """
+    return "".join(secrets.choice(allowed_chars) for i in range(length))
 
 def mask_hash(hash, show=6, char="*"):
     """
@@ -70,6 +85,16 @@ class PBKDF2PasswordHasher:
     iterations = 390000
     digest = hashlib.sha256
 
+    def salt(self):
+        """
+        Generate a cryptographically secure nonce salt in ASCII with an entropy
+        of at least `salt_entropy` bits.
+        """
+        # Each character in the salt provides
+        # log_2(len(alphabet)) bits of entropy.
+        char_count = math.ceil(128 / math.log2(len(RANDOM_STRING_CHARS)))
+        return get_random_string(char_count, allowed_chars=RANDOM_STRING_CHARS)
+    
     def encode(self, password, salt, iterations=None):
         iterations = iterations or self.iterations
         hash = pbkdf2(password, salt, iterations, digest=self.digest)
