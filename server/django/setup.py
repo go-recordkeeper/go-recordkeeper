@@ -39,6 +39,7 @@ setup(
         'django-cors-headers',
         'django-extensions',
         'djangorestframework',
+        'drf-yasg',
         'psycopg2',
         'pyjwt',
         'sgfmill',
