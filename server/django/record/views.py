@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.http import HttpResponse
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import mixins, serializers, status, viewsets
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -212,6 +213,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email']
 
 
+@swagger_auto_schema(method='POST', request_body=LoginSerializer, responses={201: ''})
 @api_view(['POST'])
 def login_view(request):
     serializer = LoginSerializer(data=request.data)
@@ -223,6 +225,7 @@ def login_view(request):
     return Response(token, status=status.HTTP_200_OK)
 
 
+@swagger_auto_schema(method='POST', request_body=RegisterSerializer)
 @api_view(['POST'])
 def register_view(request):
     serializer = RegisterSerializer(data=request.data)
