@@ -4,10 +4,7 @@ from typing import Optional
 from sqlalchemy import Column, Integer, String, create_engine, select, text
 from sqlalchemy.orm import Session, registry
 
-POSTGRES_USER = environ['POSTGRES_USER']
-POSTGRES_PASSWORD = environ['POSTGRES_PASSWORD']
-POSTGRES_NAME = environ['POSTGRES_NAME']
-POSTGRES_HOST = environ['POSTGRES_HOST']
+from goban_server_fastapi.settings import *
 
 engine = create_engine(f'postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/{POSTGRES_NAME}', echo=True, future=True)
 

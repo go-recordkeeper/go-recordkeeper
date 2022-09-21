@@ -3,7 +3,7 @@ from typing import Union
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from goban_server_fastapi.auth import PBKDF2PasswordHasher
+from goban_server_fastapi.auth import PBKDF2PasswordHasher, generate_token
 from goban_server_fastapi.models import get_user
 
 class LoginRequest(BaseModel):
@@ -13,7 +13,7 @@ class LoginRequest(BaseModel):
 app = FastAPI()
 
 
-@app.post('/api/login')
+@app.post('/api/login', status_code=200)
 def login(login: LoginRequest):
     print('try dat login', login)
     u = get_user(login.username)
@@ -21,14 +21,5 @@ def login(login: LoginRequest):
         print(u, u.username, u.password)
         hasher = PBKDF2PasswordHasher()
         if hasher.verify(login.password, u.password):
-            return 'yes'
-    return 'no'
-
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+            return generate_token(u.id)
+    return Response(status_code=401)

@@ -2,8 +2,14 @@
 # compatibility with Django auth models.
 
 import base64
+from datetime import datetime, timedelta, timezone
 import hashlib
 import math
+import os
+
+import jwt
+
+from goban_server_fastapi.settings import *
 
 RANDOM_STRING_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
@@ -100,3 +106,11 @@ class PBKDF2PasswordHasher:
         extra_iterations = self.iterations - decoded["iterations"]
         if extra_iterations > 0:
             self.encode(password, decoded["salt"], extra_iterations)
+
+
+def generate_token(user_id):
+    return jwt.encode(
+        {'id': user_id, 'exp': datetime.now(tz=timezone.utc) + timedelta(days=1)},
+        key=SECRET_KEY,
+        algorithm='HS256',
+    )
