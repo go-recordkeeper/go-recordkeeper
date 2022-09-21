@@ -6,5 +6,5 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /goban
 COPY setup.py /goban/
-RUN pip install .
+RUN pip install --no-cache-dir .
 COPY . /goban/
