@@ -35,7 +35,7 @@ setup(
     packages=find_namespace_packages(include=['goban*']),
     include_package_data=True,
     install_requires=[
-        'django~=4.1.0',
+        'django~=4.1.1',
         'django-cors-headers',
         'django-extensions',
         'djangorestframework',
