@@ -24,7 +24,11 @@ class User(Base):
     username = Column(String(150))
     email = Column(String(254))
 
-def get_user(username: str) -> Optional[User]:
+def get_user(id: Optional[int] = None, username: Optional[str] = None) -> Optional[User]:
     with Session(engine) as session:
-        stmt = select(User).where(User.username == username)
+        stmt = select(User)
+        if id is not None:
+            stmt = stmt.where(User.id == id)
+        if username is not None:
+            stmt = stmt.where(User.username == username)
         return session.scalars(stmt).first()
