@@ -1,0 +1,34 @@
+<div class="post container">
+    <div class="post-header-section">
+        <h1>{{ .Title }}</h1>
+        <small role="doc-subtitle">{{ .Description }}</small>
+        <p class="post-date">
+            {{ dateFormat "January 2, 2006" .Date }}
+        </p>
+
+        <ul class="post-tags">
+        {{ range .Params.tags }}
+            <li class="post-tag"><a href="{{ "/tags/" | absLangURL }}{{ . | urlize }}">{{ . }}</a></li>
+        {{ end }}
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            {{ .Content }}
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        {{ if .Prev }}
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="{{ .Prev.RelPermalink }}"> {{ .Prev.LinkTitle }} </a>
+            </div>
+        {{ end }}
+        {{ if .Next }}
+            <div style="flex-grow: 1; font-size: 16px; text-align: right;">
+                Next: <a href="{{ .Next.RelPermalink }}"> {{ .Next.LinkTitle }} </a>
+            </div>
+        {{ end }}
+    </div>
+</div>
