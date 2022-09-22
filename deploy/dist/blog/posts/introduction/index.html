@@ -150,15 +150,15 @@
 
         <ul class="post-tags">
         
-            <li class="post-tag"><a href="https://go.chiquit.ooo/tags/roadmap">roadmap</a></li>
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/roadmap">roadmap</a></li>
         
         </ul>
     </div>
 
     <div class="post-content">
         <p>
-            <p>I like to play the board game <a href="https://en.wikipedia.org/wiki/Go_(game)">go</a>. Personally, I find that go is more conversational than adversarial. You and your opponent will both have ideas and opinions, you&rsquo;ll ask each other questions, find surprising answers, be refuted or vindicated. Of course, at the end of the game someone wins, but that&rsquo;s just the topic; for me, the joy is in the discussion.</p>
-<p>After finishing a game, it&rsquo;s sometimes nice to go over the highlights with your opponent, or use an AI to get the &ldquo;objectively&rdquo; right answers. When playing on a go server reviewing the game is trivial, but when playing in person on a physical board, you need to record the game yourself with pencil and paper, an app, or on a website. After struggling to use <a href="https://online-go.com/">OGS</a> on my phone (otherwise a fantastic site, I highly recommend it), I decided that I would build a game recorder that suited my needs.</p>
+            <p>I like to play the board game <a href="https://en.wikipedia.org/wiki/Go_(game)">Go</a>. Personally, I find that Go is more conversational than adversarial. You and your opponent will both have ideas and opinions, you&rsquo;ll ask each other questions, find surprising answers, be refuted or vindicated. Of course, at the end of the game someone wins, but that&rsquo;s just the topic; for me, the joy is in the discussion.</p>
+<p>After finishing a game, it&rsquo;s sometimes nice to Go over the highlights with your opponent, or use an AI to get the &ldquo;objectively&rdquo; right answers. When playing on a Go server reviewing the game is trivial, but when playing in person on a physical board, you need to record the game yourself with pencil and paper, an app, or on a website. After struggling to use <a href="https://online-go.com/">OGS</a> on my phone (otherwise a fantastic site, I highly recommend it), I decided that I would build a game recorder that suited my needs.</p>
 <p><a href="https://go.chiquit.ooo/">So I did</a>.</p>
 <p>Go Recordkeeper is designed to:</p>
 <ul>
@@ -172,10 +172,31 @@
 <p>That&rsquo;s it. It doesn&rsquo;t do much, but it does it fairly well.</p>
 <p>For next steps, it would be fun to plug in <a href="https://katagotraining.org/">Katago</a> and get AI reviews, or to build a full-fledged variation branch explorer, or to let users play eachother online. However, there are already <a href="https://online-go.com/">plenty</a> <a href="https://ai-sensei.com/">of</a> <a href="https://pandanet-igs.com/communities/gopanda2">other</a> <a href="http://www.tygemgo.com/">existing</a> <a href="https://www.gokgs.com/">services</a> that do that better. So, what to do with my copious free time?</p>
 <h3 id="the-plan">The plan</h3>
-<p>Instead of building out more features I don&rsquo;t really need, my plan is to rewrite the existing app using new technologies and languages I&rsquo;d like to learn. Go Recordkeeper is very simple as web applications go, and I&rsquo;ve already built it once, so rebuilding it should be relatively easy (lol).</p>
+<p>Instead of building out more features I don&rsquo;t really need, my plan is to rewrite the existing app using new languages I&rsquo;d like to learn. I&rsquo;m specifically interested in server applications (all frontend frameworks are just Javascript), so as long as the new servers are compliant with the reference implementation, then they should just plug right in to the web client and the database. Go Recordkeeper is very simple as web applications go so it shouldn&rsquo;t be too terribly timeconsuming to reimplement, but it still includes basically everything a &ldquo;real&rdquo; REST API would need. In every new language, I will need to figure out:</p>
+<ul>
+<li><strong>Web servers</strong> - There are plenty of web frameworks out there, but setting them up is definitely non-trivial.</li>
+<li><strong>Databases</strong> - The application obviously needs to read and write data to the database.</li>
+<li><strong>Authentication</strong> - The reference implementation specifies a simple API and password hashing scheme.</li>
+<li><strong>The rules of Go</strong> - Determining when a group of stones has been captured is a pure algorithmic problem.</li>
+<li><strong>Tests</strong> - Compliance with the specification is impossible without testing.</li>
+</ul>
+<p>Each implementation should be a drop-in replacement for every other. Ideally, I&rsquo;d like to deploy them all simultaneously and load balance between them</p>
+<h3 id="but-why">But why?</h3>
+<p>Yeah, I admit I&rsquo;m not going to have very much to show for all my effort at the end of the day. I&rsquo;m basically building solutions to a problem I have already solved.</p>
+<p>On the other hand, this is a great way to focus specifically on learning a new language. Whenever I&rsquo;ve started learning a new language in the past, I&rsquo;m either doing it because a language is the best way to solve a problem I have, or out of pure interest in some feature of the language. When I have a problem, understanding and conceptualizing it is always a time consuming distraction from adapting to the new language. However, when I don&rsquo;t have a problem, I don&rsquo;t have any reasons to actually write code.</p>
+<p>Since I&rsquo;m the only stakeholder and I&rsquo;ve already written Go Recordkeeper once, I have a very firm understanding of the requirements, the API surface, and the design principles involved. Since I already have the answers, I don&rsquo;t need to waste any time or effort on the bigger picture; I can just write code.</p>
 <p>This blog exists to document that journey and to practice the fine art of technical writing. My motives are mostly selfish, but if any of it ever proves useful to anyone else, that&rsquo;d be pretty cool.</p>
 
         </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+        
+            <div style="flex-grow: 1; font-size: 16px; text-align: right;">
+                Next: <a href="/blog/posts/state-of-the-app/"> State of the App </a>
+            </div>
+        
     </div>
 </div>
 
@@ -184,7 +205,7 @@
     
 
         </main><footer class="footer">
-    <span>&copy; 2022 </span>
+    <span>&copy; 2022 Daniel Chiquito</span>
     <span>
         Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
     </span>
