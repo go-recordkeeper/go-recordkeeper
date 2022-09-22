@@ -1,4 +1,35 @@
-baseURL = 'http://example.org/'
+baseURL = 'http://go.chiquit.ooo/blog/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+defaultContentLanguage = "en"
+title = 'Dev Blog'
 theme = 'gokarna'
+
+[params]
+  avatarURL = 'images/mrbubz.jpg'
+  avatarSize = 'size-xl'
+  description = 'Records of the Go Recordkeeper'
+
+[menu]
+  [[menu.main]]
+    name = "Home"
+    pre = "<span data-feather='home'></span>"
+    url = "/"
+    weight = 1
+
+  [[menu.main]]
+    name = "Posts"
+    pre = "<span data-feather='book'></span>"
+    url = "/posts/"
+    weight = 2
+
+  [[menu.main]]
+    name = "Tags"
+    pre = "<span data-feather='tag'></span>"
+    url = "/tags/"
+    weight = 4
+
+  [[menu.main]]
+    identifier = "github"
+    pre = "<span data-feather='github'></span>"
+    url = "https://github.com/go-recordkeeper"
+    weight = 5
