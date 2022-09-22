@@ -11,6 +11,12 @@ theme = 'gokarna'
 
 [menu]
   [[menu.main]]
+    name = "App"
+    pre = "<span data-feather='external-link'></span>"
+    url = "https://go.chiquit.ooo/"
+    weight = 1
+
+  [[menu.main]]
     name = "Home"
     pre = "<span data-feather='home'></span>"
     url = "/"
