@@ -6,15 +6,26 @@
     <description>Recent content on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 21 Sep 2022 18:55:29 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 22 Sep 2022 10:48:24 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>State of the App</title>
+      <link>https://go.chiquit.ooo/blog/posts/state-of-the-app/</link>
+      <pubDate>Thu, 22 Sep 2022 10:48:24 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/state-of-the-app/</guid>
+      <description>Before I get into the technical details of the new apps I&amp;rsquo;m building, it would be helpful to describe the reference implementation, you know, for reference.
+The app, in a nutshell Go Recordkeeper is a relatively simple Single Page Application. You can:
+ Log in + Sign up Create new records See/edit your old records Add/undo moves in a record Review the moves played in a record Download .sgf files containing records  The intended user is of course me, but I wanted to add a proper auth flow and support multiple users so that anyone who wants to use it, can.</description>
+    </item>
+    
     <item>
       <title>Introduction to Go Recordkeeper</title>
       <link>https://go.chiquit.ooo/blog/posts/introduction/</link>
       <pubDate>Wed, 21 Sep 2022 18:55:29 -0400</pubDate>
       
       <guid>https://go.chiquit.ooo/blog/posts/introduction/</guid>
-      <description>I like to play the board game go. Personally, I find that go is more conversational than adversarial. You and your opponent will both have ideas and opinions, you&amp;rsquo;ll ask each other questions, find surprising answers, be refuted or vindicated. Of course, at the end of the game someone wins, but that&amp;rsquo;s just the topic; for me, the joy is in the discussion.
-After finishing a game, it&amp;rsquo;s sometimes nice to go over the highlights with your opponent, or use an AI to get the &amp;ldquo;objectively&amp;rdquo; right answers.</description>
+      <description>I like to play the board game Go. Personally, I find that Go is more conversational than adversarial. You and your opponent will both have ideas and opinions, you&amp;rsquo;ll ask each other questions, find surprising answers, be refuted or vindicated. Of course, at the end of the game someone wins, but that&amp;rsquo;s just the topic; for me, the joy is in the discussion.
+After finishing a game, it&amp;rsquo;s sometimes nice to Go over the highlights with your opponent, or use an AI to get the &amp;ldquo;objectively&amp;rdquo; right answers.</description>
     </item>
     
   </channel>
