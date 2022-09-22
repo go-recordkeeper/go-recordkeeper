@@ -9,6 +9,12 @@ theme = 'gokarna'
   avatarSize = 'size-xl'
   description = 'Records of the Go Recordkeeper'
 
+[markup]
+  [markup.tableOfContents]
+    startLevel = 1
+    endLevel = 3
+    ordered = false
+
 [menu]
   [[menu.main]]
     name = "App"
