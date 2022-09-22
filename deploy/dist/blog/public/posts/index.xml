@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Dev Blog</title>
+    <link>http://go.chiquit.ooo/blog/posts/</link>
+    <description>Recent content in Posts on Dev Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 21 Sep 2022 18:55:29 -0400</lastBuildDate><atom:link href="http://go.chiquit.ooo/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introduction to Go Recordkeeper</title>
+      <link>http://go.chiquit.ooo/blog/posts/introduction/</link>
+      <pubDate>Wed, 21 Sep 2022 18:55:29 -0400</pubDate>
+      
+      <guid>http://go.chiquit.ooo/blog/posts/introduction/</guid>
+      <description>I like to play the board game go. Personally, I find that go is more conversational than adversarial. You and your opponent will both have ideas and opinions, you&amp;rsquo;ll ask each other questions, find surprising answers, be refuted or vindicated. Of course, at the end of the game someone wins, but that&amp;rsquo;s just the topic; for me, the joy is in the discussion.
+After finishing a game, it&amp;rsquo;s sometimes nice to go over the highlights with your opponent, or use an AI to get the &amp;ldquo;objectively&amp;rdquo; right answers.</description>
+    </item>
+    
+  </channel>
+</rss>

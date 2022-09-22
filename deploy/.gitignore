@@ -3,5 +3,6 @@ certs/
 conf.d/
 goban-vue/
 goban-server-django/
+devblog/
 .env.django
 
