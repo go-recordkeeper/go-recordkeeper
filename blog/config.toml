@@ -8,6 +8,7 @@ theme = 'gokarna'
   avatarURL = '/images/mrbubz.jpg'
   avatarSize = 'size-xl'
   description = 'Records of the Go Recordkeeper'
+  footer = 'Daniel Chiquito'
 
 [markup]
   [markup.tableOfContents]
