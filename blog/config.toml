@@ -1,4 +1,4 @@
-baseURL = 'http://go.chiquit.ooo/blog/'
+baseURL = 'http://go.chiquit.ooo/blog'
 languageCode = 'en-us'
 defaultContentLanguage = "en"
 title = 'Dev Blog'
