@@ -39,6 +39,10 @@ import { user } from '@/client';
                   class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                   Home
                 </RouterLink>
+                <a href="/blog"
+                  class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                  Blog
+                </a>
                 <RouterLink :to="{ 'name': 'records' }" v-if="user"
                   class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                   Games
@@ -74,6 +78,10 @@ import { user } from '@/client';
             class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
             Home
           </RouterLink>
+          <a href="/blog" @click="close"
+            class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+            Blog
+          </a>
           <RouterLink :to="{ 'name': 'records' }" v-if="user" @click="close"
             class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
             Games
