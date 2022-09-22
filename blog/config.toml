@@ -5,7 +5,7 @@ title = 'Dev Blog'
 theme = 'gokarna'
 
 [params]
-  avatarURL = 'images/mrbubz.jpg'
+  avatarURL = '/images/mrbubz.jpg'
   avatarSize = 'size-xl'
   description = 'Records of the Go Recordkeeper'
 
