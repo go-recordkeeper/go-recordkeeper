@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Systemd Is Cool</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='systemd, infrastructure'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/systemd-is-cool/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Systemd Is Cool">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Systemd Is Cool">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/systemd-is-cool/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/systemd-is-cool/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/systemd-is-cool/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Systemd Is Cool</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 2, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/systemd">systemd</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/infrastructure">infrastructure</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h1 id="and-everything-crashed">And everything crashed</h1>
+<p>To quote the <a href="https://go.chiquit.ooo/blog/posts/state-of-the-app/">last post</a>:</p>
+<blockquote>
+<p>Going forward, I&rsquo;d like to set up some scheduled database dumps as backups (even though the data is not very important and I&rsquo;m backing it up manually), and <strong>set up a systemd service to start/restart the service automatically if my power ever goes out</strong>.</p>
+</blockquote>
+<p>The first time I left to play go without double checking the server, it was down. The <code>docker-compose logs</code> don&rsquo;t show anything crash-like, so it&rsquo;s likely that power was interrupted and the Raspberry Pi restarted silently without restarting the service.</p>
+<p>(There are also a lot fun nginx logs showing IP scanning, and a lot of less fun nginx logs showing scripts trying all the default login endpoints, but that&rsquo;s probably nothing the worry about.)</p>
+<p>Time to set up something more sophisticated than <code>docker-compose up -d</code>.</p>
+<h1 id="intro-to-systemd">Intro to systemd</h1>
+<p><a href="https://systemd.io/">systemd</a> provides a uniform interface to run and manage background processes (&ldquo;daemons&rdquo;) in Linux.  It&rsquo;s installed by default in Ubuntu (my dev environment) and Manjaro (my production environment), so extra dependencies added.</p>
+<p>systemd does a lot of things, but I only need it to:</p>
+<ol>
+<li>Start our <code>docker-compose</code> service when the server boots</li>
+<li>Restart the <code>docker-compose</code> service if it crashes</li>
+</ol>
+<p>The plan is to add a new file <code>/etc/systemd/system/goban.service</code> which contains everything systemd needs to know to start/restart/manage the goban server. Fortunately, my configuration is pretty simple, so I basically just cribbed everything from <a href="https://www.howtogeek.com/devops/how-to-add-your-own-services-to-systemd-for-easier-management/">https://www.howtogeek.com/devops/how-to-add-your-own-services-to-systemd-for-easier-management/</a>, (great page).</p>
+<p>The only snafu is that the service needs to know where the <code>docker-compose.yml</code> file is so it can run <code>docker-compose</code>. In this case, I technically know exactly where I cloned the repo so I technically could just hardcode that URL, but that&rsquo;s a bit sketchy and will probably lead to bugs in the future if I ever need to reinstall the service on different hardware in a different location.</p>
+<p>My solution was to turn the service file into a template and write an install script that fills out the template. <a href="https://github.com/go-recordkeeper/goban-deploy/blob/ac4628686abe97464fe195d309e2b814270860c9/goban.service"><code>goban.service</code></a> contains this crucial line:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-service" data-lang="service"><span style="color:#a6e22e">WorkingDirectory</span><span style="color:#f92672">=</span><span style="color:#e6db74">${WORKING_DIRECTORY}</span>
+</code></pre></div><p><a href="https://github.com/go-recordkeeper/goban-deploy/blob/ac4628686abe97464fe195d309e2b814270860c9/install-service.sh"><code>install-service.sh</code></a> looks something like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span>
+export WORKING_DIRECTORY<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>
+
+cat goban.service | envsubst &gt; /tmp/goban.service
+sudo cp /tmp/goban.service /etc/systemd/system/goban.service
+sudo chmod <span style="color:#ae81ff">644</span> /etc/systemd/system/goban.service
+rm /tmp/goban.service
+</code></pre></div><p>There&rsquo;s a little bit of magic happening there. First we use <code>pwd</code> to set <code>$WORKING_DIRECTORY</code> to the current directory, which is hopefully also the project root, where the <code>docker-compose.yml</code> file is. If it isn&rsquo;t, well, that sucks ¯\_(ツ)_/¯</p>
+<p>Next we use <a href="https://www.man7.org/linux/man-pages/man1/envsubst.1.html"><code>envsubst</code></a> to evaluate any bash variable expression in the <a href="https://github.com/go-recordkeeper/goban-deploy/blob/ac4628686abe97464fe195d309e2b814270860c9/goban.service"><code>goban.service</code></a> file. I&rsquo;d never heard of this tool before, but it&rsquo;s pretty neat and works really well.</p>
+<p>Finally, rather than piping the output directly to <code>/etc/systemd/system/goban.service</code>, we write it first to a temporary file. I did this because <code>/etc/</code> is owned by <code>root</code>, and for some reason <code>sudo echo &quot;foo&quot; &gt; /etc/foo</code> encounters a <code>Permission Denied</code> error. I would have assumed that the sudo would also apply to output piping, but what do I know. Using an intermediary temporary file is considerably more verbose, but not harmful, so ¯\_(ツ)_/¯</p>
+<h1 id="deploying">Deploying</h1>
+<p>Deployment was as easy as:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">./install-service.sh
+<span style="color:#75715e"># Force systemd to check for new service files</span>
+sudo systemctl daemon-reload
+<span style="color:#75715e"># Tell systemd to start the service on boot</span>
+sudo systemctl enable goban
+<span style="color:#75715e"># Start the service</span>
+sudo systemctl start goban
+</code></pre></div><p>And now the app comes back up momentarily whenever the server is rebooted! (It actually takes a couple of minutes which kinda sucks, but the Raspberry Pi is indeed very small and we should thank it for doing its best.)</p>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/state-of-the-app/"> State of the App </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#and-everything-crashed">And everything crashed</a></li>
+    <li><a href="#intro-to-systemd">Intro to systemd</a></li>
+    <li><a href="#deploying">Deploying</a></li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

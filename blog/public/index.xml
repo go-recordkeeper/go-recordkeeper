@@ -6,7 +6,18 @@
     <description>Recent content on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 22 Sep 2022 10:48:24 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 02 Oct 2022 22:17:12 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Systemd Is Cool</title>
+      <link>https://go.chiquit.ooo/blog/posts/systemd-is-cool/</link>
+      <pubDate>Sun, 02 Oct 2022 22:17:12 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/systemd-is-cool/</guid>
+      <description>And everything crashed To quote the last post:
+ Going forward, I&amp;rsquo;d like to set up some scheduled database dumps as backups (even though the data is not very important and I&amp;rsquo;m backing it up manually), and set up a systemd service to start/restart the service automatically if my power ever goes out.
+ The first time I left to play go without double checking the server, it was down. The docker-compose logs don&amp;rsquo;t show anything crash-like, so it&amp;rsquo;s likely that power was interrupted and the Raspberry Pi restarted silently without restarting the service.</description>
+    </item>
+    
     <item>
       <title>State of the App</title>
       <link>https://go.chiquit.ooo/blog/posts/state-of-the-app/</link>
