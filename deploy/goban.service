@@ -1,0 +1,19 @@
+[Unit]
+Description=Goban Server
+After=network.target
+# StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=daniel
+WorkingDirectory=${WORKING_DIRECTORY}
+ExecStartPre=
+ExecStart=/usr/bin/docker compose up
+ExecStartPost=
+ExecStop=
+ExecReload=
+
+[Install]
+WantedBy=multi-user.target
