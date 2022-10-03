@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Dev Blog</title>
-    <link>https://go.chiquit.ooo/blog/posts/</link>
-    <description>Recent content in Posts on Dev Blog</description>
+    <title>infrastructure on Dev Blog</title>
+    <link>https://go.chiquit.ooo/blog/tags/infrastructure/</link>
+    <description>Recent content in infrastructure on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 02 Oct 2022 22:17:12 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 02 Oct 2022 22:17:12 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/infrastructure/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Systemd Is Cool</title>
       <link>https://go.chiquit.ooo/blog/posts/systemd-is-cool/</link>
@@ -27,16 +27,6 @@
       <description>Before I get into the technical details of the new apps I&amp;rsquo;m building, it would be helpful to describe the reference implementation, you know, for reference.
 The app, in a nutshell Go Recordkeeper is a relatively simple Single Page Application. You can:
  Log in + Sign up Create new records See/edit your old records Add/undo moves in a record Review the moves played in a record Download .sgf files containing records  The intended user is of course me, but I wanted to add a proper auth flow and support multiple users so that anyone who wants to use it, can.</description>
-    </item>
-    
-    <item>
-      <title>Introduction to Go Recordkeeper</title>
-      <link>https://go.chiquit.ooo/blog/posts/introduction/</link>
-      <pubDate>Wed, 21 Sep 2022 18:55:29 -0400</pubDate>
-      
-      <guid>https://go.chiquit.ooo/blog/posts/introduction/</guid>
-      <description>I like to play the board game Go. Personally, I find that Go is more conversational than adversarial. You and your opponent will both have ideas and opinions, you&amp;rsquo;ll ask each other questions, find surprising answers, be refuted or vindicated. Of course, at the end of the game someone wins, but that&amp;rsquo;s just the topic; for me, the joy is in the discussion.
-After finishing a game, it&amp;rsquo;s sometimes nice to Go over the highlights with your opponent, or use an AI to get the &amp;ldquo;objectively&amp;rdquo; right answers.</description>
     </item>
     
   </channel>

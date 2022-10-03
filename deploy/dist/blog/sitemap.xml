@@ -3,7 +3,22 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://go.chiquit.ooo/blog/</loc>
-    <lastmod>2022-09-22T10:48:24-04:00</lastmod>
+    <lastmod>2022-10-02T22:17:12-04:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/tags/infrastructure/</loc>
+    <lastmod>2022-10-02T22:17:12-04:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/posts/</loc>
+    <lastmod>2022-10-02T22:17:12-04:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/tags/systemd/</loc>
+    <lastmod>2022-10-02T22:17:12-04:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/posts/systemd-is-cool/</loc>
+    <lastmod>2022-10-02T22:17:12-04:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/tags/</loc>
+    <lastmod>2022-10-02T22:17:12-04:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/tags/django/</loc>
     <lastmod>2022-09-22T10:48:24-04:00</lastmod>
@@ -11,13 +26,7 @@
     <loc>https://go.chiquit.ooo/blog/tags/nginx/</loc>
     <lastmod>2022-09-22T10:48:24-04:00</lastmod>
   </url><url>
-    <loc>https://go.chiquit.ooo/blog/posts/</loc>
-    <lastmod>2022-09-22T10:48:24-04:00</lastmod>
-  </url><url>
     <loc>https://go.chiquit.ooo/blog/posts/state-of-the-app/</loc>
-    <lastmod>2022-09-22T10:48:24-04:00</lastmod>
-  </url><url>
-    <loc>https://go.chiquit.ooo/blog/tags/</loc>
     <lastmod>2022-09-22T10:48:24-04:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/tags/vue/</loc>
