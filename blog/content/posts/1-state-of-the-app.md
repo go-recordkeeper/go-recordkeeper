@@ -7,6 +7,7 @@ tags:
   - django
   - vue
   - nginx
+  - infrastructure
 showTableOfContents: true
 ---
 
