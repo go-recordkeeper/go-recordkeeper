@@ -30,3 +30,21 @@ docker-compose build --no-cache
 docker-compose run django ./manage.py migrate
 docker-compose up -d
 ```
+
+## systemd
+Rather than using `docker-compose up -d` to start a backup process, you can instead use the included systemd service. This has the advantage of automatically restarting the service should it crash, and starting the service automatically when the server boots.
+
+```
+# Install the goban.service file to /etc/systemd/system/
+./install-service.sh
+# Force systemd to reload system configurations
+sudo systemctl daemon-reload
+# Run on boot
+sudo systemctl enable goban
+# Start the service
+sudo systemctl start goban
+# Check on the status
+sudo systemctl status goban
+```
+
+You can use either `journalctl -fu goban` or `docker-compose logs` to check the service logs.
