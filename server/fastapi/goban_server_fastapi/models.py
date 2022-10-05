@@ -2,7 +2,7 @@ from datetime import datetime
 from os import environ
 from typing import Optional
 
-from sqlalchemy import Boolean, Column, DateTime, Integer, String, create_engine, insert, select, text
+from sqlalchemy import Boolean, Column, DateTime, Float, Integer, String, create_engine, insert, select, text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session, registry
 
@@ -59,3 +59,31 @@ def create_user(username: str, email: str, password_hash: str) -> Optional[User]
         except IntegrityError as e:
             return None
     return get_user(username=username)
+
+
+class Record(Base):
+    __tablename__ = 'record_record'
+
+    id = Column(Integer, primary_key=True)
+    board_size = Column(Integer)
+    created = Column(DateTime(timezone=True))
+    name = Column(String(200))
+    black_player = Column(String(200))
+    white_player = Column(String(200))
+    comment = Column(String(400))
+    handicap = Column(Integer)
+    komi = Column(Float)
+    ruleset = Column(String(3))
+    owner_id = Column(Integer)
+    winner = Column(String(1))
+
+
+class Move(Base):
+    __tablename__ = 'record_move'
+
+    id = Column(Integer, primary_key=True)
+    position = Column(Integer)
+    color = Column(String(1))
+    move = Column(Integer)
+    record_id = Column(Integer)
+
