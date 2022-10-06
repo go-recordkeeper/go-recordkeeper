@@ -3,14 +3,30 @@ import pytest
 from sqlalchemy import delete
 from sqlalchemy.orm import Session
 
-from goban_server_fastapi.auth import PBKDF2PasswordHasher
+from goban_server_fastapi.auth import PBKDF2PasswordHasher, generate_token
 from goban_server_fastapi.main import app
 from goban_server_fastapi.models import DbClient, Move, Record, User
 
 
 @pytest.fixture
 def client():
-    return TestClient(app)
+    test_client = TestClient(app)
+    return test_client
+
+
+@pytest.fixture
+def user_client_factory():
+    def factory(user):
+        test_client = TestClient(app)
+        token = generate_token(user.id)
+        test_client.headers['Authorization'] = f'Bearer {token}'
+        return test_client
+    return factory
+
+
+@pytest.fixture
+def user_client(user_client_factory, user):
+    return user_client_factory(user)
 
 
 def clean_db(client: DbClient):
