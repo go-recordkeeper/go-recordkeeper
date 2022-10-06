@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Introducing FastAPI</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='fastapi, sqlalchemy, poetry'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/introducing-fastapi/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Introducing FastAPI">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Introducing FastAPI">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/introducing-fastapi/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/introducing-fastapi/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/introducing-fastapi/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Introducing FastAPI</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 5, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/fastapi">fastapi</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/sqlalchemy">sqlalchemy</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/poetry">poetry</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>I decided that my <a href="https://github.com/go-recordkeeper/goban-server-fastapi">first alternative implementation</a> will be using <a href="https://fastapi.tiangolo.com/">FastAPI</a>. FastAPI is purportedly a very lightweight and very fast Python web framework. While Django is &ldquo;batteries included&rdquo;, FastAPI is all about stripped down minimalism.</p>
+<p>I know I hyped up learning funky new languages, but FastAPI is a new framework to me and I will also get some practice good practice reimplementing Django stuff in a somewhat familiar environment where copy/pasting is easy. I predict that future implementations will have a lot more in common with goban-server-fastapi than they will with goban-server-django.</p>
+<h1 id="the-plan">The plan</h1>
+<p>The plan for this implementation is to use <a href="https://fastapi.tiangolo.com/">FastAPI</a> for the web framework (with closely coupled <a href="https://pydantic-docs.helpmanual.io/">Pydantic</a> for validation), <a href="https://www.sqlalchemy.org/">SQLAlchemy</a> as the ORM, and the exact same PostgreSQL database+schema used in the Django implementation. The objective is having a second implementation of the server that can act as a drop-in replacement for the reference implementation from the perspective of the web client, even if it is not 100% identical.</p>
+<p>FastAPI, as previously mentioned, is the hip thing to get things done quick in Python. SQLAlchemy seems to be the most popular and mature ORM outside of Django, so this is a good opportunity for me to broaden my Python horizons a bit while dipping my toes into this whole reimplementation thing. Hopefully I can do a lot of copy-pasting for the boring bits.</p>
+<h1 id="also-introducing-poetry">Also introducing Poetry</h1>
+<p>Incidentally, I completely forgot about <a href="https://python-poetry.org/">Poetry</a> when setting up <a href="https://github.com/go-recordkeeper/goban-server-django">goban-server-django</a>, much to my chagrin. Poetry is a Python dependency manager/packager in the style of <a href="https://yarnpkg.com/">Yarn</a> or <a href="https://doc.rust-lang.org/cargo/">Cargo</a>. The classical alternative (which I used for goban-server-django) is to write a <code>setup.py</code> file describing your package, installing things directly with <code>pip</code>, and managing your own virtual environments (I use <a href="https://virtualenvwrapper.readthedocs.io/en/latest/">virtualenvwrapper</a>). Poetry is generally a nicer experience, although it is still rather young and there are some gotchas.</p>
+<h1 id="first-steps">First steps</h1>
+<p>Installing all the aforementioned dependencies and setting up the basic hello world stuff was pretty straightforward. As promised, FastAPI is quite lightweight.</p>
+<h3 id="docker-compose">docker compose</h3>
+<p>The complications ensued when trying to set up the docker compose environment to test the database connections. The desire is to have the alternative implementations interface with the database schema from the reference implementation, specifically so I don&rsquo;t have to create the schema and manage migrations separately in every project. This means that weirdly, the docker compose configuration needs to reference the goban-server-django docker image so that it can initialize the database.</p>
+<p>I wound up adding a <a href="https://github.com/go-recordkeeper/goban-server-django/blob/main/build-image.sh">build-image.sh</a> script to goban-server-django that would build the Django image and tag it appropriately, which makes it available as a docker image to any other docker compose configurations running on the same machine. In production, this hack is irrelevant because the docker compose configuration will have all implementations available.</p>
+<h3 id="dependencies-just-say-no">Dependencies: just say no</h3>
+<p>Handling docker images that way is kinda janky and I probably should use a container registry like <a href="https://hub.docker.com/">Docker Hub</a> or <a href="https://github.com/features/packages">GitHub Container Registry</a>, but so far the only cloud service I am using is GitHub. <a href="https://github.com/go-recordkeeper/goban-js">goban-js</a>, used to render the game board on the web app, isn&rsquo;t even published on npm; I&rsquo;m just installing it directly from the repository. I kinda like not having those external service dependencies so I&rsquo;m not reliant on staying within the free tier on anything. I&rsquo;m also free to move faster since I don&rsquo;t have to worry about versioning published versions and pushing breaking changes or whatever.</p>
+<h3 id="poetry-in-docker">Poetry in Docker</h3>
+<p>I also ran into some problems writing the <a href="https://github.com/go-recordkeeper/goban-server-fastapi/blob/main/Dockerfile">Dockerfile</a> for the FastAPI implementation. With the traditional <code>setup.py</code> approach, installation in the Dockerfile is as simple as <code>RUN pip install .</code>. Poetry is not included by default in the Python docker image, so <code>pip install &quot;poetry==1.2.1&quot;</code> (or whatever the lateset version is) has to be done before anything else. Since right now I only care about running in development, I opted to use <code>poetry install</code> directly in the Dockerfile rather than <code>poetry build</code>ing a wheel and <code>pip install</code>ing that. That required disabling Poetry&rsquo;s default virtual environment and specifying a bunch of other flags required for Docker compliance. It&rsquo;s pretty messy and I need to make another pass at it before deploying to production.</p>
+<h1 id="authentication">Authentication</h1>
+<p>After getting everything plugged in, it&rsquo;s time to write some business logic. Since you need to be logged in to do anything, I decided to start with the authentication system.</p>
+<p>As a refresher, there are three endpoints:</p>
+<ol>
+<li><strong>POST /login</strong>: Log in an existing user. Returns an authorization token.</li>
+<li><strong>POST /register</strong>: Create a new user, then log them in</li>
+<li><strong>GET /user</strong>: Returns some information about the currently logged in user.</li>
+</ol>
+<p>Additionally, <code>GET /user</code> needs to detect the <code>Authorization: Bearer ...</code> header on the request and do all the requisite authorization checks.</p>
+<p>To no one&rsquo;s surprise, the FastAPI code was refreshingly minimal. The only mildly interesting part was using <a href="https://fastapi.tiangolo.com/tutorial/dependencies/">Dependency</a> as a middleware to check the Authorization header. FastAPI is a very succinct wrapper around <a href="https://www.starlette.io/">Starlette</a>, which has <a href="https://www.starlette.io/middleware/">it&rsquo;s own middleware system</a>. I was initially mislead, but FastAPI dependencies work pretty well. I will say that they seem like they would become quite verbose in larger applications, but obviously that is not the target audience.</p>
+<p>Also to no one&rsquo;s surprise, I had to write a substantial amount of code to get SQLAlchemy working. It&rsquo;s a powerful, fully featured ORM, so that&rsquo;s to be expected. It&rsquo;s not really interesting code so there&rsquo;s not much to say ¯\_(ツ)_/¯</p>
+<h3 id="shameless-theft">Shameless theft</h3>
+<p>Implementing <code>/user</code> endpoints was straightforward; it&rsquo;s just some careful inspection of the Authorization header (conveniently copied from goban-server-django) and a database lookup.</p>
+<p>The fun part was working with passwords. For my own convenience I used the default Django settings wherever possible, which means the password was hashed using <a href="https://en.wikipedia.org/wiki/PBKDF2">PBKDF2</a>. Rather than adding a dependency on Django just for this one password hash (remember: just say no to dependencies), I peeled the Django hash encode/decode implementation out of the <a href="https://github.com/django/django/blob/c58a8acd413ccc992dd30afd98ed900897e1f719/django/contrib/auth/hashers.py#L289">source code</a> and dumped it into <a href="https://github.com/go-recordkeeper/goban-server-fastapi/blob/35ff617ac3f5b1946523dba31af44612cb2408be/goban_server_fastapi/auth.py">auth.py</a>. It&rsquo;s ugly, but for now it works. I will need to trim it down once I have some tests so that I have a convenient reference when implementing it in other languages.</p>
+<h1 id="next-steps">Next steps</h1>
+<p>As of now I have authentication endpoints and SQLAlchemy models for all the relevant tables. The next steps include:</p>
+<ol>
+<li>Adding <a href="https://docs.pytest.org/">pytest</a> for unit testing.</li>
+<li>Adding the rest of the endpoints (much easier with a test framework).</li>
+<li>Writing an integration test suite. If all implementations need to behave identically, we obviously need to test that. It will be a very interesting problem.</li>
+<li>Prepping for production (gunicorn, all settings, docker image, etc.).</li>
+<li>Deploying alongside goban-server-django, with nginx load balancing.</li>
+</ol>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/systemd-is-cool/"> Systemd Is Cool </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-plan">The plan</a></li>
+    <li><a href="#also-introducing-poetry">Also introducing Poetry</a></li>
+    <li><a href="#first-steps">First steps</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#docker-compose">docker compose</a></li>
+            <li><a href="#dependencies-just-say-no">Dependencies: just say no</a></li>
+            <li><a href="#poetry-in-docker">Poetry in Docker</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#authentication">Authentication</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#shameless-theft">Shameless theft</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#next-steps">Next steps</a></li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
