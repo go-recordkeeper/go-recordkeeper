@@ -8,7 +8,6 @@ from sqlalchemy.orm import Session, registry
 
 from goban_server_fastapi.settings import *
 
-engine = create_engine(f'postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/{POSTGRES_NAME}', echo=True, future=True)
 
 mapper_registry = registry()
 Base = mapper_registry.generate_base()
@@ -27,38 +26,6 @@ class User(Base):
     is_active = Column(Boolean())
     date_joined = Column(DateTime(timezone=True))
     last_login = Column(DateTime(timezone=True))
-
-
-def get_user(id: Optional[int] = None, username: Optional[str] = None) -> Optional[User]:
-    with Session(engine) as session:
-        stmt = select(User)
-        if id is not None:
-            stmt = stmt.where(User.id == id)
-        if username is not None:
-            stmt = stmt.where(User.username == username)
-        return session.scalars(stmt).first()
-
-
-def create_user(username: str, email: str, password_hash: str) -> Optional[User]:
-    user = User(
-        username=username,
-        email=email,
-        password=password_hash,
-        first_name='',
-        last_name='',
-        is_superuser=False,
-        is_staff=False,
-        is_active=False,
-        date_joined=datetime.now(),
-        last_login=datetime.now(),
-        )
-    with Session(engine) as session:
-        session.add(user)
-        try:
-            session.commit()
-        except IntegrityError as e:
-            return None
-    return get_user(username=username)
 
 
 class Record(Base):
@@ -87,3 +54,38 @@ class Move(Base):
     move = Column(Integer)
     record_id = Column(Integer)
 
+
+class DbClient:
+    def __init__(self):
+        self.engine = create_engine(f'postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/{POSTGRES_NAME}', echo=True, future=True)
+
+    def get_user(self, id: Optional[int] = None, username: Optional[str] = None) -> Optional[User]:
+        with Session(self.engine) as session:
+            stmt = select(User)
+            if id is not None:
+                stmt = stmt.where(User.id == id)
+            if username is not None:
+                stmt = stmt.where(User.username == username)
+            return session.scalars(stmt).first()
+
+
+    def create_user(self, username: str, email: str, password_hash: str) -> Optional[User]:
+        user = User(
+            username=username,
+            email=email,
+            password=password_hash,
+            first_name='',
+            last_name='',
+            is_superuser=False,
+            is_staff=False,
+            is_active=False,
+            date_joined=datetime.now(),
+            last_login=datetime.now(),
+            )
+        with Session(self.engine) as session:
+            session.add(user)
+            try:
+                session.commit()
+            except IntegrityError as e:
+                return None
+        return self.get_user(username=username)

@@ -11,7 +11,7 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 
 from goban_server_fastapi.auth import PBKDF2PasswordHasher, generate_token, jwt_user
-from goban_server_fastapi.models import User, create_user, get_user
+from goban_server_fastapi.models import User, DbClient
 
 
 class LoginRequest(BaseModel):
@@ -45,13 +45,13 @@ async def request_validation_exception_handler(
         content=fields,
     )
 
-app = FastAPI()
+app = FastAPI(dependencies=[Depends(DbClient)])
 app.add_exception_handler(RequestValidationError, request_validation_exception_handler)
 
 
 @app.post('/api/login/', status_code=200)
-def login(login: LoginRequest):
-    u = get_user(username=login.username)
+def login(login: LoginRequest, db: DbClient = Depends()):
+    u = db.get_user(username=login.username)
     if u is not None:
         hasher = PBKDF2PasswordHasher()
         if hasher.verify(login.password, u.password):
@@ -60,10 +60,10 @@ def login(login: LoginRequest):
 
 
 @app.post('/api/register/', status_code=201, response_model=UserResponse)
-def register(register: RegisterRequest):
+def register(register: RegisterRequest, db: DbClient = Depends()):
     hasher = PBKDF2PasswordHasher()
     password_hash = hasher.encode(register.password, hasher.salt())
-    new_user = create_user(username=register.username, email=register.email, password_hash=password_hash)
+    new_user = db.create_user(username=register.username, email=register.email, password_hash=password_hash)
     if new_user is not None:
         return new_user.__dict__
     else:
