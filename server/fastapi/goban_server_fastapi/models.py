@@ -2,18 +2,29 @@ from datetime import datetime
 from os import environ
 from typing import Optional
 
-from sqlalchemy import Boolean, Column, DateTime, Float, Integer, String, create_engine, insert, select, text
+from sqlalchemy import (
+    Boolean,
+    Column,
+    DateTime,
+    Float,
+    Integer,
+    String,
+    create_engine,
+    insert,
+    select,
+    text,
+)
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session, registry
 
 from goban_server_fastapi.settings import *
 
-
 mapper_registry = registry()
 Base = mapper_registry.generate_base()
 
+
 class User(Base):
-    __tablename__ = 'auth_user'
+    __tablename__ = "auth_user"
 
     id = Column(Integer, primary_key=True)
     password = Column(String(128))
@@ -29,7 +40,7 @@ class User(Base):
 
 
 class Record(Base):
-    __tablename__ = 'record_record'
+    __tablename__ = "record_record"
 
     id = Column(Integer, primary_key=True)
     board_size = Column(Integer)
@@ -46,7 +57,7 @@ class Record(Base):
 
 
 class Move(Base):
-    __tablename__ = 'record_move'
+    __tablename__ = "record_move"
 
     id = Column(Integer, primary_key=True)
     position = Column(Integer)
@@ -57,9 +68,15 @@ class Move(Base):
 
 class DbClient:
     def __init__(self):
-        self.engine = create_engine(f'postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/{POSTGRES_NAME}', echo=True, future=True)
+        self.engine = create_engine(
+            f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/{POSTGRES_NAME}",
+            echo=True,
+            future=True,
+        )
 
-    def get_user(self, id: Optional[int] = None, username: Optional[str] = None) -> Optional[User]:
+    def get_user(
+        self, id: Optional[int] = None, username: Optional[str] = None
+    ) -> Optional[User]:
         with Session(self.engine) as session:
             stmt = select(User)
             if id is not None:
@@ -68,20 +85,21 @@ class DbClient:
                 stmt = stmt.where(User.username == username)
             return session.scalars(stmt).first()
 
-
-    def create_user(self, username: str, email: str, password_hash: str) -> Optional[User]:
+    def create_user(
+        self, username: str, email: str, password_hash: str
+    ) -> Optional[User]:
         user = User(
             username=username,
             email=email,
             password=password_hash,
-            first_name='',
-            last_name='',
+            first_name="",
+            last_name="",
             is_superuser=False,
             is_staff=False,
             is_active=False,
             date_joined=datetime.now(),
             last_login=datetime.now(),
-            )
+        )
         with Session(self.engine) as session:
             session.add(user)
             try:

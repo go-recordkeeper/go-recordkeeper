@@ -1,5 +1,5 @@
-from fastapi.testclient import TestClient
 import pytest
+from fastapi.testclient import TestClient
 from sqlalchemy import delete
 from sqlalchemy.orm import Session
 
@@ -19,8 +19,9 @@ def user_client_factory():
     def factory(user):
         test_client = TestClient(app)
         token = generate_token(user.id)
-        test_client.headers['Authorization'] = f'Bearer {token}'
+        test_client.headers["Authorization"] = f"Bearer {token}"
         return test_client
+
     return factory
 
 
@@ -58,6 +59,7 @@ def user_factory(db: DbClient, faker):
         hasher = PBKDF2PasswordHasher()
         password_hash = hasher.encode(password, hasher.salt())
         return db.create_user(username, email, password_hash)
+
     return factory
 
 

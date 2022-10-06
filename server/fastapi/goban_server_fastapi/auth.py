@@ -2,22 +2,27 @@
 # compatibility with Django auth models.
 
 import base64
-from datetime import datetime, timedelta, timezone
 import hashlib
 import math
 import os
 import secrets
+from datetime import datetime, timedelta, timezone
 from typing import Optional
-from fastapi import HTTPException, Request
 
-from fastapi import Depends
 import jwt
-from starlette.authentication import AuthenticationBackend, AuthCredentials, AuthenticationError, SimpleUser
+from fastapi import Depends, HTTPException, Request
+from starlette.authentication import (
+    AuthCredentials,
+    AuthenticationBackend,
+    AuthenticationError,
+    SimpleUser,
+)
 
+from goban_server_fastapi.models import DbClient, User
 from goban_server_fastapi.settings import *
-from goban_server_fastapi.models import User, DbClient
 
 RANDOM_STRING_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
 
 def force_bytes(s, encoding="utf-8", errors="strict"):
     """
@@ -50,6 +55,7 @@ def get_random_string(length, allowed_chars=RANDOM_STRING_CHARS):
     """
     return "".join(secrets.choice(allowed_chars) for i in range(length))
 
+
 def mask_hash(hash, show=6, char="*"):
     """
     Return the given hash, with only the first ``show`` number shown. The
@@ -59,6 +65,7 @@ def mask_hash(hash, show=6, char="*"):
     masked += char * len(hash[show:])
     return masked
 
+
 def pbkdf2(password, salt, iterations, dklen=0, digest=None):
     """Return the hash of password using pbkdf2."""
     if digest is None:
@@ -67,6 +74,7 @@ def pbkdf2(password, salt, iterations, dklen=0, digest=None):
     password = force_bytes(password)
     salt = force_bytes(salt)
     return hashlib.pbkdf2_hmac(digest().name, password, salt, iterations, dklen)
+
 
 def must_update_salt(salt, expected_entropy):
     # Each character in the salt provides log_2(len(alphabet)) bits of entropy.
@@ -95,7 +103,7 @@ class PBKDF2PasswordHasher:
         # log_2(len(alphabet)) bits of entropy.
         char_count = math.ceil(128 / math.log2(len(RANDOM_STRING_CHARS)))
         return get_random_string(char_count, allowed_chars=RANDOM_STRING_CHARS)
-    
+
     def encode(self, password, salt, iterations=None):
         iterations = iterations or self.iterations
         hash = pbkdf2(password, salt, iterations, digest=self.digest)
@@ -140,30 +148,30 @@ class PBKDF2PasswordHasher:
 
 def generate_token(user_id):
     return jwt.encode(
-        {'id': user_id, 'exp': datetime.now(tz=timezone.utc) + timedelta(days=1)},
+        {"id": user_id, "exp": datetime.now(tz=timezone.utc) + timedelta(days=1)},
         key=SECRET_KEY,
-        algorithm='HS256',
+        algorithm="HS256",
     )
 
 
 def jwt_user(conn: Request, db: DbClient = Depends()) -> Optional[User]:
     if "Authorization" not in conn.headers:
-        raise HTTPException(status_code=401, detail='invalid authorization token')
+        raise HTTPException(status_code=401, detail="invalid authorization token")
 
     authorization = conn.headers["Authorization"]
-    if (not authorization) or (not authorization.startswith('Bearer ')):
-        raise HTTPException(status_code=401, detail='invalid authorization token')
-    token = authorization.removeprefix('Bearer ')
+    if (not authorization) or (not authorization.startswith("Bearer ")):
+        raise HTTPException(status_code=401, detail="invalid authorization token")
+    token = authorization.removeprefix("Bearer ")
 
     try:
-        payload = jwt.decode(token, key=SECRET_KEY, algorithms='HS256')
+        payload = jwt.decode(token, key=SECRET_KEY, algorithms="HS256")
     except jwt.InvalidTokenError:
-        raise HTTPException(status_code=401, detail='invalid authorization token')
-    if 'id' not in payload:
-        raise AuthenticationError(status_code=401, detail='invalid authorization token')
-    
-    user = db.get_user(id=payload['id'])
+        raise HTTPException(status_code=401, detail="invalid authorization token")
+    if "id" not in payload:
+        raise AuthenticationError(status_code=401, detail="invalid authorization token")
+
+    user = db.get_user(id=payload["id"])
     if user is None:
-        raise AuthenticationError(status_code=401, detail='invalid authorization token')
+        raise AuthenticationError(status_code=401, detail="invalid authorization token")
 
     return user
