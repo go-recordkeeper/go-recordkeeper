@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>pytest on Dev Blog</title>
+    <link>https://go.chiquit.ooo/blog/tags/pytest/</link>
+    <description>Recent content in pytest on Dev Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 06 Oct 2022 16:43:23 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/pytest/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FastAPI Testing</title>
+      <link>https://go.chiquit.ooo/blog/posts/4-fastapi-testing/</link>
+      <pubDate>Thu, 06 Oct 2022 16:43:23 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/4-fastapi-testing/</guid>
+      <description>As previously mentioned, the next step is to add pytest for unit testing. Mission accomplished.
+This was pretty run of the mill testing stuff so I didn&amp;rsquo;t really learn anything, but I&amp;rsquo;m trying to write something for every unit of work I do, so I shall expound on my testing philosophies instead.
+Unit tests: just say no For the record, I love tests. I worked for several years doing automated browser testing and enjoyed it.</description>
+    </item>
+    
+  </channel>
+</rss>

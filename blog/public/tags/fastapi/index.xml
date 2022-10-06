@@ -6,7 +6,18 @@
     <description>Recent content in fastapi on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 05 Oct 2022 20:11:48 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/fastapi/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 06 Oct 2022 16:43:23 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/fastapi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FastAPI Testing</title>
+      <link>https://go.chiquit.ooo/blog/posts/4-fastapi-testing/</link>
+      <pubDate>Thu, 06 Oct 2022 16:43:23 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/4-fastapi-testing/</guid>
+      <description>As previously mentioned, the next step is to add pytest for unit testing. Mission accomplished.
+This was pretty run of the mill testing stuff so I didn&amp;rsquo;t really learn anything, but I&amp;rsquo;m trying to write something for every unit of work I do, so I shall expound on my testing philosophies instead.
+Unit tests: just say no For the record, I love tests. I worked for several years doing automated browser testing and enjoyed it.</description>
+    </item>
+    
     <item>
       <title>Introducing FastAPI</title>
       <link>https://go.chiquit.ooo/blog/posts/introducing-fastapi/</link>

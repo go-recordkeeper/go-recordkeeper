@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>FastAPI Testing</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='fastapi, pytest'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/4-fastapi-testing/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="FastAPI Testing">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="FastAPI Testing">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/4-fastapi-testing/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/4-fastapi-testing/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/4-fastapi-testing/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>FastAPI Testing</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 6, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/fastapi">fastapi</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/pytest">pytest</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>As previously mentioned, the next step is to add <a href="https://docs.pytest.org/">pytest</a> for unit testing. Mission accomplished.</p>
+<p>This was pretty run of the mill testing stuff so I didn&rsquo;t really learn anything, but I&rsquo;m trying to write something for every unit of work I do, so I shall expound on my testing philosophies instead.</p>
+<h2 id="unit-tests-just-say-no">Unit tests: just say no</h2>
+<p>For the record, I love tests. I worked for several years doing automated browser testing and enjoyed it. Testing is crucial and no application is complete without an automated test suite.</p>
+<p>Tests prove the correctness of your system, and having correct systems is obviously good. However, tests are code just like the rest of your application, and code is inherently a liability. If you exhaustively test every function, method, and component in your application, then making any change of any kind means a cascade of associated tests that need to be tweaked and refactored. In some exhaustively tested applications, I&rsquo;ve found that PRs tend to have more changes to the test code than to the application code.</p>
+<p>There&rsquo;s an oft cited concept in test automation called the <a href="https://martinfowler.com/articles/practical-test-pyramid.html">Test Pyramid</a> which says that you should have lots of very fast unit tests, fewer system/integration tests, and some token number of UI or full stack tests. I totally agree that more fast tests and fewer slow tests is a great idea, but I&rsquo;m actually not a fan of exhaustive unit testing (🔥 hot take 🔥).</p>
+<h3 id="dont-test-simple-code">Don&rsquo;t test simple code</h3>
+<p>Unit tests are most valuable when you have easily isolated units of complicated code. If the code is simple, it&rsquo;s not necessarily worth it to test. For example, this is a very important yet very simple function that generates the authentication token when a user logs in:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">generate_token</span>(user_id):
+    <span style="color:#66d9ef">return</span> jwt<span style="color:#f92672">.</span>encode(
+        {<span style="color:#e6db74">&#34;id&#34;</span>: user_id, <span style="color:#e6db74">&#34;exp&#34;</span>: datetime<span style="color:#f92672">.</span>now(tz<span style="color:#f92672">=</span>timezone<span style="color:#f92672">.</span>utc) <span style="color:#f92672">+</span> timedelta(days<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)},
+        key<span style="color:#f92672">=</span>SECRET_KEY,
+        algorithm<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;HS256&#34;</span>,
+    )
+</code></pre></div><p>What is there to test? You could verify that the output is shaped like a JWT, or that it decodes correctly with the correct <code>SECRET_KEY</code> and doesn&rsquo;t decode without it, but <a href="https://pyjwt.readthedocs.io/en/latest/">pyjwt</a> has definitely already tested those things more exhaustively than I ever could. Besides, if any of that doesn&rsquo;t work, the tests for the login endpoint will also break.
+The only thing I can possibly think to test is that I did the date math correctly to set the token expiration. Still, it would be more valuable to write a login endpoint test that uses an expired token so that the error handling around the expiration stuff is also tested.</p>
+<p>Ultimately, tests exist to catch and prevent bugs. If a test is so inane that it would never conceivably stop a bug, it shouldn&rsquo;t exist. Focus on testing the complicated code that might be actually be concealing bugs.</p>
+<h2 id="mocks-just-say-no">Mocks: just say no</h2>
+<p>Well, what about unit testing complicated code that has dependencies? Conventional wisdom is to use <a href="https://en.wikipedia.org/wiki/Mock_object">mocks</a> to simulate the behavior of downstream dependencies. This sounds like a great idea if you have code that, for example, calls a database or an external API or does some kind of expensive system call. Instead of doing the thing for real, you just record the expected behavior of the dependency in the test, call the code being tested, and verify that it does the right thing when the dependency behaves as you told it to. Everything runs super fast since nothing external is actually called, and you have the power to test whatever wonky dependency behavior you want.</p>
+<p>I think mocks are awful and should be avoid wherever possible. Managing test data is, in my humble opinion, already one of the hardest problems in automated testing. Now instead of black box tests where you only need to concern yourself with arguments and return values, mocks require you to also hardcode the inputs and outputs from everything your unit is invoking. Encapsulation is completely broken since you need to know exactly what the test code is doing in order to feed it the correct mocks. Your mocks are necessarily tied to the API of your dependencies, which means your test code is too. Worst of all, you don&rsquo;t even know if your code actually works when actually plugged in to all its dependencies because you are only testing it against a fictionalized idealization.</p>
+<p>So how are you supposed to test code that is complicated enough to have bugs but also has external dependencies? Well, that sounds like some 🍝 to me. Refactor it so you have some complicated code with no dependencies, and some simple code with dependencies. Write unit tests for the complicated code and integration tests for the dependency-laden code. Just don&rsquo;t use mocks.</p>
+<p>I&rsquo;m sure someone somewhere is writing an application that interacts with a credit card processing API or something and absolutely, positively must mock it, but I have yet to see that use case. <a href="https://stripe.com/">Stripe</a> has a <a href="https://stripe.com/docs/testing">test server</a>; they should probably use that instead.</p>
+<p>Lots of hot takes here, don&rsquo;t @ me, I don&rsquo;t have twitter</p>
+<h2 id="integration-tests">Integration tests</h2>
+<p>The definitions of &ldquo;unit tests&rdquo;, &ldquo;integration tests&rdquo;, and &ldquo;system tests&rdquo; are all fuzzy and highly debatable. When I think of unit tests, I think of tests for pure code; no extra infrastructure or network requests. When I think of integration tests, I think of tests for code that needs to communicate with external services. You should obviously unit test everything you can unit test, but when building a web service, most of the &ldquo;interesting&rdquo; behavior will be related to its integration with other services. Therefore, I recommmend emphasizing integration tests appropriately.</p>
+<h2 id="my-testing-environment">My testing environment</h2>
+<p>That&rsquo;s a lot of words to say that I haven&rsquo;t written any unit tests. I&rsquo;m writing a web application, which means a lot of code is interacting with either FastAPI or SQLAlchemy. If I were to try to test any of that code in isolation, I would need to mock the database, and I ain&rsquo;t doin' that. The only actual business logic I have is the password hashing and JWT stuff. As long as the implementation as a whole behaves identically to the reference implementation, there&rsquo;s no real need to test code I copy/pasted.</p>
+<p>Instead of unit tests, I am writing integration tests. All tests require that a PostgreSQL DB be available. Before every test, the relevant tables in the DB are wiped so that every test starts from a blank slate (pytest-django has <a href="https://pytest-django.readthedocs.io/en/latest/helpers.html#pytest-mark-django-db-request-database-access">something similar</a>, so I made my own, much less cool version). I wrote some Pytest <a href="https://docs.pytest.org/en/7.1.x/explanation/fixtures.html#about-f0ixtures">fixtures</a> that generate a user and store it in the database for tests to access (fixtures are amazing, I highly recommend reading up on them if you&rsquo;re not familiar).</p>
+<p>The downside of this is that tests are relatively slow since actual SQL queries are being made. Right now I have 17 tests for registering and logging in, which run in about 1.6 seconds. In a larger app with more tests, it might easily take multiple minutes to run the whole test suite. In my opinion, I think that&rsquo;s an acceptable price to pay for not having mocks. When working on a specific part of an appp, I run the tests for that specific feature. I only run the whole suite before committing (or in CI), at which point I&rsquo;m not in such a hurry to keep the flow state going.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>The next step is to leverage all this nifty testing infrastructure to add the real business logic of the app. One part of that is refactoring the code that identifies captured groups, which is both very complicated and completely free of dependencies, and therefore unit testable! I actually already have <a href="https://github.com/go-recordkeeper/goban-server-django/blob/main/record/test/test_board_replay.py">unit tests</a> for it from goban-server-django, which should make refactoring much easier.</p>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/introducing-fastapi/"> Introducing FastAPI </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#unit-tests-just-say-no">Unit tests: just say no</a>
+          <ul>
+            <li><a href="#dont-test-simple-code">Don&rsquo;t test simple code</a></li>
+          </ul>
+        </li>
+        <li><a href="#mocks-just-say-no">Mocks: just say no</a></li>
+        <li><a href="#integration-tests">Integration tests</a></li>
+        <li><a href="#my-testing-environment">My testing environment</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
