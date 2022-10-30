@@ -28,6 +28,7 @@ def clean_db():
             "python",
             "manage.py",
             "reset_db",
+            "-c",
             "--noinput",
         ]
     )
@@ -41,7 +42,7 @@ def impl(request):
 
 @pytest.fixture(scope="session")
 def server_under_test(impl):
-    call(["docker", "compose", "up", "-d", impl])
+    call(["docker", "compose", "up", "-d", "--wait", impl])
     yield
     call(["docker", "compose", "stop", impl])
 
