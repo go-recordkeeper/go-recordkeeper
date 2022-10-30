@@ -63,3 +63,31 @@ class LocalhostSession(requests.Session):
 @pytest.fixture
 def client(server_under_test):
     return LocalhostSession()
+
+
+@pytest.fixture
+def django_command():
+    def _command(command):
+        run(["docker", "compose", "run", "--rm", "django", "python", "manage.py", "shell_plus", "-c", f"{command}"])
+    return _command
+
+
+@pytest.fixture
+def user_factory(django_command, faker):
+    def factory(username=None, email=None, password=None):
+        if username is None:
+            username = faker.name()
+        if email is None:
+            email = faker.email()
+        if password is None:
+            password = faker.password()
+        django_command(f"user = User(username='{username}', email='{email}'); user.set_password('{password}'); user.save(); print(user); print('AAAAHHH')")
+        return {"username": username, "email": email, "password": password}
+
+    return factory
+
+
+@pytest.fixture
+def user(user_factory):
+    return user_factory()
+
