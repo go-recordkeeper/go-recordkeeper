@@ -1,0 +1,43 @@
+version: '3'
+services:
+  postgres:
+    image: 'postgres:latest'
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: default
+  
+  django:
+    profiles:
+      - django
+    build: goban-server-django
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./goban-server-django:/goban
+    ports:
+      - 8000:8000
+    environment:
+      GOBAN_DEVELOPMENT: true
+      POSTGRES_NAME: default
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres # this refers to the postgres service above ^
+    depends_on:
+      - postgres
+  
+  fastapi:
+    build: goban-server-fastapi
+    volumes:
+      - ./goban-server-fastapi:/goban
+    ports:
+      - 8000:8000
+    environment:
+      GOBAN_DEVELOPMENT: true
+      POSTGRES_NAME: default
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres # this refers to the postgres service above ^
+    depends_on:
+      - postgres
