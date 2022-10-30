@@ -1,4 +1,4 @@
-from subprocess import call
+from subprocess import run
 from urllib.parse import urljoin
 
 import pytest
@@ -7,18 +7,17 @@ import requests
 
 @pytest.fixture(scope="session", autouse=True)
 def init_db():
-    call(["docker", "compose", "down"])
-    call(
+    run(["docker", "compose", "down"])
+    run(
         ["docker", "compose", "run", "--rm", "django", "python", "manage.py", "migrate"]
     )
     yield
-    # call(["docker", "compose", "run", "--rm", "django", "python", "manage.py", "migrate", "goban", "zero"])
-    call(["docker", "compose", "stop"])
+    run(["docker", "compose", "stop"])
 
 
 @pytest.fixture(scope="function", autouse=True)
 def clean_db():
-    call(
+    run(
         [
             "docker",
             "compose",
@@ -32,6 +31,9 @@ def clean_db():
             "--noinput",
         ]
     )
+    run(
+        ["docker", "compose", "run", "--rm", "django", "python", "manage.py", "migrate"]
+    )
     yield
 
 
@@ -42,10 +44,10 @@ def impl(request):
 
 @pytest.fixture(scope="session")
 def server_under_test(impl):
-    call(["docker", "compose", "--profile", impl, "up", "-d", "--wait"])
+    run(["docker", "compose", "--profile", impl, "up", "-d", "--wait"])
     yield
-    call(["docker", "compose", "--profile", impl, "stop", impl])
-    call(["docker", "compose", "--profile", impl, "rm", "--force", impl])
+    run(["docker", "compose", "--profile", impl, "stop", impl])
+    run(["docker", "compose", "--profile", impl, "rm", "--force", impl])
 
 
 class LocalhostSession(requests.Session):
