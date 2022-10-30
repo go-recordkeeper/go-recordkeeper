@@ -28,6 +28,8 @@ services:
       - postgres
   
   fastapi:
+    profiles:
+      - fastapi
     build: goban-server-fastapi
     volumes:
       - ./goban-server-fastapi:/goban

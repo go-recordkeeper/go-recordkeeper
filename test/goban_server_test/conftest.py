@@ -42,9 +42,10 @@ def impl(request):
 
 @pytest.fixture(scope="session")
 def server_under_test(impl):
-    call(["docker", "compose", "up", "-d", "--wait", impl])
+    call(["docker", "compose", "--profile", impl, "up", "-d", "--wait"])
     yield
-    call(["docker", "compose", "stop", impl])
+    call(["docker", "compose", "--profile", impl, "stop", impl])
+    call(["docker", "compose", "--profile", impl, "rm", "--force", impl])
 
 
 class LocalhostSession(requests.Session):
