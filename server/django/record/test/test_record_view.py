@@ -78,7 +78,7 @@ def test_update_record(authenticated_client, user, record):
         },
         content_type='application/json',
     )
-    assert response.status_code == 201
+    assert response.status_code == 200
     assert response.json() == {
         'id': ANY_INT,
         'owner': user.id,
