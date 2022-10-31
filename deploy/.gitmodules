@@ -1,0 +1,9 @@
+[submodule "goban-server-django"]
+	path = goban-server-django
+	url = git@github.com:go-recordkeeper/goban-server-django.git
+[submodule "goban-vue"]
+	path = goban-vue
+	url = git@github.com:go-recordkeeper/goban-vue.git
+[submodule "devblog"]
+	path = devblog
+	url = git@github.com:go-recordkeeper/devblog.git
