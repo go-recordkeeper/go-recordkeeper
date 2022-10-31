@@ -95,7 +95,7 @@ def test_get_user(user_client, user):
 
 def test_get_user_no_token(client, user):
     response = client.get("/api/user/")
-    assert response.status_code == 401
+    assert response.status_code == 403
 
 
 def test_full_auth_flow(client, user_client_factory, faker):

@@ -156,22 +156,22 @@ def generate_token(user_id):
 
 def jwt_user(conn: Request, db: DbClient = Depends()) -> Optional[User]:
     if "Authorization" not in conn.headers:
-        raise HTTPException(status_code=401, detail="invalid authorization token")
+        raise HTTPException(status_code=403, detail="invalid authorization token")
 
     authorization = conn.headers["Authorization"]
     if (not authorization) or (not authorization.startswith("Bearer ")):
-        raise HTTPException(status_code=401, detail="invalid authorization token")
+        raise HTTPException(status_code=403, detail="invalid authorization token")
     token = authorization.removeprefix("Bearer ")
 
     try:
         payload = jwt.decode(token, key=SECRET_KEY, algorithms="HS256")
     except jwt.InvalidTokenError:
-        raise HTTPException(status_code=401, detail="invalid authorization token")
+        raise HTTPException(status_code=403, detail="invalid authorization token")
     if "id" not in payload:
-        raise AuthenticationError(status_code=401, detail="invalid authorization token")
+        raise AuthenticationError(status_code=403, detail="invalid authorization token")
 
     user = db.get_user(id=payload["id"])
     if user is None:
-        raise AuthenticationError(status_code=401, detail="invalid authorization token")
+        raise AuthenticationError(status_code=403, detail="invalid authorization token")
 
     return user
