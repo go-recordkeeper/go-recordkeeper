@@ -89,7 +89,7 @@ def user_client(user_client_factory, user):
 @pytest.fixture
 def django_command():
     def _command(command):
-        run(
+        resp = run(
             [
                 "docker",
                 "compose",
@@ -101,8 +101,11 @@ def django_command():
                 "shell_plus",
                 "-c",
                 f"{command}",
-            ]
+            ],
+            capture_output=True,
         )
+        # There is a lot of import information logged, so attempt to trim it out before returning output
+        return resp.stdout.split(b"\n")[-2]
 
     return _command
 
@@ -116,10 +119,17 @@ def user_factory(django_command, faker):
             email = faker.email()
         if password is None:
             password = faker.password()
-        django_command(
-            f"user = User(username='{username}', email='{email}'); user.set_password('{password}'); user.save();"
+        user_id = django_command(
+            f"user = User(username='{username}', email='{email}'); user.set_password('{password}'); user.save(); print(user.id)"
         )
-        return {"username": username, "email": email, "password": password}
+        user_id = int(user_id.decode('utf-8'))
+
+        return {
+            "username": username,
+            "email": email,
+            "password": password,
+            "id": user_id,
+        }
 
     return factory
 
