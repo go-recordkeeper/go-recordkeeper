@@ -18,13 +18,17 @@ def komi_validator(komi: float):
 
 
 class Record(models.Model):
+    class Size(models.IntegerChoices):
+        NINE = 9, _('9x9')
+        THIRTEEN = 13, _('13x13')
+        NINETEEN = 19, _('19x19')
     class Winner(models.TextChoices):
         BLACK = 'B', _('Black')
         WHITE = 'W', _('White')
         UNDECIDED = 'U', _('Undecided')
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    board_size = models.IntegerField()
+    board_size = models.IntegerField(choices=Size.choices)
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=200, blank=True, default='')
     black_player = models.CharField(max_length=200, default='Black')
