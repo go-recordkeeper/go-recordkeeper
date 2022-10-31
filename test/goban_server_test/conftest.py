@@ -122,7 +122,7 @@ def user_factory(django_command, faker):
         user_id = django_command(
             f"user = User(username='{username}', email='{email}'); user.set_password('{password}'); user.save(); print(user.id)"
         )
-        user_id = int(user_id.decode('utf-8'))
+        user_id = int(user_id.decode("utf-8"))
 
         return {
             "username": username,
@@ -137,3 +137,32 @@ def user_factory(django_command, faker):
 @pytest.fixture
 def user(user_factory):
     return user_factory()
+
+
+@pytest.fixture
+def record_factory(django_command, user):
+    def factory(owner=None, board_size=9):
+        if owner is None:
+            owner = user
+        owner_id = owner["id"]
+        record = django_command(
+            f"""
+owner = User.objects.get(id={owner_id});
+record = Record(owner=owner, board_size={board_size});
+record.save();
+from django.forms import model_to_dict;
+d = model_to_dict(record);
+# Convert choices to real values
+d['winner'] = d['winner'].value;
+print(d);
+"""
+        )
+        record = eval(record.decode("utf-8"))
+        return record
+
+    return factory
+
+
+@pytest.fixture
+def record(record_factory):
+    return record_factory()
