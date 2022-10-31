@@ -6,7 +6,18 @@
     <description>Recent content on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 06 Oct 2022 16:43:23 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 30 Oct 2022 20:23:47 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Integration Testing Harness</title>
+      <link>https://go.chiquit.ooo/blog/posts/5-integration-testing-harness/</link>
+      <pubDate>Sun, 30 Oct 2022 20:23:47 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/5-integration-testing-harness/</guid>
+      <description>I&amp;rsquo;m back from vacation and it&amp;rsquo;s time to get testing. I need a test harness that can verify any goban-server implementation is correct. Every test should be run against a real service with a real database behind it.
+The plan I already have one and a half goban-server implementations written in python and deployed with docker-compose. Therefore,
+ Services being tested are started/stopped using docker-compose. Tests are written in Python+pytest.  Unfortunately, this has some corolaries:</description>
+    </item>
+    
     <item>
       <title>FastAPI Testing</title>
       <link>https://go.chiquit.ooo/blog/posts/4-fastapi-testing/</link>
