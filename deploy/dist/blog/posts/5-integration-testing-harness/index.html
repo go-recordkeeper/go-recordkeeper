@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Integration Testing Harness</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='django, pytest, docker'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/5-integration-testing-harness/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Integration Testing Harness">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Integration Testing Harness">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/5-integration-testing-harness/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/5-integration-testing-harness/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/5-integration-testing-harness/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Integration Testing Harness</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 30, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/django">django</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/pytest">pytest</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/docker">docker</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>I&rsquo;m back from vacation and it&rsquo;s time to get testing. I need a test harness that can verify any goban-server implementation is correct. Every test should be run against a real service with a real database behind it.</p>
+<h2 id="the-plan">The plan</h2>
+<p>I already have one and a half goban-server implementations written in python and deployed with docker-compose. Therefore,</p>
+<ul>
+<li>Services being tested are started/stopped using docker-compose.</li>
+<li>Tests are written in Python+pytest.</li>
+</ul>
+<p>Unfortunately, this has some corolaries:</p>
+<ul>
+<li>Test data is injected by running shell commands on the <code>django</code> container. (?)</li>
+<li><a href="https://docs.python.org/3/library/subprocess.html">subprocess</a> is used to invoke docker-compose to start/stop services and modify the DB. (??)</li>
+</ul>
+<p>Orchestrating test environments and organizing test data are perhaps the two hardest problems in automated testing, especially so for integration tests.</p>
+<h2 id="wow-that-sounds-janky">Wow, that sounds janky</h2>
+<p>Yeah, it is. Fortunately, it all works at the end of the day, so ¯\_(ツ)_/¯</p>
+<h2 id="git-submodule">git submodule</h2>
+<p>The very first obstacle is how to find the code to test. All of the goban-server implementations live in their own repo, but we want all of them available in the <a href="https://github.com/go-recordkeeper/goban-server-test">goban-server-test</a> repo so that we can build and deploy them for testing purposes.</p>
+<p>I&rsquo;ve seen <a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">git submodules</a> before and heard about how scary they are, but honestly they are a pretty elegant solution to exactly this problem. Submodules allow you to include a child git repository as a directory within a parent git repository. On the file system, they exist as a self-contained repository; you can <code>cd</code> in to the child and do whatever git magic you want there. In the parent repository, that directory is tracked as a commit tag; running <code>git submodule update</code> will automatically do a <code>git fetch</code> from within the child and update the tag accordingly.</p>
+<p>In this case, I set up submodules for the <code>goban-server-django</code> and <code>goban-server-fastapi</code> repos. Now you simply have to run <code>git submodule update</code> to pull the latest changes from the implementation repos and run tests against them. You can also add alternative git remotes to the submodules so you aren&rsquo;t forced to push code to master before you test it. All in all, very clean.</p>
+<h2 id="docker-compose">docker compose</h2>
+<p>To start with, the <a href="https://github.com/go-recordkeeper/goban-server-test">goban-server-test</a> <code>docker-compose.yml</code> contains a <code>postgres</code> service defining the DB, and a service for each goban-server implementation (currently just <code>django</code> and <code>fastapi</code>). The implementation services each have their own <code>profile</code>, which informs docker-compose that that service should not be started by default. This lets us use a single file to define all of the test environments.</p>
+<h2 id="-magic-">🪄 magic 🪄</h2>
+<p>The secret ingredient is pytest fixtures. They are beautiful, magical things and I can&rsquo;t imagine writing tests without them.</p>
+<p>This is our testing lifecycle:</p>
+<ul>
+<li>The testing session begins. Delete everything in the docker-compose environment: <code>docker compose down</code></li>
+<li>For each service (<code>django</code> or <code>fastapi</code>) (we&rsquo;ll assume <code>fastapi</code> for illustrative purposes):
+<ul>
+<li>Start it in the background, implicitly starting <code>postgres</code> as well: <code>docker compose up -d fastapi</code></li>
+<li>For each test function:
+<ul>
+<li>Wipe the database: <code>docker compose run --rm django python manage.py reset_db -c --noinput</code>
+<ul>
+<li>There&rsquo;s a lot going on there, so lets step through it:</li>
+<li><code>docker compose run --rm django</code>: Start a fresh <code>django</code> container, run the remainder as a shell command, then delete the container</li>
+<li><code>python manage.py</code>: <code>manage.py</code> is Django&rsquo;s CLI interface. There are several useful subcommands defined by default and by various plugins.</li>
+<li><code>reset_db -c --noinput</code>: <code>reset_db</code> is defined in the <code>django-extensions</code> plugin and basically just drops all your tables. <code>-c</code> tells it to close all sessions first, and <code>--noinput</code> forces it to skip prompting the user for confirmation.</li>
+</ul>
+</li>
+<li>Set up all the DB tables again: <code>docker compose run --rm django python manage.py migrate</code></li>
+<li>Execute the test</li>
+</ul>
+</li>
+<li>Stop the service: <code>docker compose stop fastapi</code> (fun fact, this leaves <code>postgres</code> running)</li>
+<li>Delete the service container: <code>docker compose rm fastapi</code></li>
+</ul>
+</li>
+</ul>
+<p>The entire test environment is contained in docker-compose, so we can simply invoke all of those <code>docker compose</code> commands using <code>subprocess.run</code> and everything pretty much just works. That entire workflow is defined in four relatively concise fixtures.</p>
+<p>There are sadly some assumptions made that the user has all the docker compose stuff installed correctly and isn&rsquo;t running anything on the required ports, but hey, you can&rsquo;t have everything.</p>
+<h2 id="test-data-generallly">Test data, generallly</h2>
+<p>As previously mentioned, one of the perennial problems of integration/end-to-end tests is how to get test data into the system. Generally speaking, there are several options, even for a simple service+DB system like this one:</p>
+<ol>
+<li><strong>Inject SQL directly to the DB</strong>. This is bad because you have coupled your test code directly to your schema, and you need to write SQL by hand. Any schema changes require re-verifying that all test data is still valid.</li>
+<li><strong>Use SQL dumps to establish a baseline state</strong>. Before every test, reset the DB to some known state that contains all the data you could possible need. Practically speaking, that&rsquo;s not possible; what if you want to test no rows in a table? Also, every new test will probably require new data, which involves changing the baseline, which possibly breaks old tests.</li>
+<li><strong>Invoke the service API</strong>. This requires your API to be powerful enough to create all the data you might need for testing, which practically never happens. What if you want to test some strange corrupted-data edge case? It can also be slow if you need large volumes of test data.</li>
+<li><strong>Secret testing API</strong>. Create secret, hopefully testing-only endpoints that empower tests to create whatever data they need. This requires you to change your application to enable testing, creates a very dangerous backdoor that needs to be locked down appropriately, and introduces untested, ghostly spaghetti code into your service.</li>
+<li><strong>Use service code in test setup</strong>. Import the service directly into the test and hijack the internal implementation details to create the test data you need. This breaks the illusion of black box testing, or at least warps it since you are hypothetically only doing it to set up test data. Your tests are now coupled to implementation details, and your application needs to be engineered to enable that thievery.</li>
+</ol>
+<p>There is no good solution, just least bad solutions.</p>
+<p>I will say that my favorite testing setup I have ever done is 5) using service code in test setup. Django&rsquo;s powerful ORM made it easy to simply import models from the model layer and use them to save data directly to the DB during test set up, then run the tests. <code>pytest-django</code> also has utilities that reset the DB before each test, so life was good. This was only possible because the tests were run in the same context as the service; I think similar hacks would not work so well with, say, Java&rsquo;s <code>private</code>/<code>protected</code> internal classes.</p>
+<h2 id="test-data-specifically">Test data, specifically</h2>
+<p>Enough academics, how do we solve this problem? In this test setup, the tests run in the <code>poetry</code> python environment, while the services are run in docker containers. Since I&rsquo;m already using it extensively to orchestrate the services being tested, my solution was to use <code>docker compose run</code> once again to run python code within the <code>django</code> container that sets up the data.</p>
+<p>To be clear, this is quite an ugly hack. The injected commands are strings containing python code that uses the Django ORM models, which are then passed to the <a href="https://django-extensions.readthedocs.io/en/latest/shell_plus.html"><code>shell_plus</code></a> <code>django-extensions</code> command, which runs within the docker container using <code>docker compose run</code>, which is invoked using <code>subprocess</code>. A daisy chain of tools like that is fragile, and debugging it requires intimate knowledge of every component. Performance is also quite bad; every invocation requires starting and stopping a container, which is an expensive operation.</p>
+<p>Fortunately for me, the end result is actually expressed fairly concisely, so using it isn&rsquo;t too awful as long as it works. The whole point of the <code>goban-server</code> specification is that it shouldn&rsquo;t change much, and I&rsquo;m the only developer, so I&rsquo;m not too concerned about unexpected schema changes or merge conflicts.</p>
+<h2 id="alternatives">Alternatives</h2>
+<p>So far I have implemented aproximately half a test, just enough to verify that all the fixtures work as intended. It&rsquo;s possible that as more tests are layered on top, the performance penalties become more and more unnacceptable.</p>
+<p>In that event, my plan is to include a dependency on <code>goban-server-django</code> in <code>goban-server-test</code>, wire it up to the test DB, and write helper functions that use the Django models to create test data and reset the database. This would eliminate the overhead of constantly invoking <code>docker compose</code>, and wouldn&rsquo;t be any less coupled than the current solution. The only reason I didn&rsquo;t do this first is because configuring a separate django app is somewhat involved, and because using <code>docker compose</code> was only about 10 lines of code.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>As previously mentioned, I haven&rsquo;t written any real tests yet. The only test so far sets up a user with a known password and verifies that the response to <code>/api/login/</code> is 200. This is enough to exercise all of the existing lifecycle and test data fixtures, and it passes against both <code>django</code> and <code>fastapi</code>.</p>
+<p>The next step is obviously to write more tests. The rest of the authentication tests can more or less be cribbed from the existing unit tests. The actual game logic stuff can probably be copied from <code>goban-server-django</code> as well.</p>
+<p>Once there is a thorough test suite, it should be easier to test compliance when implementing the core business logic in <code>goban-server-fastapi</code>. It&rsquo;s possible to use the local file system as a git remote, and it&rsquo;s possible to manually adjust the HEAD of submodules, so testing against local changes should be easy.</p>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/4-fastapi-testing/"> FastAPI Testing </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#the-plan">The plan</a></li>
+        <li><a href="#wow-that-sounds-janky">Wow, that sounds janky</a></li>
+        <li><a href="#git-submodule">git submodule</a></li>
+        <li><a href="#docker-compose">docker compose</a></li>
+        <li><a href="#-magic-">🪄 magic 🪄</a></li>
+        <li><a href="#test-data-generallly">Test data, generallly</a></li>
+        <li><a href="#test-data-specifically">Test data, specifically</a></li>
+        <li><a href="#alternatives">Alternatives</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

@@ -6,22 +6,40 @@
     <description>Recent content in Tags on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 06 Oct 2022 16:43:23 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 30 Oct 2022 20:23:47 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>fastapi</title>
-      <link>https://go.chiquit.ooo/blog/tags/fastapi/</link>
-      <pubDate>Thu, 06 Oct 2022 16:43:23 -0400</pubDate>
+      <title>django</title>
+      <link>https://go.chiquit.ooo/blog/tags/django/</link>
+      <pubDate>Sun, 30 Oct 2022 20:23:47 -0400</pubDate>
       
-      <guid>https://go.chiquit.ooo/blog/tags/fastapi/</guid>
+      <guid>https://go.chiquit.ooo/blog/tags/django/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>https://go.chiquit.ooo/blog/tags/docker/</link>
+      <pubDate>Sun, 30 Oct 2022 20:23:47 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/tags/docker/</guid>
       <description></description>
     </item>
     
     <item>
       <title>pytest</title>
       <link>https://go.chiquit.ooo/blog/tags/pytest/</link>
-      <pubDate>Thu, 06 Oct 2022 16:43:23 -0400</pubDate>
+      <pubDate>Sun, 30 Oct 2022 20:23:47 -0400</pubDate>
       
       <guid>https://go.chiquit.ooo/blog/tags/pytest/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fastapi</title>
+      <link>https://go.chiquit.ooo/blog/tags/fastapi/</link>
+      <pubDate>Thu, 06 Oct 2022 16:43:23 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/tags/fastapi/</guid>
       <description></description>
     </item>
     
@@ -58,15 +76,6 @@
       <pubDate>Sun, 02 Oct 2022 22:17:12 -0400</pubDate>
       
       <guid>https://go.chiquit.ooo/blog/tags/systemd/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>django</title>
-      <link>https://go.chiquit.ooo/blog/tags/django/</link>
-      <pubDate>Thu, 22 Sep 2022 10:48:24 -0400</pubDate>
-      
-      <guid>https://go.chiquit.ooo/blog/tags/django/</guid>
       <description></description>
     </item>
     

@@ -3,21 +3,30 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://go.chiquit.ooo/blog/</loc>
-    <lastmod>2022-10-06T16:43:23-04:00</lastmod>
+    <lastmod>2022-10-30T20:23:47-04:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/tags/django/</loc>
+    <lastmod>2022-10-30T20:23:47-04:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/tags/docker/</loc>
+    <lastmod>2022-10-30T20:23:47-04:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/posts/5-integration-testing-harness/</loc>
+    <lastmod>2022-10-30T20:23:47-04:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/posts/</loc>
+    <lastmod>2022-10-30T20:23:47-04:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/tags/pytest/</loc>
+    <lastmod>2022-10-30T20:23:47-04:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/tags/</loc>
+    <lastmod>2022-10-30T20:23:47-04:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/tags/fastapi/</loc>
     <lastmod>2022-10-06T16:43:23-04:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/posts/4-fastapi-testing/</loc>
-    <lastmod>2022-10-06T16:43:23-04:00</lastmod>
-  </url><url>
-    <loc>https://go.chiquit.ooo/blog/posts/</loc>
-    <lastmod>2022-10-06T16:43:23-04:00</lastmod>
-  </url><url>
-    <loc>https://go.chiquit.ooo/blog/tags/pytest/</loc>
-    <lastmod>2022-10-06T16:43:23-04:00</lastmod>
-  </url><url>
-    <loc>https://go.chiquit.ooo/blog/tags/</loc>
     <lastmod>2022-10-06T16:43:23-04:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/posts/introducing-fastapi/</loc>
@@ -37,9 +46,6 @@
   </url><url>
     <loc>https://go.chiquit.ooo/blog/posts/systemd-is-cool/</loc>
     <lastmod>2022-10-02T22:17:12-04:00</lastmod>
-  </url><url>
-    <loc>https://go.chiquit.ooo/blog/tags/django/</loc>
-    <lastmod>2022-09-22T10:48:24-04:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/tags/nginx/</loc>
     <lastmod>2022-09-22T10:48:24-04:00</lastmod>
