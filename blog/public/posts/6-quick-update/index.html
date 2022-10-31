@@ -17,25 +17,25 @@
     
 
     
-    <title>Tags</title>
+    <title>Quick Update</title>
     <meta name="description" content="Records of the Go Recordkeeper">
-    <meta name="keywords" content=''>
+    <meta name="keywords" content='pytest'>
 
-    <meta property="og:url" content="https://go.chiquit.ooo/blog/tags/">
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/6-quick-update/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Tags">
+    <meta property="og:title" content="Quick Update">
     <meta property="og:description" content="Records of the Go Recordkeeper">
     <meta property="og:image" content="/images/mrbubz.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Tags">
+    <meta name="twitter:title" content="Quick Update">
     <meta name="twitter:description" content="Records of the Go Recordkeeper">
-    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/tags/">
-    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/tags/">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/6-quick-update/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/6-quick-update/">
     <meta name="twitter:image" content="/images/mrbubz.jpg">
 
     
-    <link rel="canonical" href="https://go.chiquit.ooo/blog/tags/" />
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/6-quick-update/" />
 
     <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
@@ -140,93 +140,55 @@
     </nav>
 </header>
 <main id="content">
-<div class="container tags-list">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Quick Update</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 31, 2022
+        </p>
 
-    <h1 class="list-title">Tags</h1>
-    
-    <ul class="post-tags">
+        <ul class="post-tags">
         
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/pytest/">
-                <div class="tag-name">pytest</div>
-                <div class="tag-posts-count">3</div>
-            </a>
-        </li>
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/pytest">pytest</a></li>
         
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/django/">
-                <div class="tag-name">django</div>
-                <div class="tag-posts-count">2</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/fastapi/">
-                <div class="tag-name">fastapi</div>
-                <div class="tag-posts-count">2</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/infrastructure/">
-                <div class="tag-name">infrastructure</div>
-                <div class="tag-posts-count">2</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/docker/">
-                <div class="tag-name">docker</div>
-                <div class="tag-posts-count">1</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/nginx/">
-                <div class="tag-name">nginx</div>
-                <div class="tag-posts-count">1</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/poetry/">
-                <div class="tag-name">poetry</div>
-                <div class="tag-posts-count">1</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/roadmap/">
-                <div class="tag-name">roadmap</div>
-                <div class="tag-posts-count">1</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/sqlalchemy/">
-                <div class="tag-name">sqlalchemy</div>
-                <div class="tag-posts-count">1</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/systemd/">
-                <div class="tag-name">systemd</div>
-                <div class="tag-posts-count">1</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/vue/">
-                <div class="tag-name">vue</div>
-                <div class="tag-posts-count">1</div>
-            </a>
-        </li>
-        
-    </ul>
-    
+        </ul>
+    </div>
 
+    <div class="post-content">
+        <p>
+            <p>I just finished a work session, so a post feels obligatory, even though there&rsquo;s nothing substantial to talk about.</p>
+<p>I finished the authentication and record CRUD integration tests. Everything passes for <code>django</code>, and all the auth tests pass for <code>fastapi</code> (records are not yet implemented). Writing the tests uncovered a few small issues:</p>
+<ul>
+<li><code>django</code> was accepting arbitrary integer board sizes. I fixed this to use a <a href="https://docs.djangoproject.com/en/4.1/ref/models/fields/#choices">choices</a> of 9x9, 13x13, or 19x19.</li>
+<li><code>django</code> was returning <code>201 CREATED</code> instead of <code>200 OK</code> from record update requests. This was corrected and the unit test corrected.</li>
+<li><code>fastapi</code> was returning <code>401 UNAUTHORIZED</code> instead of <code>403 FORBIDDEN</code> when the authentication token was missing/invalid. This is hypothetically acceptable, but it isn&rsquo;t compliant with the <code>django</code> implementation, and <code>401</code> also technically requires setting the <code>WWW-Authenticate</code> header to inform the client of the authentication method, which I wasn&rsquo;t doing.</li>
+</ul>
+<p>On an unrelated note, I also updated <a href="https://github.com/go-recordkeeper/goban-deploy">goban-deploy</a> to use git submodules instead of the script I wrote to pull the requisite repositories. Submodules simply didn&rsquo;t occur to me when I was setting it up, they are the perfect solution.</p>
+<p>The next steps are to:</p>
+<ul>
+<li>whip up some tests for playing moves</li>
+<li>finish implementing <code>fastapi</code></li>
+<li>deploy <code>fastapi</code>, hopefully load balanced</li>
+<li>do some more interesting implementations</li>
+</ul>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/5-integration-testing-harness/"> Integration Testing Harness </a>
+            </div>
+        
+        
+    </div>
 </div>
+
+
+
+    
 
         </main><footer class="footer">
     <span>&copy; 2022 Daniel Chiquito</span>
