@@ -4,7 +4,7 @@
 
 Building the web app takes a disastrously long time on a raspberry pi, so you should build static assets on a dev machine and commit dist to the repo:
 ```
-./pull.sh
+git submodule update --remote
 ./build.sh
 git add dist
 git commit
@@ -12,7 +12,8 @@ git commit
 
 ## First deploy
 ```
-./pull.sh
+git submodule init
+git submodule update --remote
 ./generate-secret-key.sh
 docker-compose build
 docker-compose run django ./manage.py migrate
@@ -23,7 +24,7 @@ docker-compose up -d
 ## Redeploying
 ```
 docker-compose stop
-./pull.sh
+git submodule update --remote
 # If any new pip packages are required
 docker-compose build --no-cache
 # If any database schema changes were made
