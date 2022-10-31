@@ -66,9 +66,44 @@ def client(server_under_test):
 
 
 @pytest.fixture
+def user_client_factory(server_under_test):
+    def factory(user):
+        client = LocalhostSession()
+        response = client.post(
+            "/api/login/",
+            json={"username": user["username"], "password": user["password"]},
+        )
+        assert response.status_code == 200
+        token = response.json()
+        client.headers["Authorization"] = f"Bearer {token}"
+        return client
+
+    return factory
+
+
+@pytest.fixture
+def user_client(user_client_factory, user):
+    return user_client_factory(user)
+
+
+@pytest.fixture
 def django_command():
     def _command(command):
-        run(["docker", "compose", "run", "--rm", "django", "python", "manage.py", "shell_plus", "-c", f"{command}"])
+        run(
+            [
+                "docker",
+                "compose",
+                "run",
+                "--rm",
+                "django",
+                "python",
+                "manage.py",
+                "shell_plus",
+                "-c",
+                f"{command}",
+            ]
+        )
+
     return _command
 
 
@@ -81,7 +116,9 @@ def user_factory(django_command, faker):
             email = faker.email()
         if password is None:
             password = faker.password()
-        django_command(f"user = User(username='{username}', email='{email}'); user.set_password('{password}'); user.save(); print(user); print('AAAAHHH')")
+        django_command(
+            f"user = User(username='{username}', email='{email}'); user.set_password('{password}'); user.save();"
+        )
         return {"username": username, "email": email, "password": password}
 
     return factory
@@ -90,4 +127,3 @@ def user_factory(django_command, faker):
 @pytest.fixture
 def user(user_factory):
     return user_factory()
-
