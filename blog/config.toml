@@ -9,6 +9,7 @@ theme = 'gokarna'
   avatarSize = 'size-xl'
   description = 'Records of the Go Recordkeeper'
   footer = 'Daniel Chiquito'
+  showPostsOnHomePage = 'recent'
 
 [markup]
   [markup.tableOfContents]
