@@ -6,7 +6,17 @@
     <description>Recent content in fastapi on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 06 Oct 2022 16:43:23 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/fastapi/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 09 Nov 2022 14:22:45 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/fastapi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Vertical Slice Architecture</title>
+      <link>https://go.chiquit.ooo/blog/posts/7-vertical-slice-architecture/</link>
+      <pubDate>Wed, 09 Nov 2022 14:22:45 -0500</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/7-vertical-slice-architecture/</guid>
+      <description>I&amp;rsquo;ve been flipping through some NDC Conference recordings, and one of the talks caught my eye (also a considerably more succinct blog post, if you don&amp;rsquo;t have an hour to kill).
+For context, the traditional .NET web application is designed in layers (the &amp;ldquo;onion model&amp;rdquo;, apparently?), with the database feeding up into the repository into the service into the UI. All of your SQL queries live in one place, which is separate from where your business logic lives, which is separate from your REST API, which is separate from your UI components.</description>
+    </item>
+    
     <item>
       <title>FastAPI Testing</title>
       <link>https://go.chiquit.ooo/blog/posts/4-fastapi-testing/</link>
