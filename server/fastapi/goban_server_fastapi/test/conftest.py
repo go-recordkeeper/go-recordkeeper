@@ -1,3 +1,4 @@
+from datetime import datetime
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import delete
@@ -66,3 +67,33 @@ def user_factory(db: DbClient, faker):
 @pytest.fixture
 def user(user_factory):
     return user_factory()
+
+
+@pytest.fixture
+def record_factory(db: DbClient, user, faker):
+    def factory(**kwargs):
+        record = Record(
+            **{
+                "owner_id": user.id,
+                "board_size": 19,
+                "created": datetime.now(),
+                "name": faker.sentence(),
+                "black_player": "Black",
+                "white_player": "White",
+                "comment": "",
+                "handicap": 0,
+                "komi": 7.5,
+                "ruleset": "AGA",
+                "winner": "U",
+                **kwargs,
+            }
+        )
+        db.create_record(record)
+        return record
+
+    return factory
+
+
+@pytest.fixture
+def record(record_factory):
+    return record_factory()
