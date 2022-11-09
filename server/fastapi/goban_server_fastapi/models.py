@@ -10,6 +10,7 @@ from sqlalchemy import (
     Integer,
     String,
     create_engine,
+    desc,
     insert,
     select,
     text,
@@ -107,3 +108,19 @@ class DbClient:
             except IntegrityError as e:
                 return None
         return self.get_user(username=username)
+
+    def create_record(self, record: Record):
+        with Session(self.engine) as session:
+            session.add(record)
+            session.commit()
+            # Access the id now to cache it while the session is still available
+            record.id
+
+    def get_records(self, user_id) -> list[Record]:
+        with Session(self.engine) as session:
+            stmt = (
+                select(Record)
+                .where(Record.owner_id == user_id)
+                .order_by(desc(Record.created))
+            )
+            return list(session.scalars(stmt))
