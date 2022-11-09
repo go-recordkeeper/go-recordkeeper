@@ -4,22 +4,17 @@
 import base64
 import hashlib
 import math
-import os
 import secrets
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 import jwt
 from fastapi import Depends, HTTPException, Request
-from starlette.authentication import (
-    AuthCredentials,
-    AuthenticationBackend,
-    AuthenticationError,
-    SimpleUser,
-)
+from starlette.authentication import AuthenticationError
 
-from goban_server_fastapi.models import DbClient, User
-from goban_server_fastapi.settings import *
+from goban_server_fastapi.db import DbClient
+from goban_server_fastapi.settings import SECRET_KEY
+from goban_server_fastapi.users.models import User, get_user
 
 RANDOM_STRING_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
@@ -154,7 +149,7 @@ def generate_token(user_id):
     )
 
 
-def jwt_user(conn: Request, db: DbClient = Depends()) -> Optional[User]:
+def jwt_user(conn: Request, db: DbClient = Depends()) -> User:
     if "Authorization" not in conn.headers:
         raise HTTPException(status_code=403, detail="invalid authorization token")
 
@@ -170,7 +165,7 @@ def jwt_user(conn: Request, db: DbClient = Depends()) -> Optional[User]:
     if "id" not in payload:
         raise AuthenticationError(status_code=403, detail="invalid authorization token")
 
-    user = db.get_user(id=payload["id"])
+    user = get_user(db, id=payload["id"])
     if user is None:
         raise AuthenticationError(status_code=403, detail="invalid authorization token")
 

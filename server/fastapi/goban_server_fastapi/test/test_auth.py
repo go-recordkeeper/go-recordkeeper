@@ -1,5 +1,7 @@
 import pytest
 
+from goban_server_fastapi.users.models import get_user
+
 
 def test_login(client, user_factory, faker):
     # Generate a user with a known password
@@ -38,7 +40,7 @@ def test_register(db, client, faker):
     user = response.json()
     assert user["username"] == username
     assert user["email"] == email
-    assert db.get_user(id=user["id"])
+    assert get_user(db, id=user["id"])
 
 
 @pytest.mark.parametrize(

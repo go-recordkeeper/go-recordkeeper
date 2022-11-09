@@ -1,4 +1,3 @@
-import pytest
 from anys import ANY_DATETIME_STR
 
 

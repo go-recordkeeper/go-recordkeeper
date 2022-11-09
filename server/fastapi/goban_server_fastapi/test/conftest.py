@@ -3,11 +3,12 @@ from datetime import datetime
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import delete
-from sqlalchemy.orm import Session
 
-from goban_server_fastapi.auth import PBKDF2PasswordHasher, generate_token
+from goban_server_fastapi.db import DbClient
 from goban_server_fastapi.main import app
-from goban_server_fastapi.models import DbClient, Move, Record, User
+from goban_server_fastapi.records import Move, Record, create_record
+from goban_server_fastapi.users.auth import PBKDF2PasswordHasher, generate_token
+from goban_server_fastapi.users.models import User, create_user
 
 
 @pytest.fixture
@@ -34,7 +35,7 @@ def user_client(user_client_factory, user):
 
 def clean_db(client: DbClient):
     """Delete all relevant data from the database"""
-    with Session(client.engine) as session:
+    with client.session() as session:
         session.execute(delete(User))
         session.execute(delete(Record))
         session.execute(delete(Move))
@@ -60,7 +61,7 @@ def user_factory(db: DbClient, faker):
             password = faker.password()
         hasher = PBKDF2PasswordHasher()
         password_hash = hasher.encode(password, hasher.salt())
-        return db.create_user(username, email, password_hash)
+        return create_user(db, username, email, password_hash)
 
     return factory
 
@@ -89,7 +90,7 @@ def record_factory(db: DbClient, user, faker):
                 **kwargs,
             }
         )
-        db.create_record(record)
+        create_record(db, record)
         return record
 
     return factory
