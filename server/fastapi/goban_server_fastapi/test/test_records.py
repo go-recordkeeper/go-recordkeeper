@@ -1,5 +1,5 @@
-from anys import ANY_DATETIME_STR
 import pytest
+from anys import ANY_DATETIME_STR
 
 
 def test_get_records(user_client, record_factory, faker):
