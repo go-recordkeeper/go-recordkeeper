@@ -1,4 +1,5 @@
-from typing import Union
+from datetime import datetime
+from typing import List, Union
 
 from fastapi import Depends, FastAPI
 from fastapi.exceptions import RequestValidationError
@@ -78,3 +79,40 @@ def register(register: RegisterRequest, db: DbClient = Depends()):
 @app.get("/api/user/", status_code=200, response_model=UserResponse)
 def user(current_user: User = Depends(jwt_user)):
     return current_user.__dict__
+
+
+class RecordModel(BaseModel):
+    id: int
+    owner: int
+    board_size: int
+    created: datetime
+    name: str
+    black_player: str
+    white_player: str
+    comment: str
+    handicap: int
+    komi: float
+    ruleset: str
+    winner: str
+
+
+def record_to_dict(record) -> dict:
+    return {
+        "id": record.id,
+        "owner": record.owner_id,
+        "board_size": record.board_size,
+        "created": record.created,
+        "name": record.name,
+        "black_player": record.black_player,
+        "white_player": record.white_player,
+        "comment": record.comment,
+        "handicap": record.handicap,
+        "komi": record.komi,
+        "ruleset": record.ruleset,
+        "winner": record.winner,
+    }
+
+
+@app.get("/api/records/", status_code=200, response_model=List[RecordModel])
+def records(db: DbClient = Depends(), current_user: User = Depends(jwt_user)):
+    return [record_to_dict(record) for record in db.get_records(current_user.id)]
