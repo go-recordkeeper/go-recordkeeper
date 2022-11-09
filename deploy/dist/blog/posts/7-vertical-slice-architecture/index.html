@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Vertical Slice Architecture</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='fastapi'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/7-vertical-slice-architecture/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Vertical Slice Architecture">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Vertical Slice Architecture">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/7-vertical-slice-architecture/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/7-vertical-slice-architecture/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/7-vertical-slice-architecture/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Vertical Slice Architecture</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            November 9, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/fastapi">fastapi</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>I&rsquo;ve been flipping through some <a href="https://www.youtube.com/c/NDCConferences">NDC Conference</a> recordings, and one of the <a href="https://www.youtube.com/watch?v=SUiWfhAhgQw">talks</a> caught my eye (also a considerably more succinct <a href="https://jimmybogard.com/vertical-slice-architecture/">blog post</a>, if you don&rsquo;t have an hour to kill).</p>
+<p>For context, the traditional .NET web application is designed in layers (the &ldquo;onion model&rdquo;, apparently?), with the database feeding up into the repository into the service into the UI. All of your SQL queries live in one place, which is separate from where your business logic lives, which is separate from your REST API, which is separate from your UI components. I&rsquo;ve never done .NET before, but this is exactly how I learned to write web applications in Java and Python.</p>
+<p>The pitch of the talk is that your application should be sliced vertically instead of horizontally. This creates a much tighter vertical coupling between all the code necessary for a single feature, all the way from the database to the UI, and decouples that feature from the other features. Adding or updating features is easier for developers, since all the code changes are contained in one slice, and modifying one feature is by design not going to have accidental side affects on any others. <a href="https://jimmybogard.com/vertical-slice-architecture/">Jimmy Bogard</a> is considerably more eloquent if you&rsquo;d like more details.</p>
+<p>I&rsquo;ve always sliced my apps horizontally, so the thought was intriguing. The talk was very much .NET oriented; I wasn&rsquo;t familiar with a lot of the jargon used (repository? but not git??) and described solutions involved some .NET specific packages and architectures. Still, the point about coupling was good, so I decided the FastAPI implementation would be a good chance to try out this new style.</p>
+<p>I had only finished the user auth bit of the app, so I decided to slap some more code in there first so I would have something worth slicing. I picked the list records endpoint, which also required some database helpers, the record factory test fixtures, and a couple of tests. Everything was pretty uneventful, nothing unexpected. The FastAPI list records integration test passes, so mission accomplished.</p>
+<p>The next step was to move all of the code into it&rsquo;s new vertically sliced organization. Big refactors like this are not really linear processs, so I&rsquo;ll just list the hurdles I hit.</p>
+<p>Firstly, it&rsquo;s obviously impossible to slice everything. FastAPI apps are usually built like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">app <span style="color:#f92672">=</span> FastAPI(<span style="color:#f92672">...</span>)
+
+<span style="color:#a6e22e">@app</span><span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;/my/endpoint/&#34;</span>)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">my_endpoint_handler</span>(<span style="color:#f92672">...</span>):
+    <span style="color:#f92672">...</span>
+</code></pre></div><p>Every endpoint has a dependency on the one <code>app</code> instance, so every slice needs to import it from some central <a href="https://github.com/go-recordkeeper/goban-server-fastapi/blob/68564505d4073e211cf1aa46e9300837e36926f2/goban_server_fastapi/rest.py"><code>rest.py</code></a> (as I named mine).</p>
+<p>Similarly, SQLAlchemy has a central registry for all ORM models, and is designed to have a single shared client instance for the whole app. I used <a href="https://github.com/go-recordkeeper/goban-server-fastapi/blob/68564505d4073e211cf1aa46e9300837e36926f2/goban_server_fastapi/db.py"><code>db.py</code></a> to store this code, and used FastAPI dependency injection to provide a special <code>DbClient</code> instance.</p>
+<p>The major hurdle was dealing with authentication. The idiomatic way to do this in FastAPI is <a href="https://fastapi.tiangolo.com/tutorial/security/get-current-user/">dependency injection</a>. In my implementation, every protected endpoint specifies a dependency on <code>jwt_user</code>, which checks the <code>Authorization</code> header in the request context for a valid token. This logic obviously depends on the <code>User</code> ORM model, and is at least logically adjacent to login/registration, so it makes sense to live next to some kind of &ldquo;auth&rdquo; vertical slice. But, every other slice is going to need authorized endpoints, and inter-slice dependencies defeat the whole purpose.</p>
+<p>I couldn&rsquo;t find a clean way to resolve this, so for now the &ldquo;record&rdquo; slice has a dependency on the &ldquo;auth&rdquo; slice to get the <code>jwt_user</code>. I considered importing via the global <code>rest.py</code> instead to avoid the appearance of the dependency, but this creates a dependency cycle. It&rsquo;s resolvable thanks to Python&rsquo;s runtime import system, and it would hypothetically be nice to just grab everything endpoint related from <code>rest.py</code>, but I think the fragility of having a dependency cycle outweighs any benefits.</p>
+<p>So far, I&rsquo;m not entirely sold, but I haven&rsquo;t scaled up enough to the point where vertical slices would prove their worth. With only one record endpoint, it is nice having everything in one file. Time will tell once the rest of the endpoints are in place.</p>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/6-quick-update/"> Quick Update </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

@@ -6,7 +6,16 @@
     <description>Recent content in Tags on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 31 Oct 2022 19:09:06 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 09 Nov 2022 14:22:45 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>fastapi</title>
+      <link>https://go.chiquit.ooo/blog/tags/fastapi/</link>
+      <pubDate>Wed, 09 Nov 2022 14:22:45 -0500</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/tags/fastapi/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>pytest</title>
       <link>https://go.chiquit.ooo/blog/tags/pytest/</link>
@@ -31,15 +40,6 @@
       <pubDate>Sun, 30 Oct 2022 20:23:47 -0400</pubDate>
       
       <guid>https://go.chiquit.ooo/blog/tags/docker/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>fastapi</title>
-      <link>https://go.chiquit.ooo/blog/tags/fastapi/</link>
-      <pubDate>Thu, 06 Oct 2022 16:43:23 -0400</pubDate>
-      
-      <guid>https://go.chiquit.ooo/blog/tags/fastapi/</guid>
       <description></description>
     </item>
     
