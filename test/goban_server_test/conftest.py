@@ -1,5 +1,5 @@
-from subprocess import run
 import time
+from subprocess import run
 from urllib.parse import urljoin
 
 import pytest
