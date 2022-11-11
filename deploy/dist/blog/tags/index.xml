@@ -6,31 +6,31 @@
     <description>Recent content in Tags on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 09 Nov 2022 14:22:45 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 11 Nov 2022 15:43:48 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>fastapi</title>
-      <link>https://go.chiquit.ooo/blog/tags/fastapi/</link>
-      <pubDate>Wed, 09 Nov 2022 14:22:45 -0500</pubDate>
+      <title>django</title>
+      <link>https://go.chiquit.ooo/blog/tags/django/</link>
+      <pubDate>Fri, 11 Nov 2022 15:43:48 -0500</pubDate>
       
-      <guid>https://go.chiquit.ooo/blog/tags/fastapi/</guid>
+      <guid>https://go.chiquit.ooo/blog/tags/django/</guid>
       <description></description>
     </item>
     
     <item>
       <title>pytest</title>
       <link>https://go.chiquit.ooo/blog/tags/pytest/</link>
-      <pubDate>Mon, 31 Oct 2022 19:09:06 -0400</pubDate>
+      <pubDate>Fri, 11 Nov 2022 15:43:48 -0500</pubDate>
       
       <guid>https://go.chiquit.ooo/blog/tags/pytest/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>django</title>
-      <link>https://go.chiquit.ooo/blog/tags/django/</link>
-      <pubDate>Sun, 30 Oct 2022 20:23:47 -0400</pubDate>
+      <title>fastapi</title>
+      <link>https://go.chiquit.ooo/blog/tags/fastapi/</link>
+      <pubDate>Wed, 09 Nov 2022 14:22:45 -0500</pubDate>
       
-      <guid>https://go.chiquit.ooo/blog/tags/django/</guid>
+      <guid>https://go.chiquit.ooo/blog/tags/fastapi/</guid>
       <description></description>
     </item>
     
