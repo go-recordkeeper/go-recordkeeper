@@ -12,10 +12,10 @@ services:
   django:
     profiles:
       - django
-    build: goban-server-django
+    build: ${GOBAN_TEST_DIR_DJANGO}
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./goban-server-django:/goban
+      - ${GOBAN_TEST_DIR_DJANGO}:/goban
     ports:
       - 8000:8000
     environment:
@@ -30,9 +30,9 @@ services:
   fastapi:
     profiles:
       - fastapi
-    build: goban-server-fastapi
+    build: ${GOBAN_TEST_DIR_FASTAPI}
     volumes:
-      - ./goban-server-fastapi:/goban
+      - ${GOBAN_TEST_DIR_FASTAPI}:/goban
     ports:
       - 8000:8000
     environment:
