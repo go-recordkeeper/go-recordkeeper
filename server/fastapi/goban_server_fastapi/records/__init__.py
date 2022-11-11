@@ -5,8 +5,9 @@ from fastapi import Depends
 from pydantic import BaseModel
 from sqlalchemy import Column, DateTime, Float, Integer, String, desc, select
 
+from goban_server_fastapi.auth import User, jwt_user
 from goban_server_fastapi.db import Base, DbClient
-from goban_server_fastapi.rest import User, app, jwt_user
+from goban_server_fastapi.rest import app
 
 
 class Record(Base):

@@ -4,11 +4,12 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import delete
 
+from goban_server_fastapi.auth.jwt import generate_token
+from goban_server_fastapi.auth.models import User, create_user
+from goban_server_fastapi.auth.password import PBKDF2PasswordHasher
 from goban_server_fastapi.db import DbClient
 from goban_server_fastapi.main import app
 from goban_server_fastapi.records import Move, Record, create_record
-from goban_server_fastapi.users.auth import PBKDF2PasswordHasher, generate_token
-from goban_server_fastapi.users.models import User, create_user
 
 
 @pytest.fixture

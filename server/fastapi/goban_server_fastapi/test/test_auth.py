@@ -1,6 +1,6 @@
 import pytest
 
-from goban_server_fastapi.users.models import get_user
+from goban_server_fastapi.auth.models import get_user
 
 
 def test_login(client, user_factory, faker):

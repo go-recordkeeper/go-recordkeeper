@@ -2,14 +2,11 @@ from fastapi import Depends
 from pydantic import BaseModel, EmailStr
 from starlette.responses import JSONResponse, Response
 
+from goban_server_fastapi.auth.jwt import generate_token, jwt_user
+from goban_server_fastapi.auth.models import User, create_user, get_user
+from goban_server_fastapi.auth.password import PBKDF2PasswordHasher
 from goban_server_fastapi.db import DbClient
 from goban_server_fastapi.rest import app
-from goban_server_fastapi.users.auth import (
-    PBKDF2PasswordHasher,
-    generate_token,
-    jwt_user,
-)
-from goban_server_fastapi.users.models import User, create_user, get_user
 
 
 class LoginRequest(BaseModel):

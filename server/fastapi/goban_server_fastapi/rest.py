@@ -12,8 +12,6 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 
 from goban_server_fastapi.db import DbClient
-from goban_server_fastapi.users.auth import jwt_user
-from goban_server_fastapi.users.models import User
 
 
 async def request_validation_exception_handler(
@@ -33,5 +31,3 @@ async def request_validation_exception_handler(
 
 app = FastAPI(dependencies=[Depends(DbClient)])
 app.add_exception_handler(RequestValidationError, request_validation_exception_handler)
-
-__all__ = ["app", "User", "jwt_user"]
