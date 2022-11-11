@@ -17,25 +17,25 @@
     
 
     
-    <title>pytest</title>
+    <title>Testing Improvements</title>
     <meta name="description" content="Records of the Go Recordkeeper">
-    <meta name="keywords" content=''>
+    <meta name="keywords" content='django, pytest'>
 
-    <meta property="og:url" content="https://go.chiquit.ooo/blog/tags/pytest/">
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/8-testing-improvements/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="pytest">
+    <meta property="og:title" content="Testing Improvements">
     <meta property="og:description" content="Records of the Go Recordkeeper">
     <meta property="og:image" content="/images/mrbubz.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="pytest">
+    <meta name="twitter:title" content="Testing Improvements">
     <meta name="twitter:description" content="Records of the Go Recordkeeper">
-    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/tags/pytest/">
-    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/tags/pytest/">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/8-testing-improvements/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/8-testing-improvements/">
     <meta name="twitter:image" content="/images/mrbubz.jpg">
 
     
-    <link rel="canonical" href="https://go.chiquit.ooo/blog/tags/pytest/" />
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/8-testing-improvements/" />
 
     <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
@@ -140,37 +140,51 @@
     </nav>
 </header>
 <main id="content">
-    <div class="container list-posts">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Testing Improvements</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            November 11, 2022
+        </p>
 
-    <h1 class="list-title">pytest</h2>
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/django">django</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/pytest">pytest</a></li>
+        
+        </ul>
+    </div>
 
-    
+    <div class="post-content">
+        <p>
+            <h3 id="bad-submodules-">bad submodules :'(</h3>
+<p>I have come to discover that git submodules are not the be-all and end-all, tragically. I&rsquo;m using them in <a href="https://github.com/go-recordkeeper/goban-server-test">goban-server-test</a> to reference the various goban-server implementations, and it works fine when testing stuff on <code>main</code>. It sadly does not work well for testing local unco,mitted code. It is possible to set up a local directory as a git remote, set up a branch for local development, iteratively commit changes, and then pull them inside the submodule, but it&rsquo;s not easy and it&rsquo;s certainly not fun.</p>
+<p>To that end, I added a <code>.env</code> file to <code>goban-server-test</code> which contains two variables, <code>GOBAN_TEST_DIR_DJANGO</code> and <code>GOBAN_TEST_DIR_FASTAPI</code>. These point to the submodules by default, but can be re-targetted to wherever the developer has code to test. The <code>docker-compose.yml</code> now refers to these variables instead of hardcoding the submodules when building and mounting the code. I&rsquo;ve found it to be a much more easy and ergonimic way of handling it.</p>
+<h3 id="better-data-management">Better data management</h3>
+<p>While I was at it, I tried to speed up the DB reset code. Previously it was invoking <code>docker compose run --rm django python manage.py migrate</code> or variations on that theme to manipulate the database between tests. This was attrociously slow, since it had to set up a new container for every command.</p>
+<p>To mitigate this, I installed <code>goban-server-django</code> inside the <code>goban-server-test</code> python environment, so all that Django code is available directly within the test context. Then you can just do all the magic directly in the test fixtures.</p>
+<p>Sadly, after some wrangling I could not figure out a clean way to actually load the Django context to the point where ORM models were accessible directly. I suspect the cannonical way would be to set up <code>goban-server-test</code> as a Django project and install the <code>goban-server-django</code> stuff as an <a href="https://docs.djangoproject.com/en/4.1/ref/applications/">application</a>, but I am lazy and that sounds complicated. I&rsquo;m sure there is a way to load Django correctly, but again, I am lazy.</p>
+<p>In lieu of any proper solutions, I simply replaced <code>docker compose run --rm django python manage.py</code> with <code>poetry run python goban-server-django/manage.py</code>. This cuts out the overhead of docker, which is substantial. I&rsquo;m still invoking <a href="https://django-extensions.readthedocs.io/en/latest/shell_plus.html">shell_plus</a> to run python code as strings to generate test data, but one step at a time.</p>
+<p>Sadly, the performance improvement was not as substantial as I&rsquo;d hoped. The current 14 tests originally ran in ~1 minute 30 seconds, but now run in ~1 minute. Substantial, but not what I was hoping for. I suspect that using <a href="https://django-extensions.readthedocs.io/en/latest/reset_db.html"><code>reset_db</code></a> and <code>migrate</code> to reset the database between runs is the culprit. I&rsquo;m confident there are further optimizations that can be pursued later.</p>
 
-    <h2 class="posts-year">2022</h2><article class="post-title">
-    <a href="https://go.chiquit.ooo/blog/posts/8-testing-improvements/" class="post-link">Testing Improvements</a>
-    <div class="flex-break"></div>
-    <span class="post-date">November 11, 2022</span>
-</article>
-<article class="post-title">
-    <a href="https://go.chiquit.ooo/blog/posts/6-quick-update/" class="post-link">Quick Update</a>
-    <div class="flex-break"></div>
-    <span class="post-date">October 31, 2022</span>
-</article>
-<article class="post-title">
-    <a href="https://go.chiquit.ooo/blog/posts/5-integration-testing-harness/" class="post-link">Integration Testing Harness</a>
-    <div class="flex-break"></div>
-    <span class="post-date">October 30, 2022</span>
-</article>
-<article class="post-title">
-    <a href="https://go.chiquit.ooo/blog/posts/4-fastapi-testing/" class="post-link">FastAPI Testing</a>
-    <div class="flex-break"></div>
-    <span class="post-date">October 6, 2022</span>
-</article>
+        </p>
+    </div>
 
-    
-
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/7-vertical-slice-architecture/"> Vertical Slice Architecture </a>
+            </div>
+        
+        
+    </div>
 </div>
 
+
+
+    
 
         </main><footer class="footer">
     <span>&copy; 2022 Daniel Chiquito</span>
