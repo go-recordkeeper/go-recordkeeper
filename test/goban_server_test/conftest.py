@@ -1,4 +1,5 @@
 from subprocess import run
+import time
 from urllib.parse import urljoin
 
 import pytest
@@ -8,9 +9,8 @@ import requests
 @pytest.fixture(scope="session", autouse=True)
 def init_db():
     run(["docker", "compose", "down"])
-    run(
-        ["docker", "compose", "run", "--rm", "django", "python", "manage.py", "migrate"]
-    )
+    run(["docker", "compose", "up", "postgres", "-d", "--wait"])
+    run(["poetry", "run", "python", "goban-server-django/manage.py", "migrate"])
     yield
     run(["docker", "compose", "stop"])
 
@@ -19,21 +19,16 @@ def init_db():
 def clean_db():
     run(
         [
-            "docker",
-            "compose",
+            "poetry",
             "run",
-            "--rm",
-            "django",
             "python",
-            "manage.py",
+            "goban-server-django/manage.py",
             "reset_db",
             "-c",
             "--noinput",
         ]
     )
-    run(
-        ["docker", "compose", "run", "--rm", "django", "python", "manage.py", "migrate"]
-    )
+    run(["poetry", "run", "python", "goban-server-django/manage.py", "migrate"])
     yield
 
 
@@ -45,6 +40,9 @@ def impl(request):
 @pytest.fixture(scope="session")
 def server_under_test(impl):
     run(["docker", "compose", "--profile", impl, "up", "-d", "--wait"])
+    # Wait for the service to be ready to receive requests.
+    # This should be a healthcheck or something, but hey
+    time.sleep(1)
     yield
     run(["docker", "compose", "--profile", impl, "stop", impl])
     run(["docker", "compose", "--profile", impl, "rm", "--force", impl])
@@ -91,13 +89,10 @@ def django_command():
     def _command(command):
         resp = run(
             [
-                "docker",
-                "compose",
+                "poetry",
                 "run",
-                "--rm",
-                "django",
                 "python",
-                "manage.py",
+                "goban-server-django/manage.py",
                 "shell_plus",
                 "-c",
                 f"{command}",
