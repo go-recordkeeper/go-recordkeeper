@@ -1,4 +1,6 @@
 from datetime import datetime
+import random
+from typing import Literal, Optional
 
 import pytest
 from fastapi.testclient import TestClient
@@ -37,9 +39,9 @@ def user_client(user_client_factory, user):
 def clean_db(client: DbClient):
     """Delete all relevant data from the database"""
     with client.session() as session:
-        session.execute(delete(User))
-        session.execute(delete(Record))
         session.execute(delete(Move))
+        session.execute(delete(Record))
+        session.execute(delete(User))
         session.commit()
 
 
@@ -100,3 +102,30 @@ def record_factory(db: DbClient, user, faker):
 @pytest.fixture
 def record(record_factory):
     return record_factory()
+
+
+@pytest.fixture
+def move_factory(db: DbClient, record, faker):
+    default_record = record
+
+    def factory(
+        x: int,
+        y: int,
+        color: Literal["B"] | Literal["W"],
+        record: Optional[Record] = None,
+    ):
+        if record is None:
+            record = default_record
+        position = x + (y * record.board_size)
+        record = Move(
+            **{
+                "position": position,
+                "color": color,
+                "move": random.randint(0, 999999),  # TODO increment this
+                "record_id": record.id,
+            }
+        )
+        create_record(db, record)
+        return record
+
+    return factory
