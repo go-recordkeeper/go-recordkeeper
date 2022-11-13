@@ -22,7 +22,7 @@ class StoneModel(CoordinateModel):
 
 
 class MoveModel(BaseModel):
-    position: int
+    position: Optional[int]
     color: Literal["B"] | Literal["W"]
     captures: list[CoordinateModel]
 
@@ -77,7 +77,9 @@ def get_record(
                         move.position // record.board_size,
                         move.color,
                     )
-                ],
+                ]
+                if move.position is not None
+                else [],
             }
             for move in moves
         ]

@@ -105,6 +105,28 @@ def test_get_record_capture(user_client, record, move_factory):
     }
 
 
+def test_get_record_one_pass(user_client, record, move_factory):
+    user_client.post(f"/api/records/{record.id}/pass/")
+    response = user_client.get(f"/api/records/{record.id}/")
+    assert response.status_code == 200
+    assert response.json() == {
+        "id": record.id,
+        "owner": record.owner_id,
+        "board_size": record.board_size,
+        "created": ANY_DATETIME_STR,
+        "name": record.name,
+        "black_player": record.black_player,
+        "white_player": record.white_player,
+        "comment": record.comment,
+        "handicap": record.handicap,
+        "komi": record.komi,
+        "ruleset": record.ruleset,
+        "winner": record.winner,
+        "stones": [],
+        "moves": [{"position": None, "color": "B", "captures": []}],
+    }
+
+
 def test_get_record_does_not_exist(user_client, record):
     response = user_client.get("/api/records/9999/")
     assert response.status_code == 404
