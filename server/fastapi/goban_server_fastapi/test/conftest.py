@@ -1,5 +1,5 @@
-from datetime import datetime
 import random
+from datetime import datetime
 from typing import Literal, Optional
 
 import pytest
@@ -11,7 +11,7 @@ from goban_server_fastapi.auth.models import User, create_user
 from goban_server_fastapi.auth.password import PBKDF2PasswordHasher
 from goban_server_fastapi.db import DbClient
 from goban_server_fastapi.main import app
-from goban_server_fastapi.records import Move, Record, create_record
+from goban_server_fastapi.records.db import Move, Record
 
 
 @pytest.fixture
@@ -93,7 +93,11 @@ def record_factory(db: DbClient, user, faker):
                 **kwargs,
             }
         )
-        create_record(db, record)
+        with db.session() as session:
+            session.add(record)
+            session.commit()
+            # Access the ID so that it's cached for use outside the session
+            record.id
         return record
 
     return factory
@@ -117,7 +121,7 @@ def move_factory(db: DbClient, record, faker):
         if record is None:
             record = default_record
         position = x + (y * record.board_size)
-        record = Move(
+        move = Move(
             **{
                 "position": position,
                 "color": color,
@@ -125,7 +129,11 @@ def move_factory(db: DbClient, record, faker):
                 "record_id": record.id,
             }
         )
-        create_record(db, record)
-        return record
+        with db.session() as session:
+            session.add(move)
+            session.commit()
+            # Access the ID so that it's cached for use outside the session
+            move.id
+        return move
 
     return factory
