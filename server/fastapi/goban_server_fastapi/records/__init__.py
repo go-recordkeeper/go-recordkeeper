@@ -1,1 +1,2 @@
-from . import db, rest
+import goban_server_fastapi.records.models
+import goban_server_fastapi.records.rest

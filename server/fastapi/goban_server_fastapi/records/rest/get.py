@@ -8,7 +8,7 @@ from sqlalchemy import select
 from goban_server_fastapi.auth import User, jwt_user
 from goban_server_fastapi.db import DbClient, dictify
 from goban_server_fastapi.records.board import BoardState
-from goban_server_fastapi.records.db import Move, Record
+from goban_server_fastapi.records.models import Move, Record
 from goban_server_fastapi.rest import app
 
 

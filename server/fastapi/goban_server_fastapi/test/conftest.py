@@ -11,7 +11,7 @@ from goban_server_fastapi.auth.models import User, create_user
 from goban_server_fastapi.auth.password import PBKDF2PasswordHasher
 from goban_server_fastapi.db import DbClient
 from goban_server_fastapi.main import app
-from goban_server_fastapi.records.db import Move, Record
+from goban_server_fastapi.records.models import Move, Record
 
 
 @pytest.fixture

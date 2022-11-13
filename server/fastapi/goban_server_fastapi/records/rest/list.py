@@ -6,7 +6,7 @@ from sqlalchemy import desc, select
 
 from goban_server_fastapi.auth import User, jwt_user
 from goban_server_fastapi.db import DbClient
-from goban_server_fastapi.records.db import Record
+from goban_server_fastapi.records.models import Record
 from goban_server_fastapi.rest import app
 
 

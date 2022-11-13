@@ -167,13 +167,13 @@ def test_get_record_capture(user_client, record, move_factory):
 
 
 def test_get_record_does_not_exist(user_client, record):
-    response = user_client.get(f"/api/records/9999/")
+    response = user_client.get("/api/records/9999/")
     assert response.status_code == 404
 
 
 @pytest.mark.parametrize("board_size", [9, 13, 19], ids=["9x9", "13x13", "19x19"])
 def test_create_sparse_record(user_client, user, faker, board_size):
-    response = user_client.post(f"/api/records/", json={"board_size": board_size})
+    response = user_client.post("/api/records/", json={"board_size": board_size})
     assert response.status_code == 201
     assert response.json() == {
         "id": ANY_INT,
@@ -201,7 +201,7 @@ def test_create_record(user_client, user, faker):
     komi = 7.5
     ruleset = "AGA"
     response = user_client.post(
-        f"/api/records/",
+        "/api/records/",
         json={
             "board_size": board_size,
             "name": name,
@@ -227,4 +227,45 @@ def test_create_record(user_client, user, faker):
         "komi": komi,
         "ruleset": ruleset,
         "winner": "U",
+    }
+
+
+def test_update_record(user_client, record, user, faker):
+    board_size = 9
+    name = faker.sentence()
+    black_player = faker.first_name()
+    white_player = faker.first_name()
+    comment = faker.sentence()
+    handicap = 1
+    komi = 7.5
+    ruleset = "AGA"
+    winner = "B"
+    response = user_client.put(
+        f"/api/records/{record.id}/",
+        json={
+            "board_size": board_size,
+            "name": name,
+            "black_player": black_player,
+            "white_player": white_player,
+            "comment": comment,
+            "handicap": handicap,
+            "komi": komi,
+            "ruleset": ruleset,
+            "winner": winner,
+        },
+    )
+    assert response.status_code == 200
+    assert response.json() == {
+        "id": record.id,
+        "owner": user.id,
+        "board_size": 19,  # Updating board size is not allowed
+        "created": ANY_DATETIME_STR,
+        "name": name,
+        "black_player": black_player,
+        "white_player": white_player,
+        "comment": comment,
+        "handicap": handicap,
+        "komi": komi,
+        "ruleset": ruleset,
+        "winner": "B",
     }
