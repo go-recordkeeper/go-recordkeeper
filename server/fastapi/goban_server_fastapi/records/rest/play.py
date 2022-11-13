@@ -27,7 +27,7 @@ class ResponseModel(BaseModel):
 
 @app.post(
     "/api/records/{record_id}/play/",
-    status_code=200,
+    status_code=201,
     response_model=ResponseModel,
 )
 def play_move(

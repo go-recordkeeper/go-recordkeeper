@@ -9,7 +9,7 @@ def test_play_move(db, user_client, record):
         f"/api/records/{record.id}/play/",
         json={"x": 0, "y": 0},
     )
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert response.json() == {
         "add": [{"x": 0, "y": 0, "color": "B"}],
         "remove": [],
@@ -40,7 +40,7 @@ def test_play_moves_with_handicap(db, user_client, record_factory, handicap, col
             f"/api/records/{record.id}/play/",
             json={"x": i, "y": 0},
         )
-        assert response.status_code == 200
+        assert response.status_code == 201
     with db.session() as session:
         moves = list(session.scalars(select(Move).where(Move.record_id == record.id)))
         assert len(moves) == 5
@@ -57,7 +57,7 @@ def test_play_capture(user_client, record, move_factory):
         f"/api/records/{record.id}/play/",
         json={"x": 0, "y": 1},
     )
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert response.json() == {
         "add": [{"x": 0, "y": 1, "color": "B"}],
         "remove": [{"x": 0, "y": 0}],
@@ -75,7 +75,7 @@ def test_play_capture_group(user_client, record, move_factory):
         f"/api/records/{record.id}/play/",
         json={"x": 0, "y": 3},
     )
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert response.json() == {
         "add": [{"x": 0, "y": 3, "color": "B"}],
         "remove": [{"x": 0, "y": 0}, {"x": 0, "y": 1}, {"x": 0, "y": 2}],
