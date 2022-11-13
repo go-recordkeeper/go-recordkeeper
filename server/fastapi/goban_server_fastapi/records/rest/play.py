@@ -1,6 +1,6 @@
 from typing import Literal
 
-from fastapi import Depends, Response
+from fastapi import Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy import asc, select
 
@@ -25,7 +25,7 @@ class ResponseModel(BaseModel):
     remove: list[Point]
 
 
-@app.put(
+@app.post(
     "/api/records/{record_id}/play/",
     status_code=200,
     response_model=ResponseModel,
@@ -43,7 +43,7 @@ def play_move(
             .where(Record.owner_id == current_user.id)
         )
         if record is None:
-            return Response(status_code=404)
+            raise HTTPException(status_code=404)
         moves = list(
             session.scalars(
                 select(Move).where(Move.record_id == record.id).order_by(asc(Move.move))
@@ -51,9 +51,11 @@ def play_move(
         )
         board_state = BoardState(size=record.board_size)
         for move in moves:
-            board_state.play_move(move.x, move.y, move.color)
+            x = move.position % record.board_size
+            y = move.position // record.board_size
+            board_state.play_move(x, y, move.color)
 
-        color = next_color(moves)
+        color = next_color(record, moves)
         captures = board_state.play_move(point.x, point.y, color)
         position = point.x + (point.y * record.board_size)
         move_number = len(moves) + 1
@@ -69,5 +71,5 @@ def play_move(
 
         return {
             "add": [{"x": point.x, "y": point.y, "color": color}],
-            "remove": captures,
+            "remove": [{"x": x, "y": y} for (x, y) in captures],
         }

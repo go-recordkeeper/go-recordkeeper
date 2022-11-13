@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Literal, Optional
 
-from fastapi import Depends, Response
+from fastapi import Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy import asc, select
 
@@ -61,7 +61,7 @@ def get_record(
             .where(Record.owner_id == current_user.id)
         )
         if record is None:
-            return Response(status_code=404)
+            raise HTTPException(status_code=404)
         moves = session.scalars(
             select(Move).where(Move.record_id == record.id).order_by(asc(Move.move))
         )

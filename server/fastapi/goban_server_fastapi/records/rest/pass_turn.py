@@ -1,17 +1,13 @@
-from datetime import datetime
-from typing import Literal
-
-from fastapi import Depends, Response
+from fastapi import Depends, HTTPException
 from sqlalchemy import asc, select
 
 from goban_server_fastapi.auth import User, jwt_user
 from goban_server_fastapi.db import DbClient
-from goban_server_fastapi.records.board import BoardState
 from goban_server_fastapi.records.models import Move, Record, next_color
 from goban_server_fastapi.rest import app
 
 
-@app.put("/api/records/{record_id}/pass/", status_code=201)
+@app.post("/api/records/{record_id}/pass/", status_code=201)
 def pass_turn(
     record_id: int,
     db: DbClient = Depends(),
@@ -24,13 +20,13 @@ def pass_turn(
             .where(Record.owner_id == current_user.id)
         )
         if record is None:
-            return Response(status_code=404)
+            raise HTTPException(status_code=404)
         moves = list(
             session.scalars(
                 select(Move).where(Move.record_id == record.id).order_by(asc(Move.move))
             )
         )
-        color = next_color(moves)
+        color = next_color(record, moves)
         move_number = len(moves) + 1
 
         move = Move(

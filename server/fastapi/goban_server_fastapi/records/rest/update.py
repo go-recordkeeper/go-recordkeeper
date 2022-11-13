@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Literal
 
-from fastapi import Depends, Response
+from fastapi import Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy import select
 
@@ -55,7 +55,7 @@ def update_record(
             .where(Record.owner_id == current_user.id)
         )
         if record is None:
-            return Response(status_code=404)
+            raise HTTPException(status_code=404)
         for key, value in record_model.dict().items():
             setattr(record, key, value)
         session.commit()

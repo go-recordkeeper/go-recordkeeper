@@ -1,14 +1,18 @@
 from typing import Iterator, Literal
 
+from fastapi import HTTPException
+
 Color = Literal["B"] | Literal["W"]
 
 
-class SpaceAlreadyOccupiedError(Exception):
-    pass
+class SpaceAlreadyOccupiedError(HTTPException):
+    def __init__(self):
+        super().__init__(status_code=403, detail="Point is already occupied")
 
 
-class SuicidalMoveError(Exception):
-    pass
+class SuicidalMoveError(HTTPException):
+    def __init__(self):
+        super().__init__(status_code=403, detail="Move is suicidal")
 
 
 class BoardState:

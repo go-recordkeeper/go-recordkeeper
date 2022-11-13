@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Literal
 
-from fastapi import Depends, Response
+from fastapi import Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy import asc, select
 
@@ -26,7 +26,7 @@ class ResponseModel(BaseModel):
     remove: list[Point]
 
 
-@app.put(
+@app.post(
     "/api/records/{record_id}/undo/",
     status_code=200,
     response_model=ResponseModel,
@@ -43,25 +43,27 @@ def undo_move(
             .where(Record.owner_id == current_user.id)
         )
         if record is None:
-            return Response(status_code=404)
+            raise HTTPException(status_code=404)
         moves = list(
             session.scalars(
                 select(Move).where(Move.record_id == record.id).order_by(asc(Move.move))
             )
         )
         if len(moves) == 0:
-            return Response("No moves to undo", status_code=400)
+            raise HTTPException(status_code=403, detail="No moves to undo")
         move_to_undo = moves[-1]
+        undo_x = move_to_undo.position % record.board_size
+        undo_y = move_to_undo.position // record.board_size
 
         board_state = BoardState(size=record.board_size)
         # Play all the moves up to the last move
         for move in moves[:-1]:
-            board_state.play_move(move.x, move.y, move.color)
+            x = move.position % record.board_size
+            y = move.position // record.board_size
+            board_state.play_move(x, y, move.color)
         # Simulate playing the last move to determine which stones need to be restored
-        captures_to_restore = board_state.play_move(
-            move_to_undo.x, move_to_undo.y, move_to_undo.color
-        )
-        capture_color = next_color(moves)
+        captures_to_restore = board_state.play_move(undo_x, undo_y, move_to_undo.color)
+        capture_color = next_color(record, moves)
 
         session.delete(move_to_undo)
         session.commit()
@@ -71,5 +73,5 @@ def undo_move(
                 {"x": x, "y": y, "color": capture_color}
                 for (x, y) in captures_to_restore
             ],
-            "remove": [{"x": move_to_undo.x, "y": move_to_undo.y}],
+            "remove": [{"x": undo_x, "y": undo_y}],
         }

@@ -32,7 +32,7 @@ class Move(Base):
 
 
 def next_color(record: Record, moves: list[Move]):
-    if len(moves) <= record.handicap:
+    if len(moves) < record.handicap or len(moves) == 0:
         return "B"
     if moves[-1].color == "W":
         return "B"
