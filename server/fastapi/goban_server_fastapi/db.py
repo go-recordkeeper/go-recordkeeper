@@ -6,7 +6,7 @@ There isn't much, but all SQLAlchemy models need a base registry, and it's handy
 
 from contextlib import contextmanager
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import Session, registry
 
 from goban_server_fastapi.settings import *
@@ -27,3 +27,9 @@ class DbClient:
     def session(self):
         with Session(self.engine) as session:
             yield session
+
+
+def dictify(instance):
+    """Convert a SQLAlchemy ORM model into a dict."""
+    mapper = inspect(instance).mapper
+    return {column.key: getattr(instance, column.key) for column in mapper.columns}
