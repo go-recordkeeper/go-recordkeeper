@@ -149,6 +149,7 @@ from django.forms import model_to_dict;
 d = model_to_dict(record);
 # Convert choices to real values
 d['winner'] = d['winner'].value;
+d['created'] = record.created.strftime(r"%Y_%m_%d")
 print(d);
 """
         )
