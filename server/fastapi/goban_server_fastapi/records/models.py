@@ -29,3 +29,11 @@ class Move(Base):
     color = Column(String(1))
     move = Column(Integer)
     record_id = Column(Integer)
+
+
+def next_color(record: Record, moves: list[Move]):
+    if len(moves) <= record.handicap:
+        return "B"
+    if moves[-1].color == "W":
+        return "B"
+    return "W"

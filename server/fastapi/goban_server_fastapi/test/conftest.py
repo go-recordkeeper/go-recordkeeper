@@ -4,7 +4,7 @@ from typing import Literal, Optional
 
 import pytest
 from fastapi.testclient import TestClient
-from sqlalchemy import delete
+from sqlalchemy import delete, select
 
 from goban_server_fastapi.auth.jwt import generate_token
 from goban_server_fastapi.auth.models import User, create_user
@@ -121,15 +121,18 @@ def move_factory(db: DbClient, record, faker):
         if record is None:
             record = default_record
         position = x + (y * record.board_size)
-        move = Move(
-            **{
-                "position": position,
-                "color": color,
-                "move": random.randint(0, 999999),  # TODO increment this
-                "record_id": record.id,
-            }
-        )
         with db.session() as session:
+            move_number = (
+                session.query(Move).where(Move.record_id == record.id).count() + 1
+            )
+            move = Move(
+                **{
+                    "position": position,
+                    "color": color,
+                    "move": move_number,
+                    "record_id": record.id,
+                }
+            )
             session.add(move)
             session.commit()
             # Access the ID so that it's cached for use outside the session

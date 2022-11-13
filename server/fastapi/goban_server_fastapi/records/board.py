@@ -20,6 +20,7 @@ class BoardState:
         self.stones = {}
 
     def play_move(self, x: int, y: int, color: Color) -> list[tuple[int, int]]:
+        """Play a move onto the board and return the positions of all captured stones."""
         if (x, y) in self.stones:
             raise SpaceAlreadyOccupiedError()
         self.stones[(x, y)] = color

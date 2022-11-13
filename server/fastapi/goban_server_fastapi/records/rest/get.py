@@ -3,7 +3,7 @@ from typing import Literal, Optional
 
 from fastapi import Depends, Response
 from pydantic import BaseModel
-from sqlalchemy import select
+from sqlalchemy import asc, select
 
 from goban_server_fastapi.auth import User, jwt_user
 from goban_server_fastapi.db import DbClient, dictify
@@ -62,7 +62,9 @@ def get_record(
         )
         if record is None:
             return Response(status_code=404)
-        moves = session.scalars(select(Move).where(Move.record_id == record.id))
+        moves = session.scalars(
+            select(Move).where(Move.record_id == record.id).order_by(asc(Move.move))
+        )
         board_state = BoardState(size=record.board_size)
         moves = [
             {
