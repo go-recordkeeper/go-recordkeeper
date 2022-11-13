@@ -17,25 +17,25 @@
     
 
     
-    <title>Categories</title>
+    <title>Finishing Fastapi</title>
     <meta name="description" content="Records of the Go Recordkeeper">
-    <meta name="keywords" content=''>
+    <meta name="keywords" content='fastapi, pytest'>
 
-    <meta property="og:url" content="https://go.chiquit.ooo/blog/categories/">
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/9-finishing-fastapi/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Categories">
+    <meta property="og:title" content="Finishing Fastapi">
     <meta property="og:description" content="Records of the Go Recordkeeper">
     <meta property="og:image" content="/images/mrbubz.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Categories">
+    <meta name="twitter:title" content="Finishing Fastapi">
     <meta name="twitter:description" content="Records of the Go Recordkeeper">
-    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/categories/">
-    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/categories/">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/9-finishing-fastapi/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/9-finishing-fastapi/">
     <meta name="twitter:image" content="/images/mrbubz.jpg">
 
     
-    <link rel="canonical" href="https://go.chiquit.ooo/blog/categories/" />
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/9-finishing-fastapi/" />
 
     <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
@@ -140,93 +140,66 @@
     </nav>
 </header>
 <main id="content">
-<div class="container tags-list">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Finishing Fastapi</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            November 13, 2022
+        </p>
 
-    <h1 class="list-title">Tags</h1>
-    
-    <ul class="post-tags">
+        <ul class="post-tags">
         
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/pytest/">
-                <div class="tag-name">pytest</div>
-                <div class="tag-posts-count">5</div>
-            </a>
-        </li>
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/fastapi">fastapi</a></li>
         
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/fastapi/">
-                <div class="tag-name">fastapi</div>
-                <div class="tag-posts-count">4</div>
-            </a>
-        </li>
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/pytest">pytest</a></li>
         
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/django/">
-                <div class="tag-name">django</div>
-                <div class="tag-posts-count">3</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/infrastructure/">
-                <div class="tag-name">infrastructure</div>
-                <div class="tag-posts-count">2</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/docker/">
-                <div class="tag-name">docker</div>
-                <div class="tag-posts-count">1</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/nginx/">
-                <div class="tag-name">nginx</div>
-                <div class="tag-posts-count">1</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/poetry/">
-                <div class="tag-name">poetry</div>
-                <div class="tag-posts-count">1</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/roadmap/">
-                <div class="tag-name">roadmap</div>
-                <div class="tag-posts-count">1</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/sqlalchemy/">
-                <div class="tag-name">sqlalchemy</div>
-                <div class="tag-posts-count">1</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/systemd/">
-                <div class="tag-name">systemd</div>
-                <div class="tag-posts-count">1</div>
-            </a>
-        </li>
-        
-        <li class="post-tag">
-            <a href="https://go.chiquit.ooo/blog/tags/vue/">
-                <div class="tag-name">vue</div>
-                <div class="tag-posts-count">1</div>
-            </a>
-        </li>
-        
-    </ul>
-    
+        </ul>
+    </div>
 
+    <div class="post-content">
+        <p>
+            <p>I finished the FastAPI implementation, and the integration test suite now at least partially covers every endpoint. Considering the amount of work, there is surprisingly little to say about it.</p>
+<p>The vertical slice architecture was nice to work with. I ended up creating a separate file for every record related endpoint, which basically just contained one function. It&rsquo;s very legible, and maps directly to the corresponding test files. In fact, I&rsquo;d like to put the tests in the endpoint files directly, but pytest needs a <code>conftest.py</code> so this is difficult.</p>
+<p>The integration tests did uncover a bug with rendering passes, and some status codes that didn&rsquo;t match the Django implementation. I&rsquo;m going to hash those out later.</p>
+<h3 id="next-steps">Next steps</h3>
+<p>I&rsquo;m going to bite the bullet and convert into a monorepo. I initially used separate repos because it looks cooler in git, but that&rsquo;s not really worth the inconvenience of coordinating and synchronizing all the implementations. Tragically, that means no more git submodules 💀</p>
+<p>After that, I&rsquo;m going to get started on the Haskell implementation.</p>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/8-testing-improvements/"> Testing Improvements </a>
+            </div>
+        
+        
+    </div>
 </div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#next-steps">Next steps</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
 
         </main><footer class="footer">
     <span>&copy; 2022 Daniel Chiquito</span>
