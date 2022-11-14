@@ -1,5 +1,7 @@
 # goban-deploy
 
+TODO this has all been subtly changed by the monorepo migration, none of it is entirely true.
+
 ## Building
 
 Building the web app takes a disastrously long time on a raspberry pi, so you should build static assets on a dev machine and commit dist to the repo:
