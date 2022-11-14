@@ -18,12 +18,12 @@ class CoordinateModel(BaseModel):
 
 
 class Stone(CoordinateModel):
-    color: Literal["B"] | Literal["W"]
+    color: Literal["B", "W"]
 
 
 class MoveModel(BaseModel):
     position: Optional[int]
-    color: Literal["B"] | Literal["W"]
+    color: Literal["B", "W"]
     captures: list[CoordinateModel]
 
 

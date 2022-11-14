@@ -18,8 +18,8 @@ class UpdateRequest(BaseModel):
     comment: str
     handicap: int
     komi: float
-    ruleset: Literal["AGA"] | Literal["JPN"] | Literal["CHN"]
-    winner: Literal["U"] | Literal["B"] | Literal["W"]
+    ruleset: Literal["AGA", "JPN", "CHN"]
+    winner: Literal["U", "B", "W"]
 
 
 class UpdateResponse(BaseModel):

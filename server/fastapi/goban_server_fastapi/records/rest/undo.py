@@ -18,7 +18,7 @@ class Point(BaseModel):
 
 
 class Stone(Point):
-    color: Literal["B"] | Literal["W"]
+    color: Literal["B", "W"]
 
 
 class UndoResponse(BaseModel):

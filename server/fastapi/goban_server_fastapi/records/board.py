@@ -2,7 +2,7 @@ from typing import Iterator, Literal
 
 from fastapi import HTTPException
 
-Color = Literal["B"] | Literal["W"]
+Color = Literal["B", "W"]
 
 
 class SpaceAlreadyOccupiedError(HTTPException):

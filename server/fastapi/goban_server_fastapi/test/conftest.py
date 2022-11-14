@@ -115,7 +115,7 @@ def move_factory(db: DbClient, record, faker):
     def factory(
         x: int,
         y: int,
-        color: Literal["B"] | Literal["W"],
+        color: Literal["B", "W"],
         record: Optional[Record] = None,
     ):
         if record is None:

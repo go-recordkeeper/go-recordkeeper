@@ -11,14 +11,14 @@ from goban_server_fastapi.rest import app
 
 
 class CreateRequest(BaseModel):
-    board_size: Literal[9] | Literal[13] | Literal[19]
+    board_size: Literal[9, 13, 19]
     name: str = ""
     black_player: str = "Black"
     white_player: str = "White"
     comment: str = ""
     handicap: int = 0
     komi: float = 7.5
-    ruleset: Literal["AGA"] | Literal["JPN"] | Literal["CHN"] = "AGA"
+    ruleset: Literal["AGA", "JPN", "CHN"] = "AGA"
 
 
 class CreateResponse(BaseModel):
