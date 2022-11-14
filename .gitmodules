@@ -1,0 +1,3 @@
+[submodule "blog/themes/gokarna"]
+	path = blog/themes/gokarna
+	url = https://github.com/526avijitgupta/gokarna.git
