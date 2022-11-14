@@ -1,7 +1,9 @@
 from datetime import datetime, timedelta, timezone
+from typing import Optional
 
 import jwt
-from fastapi import Depends, HTTPException, Request
+from fastapi import Depends, Header, HTTPException, Request
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from starlette.authentication import AuthenticationError
 
 from goban_server_fastapi.auth.models import User, get_user
@@ -17,17 +19,16 @@ def generate_token(user_id):
     )
 
 
-def jwt_user(conn: Request, db: DbClient = Depends()) -> User:
-    if "Authorization" not in conn.headers:
-        raise HTTPException(status_code=403, detail="invalid authorization token")
+bearer_scheme = HTTPBearer()
 
-    authorization = conn.headers["Authorization"]
-    if (not authorization) or (not authorization.startswith("Bearer ")):
-        raise HTTPException(status_code=403, detail="invalid authorization token")
-    token = authorization.removeprefix("Bearer ")
+
+def jwt_user(
+    db: DbClient = Depends(),
+    token: HTTPAuthorizationCredentials = Depends(bearer_scheme),
+) -> User:
 
     try:
-        payload = jwt.decode(token, key=SECRET_KEY, algorithms="HS256")
+        payload = jwt.decode(token.credentials, key=SECRET_KEY, algorithms="HS256")
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=403, detail="invalid authorization token")
     if "id" not in payload:
