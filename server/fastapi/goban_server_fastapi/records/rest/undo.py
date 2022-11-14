@@ -30,6 +30,7 @@ class ResponseModel(BaseModel):
     "/api/records/{record_id}/undo/",
     status_code=200,
     response_model=ResponseModel,
+    responses={403: {"detail": "No moves to undo"}},
 )
 def undo_move(
     record_id: int,

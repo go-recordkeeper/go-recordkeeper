@@ -29,6 +29,7 @@ class ResponseModel(BaseModel):
     "/api/records/{record_id}/play/",
     status_code=201,
     response_model=ResponseModel,
+    responses={403: {"detail": "Move is not allowed"}},
 )
 def play_move(
     record_id: int,
