@@ -13,7 +13,7 @@ pytest = "^7.2.0"
 pytest-faker = "^2.0.0"
 requests = "^2.28.1"
 anys = "^0.2.1"
-goban-python = {path = "goban-server-django"}
+goban-python = {path = "../server/django"}
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.10.0"
