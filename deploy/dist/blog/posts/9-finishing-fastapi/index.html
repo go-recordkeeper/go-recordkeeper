@@ -162,6 +162,7 @@
             <p>I finished the FastAPI implementation, and the integration test suite now at least partially covers every endpoint. Considering the amount of work, there is surprisingly little to say about it.</p>
 <p>The vertical slice architecture was nice to work with. I ended up creating a separate file for every record related endpoint, which basically just contained one function. It&rsquo;s very legible, and maps directly to the corresponding test files. In fact, I&rsquo;d like to put the tests in the endpoint files directly, but pytest needs a <code>conftest.py</code> so this is difficult.</p>
 <p>The integration tests did uncover a bug with rendering passes, and some status codes that didn&rsquo;t match the Django implementation. I&rsquo;m going to hash those out later.</p>
+<p>Actually deploying the alternative implementation is another matter, since I&rsquo;d need to be careful with backups and whatnot. That is a problem for another day.</p>
 <h3 id="next-steps">Next steps</h3>
 <p>I&rsquo;m going to bite the bullet and convert into a monorepo. I initially used separate repos because it looks cooler in git, but that&rsquo;s not really worth the inconvenience of coordinating and synchronizing all the implementations. Tragically, that means no more git submodules 💀</p>
 <p>After that, I&rsquo;m going to get started on the Haskell implementation.</p>
@@ -178,24 +179,6 @@
         
     </div>
 </div>
-
-<aside class="post-toc">
-    <nav id="toc">
-        <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#next-steps">Next steps</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-    </nav>
-</aside>
 
 
 
