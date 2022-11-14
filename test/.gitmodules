@@ -1,6 +1,0 @@
-[submodule "goban-server-django"]
-	path = goban-server-django
-	url = git@github.com:go-recordkeeper/goban-server-django.git
-[submodule "goban-server-fastapi"]
-	path = goban-server-fastapi
-	url = git@github.com:go-recordkeeper/goban-server-fastapi.git
