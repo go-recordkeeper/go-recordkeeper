@@ -10,7 +10,7 @@ import requests
 def init_db():
     run(["docker", "compose", "down"])
     run(["docker", "compose", "up", "postgres", "-d", "--wait"])
-    run(["poetry", "run", "python", "goban-server-django/manage.py", "migrate"])
+    run(["poetry", "run", "python", "../server/django/manage.py", "migrate"])
     yield
     run(["docker", "compose", "stop"])
 
@@ -22,13 +22,13 @@ def clean_db():
             "poetry",
             "run",
             "python",
-            "goban-server-django/manage.py",
+            "../server/django/manage.py",
             "reset_db",
             "-c",
             "--noinput",
         ]
     )
-    run(["poetry", "run", "python", "goban-server-django/manage.py", "migrate"])
+    run(["poetry", "run", "python", "../server/django/manage.py", "migrate"])
     yield
 
 
@@ -92,7 +92,7 @@ def django_command():
                 "poetry",
                 "run",
                 "python",
-                "goban-server-django/manage.py",
+                "../server/django/manage.py",
                 "shell_plus",
                 "-c",
                 f"{command}",
