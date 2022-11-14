@@ -1,21 +1,24 @@
 # goban-deploy
 
-TODO this has all been subtly changed by the monorepo migration, none of it is entirely true.
+Everything needed to actually deploy the app.
+
+I only plan on very light usage, so the app is deployed using docker-compose on a Raspberry Pi.
 
 ## Building
 
-Building the web app takes a disastrously long time on a raspberry pi, so you should build static assets on a dev machine and commit dist to the repo:
+There are two major components that are deployed: the server application, and the static assets. Static assets include the bundled web app, the Django admin console, and the blog.
+
+Building the static assets takes a disastrously long time on a raspberry pi, so instead they are build on a dev machine and committed to the repo:
 ```
-git submodule update --remote
 ./build.sh
 git add dist
 git commit
 ```
 
+You can also build specific parts using `build-blog.sh`, `build-django.sh`, and `build-vue.sh`.
+
 ## First deploy
 ```
-git submodule init
-git submodule update --remote
 ./generate-secret-key.sh
 docker-compose build
 docker-compose run django ./manage.py migrate
@@ -51,3 +54,16 @@ sudo systemctl status goban
 ```
 
 You can use either `journalctl -fu goban` or `docker-compose logs` to check the service logs.
+
+# Backups
+The `pg_dump.sh` and `pg_load_sh` scripts will, respectively, backup and restore the database to a SQL file.
+
+```sh
+# Create a backup file
+./pg_dump.sh ~/my_backup.sql
+# Restore that file
+# This drops all data currently in the DB, so be careful
+./pg_load.sh ~/my_backup.sql
+```
+
+These scripts use `docker compose` to run postgres commands, so if they are invoked in other folders, they can be used to backup/restore those docker compose configurations instead.
