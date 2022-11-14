@@ -10,7 +10,7 @@ from goban_server_fastapi.records.models import Record
 from goban_server_fastapi.rest import app
 
 
-class RequestModel(BaseModel):
+class CreateRequest(BaseModel):
     board_size: Literal[9] | Literal[13] | Literal[19]
     name: str = ""
     black_player: str = "Black"
@@ -21,7 +21,7 @@ class RequestModel(BaseModel):
     ruleset: Literal["AGA"] | Literal["JPN"] | Literal["CHN"] = "AGA"
 
 
-class ResponseModel(BaseModel):
+class CreateResponse(BaseModel):
     id: int
     owner: int
     board_size: int
@@ -39,10 +39,10 @@ class ResponseModel(BaseModel):
 @app.post(
     "/api/records/",
     status_code=201,
-    response_model=ResponseModel,
+    response_model=CreateResponse,
 )
 def create_record(
-    record_model: RequestModel,
+    record_model: CreateRequest,
     db: DbClient = Depends(),
     current_user: User = Depends(jwt_user),
 ):

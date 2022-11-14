@@ -10,7 +10,7 @@ from goban_server_fastapi.records.models import Record
 from goban_server_fastapi.rest import app
 
 
-class ResponseModel(BaseModel):
+class ListResponse(BaseModel):
     id: int
     owner: int
     board_size: int
@@ -25,7 +25,7 @@ class ResponseModel(BaseModel):
     winner: str
 
 
-@app.get("/api/records/", status_code=200, response_model=list[ResponseModel])
+@app.get("/api/records/", status_code=200, response_model=list[ListResponse])
 def list_records(db: DbClient = Depends(), current_user: User = Depends(jwt_user)):
     with db.session() as session:
         return [

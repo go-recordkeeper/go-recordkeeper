@@ -17,7 +17,7 @@ class CoordinateModel(BaseModel):
     y: int
 
 
-class StoneModel(CoordinateModel):
+class Stone(CoordinateModel):
     color: Literal["B"] | Literal["W"]
 
 
@@ -27,7 +27,7 @@ class MoveModel(BaseModel):
     captures: list[CoordinateModel]
 
 
-class ResponseModel(BaseModel):
+class GetResponse(BaseModel):
     id: int
     owner: int
     board_size: int
@@ -40,14 +40,14 @@ class ResponseModel(BaseModel):
     komi: float
     ruleset: str
     winner: str
-    stones: list[StoneModel]
+    stones: list[Stone]
     moves: list[MoveModel]
 
 
 @app.get(
     "/api/records/{record_id}/",
     status_code=200,
-    response_model=ResponseModel,
+    response_model=GetResponse,
 )
 def get_record(
     record_id: int,

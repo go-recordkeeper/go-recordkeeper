@@ -11,7 +11,7 @@ from goban_server_fastapi.records.models import Record
 from goban_server_fastapi.rest import app
 
 
-class RequestModel(BaseModel):
+class UpdateRequest(BaseModel):
     name: str
     black_player: str
     white_player: str
@@ -22,7 +22,7 @@ class RequestModel(BaseModel):
     winner: Literal["U"] | Literal["B"] | Literal["W"]
 
 
-class ResponseModel(BaseModel):
+class UpdateResponse(BaseModel):
     id: int
     owner: int
     board_size: int
@@ -40,11 +40,11 @@ class ResponseModel(BaseModel):
 @app.put(
     "/api/records/{record_id}/",
     status_code=200,
-    response_model=ResponseModel,
+    response_model=UpdateResponse,
 )
 def update_record(
     record_id: int,
-    record_model: RequestModel,
+    record_model: UpdateRequest,
     db: DbClient = Depends(),
     current_user: User = Depends(jwt_user),
 ):

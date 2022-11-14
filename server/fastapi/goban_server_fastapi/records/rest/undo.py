@@ -21,7 +21,7 @@ class Stone(Point):
     color: Literal["B"] | Literal["W"]
 
 
-class ResponseModel(BaseModel):
+class UndoResponse(BaseModel):
     add: list[Stone]
     remove: list[Point]
 
@@ -29,7 +29,7 @@ class ResponseModel(BaseModel):
 @app.post(
     "/api/records/{record_id}/undo/",
     status_code=200,
-    response_model=ResponseModel,
+    response_model=UndoResponse,
     responses={403: {"detail": "No moves to undo"}},
 )
 def undo_move(

@@ -20,7 +20,11 @@ class Stone(Point):
     color: Literal["B"] | Literal["W"]
 
 
-class ResponseModel(BaseModel):
+class PlayRequest(Point):
+    pass
+
+
+class PlayResponse(BaseModel):
     add: list[Stone]
     remove: list[Point]
 
@@ -28,12 +32,12 @@ class ResponseModel(BaseModel):
 @app.post(
     "/api/records/{record_id}/play/",
     status_code=201,
-    response_model=ResponseModel,
+    response_model=PlayResponse,
     responses={403: {"detail": "Move is not allowed"}},
 )
 def play_move(
     record_id: int,
-    point: Point,
+    point: PlayRequest,
     db: DbClient = Depends(),
     current_user: User = Depends(jwt_user),
 ):
