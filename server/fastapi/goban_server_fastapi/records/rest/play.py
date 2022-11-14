@@ -51,9 +51,10 @@ def play_move(
         )
         board_state = BoardState(size=record.board_size)
         for move in moves:
-            x = move.position % record.board_size
-            y = move.position // record.board_size
-            board_state.play_move(x, y, move.color)
+            if move.position is not None:
+                x = move.position % record.board_size
+                y = move.position // record.board_size
+                board_state.play_move(x, y, move.color)
 
         color = next_color(record, moves)
         captures = board_state.play_move(point.x, point.y, color)

@@ -58,9 +58,10 @@ def undo_move(
         board_state = BoardState(size=record.board_size)
         # Play all the moves up to the last move
         for move in moves[:-1]:
-            x = move.position % record.board_size
-            y = move.position // record.board_size
-            board_state.play_move(x, y, move.color)
+            if move.position is not None:
+                x = move.position % record.board_size
+                y = move.position // record.board_size
+                board_state.play_move(x, y, move.color)
         # Simulate playing the last move to determine which stones need to be restored
         captures_to_restore = board_state.play_move(undo_x, undo_y, move_to_undo.color)
         capture_color = next_color(record, moves)
