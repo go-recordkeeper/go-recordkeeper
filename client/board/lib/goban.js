@@ -1,19 +1,15 @@
-"use strict";
 var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
     if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
 var _Goban_instances, _Goban_getCanvas, _Goban_getPointerEventCoordinates, _Goban_fillBackground, _Goban_drawLines, _Goban_drawDots, _Goban_drawMouseHighlighter, _Goban_drawStone, _Goban_drawCircle;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.stoneFromColor = exports.Stone = exports.Goban = void 0;
 var Stone;
 (function (Stone) {
     Stone[Stone["None"] = 0] = "None";
     Stone[Stone["Black"] = 1] = "Black";
     Stone[Stone["White"] = 2] = "White";
 })(Stone || (Stone = {}));
-exports.Stone = Stone;
 function stoneFromColor(color) {
     switch (color) {
         case 'B': return Stone.Black;
@@ -21,7 +17,6 @@ function stoneFromColor(color) {
         case ' ': return Stone.None;
     }
 }
-exports.stoneFromColor = stoneFromColor;
 class Goban {
     constructor(selector, size, onClick = () => { }) {
         _Goban_instances.add(this);
@@ -85,7 +80,6 @@ class Goban {
         }
     }
 }
-exports.Goban = Goban;
 _Goban_instances = new WeakSet(), _Goban_getCanvas = function _Goban_getCanvas() {
     return document.querySelector(this.canvasSelector);
 }, _Goban_getPointerEventCoordinates = function _Goban_getPointerEventCoordinates(canvas, event) {
@@ -180,3 +174,4 @@ _Goban_instances = new WeakSet(), _Goban_getCanvas = function _Goban_getCanvas()
     ctx.arc(x, y, radius, 0, Math.PI * 2);
     ctx.fill();
 };
+export { Goban, Stone, stoneFromColor };
