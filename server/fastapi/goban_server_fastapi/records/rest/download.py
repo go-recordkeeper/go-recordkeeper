@@ -32,7 +32,7 @@ def download(
         if record.name:
             root_node.set("GN", record.name)
         if record.comment:
-            root_node.set("GC", record.name)
+            root_node.set("GC", record.comment)
         root_node.set("PB", record.black_player)
         root_node.set("PW", record.white_player)
         root_node.set("KM", record.komi)
