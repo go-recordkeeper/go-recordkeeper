@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Script to facilitate migration to a monorepo while keeping the git history
-# Cribbed from
+# Cribbed from https://medium.com/@TimHolzherr/how-to-move-your-git-repository-into-a-monorepo-without-loosing-its-history-9b9d2da27155
 
 repoToMove=$1
 targetDir=$2
