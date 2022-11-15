@@ -1,3 +1,9 @@
+# Use the FastAPI openapi.json as the canonical one, it's the most descriptive
+location = /openapi.json {
+    return 301 /fastapi/openapi.json;
+    # proxy_pass /fastapi/openapi.json;
+}
+
 location / {
     root /dist/;
     try_files $uri $uri/ /;

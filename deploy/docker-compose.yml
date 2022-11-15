@@ -28,7 +28,32 @@ services:
       LETSENCRYPT_HOST: go.chiquit.ooo
       VIRTUAL_HOST: go.chiquit.ooo
       VIRTUAL_PORT: 8000
-      VIRTUAL_PATH: /api/
+      VIRTUAL_PATH: /django/
+      VIRTUAL_DEST: /
+      VIRTUAL_PROTO: http
+    depends_on:
+      - postgres
+
+  fastapi:
+    build: ../server/fastapi
+    volumes:
+      - ../server/fastapi/:/goban
+    ports:
+      - 8001:8000
+    env_file:
+      - .env.django
+    environment:
+      POSTGRES_NAME: default
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres # this refers to the postgres service above ^
+      OPENAPI_PREFIX: /fastapi
+      GOBAN_HOST: go.chiquit.ooo
+      LETSENCRYPT_HOST: go.chiquit.ooo
+      VIRTUAL_HOST: go.chiquit.ooo
+      VIRTUAL_PORT: 8000
+      VIRTUAL_PATH: /fastapi/
+      VIRTUAL_DEST: /
       VIRTUAL_PROTO: http
     depends_on:
       - postgres
