@@ -1,6 +1,6 @@
-from fastapi import Depends, HTTPException
 from sqlalchemy import asc, select
 
+from fastapi import Depends, HTTPException
 from goban_server_fastapi.auth import User, jwt_user
 from goban_server_fastapi.db import DbClient
 from goban_server_fastapi.records.models import Move, Record, next_color

@@ -5,6 +5,7 @@ import base64
 import hashlib
 import math
 import secrets
+from typing import Optional
 
 RANDOM_STRING_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
@@ -27,30 +28,6 @@ def force_bytes(s, encoding="utf-8", errors="strict"):
     return str(s).encode(encoding, errors)
 
 
-def get_random_string(length, allowed_chars=RANDOM_STRING_CHARS):
-    """
-    Return a securely generated random string.
-
-    The bit length of the returned value can be calculated with the formula:
-        log_2(len(allowed_chars)^length)
-
-    For example, with default `allowed_chars` (26+26+10), this gives:
-      * length: 12, bit length =~ 71 bits
-      * length: 22, bit length =~ 131 bits
-    """
-    return "".join(secrets.choice(allowed_chars) for i in range(length))
-
-
-def mask_hash(hash, show=6, char="*"):
-    """
-    Return the given hash, with only the first ``show`` number shown. The
-    rest are masked with ``char`` for security reasons.
-    """
-    masked = hash[:show]
-    masked += char * len(hash[show:])
-    return masked
-
-
 def pbkdf2(password, salt, iterations, dklen=0, digest=None):
     """Return the hash of password using pbkdf2."""
     if digest is None:
@@ -61,71 +38,18 @@ def pbkdf2(password, salt, iterations, dklen=0, digest=None):
     return hashlib.pbkdf2_hmac(digest().name, password, salt, iterations, dklen)
 
 
-def must_update_salt(salt, expected_entropy):
-    # Each character in the salt provides log_2(len(alphabet)) bits of entropy.
-    return len(salt) * math.log2(len(RANDOM_STRING_CHARS)) < expected_entropy
+def verify_password(password: str, encoded: str) -> bool:
+    algorithm, iterations, salt, _hash = encoded.split("$", 3)
+    assert algorithm == "pbkdf2_sha256"
+    encoded_2 = encode_password(password, salt, int(iterations))
+    return encoded == encoded_2
 
 
-class PBKDF2PasswordHasher:
-    """
-    Secure password hashing using the PBKDF2 algorithm (recommended)
-
-    Configured to use PBKDF2 + HMAC + SHA256.
-    The result is a 64 byte binary string.  Iterations may be changed
-    safely but you must rename the algorithm if you change SHA256.
-    """
-
-    algorithm = "pbkdf2_sha256"
-    iterations = 390000
-    digest = hashlib.sha256
-
-    def salt(self):
-        """
-        Generate a cryptographically secure nonce salt in ASCII with an entropy
-        of at least `salt_entropy` bits.
-        """
-        # Each character in the salt provides
-        # log_2(len(alphabet)) bits of entropy.
+def encode_password(password: str, salt: Optional[str] = None, iterations=None) -> str:
+    if salt is None:
         char_count = math.ceil(128 / math.log2(len(RANDOM_STRING_CHARS)))
-        return get_random_string(char_count, allowed_chars=RANDOM_STRING_CHARS)
-
-    def encode(self, password, salt, iterations=None):
-        iterations = iterations or self.iterations
-        hash = pbkdf2(password, salt, iterations, digest=self.digest)
-        hash = base64.b64encode(hash).decode("ascii").strip()
-        return "%s$%d$%s$%s" % (self.algorithm, iterations, salt, hash)
-
-    def decode(self, encoded):
-        algorithm, iterations, salt, hash = encoded.split("$", 3)
-        assert algorithm == self.algorithm
-        return {
-            "algorithm": algorithm,
-            "hash": hash,
-            "iterations": int(iterations),
-            "salt": salt,
-        }
-
-    def verify(self, password, encoded):
-        decoded = self.decode(encoded)
-        encoded_2 = self.encode(password, decoded["salt"], decoded["iterations"])
-        return encoded == encoded_2
-
-    def safe_summary(self, encoded):
-        decoded = self.decode(encoded)
-        return {
-            "algorithm": decoded["algorithm"],
-            "iterations": decoded["iterations"],
-            "salt": mask_hash(decoded["salt"]),
-            "hash": mask_hash(decoded["hash"]),
-        }
-
-    def must_update(self, encoded):
-        decoded = self.decode(encoded)
-        update_salt = must_update_salt(decoded["salt"], self.salt_entropy)
-        return (decoded["iterations"] != self.iterations) or update_salt
-
-    def harden_runtime(self, password, encoded):
-        decoded = self.decode(encoded)
-        extra_iterations = self.iterations - decoded["iterations"]
-        if extra_iterations > 0:
-            self.encode(password, decoded["salt"], extra_iterations)
+        salt = "".join(secrets.choice(RANDOM_STRING_CHARS) for i in range(char_count))
+    iterations = iterations or 390000
+    hash = pbkdf2(password, salt, iterations, digest=hashlib.sha256)
+    hash = base64.b64encode(hash).decode("ascii").strip()
+    return "%s$%d$%s$%s" % ("pbkdf2_sha256", iterations, salt, hash)

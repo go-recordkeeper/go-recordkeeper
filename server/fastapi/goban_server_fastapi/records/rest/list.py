@@ -1,9 +1,9 @@
 from datetime import datetime
 
-from fastapi import Depends
 from pydantic import BaseModel
 from sqlalchemy import desc, select
 
+from fastapi import Depends
 from goban_server_fastapi.auth import User, jwt_user
 from goban_server_fastapi.db import DbClient
 from goban_server_fastapi.records.models import Record

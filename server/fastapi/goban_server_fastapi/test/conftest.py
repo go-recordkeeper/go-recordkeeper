@@ -1,14 +1,13 @@
-import random
 from datetime import datetime
 from typing import Literal, Optional
 
 import pytest
-from fastapi.testclient import TestClient
-from sqlalchemy import delete, select
+from sqlalchemy import delete
 
+from fastapi.testclient import TestClient
 from goban_server_fastapi.auth.jwt import generate_token
 from goban_server_fastapi.auth.models import User, create_user
-from goban_server_fastapi.auth.password import PBKDF2PasswordHasher
+from goban_server_fastapi.auth.password import encode_password
 from goban_server_fastapi.db import DbClient
 from goban_server_fastapi.main import app
 from goban_server_fastapi.records.models import Move, Record
@@ -62,8 +61,7 @@ def user_factory(db: DbClient, faker):
             email = faker.email()
         if password is None:
             password = faker.password()
-        hasher = PBKDF2PasswordHasher()
-        password_hash = hasher.encode(password, hasher.salt())
+        password_hash = encode_password(password)
         return create_user(db, username, email, password_hash)
 
     return factory

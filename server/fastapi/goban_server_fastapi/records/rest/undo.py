@@ -1,10 +1,10 @@
 from datetime import datetime
 from typing import Literal
 
-from fastapi import Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy import asc, select
 
+from fastapi import Depends, HTTPException
 from goban_server_fastapi.auth import User, jwt_user
 from goban_server_fastapi.db import DbClient
 from goban_server_fastapi.records.board import BoardState

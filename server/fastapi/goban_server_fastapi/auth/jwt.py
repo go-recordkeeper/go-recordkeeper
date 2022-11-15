@@ -2,10 +2,10 @@ from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 import jwt
-from fastapi import Depends, Header, HTTPException, Request
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from starlette.authentication import AuthenticationError
 
+from fastapi import Depends, Header, HTTPException, Request
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from goban_server_fastapi.auth.models import User, get_user
 from goban_server_fastapi.db import DbClient
 from goban_server_fastapi.settings import SECRET_KEY

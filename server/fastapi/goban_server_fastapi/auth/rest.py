@@ -1,10 +1,10 @@
-from fastapi import Depends
 from pydantic import BaseModel, EmailStr
 from starlette.responses import JSONResponse, Response
 
+from fastapi import Depends
 from goban_server_fastapi.auth.jwt import generate_token, jwt_user
 from goban_server_fastapi.auth.models import User, create_user, get_user
-from goban_server_fastapi.auth.password import PBKDF2PasswordHasher
+from goban_server_fastapi.auth.password import encode_password, verify_password
 from goban_server_fastapi.db import DbClient
 from goban_server_fastapi.rest import app
 
@@ -46,8 +46,7 @@ def login(login: LoginRequest, db: DbClient = Depends()):
     """
     u = get_user(db, username=login.username)
     if u is not None:
-        hasher = PBKDF2PasswordHasher()
-        if hasher.verify(login.password, u.password):
+        if verify_password(login.password, u.password):
             return generate_token(u.id)
     return Response(status_code=401)
 
@@ -61,8 +60,7 @@ def login(login: LoginRequest, db: DbClient = Depends()):
 )
 def register(register: RegisterRequest, db: DbClient = Depends()):
     """Register a user with the given username, email, and password."""
-    hasher = PBKDF2PasswordHasher()
-    password_hash = hasher.encode(register.password, hasher.salt())
+    password_hash = encode_password(register.password)
     new_user = create_user(
         db,
         username=register.username,

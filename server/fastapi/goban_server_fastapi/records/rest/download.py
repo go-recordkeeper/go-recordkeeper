@@ -1,8 +1,8 @@
-from fastapi import Depends, HTTPException
-from fastapi.responses import StreamingResponse
 from sgfmill import sgf
 from sqlalchemy import asc, select
 
+from fastapi import Depends, HTTPException
+from fastapi.responses import StreamingResponse
 from goban_server_fastapi.auth import User, jwt_user
 from goban_server_fastapi.db import DbClient
 from goban_server_fastapi.records.models import Move, Record, next_color

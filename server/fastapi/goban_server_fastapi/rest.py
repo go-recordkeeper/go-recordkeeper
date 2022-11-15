@@ -5,12 +5,12 @@ All endpoints should import `app` from this module and register using the decora
 They should also import `User` and `jwt_user` from here to avoid explicit inter-slice dependencies.
 This is a convenient central location for anything that many endpoints will need.
 """
-from fastapi import Depends, FastAPI
-from fastapi.exceptions import RequestValidationError
 from starlette import status
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
+from fastapi import Depends, FastAPI
+from fastapi.exceptions import RequestValidationError
 from goban_server_fastapi.db import DbClient
 from goban_server_fastapi.settings import OPENAPI_PREFIX
 
