@@ -21,6 +21,10 @@ description:         Please see the README on GitHub at <https://github.com/dchi
 
 dependencies:
 - base >= 4.7 && < 5
+- aeson
+- servant-server
+- wai
+- warp
 
 ghc-options:
 - -Wall

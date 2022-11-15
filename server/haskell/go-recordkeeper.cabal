@@ -32,7 +32,11 @@ library
       src
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
+    , servant-server
+    , wai
+    , warp
   default-language: Haskell2010
 
 executable go-recordkeeper-exe
@@ -43,8 +47,12 @@ executable go-recordkeeper-exe
       app
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , go-recordkeeper
+    , servant-server
+    , wai
+    , warp
   default-language: Haskell2010
 
 test-suite go-recordkeeper-test
@@ -56,6 +64,10 @@ test-suite go-recordkeeper-test
       test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , go-recordkeeper
+    , servant-server
+    , wai
+    , warp
   default-language: Haskell2010
