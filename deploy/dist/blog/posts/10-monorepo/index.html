@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Monorepo</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='django, fastapi, nginx'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/10-monorepo/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Monorepo">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Monorepo">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/10-monorepo/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/10-monorepo/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/10-monorepo/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Monorepo</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            November 14, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/django">django</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/fastapi">fastapi</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/nginx">nginx</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>I bit the bullet and coallesced all the repositories into a single monorepo: <a href="https://github.com/go-recordkeeper/go-recordkeeper">go-recordkeeper</a>. This looks less impressive, in the GitHub organization view, but is generally much nicer to work with. I left the old repositories there just to avoid breaking all those links, so I guess the trail of corpses is still imposing.</p>
+<p>RIP git submodules 😭</p>
+<h1 id="monorepofication">Monorepofication</h1>
+<p>The conversion process was rather lengthy and quite involved. I hope that my case was abnormally difficult because I had a lot of submodules that needed conversion into relative paths, but I cringe to think how much harder it would have been with more coworkers, possibly committing work at the same time. As it is, I&rsquo;m the only contributor (and also the only user of the app), so the headaches belong solely to me.</p>
+<p>It&rsquo;s late and I&rsquo;m tired, so here&rsquo;s a quick summary of the speed bumps I hit:</p>
+<ul>
+<li>I had to write (steal) a script to copy the git history of all the coalescing repositories. git has a neat command <code>format-patch</code> that with the right incantations dumps out the entire repo into a file as a series of patches. By editing that patch stream with <code>sed</code> to prefix all the file paths with their new home in the monorepo, you basically edit history so that all of the changes made were, according to git, made in the monorepo. Credit to <a href="https://medium.com/@TimHolzherr/how-to-move-your-git-repository-into-a-monorepo-without-loosing-its-history-9b9d2da27155">Tim Holzerr</a> for that</li>
+<li>I was using a submodule to import the Hugo theme used for the blog (<a href="https://github.com/526avijitgupta/gokarna">gokarna</a>, nice theme, maintainers have been very responsive). This exploded immediately when it was moved to a different path in the monorepo, so I had to exterminate it and add it afresh.</li>
+<li>To keep the vue code vuey and the pure JS code JSy, I originally split the web app code and the pure JS canvas code that renders the game board into two different repositories. I used an npm git dependency rather than export an npm package to import the board code into the vue code, but now in the monorepo, I can use a relative import. Unfortunately this <a href="https://rollupjs.org/guide/en/#error-name-is-not-exported-by-module">broke the build</a> because JS is bad. I eventually resolved it by changing the board code to export as ES2022 JS instead of CommonJS. It&rsquo;s less portable, but ¯\_(ツ)_/¯</li>
+<li>All the deploy build scripts needing updating, but that&rsquo;s only to be expected.</li>
+<li>The tests basically just worked after find/replacing submodules with relative paths, which was nice.</li>
+<li>I wrote scripts to backup/restore the database so that the old data could be uploaded to the new monorepo deployment. Thankfully the schema is unchanged, so everything went off without a hitch.</li>
+<li>Documentation needed to be updated everywhere. I think I got all the egregious stuff, but you can always document better.</li>
+</ul>
+<p>The tests passed and the deployment went smoothly, so naturally it&rsquo;s time to keep working!</p>
+<h1 id="deploying-fastapi">Deploying FastAPI</h1>
+<p>Everything is in one easy place now, so how hard could deploying FastAPI really be?</p>
+<p>It&rsquo;s pretty hard.</p>
+<p>Most of the difficulty was in testing the deployment locally. I use <a href="https://github.com/nginx-proxy/nginx-proxy">nginx-proxy</a> to abstract away the nitty gritty nginx config writing (which I could have done manually), but mostly to generate Let&rsquo;s Encrypt SSL certificates automatically (which I really did not want to do manually). This makes deploying in production very easy, since SSL just pops out for free. However, it makes developing locally hard, since your development machine probably doesn&rsquo;t have it&rsquo;s own domain.</p>
+<p>I, foolishly, simply redirected all my incoming network traffic to my laptop (instead of my Raspberry Pi which normally runs the server), which made <code>go.chiquit.ooo</code> resolve to my laptop, allowing me to essentially test in production (without production data, of course). In retrospect, I should have just commented out the letsencrypt stuff from the <code>docker-compose.yml</code>. Oh well, live and learn.</p>
+<p>I ended up hosting the Django instance at <a href="https://go.chiquit.ooo/django/">https://go.chiquit.ooo/django/</a> and FastAPI at <a href="https://go.chiquit.ooo/fastapi/">https://go.chiquit.ooo/fastapi/</a>. Since there is no longer a single <a href="https://go.chiquit.ooo/api/">https://go.chiquit.ooo/api/</a>, I simply pointed all web client traffic to FastAPI; it deserves some time in the sun. I couldn&rsquo;t find a simple way to enable load balancing with <code>nginx-proxy</code>, so I will either have to hit my harder on that problem or just choose API providers randomly client side. A problem for another day.</p>
+<p>The last bump was the <a href="https://go.chiquit.ooo/fastapi/docs">OpenAPI docs</a>. FastAPI has some really nice OpenAPI integration (IMHO much nicer than <a href="https://drf-yasg.readthedocs.io/en/stable/">drf-yasg</a>), so I figured it would be nice to have the OpenAPI docs page available somewhere. Sadly, the page pulls the OpenAPI data from <code>/openapi.json</code>, and that isn&rsquo;t configurable, so I had to add a custom nginx redirect to <code>/fastapi/openapi.json</code>. It feels dirty, but I don&rsquo;t know how else to do it.</p>
+<p>Now that I&rsquo;m looking at it again I found <a href="https://drf-yasg.readthedocs.io/en/stable/">these docs</a> that describe how to disable the default <code>/doc/</code> and <code>/redoc/</code> and serve your own with custom templatization. Seems a lot more involved than my ugly proxy thing. Ah well.</p>
+<h1 id="next-steps">Next steps</h1>
+<ol>
+<li>Pat myself on the back. I&rsquo;ve got a monorepo, two working implementations, and even some docs. That&rsquo;s pretty good.</li>
+<li>Do some FastAPI code review. Django is officially the source of truth for the DB because of its stellar ORM, but I think FastAPI is going to be what any subsequent implementations are going to resemble (it&rsquo;s vertically sliced, after all). It should look as good as possible, and more importantly be as copiable as possible.</li>
+<li>Get to work on alternative implementations. I want to start with Haskell. I have a friend who might be interested in the Rust implementation, so I might also take this as an opportunity to practice project management and code review.</li>
+</ol>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/9-finishing-fastapi/"> Finishing Fastapi </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

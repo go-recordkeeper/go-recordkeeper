@@ -6,7 +6,18 @@
     <description>Recent content on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 13 Nov 2022 18:12:13 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Nov 2022 20:36:14 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Monorepo</title>
+      <link>https://go.chiquit.ooo/blog/posts/10-monorepo/</link>
+      <pubDate>Mon, 14 Nov 2022 20:36:14 -0500</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/10-monorepo/</guid>
+      <description>I bit the bullet and coallesced all the repositories into a single monorepo: go-recordkeeper. This looks less impressive, in the GitHub organization view, but is generally much nicer to work with. I left the old repositories there just to avoid breaking all those links, so I guess the trail of corpses is still imposing.
+RIP git submodules 😭
+Monorepofication The conversion process was rather lengthy and quite involved. I hope that my case was abnormally difficult because I had a lot of submodules that needed conversion into relative paths, but I cringe to think how much harder it would have been with more coworkers, possibly committing work at the same time.</description>
+    </item>
+    
     <item>
       <title>Finishing Fastapi</title>
       <link>https://go.chiquit.ooo/blog/posts/9-finishing-fastapi/</link>

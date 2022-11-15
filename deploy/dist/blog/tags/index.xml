@@ -6,13 +6,31 @@
     <description>Recent content in Tags on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 13 Nov 2022 18:12:13 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Nov 2022 20:36:14 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>django</title>
+      <link>https://go.chiquit.ooo/blog/tags/django/</link>
+      <pubDate>Mon, 14 Nov 2022 20:36:14 -0500</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/tags/django/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>fastapi</title>
       <link>https://go.chiquit.ooo/blog/tags/fastapi/</link>
-      <pubDate>Sun, 13 Nov 2022 18:12:13 -0500</pubDate>
+      <pubDate>Mon, 14 Nov 2022 20:36:14 -0500</pubDate>
       
       <guid>https://go.chiquit.ooo/blog/tags/fastapi/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>nginx</title>
+      <link>https://go.chiquit.ooo/blog/tags/nginx/</link>
+      <pubDate>Mon, 14 Nov 2022 20:36:14 -0500</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/tags/nginx/</guid>
       <description></description>
     </item>
     
@@ -22,15 +40,6 @@
       <pubDate>Sun, 13 Nov 2022 18:12:13 -0500</pubDate>
       
       <guid>https://go.chiquit.ooo/blog/tags/pytest/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>django</title>
-      <link>https://go.chiquit.ooo/blog/tags/django/</link>
-      <pubDate>Fri, 11 Nov 2022 15:43:48 -0500</pubDate>
-      
-      <guid>https://go.chiquit.ooo/blog/tags/django/</guid>
       <description></description>
     </item>
     
@@ -76,15 +85,6 @@
       <pubDate>Sun, 02 Oct 2022 22:17:12 -0400</pubDate>
       
       <guid>https://go.chiquit.ooo/blog/tags/systemd/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>nginx</title>
-      <link>https://go.chiquit.ooo/blog/tags/nginx/</link>
-      <pubDate>Thu, 22 Sep 2022 10:48:24 -0400</pubDate>
-      
-      <guid>https://go.chiquit.ooo/blog/tags/nginx/</guid>
       <description></description>
     </item>
     
