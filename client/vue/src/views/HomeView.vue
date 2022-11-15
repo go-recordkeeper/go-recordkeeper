@@ -20,16 +20,7 @@
       Source code can be found at:
     </div>
     <div class="my-5 text-center text-lg">
-      Goban widget: <a href="https://github.com/go-recordkeeper/goban-js" class="text-blue-800 underline">https://github.com/go-recordkeeper/goban-js</a>
-    </div>
-    <div class="my-5 text-center text-lg">
-      Server: <a href="https://github.com/go-recordkeeper/goban-server-django" class="text-blue-800 underline">https://github.com/go-recordkeeper/goban-server-django</a>
-    </div>
-    <div class="my-5 text-center text-lg">
-      Web client: <a href="https://github.com/go-recordkeeper/goban-vue" class="text-blue-800 underline">https://github.com/go-recordkeeper/goban-vue</a>
-    </div>
-    <div class="my-5 text-center text-lg">
-      Deployment: <a href="https://github.com/go-recordkeeper/goban-deploy" class="text-blue-800 underline">https://github.com/go-recordkeeper/goban-deploy</a>
+      <a href="https://github.com/go-recordkeeper/go-recordkeeper" class="text-blue-800 underline">https://github.com/go-recordkeeper/go-recordkeeper</a>
     </div>
   </div>
 </template>
