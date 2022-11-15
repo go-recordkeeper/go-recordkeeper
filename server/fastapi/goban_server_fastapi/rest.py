@@ -12,6 +12,7 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 
 from goban_server_fastapi.db import DbClient
+from goban_server_fastapi.settings import OPENAPI_PREFIX
 
 
 async def request_validation_exception_handler(
@@ -29,5 +30,5 @@ async def request_validation_exception_handler(
     )
 
 
-app = FastAPI(dependencies=[Depends(DbClient)])
+app = FastAPI(dependencies=[Depends(DbClient)], openapi_prefix=OPENAPI_PREFIX)
 app.add_exception_handler(RequestValidationError, request_validation_exception_handler)
