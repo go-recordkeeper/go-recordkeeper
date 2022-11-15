@@ -1,4 +1,6 @@
 {-# LANGUAGE DataKinds #-}
+{-# LANGUAGE DuplicateRecordFields #-}
+{-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeOperators #-}
 
@@ -10,16 +12,47 @@ import Network.Wai
 import Network.Wai.Handler.Warp
 import Servant
 
-data User = User
-  { userId :: Int,
-    userFirstName :: String,
-    userLastName :: String
+data LoginRequest = LoginRequest
+  { username :: String,
+    password :: String
   }
   deriving (Eq, Show)
 
-$(deriveJSON defaultOptions ''User)
+$(deriveJSON defaultOptions ''LoginRequest)
 
-type API = "users" :> Get '[JSON] [User]
+data RegisterRequest = RegisterRequest
+  { username :: String,
+    email :: String,
+    password :: String
+  }
+  deriving (Eq, Show)
+
+$(deriveJSON defaultOptions ''RegisterRequest)
+
+data RegisterResponse = RegisterResponse
+  { id :: Int,
+    username :: String,
+    email :: String
+  }
+  deriving (Eq, Show)
+
+$(deriveJSON defaultOptions ''RegisterResponse)
+
+data GetUserResponse = GetUserResponse
+  { id :: Int,
+    username :: String,
+    email :: String
+  }
+  deriving (Eq, Show)
+
+$(deriveJSON defaultOptions ''GetUserResponse)
+
+type API =
+  "api"
+    :> ( "login" :> ReqBody '[JSON] LoginRequest :> Post '[JSON] String
+           :<|> "register" :> ReqBody '[JSON] RegisterRequest :> PostCreated '[JSON] RegisterResponse
+           :<|> "user" :> Post '[JSON] GetUserResponse
+       )
 
 startApp :: IO ()
 startApp = run 8080 app
@@ -31,7 +64,13 @@ api :: Proxy API
 api = Proxy
 
 server :: Server API
-server = return users
+server = return . login :<|> return . register :<|> return user
 
-users :: [User]
-users = [User 1 "Daniel" "Chiquito"]
+login :: LoginRequest -> String
+login LoginRequest {username, password} = "secret auth token LMAO " ++ username ++ " " ++ password
+
+register :: RegisterRequest -> RegisterResponse
+register RegisterRequest {username, email} = RegisterResponse 0 username email
+
+user :: GetUserResponse
+user = GetUserResponse 1 "daniel" "daniel@chiquit.ooo"
