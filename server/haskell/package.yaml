@@ -36,6 +36,12 @@ ghc-options:
 - -Wmissing-home-modules
 - -Wpartial-fields
 - -Wredundant-constraints
+# Global language flags
+- -XTemplateHaskell
+- -XTypeOperators
+- -XDataKinds
+- -XDuplicateRecordFields
+- -XNamedFieldPuns
 
 library:
   source-dirs: src
