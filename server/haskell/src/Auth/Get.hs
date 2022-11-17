@@ -15,5 +15,5 @@ $(deriveJSON defaultOptions ''GetResponse)
 
 type GetAPI = "user" :> Post '[JSON] GetResponse
 
-get :: GetResponse
-get = GetResponse 1 "daniel" "daniel@chiquit.ooo"
+get :: Handler GetResponse
+get = return $ GetResponse 1 "daniel" "daniel@chiquit.ooo"

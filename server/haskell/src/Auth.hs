@@ -9,4 +9,4 @@ type AuthAPI =
   LoginAPI :<|> RegisterAPI :<|> GetAPI
 
 authServer :: Server AuthAPI
-authServer = return . login :<|> return . register :<|> return get
+authServer = login :<|> register :<|> get

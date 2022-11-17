@@ -14,5 +14,5 @@ $(deriveJSON defaultOptions ''LoginRequest)
 
 type LoginAPI = "login" :> ReqBody '[JSON] LoginRequest :> Post '[JSON] String
 
-login :: LoginRequest -> String
-login _ = "heh token"
+login :: LoginRequest -> Handler String
+login _ = return "heh token"
