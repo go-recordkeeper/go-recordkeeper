@@ -1,20 +1,30 @@
 module Lib (startApp, app) where
 
 import Auth (AuthAPI, authServer)
+import Auth.User
+import Crypto.JOSE (JWK)
+import qualified Data.ByteString.Lazy.Char8 as BS
 import Network.Wai
-import Network.Wai.Handler.Warp
+import Network.Wai.Handler.Warp (run)
 import Servant
+import Servant.Auth.Server
 
-type API = "api" :> AuthAPI
+type API auths = "api" :> AuthAPI auths
 
-startApp :: IO ()
-startApp = run 8080 app
-
-app :: Application
-app = serve api server
-
-api :: Proxy API
+api :: Proxy (API '[JWT])
 api = Proxy
 
-server :: Server API
+server :: Server (API auths)
 server = authServer
+
+app :: JWK -> Application
+app jwk = serveWithContext api (defaultCookieSettings :. defaultJWTSettings jwk :. EmptyContext) server
+
+startApp :: IO ()
+startApp = do
+  jwk <- generateKey
+  token <- makeJWT (Auth.User.User 0 "Daniel" "daniel@chiquito" "password") (defaultJWTSettings jwk) Nothing
+  case token of
+    Left _ -> putStrLn "there was a jwt err"
+    Right token' -> BS.putStrLn token'
+  run 8080 (app jwk)

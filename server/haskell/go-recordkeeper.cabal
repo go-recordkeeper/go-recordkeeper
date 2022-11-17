@@ -29,15 +29,19 @@ library
       Auth.Get
       Auth.Login
       Auth.Register
+      Auth.User
       Lib
   other-modules:
       Paths_go_recordkeeper
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -XTemplateHaskell -XTypeOperators -XDataKinds -XDuplicateRecordFields -XNamedFieldPuns
   build-depends:
       aeson
     , base >=4.7 && <5
+    , bytestring
+    , jose
+    , servant-auth-server
     , servant-server
     , wai
     , warp
@@ -49,11 +53,14 @@ executable go-recordkeeper-exe
       Paths_go_recordkeeper
   hs-source-dirs:
       app
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -XTemplateHaskell -XTypeOperators -XDataKinds -XDuplicateRecordFields -XNamedFieldPuns -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aeson
     , base >=4.7 && <5
+    , bytestring
     , go-recordkeeper
+    , jose
+    , servant-auth-server
     , servant-server
     , wai
     , warp
@@ -66,11 +73,14 @@ test-suite go-recordkeeper-test
       Paths_go_recordkeeper
   hs-source-dirs:
       test
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -XTemplateHaskell -XTypeOperators -XDataKinds -XDuplicateRecordFields -XNamedFieldPuns -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aeson
     , base >=4.7 && <5
+    , bytestring
     , go-recordkeeper
+    , jose
+    , servant-auth-server
     , servant-server
     , wai
     , warp
