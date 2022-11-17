@@ -25,6 +25,10 @@ source-repository head
 
 library
   exposed-modules:
+      Auth
+      Auth.Get
+      Auth.Login
+      Auth.Register
       Lib
   other-modules:
       Paths_go_recordkeeper
