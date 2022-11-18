@@ -5,10 +5,7 @@ import Auth.Login (LoginAPI, login)
 import Auth.Register (RegisterAPI, register)
 import Servant
 
-type AuthAPI auths =
-  -- LoginAPI :<|> RegisterAPI :<|> GetAPI auths
-  GetAPI auths
+type AuthAPI = LoginAPI :<|> RegisterAPI :<|> GetAPI
 
-authServer :: Server (AuthAPI auths)
--- authServer auths = login :<|> register :<|> get auths
-authServer = get
+authServer :: Server AuthAPI
+authServer = login :<|> register :<|> get

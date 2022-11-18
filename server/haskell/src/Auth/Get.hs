@@ -15,9 +15,8 @@ data GetResponse = GetResponse
 
 $(deriveJSON defaultOptions ''GetResponse)
 
-type GetAPI auths = Servant.Auth.Server.Auth auths User :> "user" :> Get '[JSON] GetResponse
+type GetAPI = Servant.Auth.Server.Auth '[JWT] User :> "user" :> Get '[JSON] GetResponse
 
 get :: Servant.Auth.Server.AuthResult User -> Handler GetResponse
--- get auths :: Server GetAPI auths
 get (Servant.Auth.Server.Authenticated user) = return $ GetResponse (id' user) (name user) ((email :: User -> String) user)
 get _ = throwAll err401

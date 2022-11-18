@@ -9,12 +9,12 @@ import Network.Wai.Handler.Warp (run)
 import Servant
 import Servant.Auth.Server
 
-type API auths = "api" :> AuthAPI auths
+type API = "api" :> AuthAPI
 
-api :: Proxy (API '[JWT])
+api :: Proxy API
 api = Proxy
 
-server :: Server (API auths)
+server :: Server API
 server = authServer
 
 app :: JWK -> Application
@@ -23,6 +23,7 @@ app jwk = serveWithContext api (defaultCookieSettings :. defaultJWTSettings jwk 
 startApp :: IO ()
 startApp = do
   jwk <- generateKey
+  -- log a valid token for debug purposes
   token <- makeJWT (Auth.User.User 0 "Daniel" "daniel@chiquito" "password") (defaultJWTSettings jwk) Nothing
   case token of
     Left _ -> putStrLn "there was a jwt err"
