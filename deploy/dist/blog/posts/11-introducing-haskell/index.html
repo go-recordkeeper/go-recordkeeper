@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Introducing Haskell</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='haskell'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/11-introducing-haskell/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Introducing Haskell">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Introducing Haskell">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/11-introducing-haskell/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/11-introducing-haskell/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/11-introducing-haskell/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Introducing Haskell</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            November 17, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/haskell">haskell</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>It&rsquo;s Haskell time, oh boy!</p>
+<p>I&rsquo;ve been amped to do something practical with Haskell since I found <a href="http://www.learnyouahaskell.com/">Learn You a Haskell for Great Good</a>. It&rsquo;s available in full online, but it&rsquo;s so good I bought it just to have it.</p>
+<h2 id="the-good">The good</h2>
+<p>Haskell is a pretty cool language.</p>
+<ul>
+<li><strong>It&rsquo;s 100% functional.</strong> Mutating state isn&rsquo;t just discouraged, it&rsquo;s not allowed. Every function is a a pure function with no side affects.</li>
+<li><strong>It&rsquo;s got a powerful algebraic type system.</strong> It&rsquo;s strongly typed, so all those beautiful functions are rigorously defined. Data is constructed out of other data. <a href="http://learnyouahaskell.com/a-fistful-of-monads">Monads</a> help you conveniently wrap/unwrap data inside/outside of other data as needed.</li>
+<li><strong>It&rsquo;s lazy.</strong> Everything&rsquo;s a function and there&rsquo;s no global state to synchronize, so nothing needs to actually be called until it&rsquo;s needed. Everything is lazy evaluated, and the compiler can optimize accordingly.</li>
+</ul>
+<p>Haskell has a reputation for requiring that the developer learn a new and radically different paradigm from the C-style procedural family of languages.</p>
+<h2 id="the-badugly">The bad/ugly</h2>
+<p><strong>hot take alert</strong>
+Haskell is (so far, at least) not very nice to use.</p>
+<ul>
+<li><strong>Packaging sucks.</strong> <a href="https://www.haskell.org/cabal/">Cabal</a> is the standard way to do Haskell packaging. But it sucks, so someone made a better thing called <a href="https://docs.haskellstack.org/en/stable/">Stack</a> which uses it&rsquo;s own CLI and configuration files, but it actually just generates cabal configuration files and delegates to cabal???</li>
+<li><strong>Package installation sucks.</strong> The standard package repository is the <a href="https://hackage.haskell.org/">Hackage</a>. But apparently conflicting dependencies were such a headache to deal with that someone made <a href="https://www.stackage.org/">Stackage</a>, which has a subset of Hackage packages that are known not to break eachother???</li>
+<li><strong>Installing it sucks.</strong> The <code>ghc</code> (Glasgow Haskell Compiler), <code>cabal</code>, and <code>stack</code> can all be installed with your package manager, but I learned the hard way that you actually need to use <code>ghcup</code> to install everything or you&rsquo;re going to have a bad time. I very carefully followed the <a href="https://www.haskell.org/ghcup/install/">ghcup instructions</a> to install everything and the <a href="https://docs.haskellstack.org/en/stable/GUIDE/">stack instructions</a> to set up my project, but I fear the day I need to update something with a breaking change.</li>
+<li><strong>The specification is fuzzy.</strong> Haskell was conceived by committee in 1990, and evolved as features were tacked on to the de facto implementation, the GHC. Rather than a single, central, canonical language, Haskell has &ldquo;Language Features&rdquo; that can be switched on/off globally or per file (<code>{-# LANGUAGE TemplateHaskell #-}</code> 🤮). A good compromise leaves everyone unhappy, especially me.</li>
+</ul>
+<h2 id="my-experience">My experience</h2>
+<p>I got the <a href="https://github.com/go-recordkeeper/go-recordkeeper/tree/main/server/haskell">implementation</a> all set up with the <a href="https://docs.haskellstack.org/en/stable/GUIDE/">stack instructions</a>.</p>
+<h3 id="servant">Servant</h3>
+<p>I chose <a href="https://www.servant.dev/">Servant</a> as my web framework, purely because the example snippet they advertized was the simplest and had the least boilerplate from all the alternatives listed on <a href="https://wiki.haskell.org/Web/Frameworks">the wiki</a>.</p>
+<p>Servant uses types to define the properties of the endpoint. The API definition for the register endpoint looks like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">type</span> <span style="color:#66d9ef">RegisterAPI</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;register&#34;</span> <span style="color:#66d9ef">:&gt;</span> <span style="color:#66d9ef">ReqBody</span> <span style="color:#66d9ef">&#39;[JSON]</span> <span style="color:#66d9ef">RegisterRequest</span> <span style="color:#66d9ef">:&gt;</span> <span style="color:#66d9ef">PostCreated</span> <span style="color:#66d9ef">&#39;[JSON]</span> <span style="color:#66d9ef">RegisterResponse</span>
+</code></pre></div><ul>
+<li><code>:&gt;</code> is a &ldquo;combinator&rdquo; that glues properties of the API together.</li>
+<li><code>&quot;register&quot;</code> means the URL for the endpoint is &ldquo;/register/&rdquo;. <code>&quot;foo&quot; :&gt; &quot;bar&quot;</code> would mean &ldquo;/foo/bar/&rdquo;.</li>
+<li><code>ReqBody '[JSON] RegisterRequest</code> means the request body is JSON serialized and is shaped like the data type <code>RegisterRequest</code>.</li>
+<li><code>PostCreated '[JSON] RegisterResponse</code> means the endpoint is a <code>POST</code>, returns <code>201 CREATED</code> when successful, and the response body contains a JSON serialized <code>RegisterResponse</code>.</li>
+</ul>
+<p>All your endpoint definitions can then be glued together to create a single type that represents your entire API. Pretty nifty.</p>
+<h3 id="register-login-and-get-user">Register, Login, and Get User</h3>
+<p>To start with, I decided to stub out the the auth endpoints: register, login, and get the current user. It&rsquo;s where I started with the FastAPI implementation, and I thought that went well.</p>
+<p>Defining the basic shape of the endpoints with Servant was surprisingly easy. Of course everything needs to be sliced vertically, which required using Haskell&rsquo;s module system, which I had a harder time with. It feels clumsy because I&rsquo;m unfamiliar with it, but I can&rsquo;t articulate any real pain points so it must be pretty good. I will say that VSCode&rsquo;s &ldquo;Go to definition&rdquo; function doesn&rsquo;t work on any non-local modules, which is a real bummer. Apparently this is an <a href="https://github.com/haskell/haskell-language-server/issues/708">HLS bug</a>, so it&rsquo;s not just VSCode.</p>
+<h3 id="middleware-misery">Middleware misery</h3>
+<p>I had a much harder time getting the authentication middleware set up. Servant does support JWT authentication out of the box, but I had a rough time applying it to the get current user endpoint. After much wailing and gnashing of teeth, I found the correct incantation, so I&rsquo;m going to chalk up my sufffering to insufficiently beginner friendly documentation and (obviously) my own inexperience. It&rsquo;s not compliant with the other implementations yet, but at least everything&rsquo;s plugged in.</p>
+<p>After getting the basics set up I managed to refactor it down substantially and cut out a fair bit of boilerplate; I think the current implementation is pretty clean. So far Haskell&rsquo;s function-ness has been obnoxious because of its novelty, but I can definitely smell how powerful it is. The temptation to write clever code is intoxicating; I&rsquo;m quite looking forward to polishing the rest of the endpoints.</p>
+<h2 id="next-steps">Next steps</h2>
+<ul>
+<li><strong>Tests.</strong> Apparently <a href="https://hackage.haskell.org/package/HUnit-1.6.2.0#readme">HUnit</a> is the de facto testing library, so getting that set up and running is the next thing to do.</li>
+<li><strong>Docker.</strong> The application needs to be deployed in Docker eventually, and it needs to be running in docker compose to connect to the Postgres DB. This will be my first time setting up non-python containers from scratch, so it should be interesting. Python containers are nice because if you mount the source as a volume, you only need to rebuild the image when the dependencies change. Presumably this is not the case in Haskell :(</li>
+<li><strong>Configuration.</strong> Because all functions are pure, I/O is, shall we say, special. Managing configuration will be quite different from languages I&rsquo;m familiar with, so that will be interesting.</li>
+<li><strong>Postgres.</strong> I&rsquo;ll need to pick out and install a Postgres driver and figure out how to do all that I/O crap inside the endpoint handlers. I can&rsquo;t imagine that Haskell ORMs are very ergonomic, so I anticipate working with raw SQL. Should be interesting.</li>
+</ul>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/10-monorepo/"> Monorepo </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#the-good">The good</a></li>
+        <li><a href="#the-badugly">The bad/ugly</a></li>
+        <li><a href="#my-experience">My experience</a>
+          <ul>
+            <li><a href="#servant">Servant</a></li>
+            <li><a href="#register-login-and-get-user">Register, Login, and Get User</a></li>
+            <li><a href="#middleware-misery">Middleware misery</a></li>
+          </ul>
+        </li>
+        <li><a href="#next-steps">Next steps</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

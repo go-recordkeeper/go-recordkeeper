@@ -6,7 +6,19 @@
     <description>Recent content on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Nov 2022 20:36:14 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 17 Nov 2022 22:05:47 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introducing Haskell</title>
+      <link>https://go.chiquit.ooo/blog/posts/11-introducing-haskell/</link>
+      <pubDate>Thu, 17 Nov 2022 22:05:47 -0500</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/11-introducing-haskell/</guid>
+      <description>It&amp;rsquo;s Haskell time, oh boy!
+I&amp;rsquo;ve been amped to do something practical with Haskell since I found Learn You a Haskell for Great Good. It&amp;rsquo;s available in full online, but it&amp;rsquo;s so good I bought it just to have it.
+The good Haskell is a pretty cool language.
+ It&amp;rsquo;s 100% functional. Mutating state isn&amp;rsquo;t just discouraged, it&amp;rsquo;s not allowed. Every function is a a pure function with no side affects.</description>
+    </item>
+    
     <item>
       <title>Monorepo</title>
       <link>https://go.chiquit.ooo/blog/posts/10-monorepo/</link>
