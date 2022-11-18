@@ -1,4 +1,4 @@
-import Auth.Register
+import Auth.RegisterSpec
 import Control.Exception (evaluate)
 import Crypto.JOSE (JWK)
 import Lib
@@ -25,12 +25,4 @@ main = do
           \x xs -> head (x : xs) == (x :: Int)
       it "throws an exception if used with an empty list" $ do
         evaluate (head []) `shouldThrow` anyException
-    around (withApp jwk) $ do
-      let registerClient = client (Proxy :: Proxy ("api" :> RegisterAPI))
-      baseUrl <- runIO $ parseBaseUrl "http://localhost"
-      manager <- runIO $ newManager defaultManagerSettings
-      let clientEnv port = mkClientEnv manager (baseUrl {baseUrlPort = port})
-      describe "polite tests" $ do
-        it "should equal" $ \port -> do
-          result <- runClientM (registerClient RegisterRequest {username = "foo", email = "bar", password = "baz"}) (clientEnv port)
-          result `shouldBe` (Right $ RegisterResponse {id = 1, username = "foo", email = "bar"})
+    Auth.RegisterSpec.spec jwk

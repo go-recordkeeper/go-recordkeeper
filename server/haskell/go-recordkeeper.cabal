@@ -70,6 +70,7 @@ test-suite go-recordkeeper-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Auth.RegisterSpec
       Paths_go_recordkeeper
   hs-source-dirs:
       test
