@@ -1,8 +1,8 @@
 module Auth (AuthAPI, authServer) where
 
-import Auth.Get (GetAPI, get)
-import Auth.Login (LoginAPI, login)
-import Auth.Register (RegisterAPI, register)
+import Auth.Get
+import Auth.Login
+import Auth.Register
 import Servant
 
 type AuthAPI = LoginAPI :<|> RegisterAPI :<|> GetAPI

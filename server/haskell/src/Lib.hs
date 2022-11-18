@@ -1,6 +1,6 @@
 module Lib (startApp, app) where
 
-import Auth (AuthAPI, authServer)
+import Auth
 import Auth.User
 import Crypto.JOSE (JWK)
 import qualified Data.ByteString.Lazy.Char8 as BS
