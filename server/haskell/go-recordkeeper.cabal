@@ -75,12 +75,17 @@ test-suite go-recordkeeper-test
       test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -XTemplateHaskell -XTypeOperators -XDataKinds -XDuplicateRecordFields -XNamedFieldPuns -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      aeson
+      QuickCheck
+    , aeson
     , base >=4.7 && <5
     , bytestring
     , go-recordkeeper
+    , hspec
+    , http-client
+    , http-types
     , jose
     , servant-auth-server
+    , servant-client
     , servant-server
     , wai
     , warp

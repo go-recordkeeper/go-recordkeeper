@@ -1,4 +1,4 @@
-module Auth.Register (RegisterAPI, register) where
+module Auth.Register (RegisterAPI, RegisterRequest (..), RegisterResponse (..), register) where
 
 import Data.Aeson
 import Data.Aeson.TH

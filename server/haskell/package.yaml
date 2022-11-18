@@ -70,3 +70,8 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - go-recordkeeper
+    - hspec
+    - http-client
+    - http-types
+    - servant-client
+    - QuickCheck

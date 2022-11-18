@@ -1,4 +1,4 @@
-module Lib (startApp, app) where
+module Lib (API, startApp, app) where
 
 import Auth
 import Auth.User
