@@ -16,5 +16,5 @@ $(deriveJSON defaultOptions ''GetResponse)
 
 type GetAPI = LoginRequired :> "user" :> Get '[JSON] GetResponse
 
-get :: LoggedInUser -> Handler GetResponse
+get :: Server GetAPI
 get = requireLogin $ \(User {id', name, email}) -> return $ GetResponse id' name email

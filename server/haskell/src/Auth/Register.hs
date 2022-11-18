@@ -24,5 +24,5 @@ $(deriveJSON defaultOptions ''RegisterResponse)
 
 type RegisterAPI = "register" :> ReqBody '[JSON] RegisterRequest :> PostCreated '[JSON] RegisterResponse
 
-register :: RegisterRequest -> Handler RegisterResponse
+register :: Server RegisterAPI
 register RegisterRequest {username, email} = return $ RegisterResponse 0 username email
