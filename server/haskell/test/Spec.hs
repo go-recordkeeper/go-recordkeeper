@@ -10,8 +10,11 @@ import Servant.Client
 import Test.Hspec
 import Test.QuickCheck
 
-withApp :: JWK -> (Warp.Port -> IO ()) -> IO ()
-withApp jwk = Warp.testWithApplication (pure $ app jwk)
+withApp :: JWK -> (ClientEnv -> IO ()) -> IO ()
+withApp jwk spec' = Warp.testWithApplication (pure $ app jwk) $ \port -> do
+  baseUrl <- parseBaseUrl "http://localhost"
+  manager <- newManager defaultManagerSettings
+  spec' $ mkClientEnv manager (baseUrl {baseUrlPort = port})
 
 main :: IO ()
 main = do
@@ -25,4 +28,5 @@ main = do
           \x xs -> head (x : xs) == (x :: Int)
       it "throws an exception if used with an empty list" $ do
         evaluate (head []) `shouldThrow` anyException
-    Auth.RegisterSpec.spec jwk
+    around (withApp jwk) $ do
+      Auth.RegisterSpec.spec

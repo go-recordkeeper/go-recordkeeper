@@ -15,13 +15,10 @@ import Test.QuickCheck
 withApp :: JWK -> (Warp.Port -> IO ()) -> IO ()
 withApp jwk = Warp.testWithApplication (pure $ app jwk)
 
-spec :: JWK -> Spec
-spec jwk = around (withApp jwk) $ do
+spec :: SpecWith ClientEnv
+spec = do
   let registerClient = client (Proxy :: Proxy ("api" :> RegisterAPI))
-  baseUrl <- runIO $ parseBaseUrl "http://localhost"
-  manager <- runIO $ newManager defaultManagerSettings
-  let clientEnv port = mkClientEnv manager (baseUrl {baseUrlPort = port})
   describe "polite tests" $ do
-    it "should equal" $ \port -> do
-      result <- runClientM (registerClient RegisterRequest {username = "foo", email = "bar", password = "baz"}) (clientEnv port)
+    it "should equal" $ \clientEnv -> do
+      result <- runClientM (registerClient RegisterRequest {username = "foo", email = "bar", password = "baz"}) clientEnv
       result `shouldBe` (Right $ RegisterResponse {id = 1, username = "foo", email = "bar"})
