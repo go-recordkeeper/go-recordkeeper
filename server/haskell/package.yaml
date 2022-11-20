@@ -24,10 +24,10 @@ dependencies:
 - aeson
 - bytestring
 - jose
-- servant-auth-server
-- servant-server
+- scotty
 - wai
-- warp
+- wai-extra
+# - warp
 
 ghc-options:
 - -Wall
@@ -41,8 +41,7 @@ ghc-options:
 - -Wredundant-constraints
 # Global language flags
 - -XTemplateHaskell
-- -XTypeOperators
-- -XDataKinds
+- -XOverloadedStrings
 - -XDuplicateRecordFields
 - -XNamedFieldPuns
 

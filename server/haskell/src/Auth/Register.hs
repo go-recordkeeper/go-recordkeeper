@@ -1,8 +1,8 @@
-module Auth.Register (RegisterAPI, RegisterRequest (..), RegisterResponse (..), register) where
+module Auth.Register (register) where
 
-import Data.Aeson
-import Data.Aeson.TH
-import Servant
+import Auth.User
+import Data.Aeson.TH (defaultOptions, deriveJSON)
+import Web.Scotty
 
 data RegisterRequest = RegisterRequest
   { username :: String,
@@ -22,7 +22,12 @@ data RegisterResponse = RegisterResponse
 
 $(deriveJSON defaultOptions ''RegisterResponse)
 
-type RegisterAPI = "register" :> ReqBody '[JSON] RegisterRequest :> PostCreated '[JSON] RegisterResponse
+-- type RegisterAPI = "register" :> ReqBody '[JSON] RegisterRequest :> PostCreated '[JSON] RegisterResponse
 
-register :: Server RegisterAPI
-register RegisterRequest {username, email} = return $ RegisterResponse 0 username email
+-- register :: Server RegisterAPI
+-- register RegisterRequest {username, email} = return $ RegisterResponse 0 username email
+
+register :: ScottyM ()
+register = get "/api/register/" $ do
+  -- TODO parse body
+  json (User {id' = 2, name = "foo", email = "bar", password = "pass"})

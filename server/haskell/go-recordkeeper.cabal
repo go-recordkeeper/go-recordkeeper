@@ -35,16 +35,15 @@ library
       Paths_go_recordkeeper
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -XTemplateHaskell -XTypeOperators -XDataKinds -XDuplicateRecordFields -XNamedFieldPuns
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -XTemplateHaskell -XOverloadedStrings -XDuplicateRecordFields -XNamedFieldPuns
   build-depends:
       aeson
     , base >=4.7 && <5
     , bytestring
     , jose
-    , servant-auth-server
-    , servant-server
+    , scotty
     , wai
-    , warp
+    , wai-extra
   default-language: Haskell2010
 
 executable go-recordkeeper-exe
@@ -53,17 +52,16 @@ executable go-recordkeeper-exe
       Paths_go_recordkeeper
   hs-source-dirs:
       app
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -XTemplateHaskell -XTypeOperators -XDataKinds -XDuplicateRecordFields -XNamedFieldPuns -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -XTemplateHaskell -XOverloadedStrings -XDuplicateRecordFields -XNamedFieldPuns -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aeson
     , base >=4.7 && <5
     , bytestring
     , go-recordkeeper
     , jose
-    , servant-auth-server
-    , servant-server
+    , scotty
     , wai
-    , warp
+    , wai-extra
   default-language: Haskell2010
 
 test-suite go-recordkeeper-test
@@ -74,7 +72,7 @@ test-suite go-recordkeeper-test
       Paths_go_recordkeeper
   hs-source-dirs:
       test
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -XTemplateHaskell -XTypeOperators -XDataKinds -XDuplicateRecordFields -XNamedFieldPuns -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -XTemplateHaskell -XOverloadedStrings -XDuplicateRecordFields -XNamedFieldPuns -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       QuickCheck
     , aeson
@@ -85,9 +83,8 @@ test-suite go-recordkeeper-test
     , http-client
     , http-types
     , jose
-    , servant-auth-server
+    , scotty
     , servant-client
-    , servant-server
     , wai
-    , warp
+    , wai-extra
   default-language: Haskell2010

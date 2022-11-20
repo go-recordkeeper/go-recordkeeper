@@ -65,3 +65,8 @@ packages:
 #
 # Allow a newer minor version of GHC than the snapshot specifies
 # compiler-check: newer-minor
+extra-deps:
+  - regex-posix-clib-2.7
+flags:
+  regex-posix:
+    _regex-posix-clib: true

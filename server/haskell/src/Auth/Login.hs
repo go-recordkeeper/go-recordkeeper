@@ -1,8 +1,8 @@
-module Auth.Login (login, LoginAPI) where
+module Auth.Login (login) where
 
-import Data.Aeson
-import Data.Aeson.TH
-import Servant
+import Auth.User
+import Data.Aeson.TH (defaultOptions, deriveJSON)
+import Web.Scotty
 
 data LoginRequest = Request
   { username :: String,
@@ -12,7 +12,9 @@ data LoginRequest = Request
 
 $(deriveJSON defaultOptions ''LoginRequest)
 
-type LoginAPI = "login" :> ReqBody '[JSON] LoginRequest :> Post '[JSON] String
+-- type LoginAPI = "login" :> ReqBody '[JSON] LoginRequest :> Post '[JSON] String
 
-login :: Server LoginAPI
-login _ = return "heh token"
+-- login :: Server LoginAPI
+-- login _ = return "heh token"
+login :: ScottyM ()
+login = get "/api/login/" $ json (User {id' = 2, name = "foo", email = "bar", password = "pass"})

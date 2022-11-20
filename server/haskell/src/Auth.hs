@@ -1,11 +1,13 @@
-module Auth (AuthAPI, authServer) where
+module Auth (authEndpoints) where
 
 import Auth.Get
 import Auth.Login
 import Auth.Register
-import Servant
+import Web.Scotty
 
-type AuthAPI = LoginAPI :<|> RegisterAPI :<|> GetAPI
-
-authServer :: Server AuthAPI
-authServer = login :<|> register :<|> get
+-- authEndpoints :: Server AuthAPI
+authEndpoints :: ScottyM ()
+authEndpoints = do
+  getUser
+  login
+  register
