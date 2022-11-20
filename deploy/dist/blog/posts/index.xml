@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 17 Nov 2022 22:05:47 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Nov 2022 19:29:16 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ditching Servant</title>
+      <link>https://go.chiquit.ooo/blog/posts/12-ditching-servant/</link>
+      <pubDate>Sat, 19 Nov 2022 19:29:16 -0500</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/12-ditching-servant/</guid>
+      <description>As promised, I have gained some ground on testing. servant-quickcheck is apparently dead and therefore not included in Stackage, which was obnoxious because it was still listed in the Servant tutorial. Still, I persevered and got a rudimentary test for the register endpoint working:
+spec :: SpecWith ClientEnv spec = describe &amp;#34;Register&amp;#34; $ do let proxy = (Proxy :: Proxy (&amp;#34;api&amp;#34; :&amp;gt; RegisterAPI)) let registerClient = client proxy it &amp;#34;registers&amp;#34; $ \clientEnv -&amp;gt; do result &amp;lt;- runClientM (registerClient RegisterRequest {username = &amp;#34;foo&amp;#34;, email = &amp;#34;bar&amp;#34;, password = &amp;#34;baz&amp;#34;}) clientEnv result `shouldBe` (Right $ RegisterResponse {id = 1, username = &amp;#34;foo&amp;#34;, email = &amp;#34;bar&amp;#34;}) However, I wasn&amp;rsquo;t impressed with the runClientM (.</description>
+    </item>
+    
     <item>
       <title>Introducing Haskell</title>
       <link>https://go.chiquit.ooo/blog/posts/11-introducing-haskell/</link>

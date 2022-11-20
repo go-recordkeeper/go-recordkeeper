@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Ditching Servant</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='haskell'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/12-ditching-servant/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Ditching Servant">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ditching Servant">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/12-ditching-servant/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/12-ditching-servant/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/12-ditching-servant/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Ditching Servant</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            November 19, 2022
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/haskell">haskell</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>As promised, I have gained some ground on testing. <a href="https://github.com/haskell-servant/servant-quickcheck">servant-quickcheck</a> is apparently dead and therefore not included in Stackage, which was obnoxious because it was still listed in the Servant tutorial. Still, I persevered and got a rudimentary test for the register endpoint working:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">spec</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">SpecWith</span> <span style="color:#66d9ef">ClientEnv</span>
+<span style="color:#a6e22e">spec</span> <span style="color:#f92672">=</span> describe <span style="color:#e6db74">&#34;Register&#34;</span> <span style="color:#f92672">$</span> <span style="color:#66d9ef">do</span>
+  <span style="color:#66d9ef">let</span> proxy <span style="color:#f92672">=</span> (<span style="color:#66d9ef">Proxy</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">Proxy</span> (<span style="color:#e6db74">&#34;api&#34;</span> <span style="color:#66d9ef">:&gt;</span> <span style="color:#66d9ef">RegisterAPI</span>))
+  <span style="color:#66d9ef">let</span> registerClient <span style="color:#f92672">=</span> client proxy
+  it <span style="color:#e6db74">&#34;registers&#34;</span> <span style="color:#f92672">$</span> <span style="color:#a6e22e">\</span>clientEnv <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">do</span>
+    result <span style="color:#f92672">&lt;-</span> runClientM (registerClient <span style="color:#66d9ef">RegisterRequest</span> {username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;foo&#34;</span>, email <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bar&#34;</span>, password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;baz&#34;</span>}) clientEnv
+    result `shouldBe` (<span style="color:#66d9ef">Right</span> <span style="color:#f92672">$</span> <span style="color:#66d9ef">RegisterResponse</span> {id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;foo&#34;</span>, email <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bar&#34;</span>})
+</code></pre></div><p>However, I wasn&rsquo;t impressed with the <code>runClientM (...) clientEnv</code> bit. <code>runClientM</code> is the thing that actually calls the client, and it requires both the request information (<code>RegisterRequest {...}</code>) and the <code>clientEnv</code>, which is basically just context. Thing is, the <code>clientEnv</code> doesn&rsquo;t matter at all to the test, and the test doesn&rsquo;t need to call <code>runClientM</code> directly. I was already passing in the <code>clientEnv</code> to the test function, so I thought it would be easy enough simply wrap all the <code>runClientM</code>/<code>clientEnv</code> stuff into a simple function and pass that to the test function instead. That would eliminate some boilerplate from every test, and also avoid importing <code>Servant.Client</code> in the test file at all. This is the test I wanted to write:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">spec</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">SpecWith</span> (<span style="color:#66d9ef">ClientGenerator</span> (<span style="color:#e6db74">&#34;api&#34;</span> <span style="color:#66d9ef">:&gt;</span> <span style="color:#66d9ef">RegisterAPI</span>))
+<span style="color:#a6e22e">spec</span> <span style="color:#f92672">=</span> describe <span style="color:#e6db74">&#34;Register&#34;</span> <span style="color:#f92672">$</span> <span style="color:#66d9ef">do</span>
+  <span style="color:#66d9ef">let</span> proxy <span style="color:#f92672">=</span> <span style="color:#66d9ef">Proxy</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">Proxy</span> (<span style="color:#e6db74">&#34;api&#34;</span> <span style="color:#66d9ef">:&gt;</span> <span style="color:#66d9ef">RegisterAPI</span>)
+  it <span style="color:#e6db74">&#34;registers&#34;</span> <span style="color:#f92672">$</span> <span style="color:#a6e22e">\</span>testClient <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">do</span>
+    result <span style="color:#f92672">&lt;-</span> testClient proxy <span style="color:#66d9ef">RegisterRequest</span> {username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;foo&#34;</span>, email <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bar&#34;</span>, password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;baz&#34;</span>}
+    result `shouldBe` (<span style="color:#66d9ef">Right</span> <span style="color:#f92672">$</span> <span style="color:#66d9ef">RegisterResponse</span> {id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;foo&#34;</span>, email <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bar&#34;</span>})
+</code></pre></div><p>Sadly, this is not easy. It is not easy at all.</p>
+<p>The problem is that the <code>testClient</code> (of type <code>ClientGenerator</code>) needs to take the API type (in this case, <code>&quot;api&quot; :&gt; RegisterAPI</code>) and return a function of type <code>request -&gt; IO(Either ClientError response)</code>. I spent two days banging my head against the problem until a friend showed me the <a href="https://hackage.haskell.org/package/ghc-prim-0.6.1/docs/src/GHC.Types.html#~">~</a> constraint operator. Applying this little tidbit and a healthy sprinkling of type family magic as well, this is the resulting type definition for <code>ClientGenerator</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">type</span> <span style="color:#66d9ef">family</span> <span style="color:#66d9ef">ClientRequestTypeFamily</span> a
+
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">instance</span> <span style="color:#66d9ef">ClientRequestTypeFamily</span> (req <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">ClientM</span> resp) <span style="color:#f92672">=</span> req
+
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">ClientRequestType</span> api <span style="color:#f92672">=</span> <span style="color:#66d9ef">ClientRequestTypeFamily</span> (<span style="color:#66d9ef">Client</span> <span style="color:#66d9ef">ClientM</span> api)
+
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">family</span> <span style="color:#66d9ef">ClientResponseTypeFamily</span> a
+
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">instance</span> <span style="color:#66d9ef">ClientResponseTypeFamily</span> (req <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">ClientM</span> resp) <span style="color:#f92672">=</span> resp
+
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">ClientResponseType</span> api <span style="color:#f92672">=</span> <span style="color:#66d9ef">ClientResponseTypeFamily</span> (<span style="color:#66d9ef">Client</span> <span style="color:#66d9ef">ClientM</span> api)
+
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">ClientGenerator</span> api <span style="color:#f92672">=</span> (<span style="color:#66d9ef">Proxy</span> api <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">ClientRequestType</span> api <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">IO</span> (<span style="color:#66d9ef">Either</span> <span style="color:#66d9ef">ClientError</span> (<span style="color:#66d9ef">ClientResponseType</span> api)))
+</code></pre></div><p>Quite frankly, this is awful. This is all necessary because Servant dumps all of the API descriptors into the type system. Wrestling with the type system is the only way to get any API information out again.</p>
+<p>The test does finally work and my little bit of boilerplate was eliminated, but quite frankly I am traumatized.</p>
+<p>I&rsquo;m going to switch to <a href="https://github.com/scotty-web/scotty">Scotty</a> instead of Servant. It seems to be just as concise and hopefully not as reliant on the type system.</p>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/11-introducing-haskell/"> Introducing Haskell </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2022 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
