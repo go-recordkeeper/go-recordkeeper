@@ -1,3 +1,6 @@
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE TypeFamilies #-}
+
 import Auth.RegisterSpec
 import Control.Exception (evaluate)
 import Crypto.JOSE (JWK)
@@ -10,11 +13,13 @@ import Servant.Client
 import Test.Hspec
 import Test.QuickCheck
 
-withApp :: JWK -> (ClientEnv -> IO ()) -> IO ()
+-- withApp :: JWK -> (ClientEnv -> IO ()) -> IO ()
+withApp :: (HasClient ClientM api, Client ClientM api ~ (t -> ClientM a)) => JWK -> ((Proxy api -> t -> IO (Either ClientError a)) -> IO a1) -> IO a1
 withApp jwk spec' = Warp.testWithApplication (pure $ app jwk) $ \port -> do
   baseUrl <- parseBaseUrl "http://localhost"
   manager <- newManager defaultManagerSettings
-  spec' $ mkClientEnv manager (baseUrl {baseUrlPort = port})
+  let clientEnv = mkClientEnv manager (baseUrl {baseUrlPort = port})
+  spec' $ \proxy req -> runClientM (client proxy req) clientEnv
 
 main :: IO ()
 main = do
