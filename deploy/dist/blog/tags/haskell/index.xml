@@ -6,7 +6,17 @@
     <description>Recent content in haskell on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 19 Nov 2022 19:29:16 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/haskell/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 02 Dec 2022 17:44:48 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/haskell/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Skipping Haskell</title>
+      <link>https://go.chiquit.ooo/blog/posts/13-skipping-haskell/</link>
+      <pubDate>Fri, 02 Dec 2022 17:44:48 -0500</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/13-skipping-haskell/</guid>
+      <description>I just discovered this fun tidbit of Haskell knowledge:
+baz = do let foo1 = &amp;#34;bar&amp;#34; -- fine let foo2 = do &amp;#34;bar&amp;#34; -- weird, but fine let foo3 = (do &amp;#34;bar&amp;#34;) -- still fine let foo4 = ( do &amp;#34;bar&amp;#34; ) -- parse error (possibly incorrect indentation or mismatched brackets) I cannot figure out how to nest do blocks in a readable manner. I&amp;rsquo;m tired of having to wrestle Haskell every time I want to refactor something so I think I&amp;rsquo;m going to drop it for a bit and work on the Rust implementation instead.</description>
+    </item>
+    
     <item>
       <title>Ditching Servant</title>
       <link>https://go.chiquit.ooo/blog/posts/12-ditching-servant/</link>

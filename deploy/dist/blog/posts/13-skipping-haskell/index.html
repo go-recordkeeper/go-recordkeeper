@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-	<meta name="generator" content="Hugo 0.92.2" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -18,25 +17,25 @@
     
 
     
-    <title>Dev Blog</title>
+    <title>Skipping Haskell</title>
     <meta name="description" content="Records of the Go Recordkeeper">
-    <meta name="keywords" content=''>
+    <meta name="keywords" content='haskell'>
 
-    <meta property="og:url" content="https://go.chiquit.ooo/blog/">
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/13-skipping-haskell/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Dev Blog">
+    <meta property="og:title" content="Skipping Haskell">
     <meta property="og:description" content="Records of the Go Recordkeeper">
     <meta property="og:image" content="/images/mrbubz.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Dev Blog">
+    <meta name="twitter:title" content="Skipping Haskell">
     <meta name="twitter:description" content="Records of the Go Recordkeeper">
-    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/">
-    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/13-skipping-haskell/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/13-skipping-haskell/">
     <meta name="twitter:image" content="/images/mrbubz.jpg">
 
     
-    <link rel="canonical" href="https://go.chiquit.ooo/blog/" />
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/13-skipping-haskell/" />
 
     <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
@@ -141,56 +140,55 @@
     </nav>
 </header>
 <main id="content">
-<section class="home-about">
-	<div class="avatar">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Skipping Haskell</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            December 2, 2022
+        </p>
+
+        <ul class="post-tags">
         
-        <img class=size-xl src='https://go.chiquit.ooo/blog/images/mrbubz.jpg' alt="avatar" />
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/haskell">haskell</a></li>
         
-	</div>
-    <h1>Dev Blog</h1>
-    <h3>Records of the Go Recordkeeper</h3>
-</section>
-
-<div class="flex-break"></div>
-
-
-
-
-
-
-
-
-    <div class="home-posts list-posts">
-        <h2>Recent Posts</h2>
-
-    
-
-    
-        <article class="post-title">
-    <a href="https://go.chiquit.ooo/blog/posts/13-skipping-haskell/" class="post-link">Skipping Haskell</a>
-    <div class="flex-break"></div>
-    <span class="post-date">December 2, 2022</span>
-</article>
-<article class="post-title">
-    <a href="https://go.chiquit.ooo/blog/posts/12-ditching-servant/" class="post-link">Ditching Servant</a>
-    <div class="flex-break"></div>
-    <span class="post-date">November 19, 2022</span>
-</article>
-<article class="post-title">
-    <a href="https://go.chiquit.ooo/blog/posts/11-introducing-haskell/" class="post-link">Introducing Haskell</a>
-    <div class="flex-break"></div>
-    <span class="post-date">November 17, 2022</span>
-</article>
-<article class="post-title">
-    <a href="https://go.chiquit.ooo/blog/posts/10-monorepo/" class="post-link">Monorepo</a>
-    <div class="flex-break"></div>
-    <span class="post-date">November 14, 2022</span>
-</article>
-
-    
+        </ul>
     </div>
 
+    <div class="post-content">
+        <p>
+            <p>I just discovered this fun tidbit of Haskell knowledge:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">baz</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">do</span>
+  <span style="color:#66d9ef">let</span> foo1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bar&#34;</span> <span style="color:#75715e">-- fine</span>
+  <span style="color:#66d9ef">let</span> foo2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">do</span> <span style="color:#e6db74">&#34;bar&#34;</span> <span style="color:#75715e">-- weird, but fine</span>
+  <span style="color:#66d9ef">let</span> foo3 <span style="color:#f92672">=</span> (<span style="color:#66d9ef">do</span> <span style="color:#e6db74">&#34;bar&#34;</span>) <span style="color:#75715e">-- still fine</span>
+  <span style="color:#66d9ef">let</span> foo4 <span style="color:#f92672">=</span> (
+    <span style="color:#66d9ef">do</span> <span style="color:#e6db74">&#34;bar&#34;</span>
+  ) <span style="color:#75715e">-- parse error (possibly incorrect indentation or mismatched brackets)</span>
+</code></pre></div><p>I cannot figure out how to nest <code>do</code> blocks in a readable manner. I&rsquo;m tired of having to wrestle Haskell every time I want to refactor something so I think I&rsquo;m going to drop it for a bit and work on the Rust implementation instead.</p>
 
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/12-ditching-servant/"> Ditching Servant </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents"></nav>
+    </nav>
+</aside>
+
+
+
+    
 
         </main><footer class="footer">
     <span>&copy; 2022 Daniel Chiquito</span>
