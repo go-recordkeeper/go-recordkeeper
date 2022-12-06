@@ -2,6 +2,8 @@ module Auth.Get (getUser) where
 
 import Auth.User
 import Data.Aeson.TH (defaultOptions, deriveJSON)
+import qualified Data.Text.Lazy as DT
+import Network.HTTP.Types.Status (status200, status401)
 import Web.Scotty
 
 data GetResponse = GetResponse
@@ -13,12 +15,14 @@ data GetResponse = GetResponse
 
 $(deriveJSON defaultOptions ''GetResponse)
 
--- type GetAPI = LoginRequired :> "user" :> Get '[JSON] GetResponse
-
--- get :: Server GetAPI
--- get = requireLogin $ \(User {id', name, email}) -> return $ GetResponse id' name email
+xtractr :: ActionM DT.Text
+xtractr = do
+  headerValue <- header "Authorization"
+  let token = DT.stripPrefix "Bearer " =<< headerValue
+  maybe (raiseStatus status401 "Not Authorized") pure token
 
 getUser :: ScottyM ()
 getUser = get "/api/user/" $ do
   -- TODO auth token
-  json (User {id' = 2, name = "foo", email = "bar", password = "pass"})
+  foo <- xtractr
+  json (User {id' = 2, name = DT.unpack foo, email = "bar", password = "pass"})
