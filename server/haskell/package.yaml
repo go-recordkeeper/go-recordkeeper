@@ -23,8 +23,10 @@ dependencies:
 - base >= 4.7 && < 5
 - aeson
 - bytestring
+- http-types
 - jose
 - scotty
+- text
 - wai
 - wai-extra
 # - warp
