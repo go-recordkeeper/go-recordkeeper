@@ -3,9 +3,8 @@ FROM haskell:9.0 as build
 WORKDIR /opt/haskell
 
 # Install dependencies only for docker caching
-COPY ./stack.yaml ./package.yaml /opt/haskell/
 RUN stack update
-RUN stack --version && ghc --version && cabal --version
+COPY ./stack.yaml ./package.yaml /opt/haskell/
 RUN stack build --only-dependencies
 
 COPY ./README.md ./CHANGELOG.md /opt/haskell/

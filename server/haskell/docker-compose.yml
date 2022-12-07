@@ -20,3 +20,16 @@ services:
       POSTGRES_HOST: postgres # this refers to the postgres service above ^
     depends_on:
       - postgres
+
+  django:
+    build: ../django
+    profiles:
+      - django
+    environment:
+      GOBAN_DEVELOPMENT: true
+      POSTGRES_NAME: default
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres # this refers to the postgres service above ^
+    depends_on:
+      - postgres
