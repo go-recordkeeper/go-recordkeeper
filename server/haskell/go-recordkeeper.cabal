@@ -40,6 +40,7 @@ library
       aeson
     , base >=4.7 && <5
     , bytestring
+    , hasql
     , http-types
     , jose
     , scotty
@@ -60,6 +61,7 @@ executable go-recordkeeper-exe
     , base >=4.7 && <5
     , bytestring
     , go-recordkeeper
+    , hasql
     , http-types
     , jose
     , scotty
@@ -83,6 +85,7 @@ test-suite go-recordkeeper-test
     , base >=4.7 && <5
     , bytestring
     , go-recordkeeper
+    , hasql
     , hspec
     , http-client
     , http-types

@@ -3,6 +3,8 @@ module Auth.Get (getUser) where
 import Auth.User
 import Data.Aeson.TH (defaultOptions, deriveJSON)
 import qualified Data.Text.Lazy as DT
+import qualified Hasql.Connection as HC
+import qualified Hasql.Session as HS
 import Network.HTTP.Types.Status (status200, status401)
 import Web.Scotty
 
