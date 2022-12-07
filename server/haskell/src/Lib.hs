@@ -6,6 +6,8 @@ import Auth
 -- import Auth.User
 import Crypto.JOSE (JWK)
 import qualified Data.ByteString.Lazy.Char8 as BS
+import GHC.IO.Handle (hFlush)
+import GHC.IO.Handle.FD (stdout)
 import Network.Wai.Middleware.RequestLogger (logStdout)
 import Web.Scotty
 
@@ -17,7 +19,8 @@ startApp = do
   -- case token of
   --   Left _ -> putStrLn "there was a jwt err"
   --   Right token' -> BS.putStrLn token'
-
+  putStrLn "Starting the server..."
+  hFlush stdout
   scotty 8080 $ do
     middleware $ logStdout
     -- get "/foof" $ do
