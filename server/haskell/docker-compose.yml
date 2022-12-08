@@ -11,7 +11,7 @@ services:
   haskell:
     build: .
     ports:
-      - 8000:8080
+      - 8000:8000
     environment:
       GOBAN_DEVELOPMENT: true
       POSTGRES_NAME: default

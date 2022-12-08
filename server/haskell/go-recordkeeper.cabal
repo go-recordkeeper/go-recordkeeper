@@ -41,9 +41,11 @@ library
     , base >=4.7 && <5
     , bytestring
     , hasql
+    , hasql-pool
     , http-types
     , jose
-    , scotty
+    , resource-pool
+    , scotty >=0.12
     , text
     , wai
     , wai-extra
@@ -62,9 +64,11 @@ executable go-recordkeeper-exe
     , bytestring
     , go-recordkeeper
     , hasql
+    , hasql-pool
     , http-types
     , jose
-    , scotty
+    , resource-pool
+    , scotty >=0.12
     , text
     , wai
     , wai-extra
@@ -86,11 +90,13 @@ test-suite go-recordkeeper-test
     , bytestring
     , go-recordkeeper
     , hasql
+    , hasql-pool
     , hspec
     , http-client
     , http-types
     , jose
-    , scotty
+    , resource-pool
+    , scotty >=0.12
     , servant-client
     , text
     , wai

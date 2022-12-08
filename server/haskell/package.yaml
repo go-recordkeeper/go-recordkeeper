@@ -24,9 +24,11 @@ dependencies:
 - aeson
 - bytestring
 - hasql
+- hasql-pool
 - http-types
 - jose
-- scotty
+- resource-pool
+- scotty >= 0.12
 - text
 - wai
 - wai-extra

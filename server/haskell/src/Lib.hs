@@ -8,6 +8,8 @@ import Crypto.JOSE (JWK)
 import qualified Data.ByteString.Lazy.Char8 as BS
 import GHC.IO.Handle (hFlush)
 import GHC.IO.Handle.FD (stdout)
+import qualified Hasql.Connection as HC
+import qualified Hasql.Pool as HP
 import Network.Wai.Middleware.RequestLogger (logStdout)
 import Web.Scotty
 
@@ -21,7 +23,9 @@ startApp = do
   --   Right token' -> BS.putStrLn token'
   putStrLn "Starting the server..."
   hFlush stdout
-  scotty 8080 $ do
+  let connectionSettings = HC.settings "localhost" 5432 "postgres" "postgres" "default"
+  pool <- HP.acquire (10, 30, connectionSettings)
+  scotty 8000 $ do
     middleware $ logStdout
     -- get "/foof" $ do
     --   -- word <- param "word"
@@ -30,4 +34,4 @@ startApp = do
     -- get "/:word" $ do
     --   word <- param "word"
     --   html $ mconcat ["<h1> hello ", word, "</h1>"]
-    authEndpoints
+    authEndpoints pool
