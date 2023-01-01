@@ -11,24 +11,21 @@ def init_db():
     run(["docker", "compose", "down"])
     run(["docker", "compose", "up", "postgres", "-d", "--wait"])
     run(["poetry", "run", "python", "../server/django/manage.py", "migrate"])
+    flush = run(["poetry", "run", "python", "../server/django/manage.py",
+                "sqlflush"], capture_output=True).stdout
+    reset_sequence = run(["poetry", "run", "python", "../server/django/manage.py",
+                         "sqlsequencereset", "record"], capture_output=True).stdout
+    with open('reset.sql', 'wb') as sql_file:
+        sql_file.write(flush)
+        sql_file.write(reset_sequence)
     yield
     run(["docker", "compose", "stop"])
 
 
 @pytest.fixture(scope="function", autouse=True)
 def clean_db():
-    run(
-        [
-            "poetry",
-            "run",
-            "python",
-            "../server/django/manage.py",
-            "reset_db",
-            "-c",
-            "--noinput",
-        ]
-    )
-    run(["poetry", "run", "python", "../server/django/manage.py", "migrate"])
+    run(["psql", "--file", "reset.sql", "-h", "localhost",
+        "default", "postgres"], env={"PGPASSWORD": "postgres"})
     yield
 
 
@@ -135,25 +132,15 @@ def user(user_factory):
 
 
 @pytest.fixture
-def record_factory(django_command, user):
+def record_factory(user_client_factory, user):
     def factory(owner=None, board_size=9, handicap=0):
         if owner is None:
             owner = user
-        owner_id = owner["id"]
-        record = django_command(
-            f"""
-owner = User.objects.get(id={owner_id});
-record = Record(owner=owner, board_size={board_size}, handicap={handicap});
-record.save();
-from django.forms import model_to_dict;
-d = model_to_dict(record);
-# Convert choices to real values
-d['winner'] = d['winner'].value;
-d['created'] = record.created.strftime(r"%Y_%m_%d")
-print(d);
-"""
-        )
-        record = eval(record.decode("utf-8"))
+        user_client = user_client_factory(owner)
+        record = user_client.post(
+            "/api/records/",
+            json={"board_size": board_size, "handicap": handicap}
+        ).json()
         return record
 
     return factory

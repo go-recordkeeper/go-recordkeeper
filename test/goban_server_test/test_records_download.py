@@ -1,5 +1,6 @@
 from anys import ANY_DATETIME_STR
 from sgfmill import sgf
+from dateutil.parser import parse
 
 
 def test_download(user_client, record, move_factory):
@@ -14,7 +15,7 @@ def test_download(user_client, record, move_factory):
     assert response.headers["Content-Type"] == "application/x-go-sgf"
     assert (
         response.headers["Content-Disposition"]
-        == f'attachment; filename="Black_vs_White_{record["created"]}.sgf"'
+        == f'attachment; filename="Black_vs_White_{parse(record["created"]).strftime(r"%Y_%m_%d")}.sgf"'
     )
 
     game = sgf.Sgf_game.from_bytes(response.content)
