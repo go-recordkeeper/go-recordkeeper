@@ -157,18 +157,44 @@
 
     <div class="post-content">
         <p>
-            <p>It&rsquo;s been a hot minute! I&rsquo;ve been working on a few different projects for the last month:</p>
+            <h2 id="hiatus-other-projects">Hiatus: other projects</h2>
+<p>It&rsquo;s been a hot minute! I&rsquo;ve been working on a few different projects for the last month:</p>
 <ul>
-<li><a href="https://adventofcode.com/2022">Advent of Code</a> (my <a href="https://github.com/dchiquito/advent-of-code-2022">solutions</a>)</li>
-<li><a href="https://github.com/dchiquito/configurator">configurator</a>, a CLI tool for corralling system configuration files into a repository. It makes it much less painful to coordinate configs between multiple machines, especially:</li>
-<li>Setting up <a href="https://neovim.io/">Neovim</a>. My <a href="https://github.com/dchiquito/configurations/blob/main/home/.config/nvim/init.lua"><code>init.lua</code></a> is still a work in progress, but nvim now does almost all the things that VSCode does. The level of configurability feels much more granular, and configuration is done imperatively rather than declaratively, which feels more powerful. It feels cool using the keyboard to do everything, but I don&rsquo;t know that it&rsquo;s necessarily faster, considering how many VSCode shortcuts I already use. On the other hand, it&rsquo;s definitely much less intuitive, and all the vim-specific and personalized keybindings mean that any habits I build aren&rsquo;t going to transfer to anywhere else. Setting it up was also a multi-week endeavor, and things still aren&rsquo;t seamless. Python formatting isn&rsquo;t happening, the python LSP doesn&rsquo;t recognize the poetry virtual environment, treesitter causes an error whenever a buffer is closed, and there are still staple plugins that I haven&rsquo;t gotten around to trying out yet. I just tried to add a word to the spellcheck dictionary and it threw an error. It&rsquo;s nice that all the guts are exposed and there is definitely a solution to every possible problem, but it&rsquo;s really painful that things don&rsquo;t just work out of the box.</li>
+<li><strong><a href="https://adventofcode.com/2022">Advent of Code</a></strong> (my <a href="https://github.com/dchiquito/advent-of-code-2022">solutions</a>)</li>
+<li><strong><a href="https://github.com/dchiquito/configurator">configurator</a></strong>, a CLI tool for corralling system configuration files into a repository. It makes it much less painful to coordinate configs between multiple machines, especially:</li>
+<li><strong>Setting up <a href="https://neovim.io/">Neovim</a>.</strong> Ultimately, I&rsquo;m not that impressed.</li>
 </ul>
+<h3 id="neovim-pros-and-cons">Neovim: pros and cons</h3>
+<p>My <a href="https://github.com/dchiquito/configurations/blob/main/home/.config/nvim/init.lua"><code>init.lua</code></a> is still a work in progress, but nvim now does almost all the things that VSCode does.</p>
+<ul>
+<li>The level of configurability feels much more granular, and configuration is done imperatively rather than declaratively, which feels more powerful.</li>
+<li>It feels cool using the keyboard to do everything, but I don&rsquo;t know that it&rsquo;s necessarily faster, considering how many VSCode shortcuts I already use.</li>
+</ul>
+<p>On the other hand:</p>
+<ul>
+<li>neovim is definitely much less intuitive, and all the vim-specific and personalized keybindings mean that any habits I build aren&rsquo;t going to transfer to anywhere else.</li>
+<li>Setting it up was a multi-week endeavor, and things still aren&rsquo;t seamless:
+<ul>
+<li>Python formatting isn&rsquo;t happening</li>
+<li>The Python LSP doesn&rsquo;t recognize the poetry virtual environment</li>
+<li>Treesitter causes an error whenever a buffer is closed</li>
+<li>I just tried to add a word to the spellcheck dictionary and it threw an error.</li>
+<li>There are still staple plugins that I haven&rsquo;t gotten around to trying out yet.</li>
+</ul>
+</li>
+</ul>
+<p>It&rsquo;s nice that all the guts are exposed and there is definitely a solution to every possible problem, but it&rsquo;s really painful that things don&rsquo;t just work out of the box.</p>
+<h2 id="chatgpt-haskell-master">ChatGPT, Haskell Master</h2>
 <p>Anyway, with the help of <a href="https://en.wikipedia.org/wiki/ChatGPT">ChatGPT</a> I was able to stabilize the Haskell implementation a bit. I needed a bit of general direction to get off the ground which I would normally ask a subject-matter expert for, but in lieu of that, ChatGPT was very helpful. It provided pretty accurate code snippets that demonstrated standard library features I didn&rsquo;t know about, it helped identify sources of errors that I couldn&rsquo;t fathom, and it even recognized code that broke with different versions of the same library. It wasn&rsquo;t perfectly knowledgeable of all things, but it was enough to get me unstuck.</p>
+<h2 id="integration-testing-improvements">Integration testing improvements</h2>
 <p>With some very rudimentary Haskell code written, I wanted to start testing it in the integration testing harness. Tragically, the current suite took a full minute to run, which is honestly rather atrocious. As you may recall from previous blog posts, test data was created by <strong>(1)</strong> using <code>subprocess</code> to invoke <strong>(2)</strong> a <code>manage.py</code> script using the poetry shell, which ran <strong>(3)</strong> some fixture-specific Django ORM code which creates the data. Test cleanup was accomplished similarly.</p>
 <p>A minute is too long for 16 tests. After some soul-searching I found that all the fixtures were doing was possible using existing API endpoints, so I just replaced all of that subprocess code with API calls. Every DB row insert went from ~1 second to 0.15 seconds, which really adds up when each test generally needs at least a user and a record.</p>
 <p>I also replaced the <code>manage.py</code> script that was being used to reset the database with some raw SQL which accomplishes the same thing. It requires that <code>psql</code> be installed on the client machine, but I&rsquo;m realistically the only person who will ever run these tests, and it&rsquo;s really really fast, so that&rsquo;s all right.</p>
 <p>I previously expounded on the benefits of direct DB access, and I think there are still valid points there. I think the fastest possible solution would be invoking the Django ORM models directly in the test environment, but that requires a Django app context which is its own kettle of fish. If I ever need finer control over the DB than the API can provide, I will need to finally figure that out.</p>
 <p>The only really impactful way to speed up tests more is to parallelize them. <code>pytest</code> doesn&rsquo;t support that out of the box and it will likely require some additional care when writing tests since full database resets are no longer an option, so that is a problem for another day.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>Now that I&rsquo;m feeling unblocked on Haskell I can get it harnessed up with the other integration tests to start slogging away at the implementation work. I got the bare rudiments of a postgres connection working, but actually executing useful queries will involve a lot of research and then a lot of polishing.</p>
+<p>While I was grumpy with Haskell I also starting working on the Rust implementation with <a href="https://docs.rs/axum/latest/axum/index.html">axum</a>. I haven&rsquo;t gotten any further than that, but it&rsquo;s a much more familiar environment, so I might start the SQL work there if Haskell proves to be too exhausting.</p>
 
         </p>
     </div>

@@ -13,8 +13,8 @@
       <pubDate>Sun, 01 Jan 2023 15:07:48 -0500</pubDate>
       
       <guid>https://go.chiquit.ooo/blog/posts/14-speeding-up-integration-tests/</guid>
-      <description>It&amp;rsquo;s been a hot minute! I&amp;rsquo;ve been working on a few different projects for the last month:
- Advent of Code (my solutions) configurator, a CLI tool for corralling system configuration files into a repository. It makes it much less painful to coordinate configs between multiple machines, especially: Setting up Neovim. My init.lua is still a work in progress, but nvim now does almost all the things that VSCode does. The level of configurability feels much more granular, and configuration is done imperatively rather than declaratively, which feels more powerful.</description>
+      <description>Hiatus: other projects It&amp;rsquo;s been a hot minute! I&amp;rsquo;ve been working on a few different projects for the last month:
+ Advent of Code (my solutions) configurator, a CLI tool for corralling system configuration files into a repository. It makes it much less painful to coordinate configs between multiple machines, especially: Setting up Neovim. Ultimately, I&amp;rsquo;m not that impressed.  Neovim: pros and cons My init.lua is still a work in progress, but nvim now does almost all the things that VSCode does.</description>
     </item>
     
     <item>
