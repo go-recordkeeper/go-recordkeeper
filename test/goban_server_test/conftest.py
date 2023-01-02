@@ -82,45 +82,21 @@ def user_client(user_client_factory, user):
 
 
 @pytest.fixture
-def django_command():
-    def _command(command):
-        resp = run(
-            [
-                "poetry",
-                "run",
-                "python",
-                "../server/django/manage.py",
-                "shell_plus",
-                "-c",
-                f"{command}",
-            ],
-            capture_output=True,
-        )
-        # There is a lot of import information logged, so attempt to trim it out before returning output
-        return resp.stdout.split(b"\n")[-2]
-
-    return _command
-
-
-@pytest.fixture
-def user_factory(django_command, faker):
+def user_factory(client, faker):
     def factory(username=None, email=None, password=None):
         if username is None:
-            username = faker.name()
+            username = faker.first_name()
         if email is None:
             email = faker.email()
         if password is None:
             password = faker.password()
-        user_id = django_command(
-            f"user = User(username='{username}', email='{email}'); user.set_password('{password}'); user.save(); print(user.id)"
-        )
-        user_id = int(user_id.decode("utf-8"))
-
         return {
-            "username": username,
-            "email": email,
+            **client.post(
+                "/api/register/",
+                json={"username": username,
+                      "email": email, "password": password},
+            ).json(),
             "password": password,
-            "id": user_id,
         }
 
     return factory
