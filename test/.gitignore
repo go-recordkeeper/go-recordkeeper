@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Profiling
+/prof
+
+# Schema reset SQL file
+reset.sql
