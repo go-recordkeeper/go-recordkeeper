@@ -152,23 +152,16 @@ def record(record_factory):
 
 
 @pytest.fixture
-def move_factory(django_command, record):
+def move_factory(user_client, record):
     default_record = record
 
     def factory(x, y, record=None):
         if record is None:
             record = default_record
-        move = django_command(
-            f"""
-record = Record.objects.get(id={record["id"]})
-move = record.next_move({x}, {y});
-move.save();
-from django.forms import model_to_dict;
-d = model_to_dict(move);
-print(d);
-"""
-        )
-        move = eval(move.decode("utf-8"))
+        move = user_client.post(
+            "/api/records/{record['id']}/play/",
+            json={"x": x, "y": y}
+        ).json()
         return move
 
     return factory
