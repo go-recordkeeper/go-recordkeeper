@@ -135,7 +135,7 @@ def move_factory(user_client, record):
         if record is None:
             record = default_record
         move = user_client.post(
-            "/api/records/{record['id']}/play/",
+            f"/api/records/{record['id']}/play/",
             json={"x": x, "y": y}
         ).json()
         return move
