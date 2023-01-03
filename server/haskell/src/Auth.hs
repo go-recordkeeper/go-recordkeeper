@@ -11,4 +11,4 @@ authEndpoints :: HP.Pool -> ScottyM ()
 authEndpoints pool = do
   getUser pool
   login
-  register
+  register pool

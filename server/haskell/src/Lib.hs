@@ -23,10 +23,12 @@ startApp = do
   --   Right token' -> BS.putStrLn token'
   putStrLn "Starting the server..."
   hFlush stdout
-  let connectionSettings = HC.settings "localhost" 5432 "postgres" "postgres" "default"
+  -- let connectionSettings = HC.settings "localhost" 5432 "postgres" "postgres" "default"
+  -- TODO test configuration only
+  let connectionSettings = HC.settings "postgres" 5432 "postgres" "postgres" "default"
   pool <- HP.acquire (10, 30, connectionSettings)
   scotty 8000 $ do
-    middleware $ logStdout
+    middleware logStdout
     -- get "/foof" $ do
     --   -- word <- param "word"
     --   let word = "lol"

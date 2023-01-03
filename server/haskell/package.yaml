@@ -25,11 +25,13 @@ dependencies:
 - bytestring
 - hasql
 - hasql-pool
+- hasql-th
 - http-types
 - jose
 - resource-pool
 - scotty >= 0.12
 - text
+- time
 - wai
 - wai-extra
 # - warp

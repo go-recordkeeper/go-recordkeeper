@@ -42,11 +42,13 @@ library
     , bytestring
     , hasql
     , hasql-pool
+    , hasql-th
     , http-types
     , jose
     , resource-pool
     , scotty >=0.12
     , text
+    , time
     , wai
     , wai-extra
   default-language: Haskell2010
@@ -65,11 +67,13 @@ executable go-recordkeeper-exe
     , go-recordkeeper
     , hasql
     , hasql-pool
+    , hasql-th
     , http-types
     , jose
     , resource-pool
     , scotty >=0.12
     , text
+    , time
     , wai
     , wai-extra
   default-language: Haskell2010
@@ -91,6 +95,7 @@ test-suite go-recordkeeper-test
     , go-recordkeeper
     , hasql
     , hasql-pool
+    , hasql-th
     , hspec
     , http-client
     , http-types
@@ -99,6 +104,7 @@ test-suite go-recordkeeper-test
     , scotty >=0.12
     , servant-client
     , text
+    , time
     , wai
     , wai-extra
   default-language: Haskell2010
