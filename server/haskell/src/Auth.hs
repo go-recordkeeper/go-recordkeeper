@@ -10,5 +10,5 @@ import Web.Scotty
 authEndpoints :: HP.Pool -> ScottyM ()
 authEndpoints pool = do
   getUser pool
-  login
+  login pool
   register pool

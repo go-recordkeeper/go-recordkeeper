@@ -72,6 +72,9 @@ register pool = post "/api/register/" $ do
     then raiseStatus status400 "Invalid email"
     else do
       passwordHash <- liftAndCatchIO $ hashPassword password
+      liftIO $ putStrLn "HASHED REGISTRATION"
+      liftIO $ putStrLn password
+      liftIO $ putStrLn passwordHash
       now <- liftAndCatchIO Clock.getCurrentTime
       let sess = HS.statement (pack username, pack email, pack passwordHash, now) insert
       result <- liftIO $ HP.use pool sess
