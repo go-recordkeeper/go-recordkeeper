@@ -40,6 +40,7 @@ library
       aeson
     , base >=4.7 && <5
     , bytestring
+    , email-validate
     , hasql
     , hasql-pool
     , hasql-th
@@ -64,6 +65,7 @@ executable go-recordkeeper-exe
       aeson
     , base >=4.7 && <5
     , bytestring
+    , email-validate
     , go-recordkeeper
     , hasql
     , hasql-pool
@@ -92,6 +94,7 @@ test-suite go-recordkeeper-test
     , aeson
     , base >=4.7 && <5
     , bytestring
+    , email-validate
     , go-recordkeeper
     , hasql
     , hasql-pool

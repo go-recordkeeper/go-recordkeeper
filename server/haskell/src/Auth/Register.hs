@@ -5,6 +5,7 @@ module Auth.Register (register) where
 -- import Auth.User
 import Control.Monad.IO.Class (liftIO)
 import Data.Aeson.TH (defaultOptions, deriveJSON)
+import qualified Data.ByteString.Char8 as BS
 import Data.Int (Int64)
 import Data.Text (Text, pack)
 import qualified Data.Text.Lazy as Lazy
@@ -17,7 +18,17 @@ import qualified Hasql.Session as HS
 import qualified Hasql.Statement as S
 import qualified Hasql.TH as TH
 import Network.HTTP.Types (status201, status400, status500)
+import Text.Email.Validate (isValid)
 import Web.Scotty
+  ( ActionM,
+    ScottyM,
+    json,
+    jsonData,
+    liftAndCatchIO,
+    post,
+    raiseStatus,
+    status,
+  )
 
 data RegisterRequest = RegisterRequest
   { username :: String,
@@ -49,15 +60,18 @@ insert =
 register :: HP.Pool -> ScottyM ()
 register pool = post "/api/register/" $ do
   RegisterRequest {username, email, password} <- jsonData :: ActionM RegisterRequest
-  -- TODO hash the password
-  now <- liftAndCatchIO Clock.getCurrentTime
-  let sess = HS.statement (pack username, pack email, pack password, now) insert
-  result <- liftIO $ HP.use pool sess
-  case result of
-    Right thing -> do
-      status status201
-      json (RegisterResponse {id = fromIntegral thing, username, email})
-    Left err ->
-      case err of
-        SessionError (QueryError _ _ (ResultError (HS.ServerError "23505" _ _ _))) -> raiseStatus status400 "A user with that username already exists."
-        _ -> raiseStatus status500 $ Lazy.pack ("disaster strikes" ++ show err)
+  if not $ isValid $ BS.pack email
+    then raiseStatus status400 "Invalid email"
+    else do
+      -- TODO hash the password
+      now <- liftAndCatchIO Clock.getCurrentTime
+      let sess = HS.statement (pack username, pack email, pack password, now) insert
+      result <- liftIO $ HP.use pool sess
+      case result of
+        Right id' -> do
+          status status201
+          json (RegisterResponse {id = fromIntegral id', username, email})
+        Left err ->
+          case err of
+            SessionError (QueryError _ _ (ResultError (HS.ServerError "23505" _ _ _))) -> raiseStatus status400 "A user with that username already exists."
+            _ -> raiseStatus status500 $ Lazy.pack $ show err
