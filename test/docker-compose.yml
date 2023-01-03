@@ -43,3 +43,21 @@ services:
       POSTGRES_HOST: postgres # this refers to the postgres service above ^
     depends_on:
       - postgres
+
+  haskell:
+    profiles:
+      - haskell
+    build: ../server/haskell
+    volumes:
+      - ../server/haskell:/goban
+    ports:
+      - 8000:8000
+    environment:
+      GOBAN_DEVELOPMENT: true
+      POSTGRES_NAME: default
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres # this refers to the postgres service above ^
+    depends_on:
+      - postgres
+

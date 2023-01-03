@@ -29,7 +29,7 @@ def clean_db():
     yield
 
 
-@pytest.fixture(scope="session", params=["django", "fastapi"])
+@pytest.fixture(scope="session", params=["django", "fastapi", "haskell"])
 def impl(request):
     return request.param
 
