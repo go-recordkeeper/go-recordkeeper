@@ -56,7 +56,7 @@ insert =
     insert into auth_user
     (username, email, password, date_joined, last_login, first_name, last_name, is_superuser, is_staff, is_active)
     values
-    ($1 :: text, $2 :: text, $3 :: text, $4 :: timestamptz, $4 :: timestamptz, '', '', false, false, false)
+    ($1 :: text, $2 :: text, $3 :: text, $4 :: timestamptz, $4 :: timestamptz, '', '', false, false, true)
   |]
 
 hashPassword :: String -> IO String

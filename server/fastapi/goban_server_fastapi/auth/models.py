@@ -51,7 +51,7 @@ def create_user(
         last_name="",
         is_superuser=False,
         is_staff=False,
-        is_active=False,
+        is_active=True,
         date_joined=datetime.now(),
         last_login=datetime.now(),
     )
