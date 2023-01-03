@@ -31,6 +31,27 @@ def test_login(client, user_factory, faker):
     assert response.status_code == 401
 
 
+def test_login_fastapi_hash(client, internal_user_factory):
+    """Test that all implementations work with FastAPI password hashes."""
+    user = internal_user_factory()
+
+    # Verify login succeeds with good credentials
+    response = client.post(
+        "/api/login/", json={"username": user["username"], "password": user["password"]}
+    )
+    assert response.status_code == 200
+    token = response.json()
+    assert token
+
+    # Verify login fails with incorrect password
+    response = client.post(
+        "/api/login/",
+        json={"username": user["username"],
+              "password": user["password"] + "!"},
+    )
+    assert response.status_code == 401
+
+
 def test_register(client, faker):
     # Verify registration succeeds with valid inputs
     username = faker.first_name()

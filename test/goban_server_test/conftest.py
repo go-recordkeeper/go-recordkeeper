@@ -4,6 +4,9 @@ from urllib.parse import urljoin
 
 import pytest
 import requests
+from goban_server_fastapi.db import DbClient
+from goban_server_fastapi.auth.models import create_user
+from goban_server_fastapi.auth.password import encode_password
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -140,4 +143,30 @@ def move_factory(user_client, record):
         ).json()
         return move
 
+    return factory
+
+
+@pytest.fixture
+def fastapi_db():
+    return DbClient()
+
+
+@pytest.fixture
+def internal_user_factory(fastapi_db, faker):
+    """An alternative user factory which uses the FastAPI implementation to interact directly with the database."""
+    def factory(username=None, email=None, password=None):
+        if username is None:
+            username = faker.first_name()
+        if email is None:
+            email = faker.email()
+        if password is None:
+            password = faker.password()
+        password_hash = encode_password(password)
+        user = create_user(fastapi_db, username, email, password_hash)
+        return {
+            "id": user.id,
+            "username": username,
+            "email": email,
+            "password": password,
+        }
     return factory
