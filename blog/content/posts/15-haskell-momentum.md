@@ -67,7 +67,12 @@ The observant reader will note that there is a `TODO` to hash the password befor
 
 I had already gotten the hasql connection pool set up, so all I had to do was figure out how to define the SQL statement to perform the insert. Template Haskell makes it pretty much just normal SQL, which is nice. I've heard horror stories about Template Haskell, so it is fortunate that none of my queries are very complicated.
 
-The most obnoxious part was working with String type conversions. As I understand it, the `String` type is the same as a `[Char]`. Since lists in Haskell are linked, this makes for atrocious performance for long strings. To get around this, there is an alternative datatype called `Text` which is backed by actual arrays. There is also a very similar but completely distinct datatype called `Text.Lazy` which has the same API, but doesn't actually require that the entire string reside in memory at the same time. Finally, there is a datatype `ByteString`, which is pretty much the same as `Text` except it uses 8-bit bytes instead of 16-bit unicode code points.
+The most obnoxious part was working with String type conversions.
+
+* As I understand it, the `String` type is the same as a `[Char]`. Since lists in Haskell are linked, this makes for atrocious performance for long strings.
+* To get around this, there is an alternative datatype called `Text` which is backed by actual arrays.
+* There is also a very similar but completely distinct datatype called `Text.Lazy` which has the same API, but doesn't actually require that the entire string reside in memory at the same time.
+* Finally, there is a datatype `ByteString`, which is pretty much the same as `Text` except it uses 8-bit bytes instead of 16-bit unicode code points.
 
 All the above stringy things are used in the above code, and all conversions must be explicit. It's not that bad to look at since they're all just strings, but it's obnoxious trying to deduce which particular `pack`/`unpack` function needs to be imported and invoked to get everything glued together.
 
