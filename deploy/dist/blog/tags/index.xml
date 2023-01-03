@@ -6,22 +6,22 @@
     <description>Recent content in Tags on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 01 Jan 2023 15:07:48 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 02 Jan 2023 23:19:49 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>haskell</title>
+      <link>https://go.chiquit.ooo/blog/tags/haskell/</link>
+      <pubDate>Mon, 02 Jan 2023 23:19:49 -0500</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/tags/haskell/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>pytest</title>
       <link>https://go.chiquit.ooo/blog/tags/pytest/</link>
       <pubDate>Sun, 01 Jan 2023 15:07:48 -0500</pubDate>
       
       <guid>https://go.chiquit.ooo/blog/tags/pytest/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>haskell</title>
-      <link>https://go.chiquit.ooo/blog/tags/haskell/</link>
-      <pubDate>Fri, 02 Dec 2022 17:44:48 -0500</pubDate>
-      
-      <guid>https://go.chiquit.ooo/blog/tags/haskell/</guid>
       <description></description>
     </item>
     

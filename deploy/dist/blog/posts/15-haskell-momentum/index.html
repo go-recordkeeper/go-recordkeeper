@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Gaining Momentum with Haskell</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='haskell'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/15-haskell-momentum/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Gaining Momentum with Haskell">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gaining Momentum with Haskell">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/15-haskell-momentum/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/15-haskell-momentum/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/15-haskell-momentum/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Gaining Momentum with Haskell</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            January 2, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/haskell">haskell</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>I&rsquo;m finally getting some traction with Haskell, even if the going is slow. I&rsquo;ve &ldquo;finished&rdquo; the register endpoint to the point that it passes the integration test:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">module</span> Auth.Register (<span style="color:#a6e22e">register</span>) <span style="color:#66d9ef">where</span>
+
+<span style="color:#75715e">-- 30 (!) lines of imports</span>
+
+<span style="color:#66d9ef">data</span> <span style="color:#66d9ef">RegisterRequest</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">RegisterRequest</span>
+  { username <span style="color:#f92672">::</span> <span style="color:#66d9ef">String</span>,
+    email <span style="color:#f92672">::</span> <span style="color:#66d9ef">String</span>,
+    password <span style="color:#f92672">::</span> <span style="color:#66d9ef">String</span>
+  }
+  <span style="color:#66d9ef">deriving</span> (<span style="color:#66d9ef">Eq</span>, <span style="color:#66d9ef">Show</span>)
+
+<span style="color:#f92672">$</span>(deriveJSON defaultOptions <span style="color:#66d9ef">&#39;&#39;RegisterRequest</span>)
+
+<span style="color:#66d9ef">data</span> <span style="color:#66d9ef">RegisterResponse</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">RegisterResponse</span>
+  { id <span style="color:#f92672">::</span> <span style="color:#66d9ef">Int</span>,
+    username <span style="color:#f92672">::</span> <span style="color:#66d9ef">String</span>,
+    email <span style="color:#f92672">::</span> <span style="color:#66d9ef">String</span>
+  }
+  <span style="color:#66d9ef">deriving</span> (<span style="color:#66d9ef">Eq</span>, <span style="color:#66d9ef">Show</span>)
+
+<span style="color:#f92672">$</span>(deriveJSON defaultOptions <span style="color:#66d9ef">&#39;&#39;RegisterResponse</span>)
+
+<span style="color:#a6e22e">insert</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">S</span><span style="color:#f92672">.</span><span style="color:#66d9ef">Statement</span> (<span style="color:#66d9ef">Text</span>, <span style="color:#66d9ef">Text</span>, <span style="color:#66d9ef">Text</span>, <span style="color:#66d9ef">UTCTime</span>) <span style="color:#66d9ef">Int64</span>
+<span style="color:#a6e22e">insert</span> <span style="color:#f92672">=</span>
+  [<span style="color:#66d9ef">TH</span><span style="color:#f92672">.</span>rowsAffectedStatement<span style="color:#f92672">|</span>
+    insert into auth_user
+    (username, email, password, date_joined, last_login, first_name, last_name, is_superuser, is_staff, is_active)
+    values
+    (<span style="color:#f92672">$</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">::</span> text, <span style="color:#f92672">$</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">::</span> text, <span style="color:#f92672">$</span><span style="color:#ae81ff">3</span> <span style="color:#f92672">::</span> text, <span style="color:#f92672">$</span><span style="color:#ae81ff">4</span> <span style="color:#f92672">::</span> timestamptz, <span style="color:#f92672">$</span><span style="color:#ae81ff">4</span> <span style="color:#f92672">::</span> timestamptz, <span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#e6db74">&#39;&#39;</span>, false, false, false)
+  <span style="color:#f92672">|</span>]
+
+<span style="color:#a6e22e">register</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">HP</span><span style="color:#f92672">.</span><span style="color:#66d9ef">Pool</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">ScottyM</span> ()
+<span style="color:#a6e22e">register</span> pool <span style="color:#f92672">=</span> post <span style="color:#e6db74">&#34;/api/register/&#34;</span> <span style="color:#f92672">$</span> <span style="color:#66d9ef">do</span>
+  <span style="color:#66d9ef">RegisterRequest</span> {username, email, password} <span style="color:#f92672">&lt;-</span> jsonData <span style="color:#f92672">::</span> <span style="color:#66d9ef">ActionM</span> <span style="color:#66d9ef">RegisterRequest</span>
+  <span style="color:#66d9ef">if</span> not <span style="color:#f92672">$</span> isValid <span style="color:#f92672">$</span> <span style="color:#66d9ef">BS</span><span style="color:#f92672">.</span>pack email
+    <span style="color:#66d9ef">then</span> raiseStatus status400 <span style="color:#e6db74">&#34;Invalid email&#34;</span>
+    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">do</span>
+      <span style="color:#75715e">-- TODO hash the password</span>
+      now <span style="color:#f92672">&lt;-</span> liftAndCatchIO <span style="color:#66d9ef">Clock</span><span style="color:#f92672">.</span>getCurrentTime
+      <span style="color:#66d9ef">let</span> sess <span style="color:#f92672">=</span> <span style="color:#66d9ef">HS</span><span style="color:#f92672">.</span>statement (pack username, pack email, pack password, now) insert
+      result <span style="color:#f92672">&lt;-</span> liftIO <span style="color:#f92672">$</span> <span style="color:#66d9ef">HP</span><span style="color:#f92672">.</span>use pool sess
+      <span style="color:#66d9ef">case</span> result <span style="color:#66d9ef">of</span>
+        <span style="color:#66d9ef">Right</span> id&#39; <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">do</span>
+          status status201
+          json (<span style="color:#66d9ef">RegisterResponse</span> {id <span style="color:#f92672">=</span> fromIntegral id&#39;, username, email})
+        <span style="color:#66d9ef">Left</span> err <span style="color:#f92672">-&gt;</span>
+          <span style="color:#66d9ef">case</span> err <span style="color:#66d9ef">of</span>
+            <span style="color:#66d9ef">SessionError</span> (<span style="color:#66d9ef">QueryError</span> <span style="color:#66d9ef">_</span> <span style="color:#66d9ef">_</span> (<span style="color:#66d9ef">ResultError</span> (<span style="color:#66d9ef">HS</span><span style="color:#f92672">.</span><span style="color:#66d9ef">ServerError</span> <span style="color:#e6db74">&#34;23505&#34;</span> <span style="color:#66d9ef">_</span> <span style="color:#66d9ef">_</span> <span style="color:#66d9ef">_</span>))) <span style="color:#f92672">-&gt;</span> raiseStatus status400 <span style="color:#e6db74">&#34;A user with that username already exists.&#34;</span>
+            <span style="color:#66d9ef">_</span> <span style="color:#f92672">-&gt;</span> raiseStatus status500 <span style="color:#f92672">$</span> <span style="color:#66d9ef">Lazy</span><span style="color:#f92672">.</span>pack <span style="color:#f92672">$</span> show err
+</code></pre></div><p>The <code>register</code> function parses the request body, checks if the email is valid, attempts to insert the user into the database, and returns the newly created user as a JSON object. Appropriate errors are thrown if the email is invalid, the user already exists, or some arbitrary DB error occurred.</p>
+<p>The observant reader will note that there is a <code>TODO</code> to hash the password before inserting it into the database. Lucky for me the integration test doesn&rsquo;t check that, so I&rsquo;ll take my 🗸.</p>
+<p>I had already gotten the hasql connection pool set up, so all I had to do was figure out how to define the SQL statement to perform the insert. Template Haskell makes it pretty much just normal SQL, which is nice. I&rsquo;ve heard horror stories about Template Haskell, so it is fortunate that none of my queries are very complicated.</p>
+<p>The most obnoxious part was working with String type conversions. As I understand it, the <code>String</code> type is the same as a <code>[Char]</code>. Since lists in Haskell are linked, this makes for atrocious performance for long strings. To get around this, there is an alternative datatype called <code>Text</code> which is backed by actual arrays. There is also a very similar but completely distinct datatype called <code>Text.Lazy</code> which has the same API, but doesn&rsquo;t actually require that the entire string reside in memory at the same time. Finally, there is a datatype <code>ByteString</code>, which is pretty much the same as <code>Text</code> except it uses 8-bit bytes instead of 16-bit unicode code points.</p>
+<p>All the above stringy things are used in the above code, and all conversions must be explicit. It&rsquo;s not that bad to look at since they&rsquo;re all just strings, but it&rsquo;s obnoxious trying to deduce which particular <code>pack</code>/<code>unpack</code> function needs to be imported and invoked to get everything glued together.</p>
+<p>The other main pain point today was the compile time. The integration testing suite requires a docker container for all the server implementations, so I set up a neat little multistage build that builds all the dependencies first, then the source code. Testing a change involved ~7 seconds of waiting for the image to rebuild, which is not ideal. Adding a new dependency (which is a tragically frequent occurrence, the standard library doesn&rsquo;t cover much) required a full rebuild, which took ~3 minutes, which is just ridiculous to me. Sadly I think this is just how long stack builds take.</p>
+<h2 id="next-steps">Next steps</h2>
+<ul>
+<li>The password hashing algorithm is stolen from Django and is <a href="https://github.com/go-recordkeeper/go-recordkeeper/blob/3e5ea5a87d614db52165936f333f7d3b3ad8673c/server/fastapi/goban_server_fastapi/auth/password.py">already implemented</a> in FastAPI, so it&rsquo;s just a matter of porting/testing that code in Haskell.</li>
+<li>Now that new users can be added to the DB, it&rsquo;s possible to start on the login test, which would also require the password hashing algorithm, in addition to the JWT signing code.</li>
+<li>With the JWT signing/verification code, getting the current user is possible.</li>
+<li>With all the auth endpoints done, it will be time to refactor that chunk of code for maximum legibility, and to try out the Haskell unit testing experience.</li>
+</ul>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/14-speeding-up-integration-tests/"> Speeding Up Integration Tests </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
