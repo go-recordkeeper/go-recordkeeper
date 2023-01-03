@@ -29,6 +29,7 @@ dependencies:
 - hasql-th
 - http-types
 - jose
+- password
 - resource-pool
 - scotty >= 0.12
 - text
