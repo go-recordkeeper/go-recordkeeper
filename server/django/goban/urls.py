@@ -7,13 +7,13 @@ from rest_framework import routers
 from record.views import RecordViewSet, login_view, register_view, user_view
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title='Go Recordkeeper API',
-      default_version='v1',
-      contact=openapi.Contact(email='daniel.chiquito@gmail.com'),
-      license=openapi.License(name='MIT'),
-   ),
-   public=True,
+    openapi.Info(
+        title='Go Recordkeeper API',
+        default_version='v1',
+        contact=openapi.Contact(email='daniel.chiquito@gmail.com'),
+        license=openapi.License(name='MIT'),
+    ),
+    public=True,
 )
 
 router = routers.DefaultRouter()
@@ -27,6 +27,12 @@ urlpatterns = [
     path('api/register/', register_view),
     path('api/user/', user_view),
     path('api/admin/', admin.site.urls),
-    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    re_path(
+        r'^swagger(?P<format>\.json|\.yaml)$',
+        schema_view.without_ui(cache_timeout=0),
+        name='schema-json',
+    ),
+    re_path(
+        r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'
+    ),
 ]

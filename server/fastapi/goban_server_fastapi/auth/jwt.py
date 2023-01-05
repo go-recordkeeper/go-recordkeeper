@@ -13,7 +13,7 @@ from goban_server_fastapi.settings import SECRET_KEY
 
 def generate_token(user_id):
     return jwt.encode(
-        {"id": user_id, "exp": datetime.now(tz=timezone.utc) + timedelta(days=1)},
+        {"sub": user_id, "exp": datetime.now(tz=timezone.utc) + timedelta(days=1)},
         key=SECRET_KEY,
         algorithm="HS256",
     )
@@ -31,10 +31,10 @@ def jwt_user(
         payload = jwt.decode(token.credentials, key=SECRET_KEY, algorithms="HS256")
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=403, detail="invalid authorization token")
-    if "id" not in payload:
+    if "sub" not in payload:
         raise AuthenticationError(status_code=403, detail="invalid authorization token")
 
-    user = get_user(db, id=payload["id"])
+    user = get_user(db, id=payload["sub"])
     if user is None:
         raise AuthenticationError(status_code=403, detail="invalid authorization token")
 

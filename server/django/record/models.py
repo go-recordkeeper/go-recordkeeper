@@ -22,6 +22,7 @@ class Record(models.Model):
         NINE = 9, _('9x9')
         THIRTEEN = 13, _('13x13')
         NINETEEN = 19, _('19x19')
+
     class Winner(models.TextChoices):
         BLACK = 'B', _('Black')
         WHITE = 'W', _('White')
