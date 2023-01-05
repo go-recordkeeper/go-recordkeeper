@@ -37,6 +37,11 @@ def impl(request):
     return request.param
 
 
+@pytest.fixture(scope="session", params=["api_factory", "db_factory"])
+def factory_method(request):
+    return request.param
+
+
 @pytest.fixture(scope="session")
 def server_under_test(impl):
     run(["docker", "compose", "--profile", impl, "up", "-d", "--wait"])
@@ -85,8 +90,8 @@ def user_client(user_client_factory, user):
 
 
 @pytest.fixture
-def user_factory(client, faker):
-    def factory(username=None, email=None, password=None):
+def user_factory(factory_method, client, fastapi_db, faker):
+    def api_factory(username=None, email=None, password=None):
         if username is None:
             username = faker.first_name()
         if email is None:
@@ -101,8 +106,26 @@ def user_factory(client, faker):
             ).json(),
             "password": password,
         }
-
-    return factory
+    """An alternative user factory which uses the FastAPI implementation to interact directly with the database."""
+    def db_factory(username=None, email=None, password=None):
+        if username is None:
+            username = faker.first_name()
+        if email is None:
+            email = faker.email()
+        if password is None:
+            password = faker.password()
+        password_hash = encode_password(password)
+        user = create_user(fastapi_db, username, email, password_hash)
+        return {
+            "id": user.id,
+            "username": username,
+            "email": email,
+            "password": password,
+        }
+    if factory_method == "api_factory":
+        return api_factory
+    elif factory_method == "db_factory":
+        return db_factory
 
 
 @pytest.fixture
