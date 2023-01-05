@@ -7,8 +7,15 @@ from rest_framework import authentication, exceptions
 
 
 def generate_token(user: User):
+    now = datetime.now(tz=timezone.utc)
     return jwt.encode(
-        {'sub': user.id, 'exp': datetime.now(tz=timezone.utc) + timedelta(days=1)},
+        {
+            'sub': user.id,
+            'iat': now,
+            'exp': now + timedelta(days=1),
+            'iss': 'go-recordkeeper',
+            'aud': 'go-recordkeeper',
+        },
         key=settings.SECRET_KEY,
         algorithm='HS256',
     )

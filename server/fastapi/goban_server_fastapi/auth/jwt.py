@@ -12,8 +12,15 @@ from goban_server_fastapi.settings import SECRET_KEY
 
 
 def generate_token(user_id):
+    now = datetime.now(tz=timezone.utc)
     return jwt.encode(
-        {"sub": user_id, "exp": datetime.now(tz=timezone.utc) + timedelta(days=1)},
+        {
+            "sub": user_id,
+            "iat": now,
+            "exp": now + timedelta(days=1),
+            "iss": "go-recordkeeper",
+            "aud": "go-recordkeeper",
+        },
         key=SECRET_KEY,
         algorithm="HS256",
     )
