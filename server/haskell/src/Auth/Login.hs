@@ -5,7 +5,7 @@ module Auth.Login (login) where
 -- import Auth.User
 import Control.Monad.IO.Class (liftIO)
 import Data.Aeson.TH (defaultOptions, deriveJSON)
-import Data.Password.PBKDF2 (PasswordCheck (..), PasswordHash (..), checkPassword, mkPassword)
+import Data.Password.PBKDF2 (PBKDF2, PasswordCheck (..), PasswordHash (..), checkPassword, mkPassword)
 import Data.Text (Text, pack, splitOn, unpack)
 import Data.Text.Encoding.Base64 (encodeBase64)
 import qualified Hasql.Pool as HP
@@ -40,6 +40,19 @@ getUser =
     where username = $1 :: text
   |]
 
+-- The reference application stores hashed passwords like this:
+-- `pbkdf2_sha256$390000$plaintextsalt$hashedpassword`
+-- The password package generates hashed passwords that look like this:
+-- `sha256:390000:base64encodedsalt==:hashedpassword`
+-- Convert the reference style into the haskell style
+convertPasswordHash :: Text -> PasswordHash a
+convertPasswordHash passwordHash = do
+  let hashParts = splitOn "$" passwordHash
+  let salt = unpack $ encodeBase64 $ hashParts !! 2
+  let hash = unpack $ hashParts !! 3
+  let haskellHash = pack $ "sha256:390000:" ++ salt ++ ":" ++ hash
+  PasswordHash {unPasswordHash = haskellHash}
+
 login :: HP.Pool -> ScottyM ()
 login pool = post "/api/login/" $ do
   LoginRequest {username, password} <- jsonData :: ActionM LoginRequest
@@ -48,14 +61,10 @@ login pool = post "/api/login/" $ do
   result <- liftIO $ HP.use pool sess
   case result of
     Right (passwordHash, isActive) -> do
+      -- The reference implementation uses a different hash storage format, so we need to convert
+      let passwordHash' = convertPasswordHash passwordHash
       if isActive
         then do
-          -- The reference implementation uses a different hash storage format, so we need to convert
-          let hashParts = splitOn "$" passwordHash
-          let salt = unpack $ encodeBase64 $ hashParts !! 2
-          let hash = unpack $ hashParts !! 3
-          let haskellHash = pack $ "sha256:390000:" ++ salt ++ ":" ++ hash
-          let passwordHash' = PasswordHash {unPasswordHash = haskellHash}
           case checkPassword password' passwordHash' of
             PasswordCheckSuccess -> do
               status status200

@@ -71,7 +71,6 @@ generateSalt = do
 hashPassword :: String -> IO String
 hashPassword password = do
   let params = PBKDF2Params {pbkdf2Salt = 16, pbkdf2Algorithm = PBKDF2_SHA256, pbkdf2Iterations = 390000, pbkdf2OutputLength = 64}
-  -- haskellHash <- hashPasswordWithParams params $ mkPassword $ pack password
   salt <- generateSalt
   let haskellHash = hashPasswordWithSalt params salt $ mkPassword $ pack password
   -- The reference implementation uses a different hash storage format, so we need to convert
