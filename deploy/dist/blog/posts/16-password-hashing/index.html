@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Password Hashing</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='haskell, fastapi'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/16-password-hashing/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Password Hashing">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Password Hashing">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/16-password-hashing/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/16-password-hashing/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/16-password-hashing/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Password Hashing</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            January 4, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/haskell">haskell</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/fastapi">fastapi</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h1 id="password-hashing">Password Hashing</h1>
+<p>After much pain and suffering I have finally achieved password hashing in Haskell.</p>
+<h2 id="password-hashing-overview">Password hashing overview</h2>
+<p>To briefly summarize, you should never store raw passwords anywhere for any reason. Instead, when the user registers, the password is processed through a one-way, irreversible <a href="https://en.wikipedia.org/wiki/Hash_function">hash function</a> first before it is inserted into the database. When the user attempts a login, the new password is passed through the same function and compared to the hash in the database. If they match, the original passwords must also have been the same.</p>
+<p>A naive bad actor who snuck into your database would need to find a way to reverse the hash function to extract the original password. For good hash functions, this is practically impossible.</p>
+<p>A cleverer, badder actor might try to calculate the hash values of common passwords (or look them up in a <a href="https://en.wikipedia.org/wiki/Rainbow_table">rainbow table</a>) and check if any match the hashes in your database, but a clever developer (such as the esteemed Django devs) use a &ldquo;<a href="https://en.wikipedia.org/wiki/Salt_(cryptography)">salt</a>&quot;: a randomized value that is appended to the password before hashing. This invalidates rainbow tables, as you would need a new table for every possible salt value.</p>
+<p>A committed, baddest actor that hated you specifically could still try hashing common passwords with the salt listed in the DB, so the most paranoid of all developers will actually choose slower hash functions (or apply repeatedly) so that it takes longer to try out a single guess. Still, even with that inconvenient delay, short/common passwords can be guessed, so don&rsquo;t use bad passwords.</p>
+<p><em>(I should mention here that you should really be using <a href="https://oauth.net/2/">OAuth 2.0</a> to handle authentication. It conveniently allows you to delegate identity management to a 3rd party (GitHub, Google, Facebook, Twitter, Reddit, whatever) so that users only need to have one central account, and you don&rsquo;t need to worry about storing passwords!)</em></p>
+<p><em>(I&rsquo;m not using OAuth because I don&rsquo;t anticipate any <del>victims</del> users other than myself, and I&rsquo;d rather make a mess with password hashing than try to configure OAuth in every possible language.)</em></p>
+<h2 id="password-hashing-in-practice">Password hashing in practice</h2>
+<p>In my career I haven&rsquo;t had to worry about this very much, because <a href="https://docs.djangoproject.com/en/4.1/topics/auth/passwords/">Django does all this automatically</a>. Django uses <a href="https://en.wikipedia.org/wiki/PBKDF2">PBKDF2</a> &amp; <a href="https://en.wikipedia.org/wiki/SHA-2">SHA256</a> by default. SHA256 is a hash function, and PBKDF2 is an algorithm that applies a hash function to the password+salt combo repeatedly.</p>
+<p>The FastAPI implementation did require a little more effort, but it&rsquo;s all just Python under the hood, so it wasn&rsquo;t too hard. I extracted the exact logic Django was using, pared it down aggressively, and created <a href="https://github.com/go-recordkeeper/go-recordkeeper/blob/3e5ea5a87d614db52165936f333f7d3b3ad8673c/server/fastapi/goban_server_fastapi/auth/password.py"><code>password.py</code></a>.</p>
+<p>In the process, I discovered that the hash function generates a string that looks like this:</p>
+<pre tabindex="0"><code>pbkdf2_sha256$390000$4cjXfoHJmE2LgeLn$sSNy/30khRioV4tOIF9ZvNhInMpNHAYufEYe/CIKZ8Q=
+</code></pre><p>This string has four parts, separated by <code>$</code>:</p>
+<ul>
+<li><code>pbkdf2_sha256</code>: The name of the hashing algorithm</li>
+<li><code>390000</code>: How many iterations of the hashing algorithm to apply</li>
+<li><code>4cjXfoHJmE2LgeLn</code>: The salt</li>
+<li><code>sSNy/30khRioV4tOIF9ZvNhInMpNHAYufEYe/CIKZ8Q=</code>: The hashed password</li>
+</ul>
+<p>All well and good. Storing all this info lets you update your hash algorithm/settings without invalidating any old passwords.</p>
+<h2 id="password-hashing-in-haskell">Password hashing in Haskell</h2>
+<p>It sucked, I did not have a good time.</p>
+<p>I used <a href="https://hackage.haskell.org/package/password-3.0.2.0"><code>password</code></a> because it was the only package available on stackage.</p>
+<p><code>password</code> has a separate data wrapping type for every component in the hashing process (<code>Password</code>, <code>Salt</code>, <code>PasswordHash</code>, <code>PasswordCheck</code>, etc.). This is probably done for safety, since a type signature like <code>hashPasswordWithSalt :: Text -&gt; Text -&gt; Text</code> is not legible and mistakes might be disastrous, but I was annoyed with all the wrapping and unwrapping it required.</p>
+<p><code>password</code> also generates hashes in a similar but deceptively different format:</p>
+<pre tabindex="0"><code>sha256:390000:NGNqWGZvSEptRTJMZ2VMbg==:sSNy/30khRioV4tOIF9ZvNhInMpNHAYufEYe/CIKZ8Q=&quot;
+</code></pre><ul>
+<li>The separator is <code>:</code> instead of <code>$</code></li>
+<li><code>pbkdf2</code> is now implicit, although <code>sha256</code> is still included</li>
+<li>The password hash is now <a href="https://en.wikipedia.org/wiki/Base64">base 64 encoded</a> (note the trailing <code>==</code>)</li>
+</ul>
+<p>This format change required its own wrapping/unwrapping functions, which involved further packing/unpacking to do the string processing because <code>password</code> uses the <code>Text</code> type instead of <code>String</code>.</p>
+<h3 id="hatin-on-haskell">Hatin' on Haskell</h3>
+<p>Haskell is clearly built around some interesting and powerful ideas, but every time I turn around I&rsquo;m hit in the face with some new gotcha.</p>
+<p>Haskell is a clever language that allows you to write clever code. After much suffering I have learned that clever code is a necessary evil at best. Take this code that generates a random 16 byte salt:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">generateSalt</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">IO</span> (<span style="color:#66d9ef">Salt</span> <span style="color:#66d9ef">PBKDF2</span>)
+<span style="color:#a6e22e">generateSalt</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">do</span>
+  g <span style="color:#f92672">&lt;-</span> newStdGen
+  <span style="color:#66d9ef">let</span> chars <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#34;</span>
+      ns <span style="color:#f92672">=</span> randomRs (<span style="color:#ae81ff">0</span>, length chars <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) g
+      strs <span style="color:#f92672">=</span> map (chars <span style="color:#f92672">!!</span>) ns
+  return <span style="color:#f92672">$</span> <span style="color:#66d9ef">Salt</span> <span style="color:#f92672">$</span> <span style="color:#66d9ef">BS</span><span style="color:#f92672">.</span>pack <span style="color:#f92672">$</span> take <span style="color:#ae81ff">16</span> strs
+</code></pre></div><p>For the uninitiated:</p>
+<ul>
+<li><code>chars</code> is a list of characters to choose from.</li>
+<li><code>randomRs</code> is standard library (technically an <a href="https://hackage.haskell.org/package/random-1.1/docs/System-Random.html">external package</a> instead of a builtin, but that&rsquo;s another gripe) function that generates an infinite list of random numbers in a given range.</li>
+<li><code>ns</code> is an infinite list of random indexes in <code>chars</code>.</li>
+<li><code>strs</code> is an infinite list of random characters from <code>chars</code>:
+<ul>
+<li><code>map</code> takes a function and a list, and returns a list of the result of applying the function to every item in the original list.</li>
+<li><code>chars !!</code> is a <a href="https://en.wikipedia.org/wiki/Partial_application">partially applied</a> function. <code>!!</code> is an infix function that gets an item from a list, so <code>chars !!</code> is a function that takes an index and returns the character in <code>chars</code> at that index.</li>
+</ul>
+</li>
+<li><code>take 16 strs</code> takes the first 16 items from <code>strs</code> and discards the rest.</li>
+<li><code>return $ Salt $ BS.pack $ ...</code> does all the requisite wrapping I have already complained about.</li>
+</ul>
+<p>This is all gloriously elegant, monad wrapped, functional, terse, and clever, but damn is it illegible to me. Perhaps after a few years of writing Haskell it will become instinctive and aesthetic. For now it just rubs me the wrong way.</p>
+<h3 id="praisin-python">Praisin' Python</h3>
+<p>Consider the python equivalent:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">RANDOM_STRING_CHARS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#34;</span>
+salt <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(secrets<span style="color:#f92672">.</span>choice(RANDOM_STRING_CHARS) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(char_count))
+</code></pre></div><p>Again, for the uninitiated:</p>
+<ul>
+<li><code>join</code> is a method on strings that glues together a list using the string as a separator, i.e. <code>&quot;-&quot;.join([1,2,3])</code> == <code>&quot;1-2-3&quot;</code></li>
+<li><code>secrets.choice</code> is a standard library function that returns a random item from an iterable (in this case, a string).</li>
+<li><code>range(char_count)</code> is an iterator that counts from 0 to <code>char_count</code>.</li>
+<li><code>... for i in ...</code> is a <a href="https://en.wikipedia.org/wiki/List_comprehension">list comprehension</a> that creates a list containing the evaluation of the left side for every <code>i</code> in the right side.</li>
+</ul>
+<p>To be fair, <code>&quot;&quot;.join</code> looks weird until you look up the definition, and list comprehensions are slightly uncommon (although Haskell has them too, of course), but it&rsquo;s a one liner. If you feel marginally more verbose you can practically write it in English:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">RANDOM_STRING_CHARS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&#34;</span>
+salt <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, char_count):
+    salt <span style="color:#f92672">=</span> salt <span style="color:#f92672">+</span> secrets<span style="color:#f92672">.</span>choice(RANDOM_STRING_CHARS)
+</code></pre></div><p>Obviously, apples to oranges, the right tool for the job, Haskell type safety, etc etc. I&rsquo;m just salty. Rant over.</p>
+<h2 id="testing-it">Testing it</h2>
+<p>Funnily enough, the integration tests in their previous incarnation would have been 100% A-OK without password hashing. All test data was created using the external API, so it doesn&rsquo;t matter to the test how the data is stored in the DB, only how the API responds to correct/incorrect passwords. Obviously, this is not acceptable.</p>
+<p>To test properly, it is not sufficient that a single implementation respond correctly. All implementations must respond identically from the same DB state. This is the value of a having direct DB access from the integration testing environment.</p>
+<p><em>(One might be tempted to test that registrations always result in the same row in the DB, but the salt is randomized for very good reasons so that is actually impossible</em> ¯\_(ツ)_/¯ <em>)</em></p>
+<h3 id="db-access-in-tests">DB access in tests</h3>
+<p>I&rsquo;m not sure why I never thought of it before, but the FastAPI implementation is actually perfect for including as a test dependency. I suppose I was just hung up on Django being the reference implementation.</p>
+<p>FastAPI is stripped down, modularized, and capable of almost everything the Django implementation is. Technically it does not have the flexibility of the Django ORM models which limits the ability to do custom queries without adding test-specific code, but that is a corner case I don&rsquo;t care about right now and there are solutions. In addition to DB access, FastAPI also has conveniently modularized application logic like the <code>password.py</code> module. These can be used as an expedient when verifying that other implementations behave identically.</p>
+<h3 id="writing-the-new-test">Writing the new test</h3>
+<p>I needed to test that all implementations generated compatible password hashes. In this case, it is sufficient to test that login succeeds when the DB contains a valid FastAPI hash. There is already a test that verifies that login in works after registration, so if login also works with the FastAPI hash, then registration must produce a FastAPI-shaped hash.</p>
+<p>To that end, I created a new test fixture <code>internal_user_factory</code>, a counterpart to <code>user_factory</code>. While <code>user_factory</code> uses the REST API to register a new user, <code>internal_user_factory</code> uses the FastAPI implementation to create the user directly in the DB. The new test <code>test_login_fastapi_hash</code> is exactly the same as the old <code>test_login</code>, but using <code>internal_user_factory</code> instead.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>Now that I&rsquo;m thinking about it, I could just parametrize the <code>user_factory</code> fixture so that it runs tests twice, once with the REST API user and once with the DB injected user. I could add similar parametrizations for the other fixtures as well, which would provide the same compatibility guarantees basically for free. It would double the number of tests though, which would double the runtime. It&rsquo;s probably worth it.</p>
+<p>Regarding Haskell, the next step is to figure out JWT signing and verification for the get current user endpoint. Once that&rsquo;s done I can do some refactoring, make a middleware function for auth, and get started on the actual go logic.</p>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/15-haskell-momentum/"> Gaining Momentum with Haskell </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#password-hashing">Password Hashing</a>
+      <ul>
+        <li><a href="#password-hashing-overview">Password hashing overview</a></li>
+        <li><a href="#password-hashing-in-practice">Password hashing in practice</a></li>
+        <li><a href="#password-hashing-in-haskell">Password hashing in Haskell</a>
+          <ul>
+            <li><a href="#hatin-on-haskell">Hatin' on Haskell</a></li>
+            <li><a href="#praisin-python">Praisin' Python</a></li>
+          </ul>
+        </li>
+        <li><a href="#testing-it">Testing it</a>
+          <ul>
+            <li><a href="#db-access-in-tests">DB access in tests</a></li>
+            <li><a href="#writing-the-new-test">Writing the new test</a></li>
+          </ul>
+        </li>
+        <li><a href="#next-steps">Next steps</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

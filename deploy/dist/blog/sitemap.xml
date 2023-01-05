@@ -3,18 +3,24 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://go.chiquit.ooo/blog/</loc>
-    <lastmod>2023-01-02T23:19:49-05:00</lastmod>
+    <lastmod>2023-01-04T20:43:50-05:00</lastmod>
   </url><url>
-    <loc>https://go.chiquit.ooo/blog/posts/15-haskell-momentum/</loc>
-    <lastmod>2023-01-02T23:19:49-05:00</lastmod>
+    <loc>https://go.chiquit.ooo/blog/tags/fastapi/</loc>
+    <lastmod>2023-01-04T20:43:50-05:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/tags/haskell/</loc>
-    <lastmod>2023-01-02T23:19:49-05:00</lastmod>
+    <lastmod>2023-01-04T20:43:50-05:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/posts/16-password-hashing/</loc>
+    <lastmod>2023-01-04T20:43:50-05:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/posts/</loc>
-    <lastmod>2023-01-02T23:19:49-05:00</lastmod>
+    <lastmod>2023-01-04T20:43:50-05:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/tags/</loc>
+    <lastmod>2023-01-04T20:43:50-05:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/posts/15-haskell-momentum/</loc>
     <lastmod>2023-01-02T23:19:49-05:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/tags/pytest/</loc>
@@ -33,9 +39,6 @@
     <lastmod>2022-11-17T22:05:47-05:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/tags/django/</loc>
-    <lastmod>2022-11-14T20:36:14-05:00</lastmod>
-  </url><url>
-    <loc>https://go.chiquit.ooo/blog/tags/fastapi/</loc>
     <lastmod>2022-11-14T20:36:14-05:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/posts/10-monorepo/</loc>
