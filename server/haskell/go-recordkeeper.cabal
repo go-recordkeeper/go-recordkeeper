@@ -39,6 +39,7 @@ library
   build-depends:
       aeson
     , base >=4.7 && <5
+    , base64
     , bytestring
     , email-validate
     , hasql
@@ -47,6 +48,7 @@ library
     , http-types
     , jose
     , password
+    , random
     , resource-pool
     , scotty >=0.12
     , text
@@ -65,6 +67,7 @@ executable go-recordkeeper-exe
   build-depends:
       aeson
     , base >=4.7 && <5
+    , base64
     , bytestring
     , email-validate
     , go-recordkeeper
@@ -74,6 +77,7 @@ executable go-recordkeeper-exe
     , http-types
     , jose
     , password
+    , random
     , resource-pool
     , scotty >=0.12
     , text
@@ -95,6 +99,7 @@ test-suite go-recordkeeper-test
       QuickCheck
     , aeson
     , base >=4.7 && <5
+    , base64
     , bytestring
     , email-validate
     , go-recordkeeper
@@ -106,6 +111,7 @@ test-suite go-recordkeeper-test
     , http-types
     , jose
     , password
+    , random
     , resource-pool
     , scotty >=0.12
     , servant-client

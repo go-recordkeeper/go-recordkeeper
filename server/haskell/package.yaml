@@ -22,6 +22,7 @@ description:         Please see the README on GitHub at <https://github.com/dchi
 dependencies:
 - base >= 4.7 && < 5
 - aeson
+- base64
 - bytestring
 - email-validate
 - hasql
@@ -30,6 +31,7 @@ dependencies:
 - http-types
 - jose
 - password
+- random
 - resource-pool
 - scotty >= 0.12
 - text
