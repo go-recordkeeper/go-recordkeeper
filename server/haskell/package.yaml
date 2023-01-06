@@ -30,6 +30,8 @@ dependencies:
 - hasql-th
 - http-types
 - jose
+- lens
+- mtl
 - password
 - random
 - resource-pool

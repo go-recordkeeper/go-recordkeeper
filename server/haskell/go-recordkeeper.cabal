@@ -47,6 +47,8 @@ library
     , hasql-th
     , http-types
     , jose
+    , lens
+    , mtl
     , password
     , random
     , resource-pool
@@ -76,6 +78,8 @@ executable go-recordkeeper-exe
     , hasql-th
     , http-types
     , jose
+    , lens
+    , mtl
     , password
     , random
     , resource-pool
@@ -110,6 +114,8 @@ test-suite go-recordkeeper-test
     , http-client
     , http-types
     , jose
+    , lens
+    , mtl
     , password
     , random
     , resource-pool
