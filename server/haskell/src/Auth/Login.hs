@@ -12,13 +12,15 @@ import Control.Monad.IO.Class (liftIO)
 import Crypto.JWT hiding (hash, jwk)
 import Data.Aeson (parseJSON)
 import Data.Aeson.TH (defaultOptions, deriveJSON)
+import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy as BSL
 import Data.Function ((&))
 import Data.Int (Int64)
 import Data.Password.PBKDF2 (PBKDF2, PasswordCheck (..), PasswordHash (..), checkPassword, mkPassword)
 import Data.String (fromString)
 import Data.Text (Text, pack, splitOn, unpack)
-import Data.Text.Encoding (decodeUtf8)
+import qualified Data.Text as T
+import qualified Data.Text.Encoding as T
 import Data.Text.Encoding.Base64 (encodeBase64)
 import Data.Text.Strict.Lens (utf8)
 import Data.Time (UTCTime, addUTCTime, getCurrentTime, nominalDay)
@@ -86,14 +88,15 @@ generateJWK = do
       kid' = view (re (base64url . digest) . utf8) h
   pure $ set jwkKid (Just kid') jwk
 
+generateStableJWK :: IO JWK
+generateStableJWK = do
+  let secretKey = "django-insecure-(@ppnpk$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj"
+      jwk = fromOctets $ T.encodeUtf8 secretKey
+  pure jwk
+
 signJWT :: JWK -> ClaimsSet -> IO (Either JWTError SignedJWT)
 signJWT jwk claims = runExceptT $ do
   signClaims jwk (newJWSHeader ((), HS256)) claims
-
-verifyJWT :: JWK -> SignedJWT -> IO (Either JWTError ClaimsSet)
-verifyJWT jwk jwt = runExceptT $ do
-  let config = defaultJWTValidationSettings (== "go-recordkeeper")
-  verifyClaims config jwk jwt
 
 login :: HP.Pool -> ScottyM ()
 login pool = post "/api/login/" $ do
@@ -110,11 +113,11 @@ login pool = post "/api/login/" $ do
           case checkPassword password' passwordHash' of
             PasswordCheckSuccess -> do
               status status200
-              jwk <- liftIO generateJWK
+              jwk <- liftIO generateStableJWK
               now <- liftIO getCurrentTime
               maybeJWT <- liftIO $ signJWT jwk $ mkClaims id' now
               case maybeJWT of
-                Right jwt -> json $ decodeUtf8 $ BSL.toStrict $ encodeCompact jwt
+                Right jwt -> json $ T.decodeUtf8 $ BSL.toStrict $ encodeCompact jwt
                 Left err -> json $ pack $ show err
             -- TODO proper error messages
             PasswordCheckFail -> raiseStatus status401 "sus"

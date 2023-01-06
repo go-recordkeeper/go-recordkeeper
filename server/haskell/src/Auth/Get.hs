@@ -1,16 +1,26 @@
+{-# LANGUAGE QuasiQuotes #-}
+
 module Auth.Get (getUser) where
 
 import Auth.User
+import Control.Exception (throw)
+import Control.Lens (view, (^?))
+import Control.Monad.Except (ExceptT, MonadError (throwError), runExceptT)
 import Control.Monad.IO.Class
+import Crypto.JOSE (JWK, decodeCompact)
+import Crypto.JOSE.JWK (fromOctets)
+import Crypto.JWT (ClaimsSet, JWTError, SignedJWT, claimSub, defaultJWTValidationSettings, string, verifyClaims)
 import Data.Aeson.TH (defaultOptions, deriveJSON)
-import Data.Functor.Contravariant ((>$<))
 import Data.Int (Int64)
-import qualified Data.Text.Lazy as DT
-import qualified Hasql.Decoders as Decoders
-import qualified Hasql.Encoders as Encoders
+import qualified Data.Text as T
+import qualified Data.Text.Encoding as T
+import qualified Data.Text.Lazy as TL
+import qualified Data.Text.Lazy.Encoding as TL
+import GHC.RTS.Flags (TraceFlags (user))
 import qualified Hasql.Pool as HP
 import qualified Hasql.Session as HS
 import qualified Hasql.Statement as S
+import qualified Hasql.TH as TH
 import Network.HTTP.Types.Status (status200, status401, status500)
 import Web.Scotty
 
@@ -23,27 +33,67 @@ data GetResponse = GetResponse
 
 $(deriveJSON defaultOptions ''GetResponse)
 
-xtractr :: ActionM DT.Text
+xtractr :: ActionM TL.Text
 xtractr = do
   headerValue <- header "Authorization"
-  let token = DT.stripPrefix "Bearer " =<< headerValue
+  let token = TL.stripPrefix "Bearer " =<< headerValue
   maybe (raiseStatus status401 "Not Authorized") pure token
 
-sumStatement :: S.Statement (Int64, Int64) Int64
-sumStatement = S.Statement sql encoder decoder True
-  where
-    sql = "select $1 + $2"
-    encoder =
-      (fst >$< Encoders.param (Encoders.nonNullable Encoders.int8))
-        <> (snd >$< Encoders.param (Encoders.nonNullable Encoders.int8))
-    decoder = Decoders.singleRow (Decoders.column (Decoders.nonNullable Decoders.int8))
+selectUser :: S.Statement Int64 (T.Text, T.Text, Bool)
+selectUser =
+  [TH.singletonStatement|
+    select
+    username :: text, email :: text, is_active :: bool
+    from auth_user
+    where id = $1 :: int8
+  |]
+
+generateStableJWK :: IO JWK
+generateStableJWK = do
+  let secretKey = "django-insecure-(@ppnpk$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj"
+      jwk = fromOctets $ T.encodeUtf8 secretKey
+  pure jwk
+
+verifyJWT :: JWK -> SignedJWT -> IO (Either JWTError ClaimsSet)
+verifyJWT jwk jwt = runExceptT $ do
+  let config = defaultJWTValidationSettings (== "go-recordkeeper")
+  verifyClaims config jwk jwt
+
+-- authorizedUserId :: TL.Text -> IO (Either JWTError Int64)
+authorizedUserId :: TL.Text -> IO (Either JWTError Int64)
+authorizedUserId token = runExceptT $ do
+  jwk <- liftIO generateStableJWK
+  let foo = TL.encodeUtf8 token
+  jwt <- decodeCompact $ TL.encodeUtf8 token
+  result <- liftIO $ verifyJWT jwk jwt
+  case result of
+    Right claims -> do
+      case view claimSub claims of
+        Just id' -> do
+          case id' ^? string of
+            Just id'' -> return $ read $ T.unpack id''
+            Nothing -> return 6666 -- TODO custom error
+        Nothing -> return 6666 -- TODO custom error
+    Left err -> throwError err
+
+authorizedUser :: HP.Pool -> TL.Text -> IO (Maybe GetResponse)
+authorizedUser pool token = do
+  result <- liftIO $ authorizedUserId token
+  case result of
+    Right id -> do
+      let sess = HS.statement id selectUser
+      result <- liftIO $ HP.use pool sess
+      case result of
+        Right (username, email, isActive) -> do
+          return $ Just GetResponse {id = fromIntegral id, username = T.unpack username, email = T.unpack email}
+        Left err -> return Nothing
+    Left err -> return Nothing
 
 getUser :: HP.Pool -> ScottyM ()
 getUser pool = get "/api/user/" $ do
   -- TODO auth token
-  foo <- xtractr
-  let sess = HS.statement (5, 6) sumStatement
-  result <- liftIO $ HP.use pool sess
+  token <- xtractr
+  result <- liftIO $ authorizedUser pool token
   case result of
-    Right thing -> json (User {id' = fromIntegral thing, name = DT.unpack foo, email = "bar", password = "pass"})
-    Left _ -> raiseStatus status500 "disaster strikes"
+    Just user -> json user
+    Nothing -> raiseStatus status500 "disaster strikes"
