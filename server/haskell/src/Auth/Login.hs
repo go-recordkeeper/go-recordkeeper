@@ -10,19 +10,15 @@ import Control.Lens.Operators
 import Control.Monad.Except (runExceptT)
 import Control.Monad.IO.Class (liftIO)
 import Crypto.JWT hiding (hash, jwk)
-import Data.Aeson (parseJSON)
 import Data.Aeson.TH (defaultOptions, deriveJSON)
-import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy as BSL
-import Data.Function ((&))
 import Data.Int (Int64)
-import Data.Password.PBKDF2 (PBKDF2, PasswordCheck (..), PasswordHash (..), checkPassword, mkPassword)
+import Data.Password.PBKDF2 (PasswordCheck (..), PasswordHash (..), checkPassword, mkPassword)
 import Data.String (fromString)
-import Data.Text (Text, pack, splitOn, unpack)
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
-import Data.Text.Encoding.Base64 (encodeBase64)
-import Data.Text.Strict.Lens (utf8)
+import qualified Data.Text.Encoding.Base64 as T
+import qualified Data.Text.Strict.Lens as T
 import Data.Time (UTCTime, addUTCTime, getCurrentTime, nominalDay)
 import qualified Hasql.Pool as HP
 import qualified Hasql.Session as HS
@@ -47,7 +43,7 @@ data LoginRequest = LoginRequest
 
 $(deriveJSON defaultOptions ''LoginRequest)
 
-getUser :: S.Statement Text (Int64, Text, Bool)
+getUser :: S.Statement T.Text (Int64, T.Text, Bool)
 getUser =
   [TH.singletonStatement|
     select
@@ -61,12 +57,12 @@ getUser =
 -- The password package generates hashed passwords that look like this:
 -- `sha256:390000:base64encodedsalt==:hashedpassword`
 -- Convert the reference style into the haskell style
-convertPasswordHash :: Text -> PasswordHash a
+convertPasswordHash :: T.Text -> PasswordHash a
 convertPasswordHash passwordHash = do
-  let hashParts = splitOn "$" passwordHash
-  let salt = unpack $ encodeBase64 $ hashParts !! 2
-  let hash = unpack $ hashParts !! 3
-  let haskellHash = pack $ "sha256:390000:" ++ salt ++ ":" ++ hash
+  let hashParts = T.splitOn "$" passwordHash
+  let salt = T.unpack $ T.encodeBase64 $ hashParts !! 2
+  let hash = T.unpack $ hashParts !! 3
+  let haskellHash = T.pack $ "sha256:390000:" ++ salt ++ ":" ++ hash
   PasswordHash {unPasswordHash = haskellHash}
 
 mkClaims :: Int64 -> UTCTime -> ClaimsSet
@@ -85,7 +81,7 @@ generateJWK :: IO JWK
 generateJWK = do
   jwk <- genJWK (OctGenParam (4096 `div` 8))
   let h = view thumbprint jwk :: Digest SHA256
-      kid' = view (re (base64url . digest) . utf8) h
+      kid' = view (re (base64url . digest) . T.utf8) h
   pure $ set jwkKid (Just kid') jwk
 
 generateStableJWK :: IO JWK
@@ -101,8 +97,8 @@ signJWT jwk claims = runExceptT $ do
 login :: HP.Pool -> ScottyM ()
 login pool = post "/api/login/" $ do
   LoginRequest {username, password} <- jsonData :: ActionM LoginRequest
-  let password' = mkPassword $ pack password
-  let sess = HS.statement (pack username) getUser
+  let password' = mkPassword $ T.pack password
+  let sess = HS.statement (T.pack username) getUser
   result <- liftIO $ HP.use pool sess
   case result of
     Right (id', passwordHash, isActive) -> do
@@ -118,7 +114,7 @@ login pool = post "/api/login/" $ do
               maybeJWT <- liftIO $ signJWT jwk $ mkClaims id' now
               case maybeJWT of
                 Right jwt -> json $ T.decodeUtf8 $ BSL.toStrict $ encodeCompact jwt
-                Left err -> json $ pack $ show err
+                Left err -> json $ T.pack $ show err
             -- TODO proper error messages
             PasswordCheckFail -> raiseStatus status401 "sus"
         else raiseStatus status401 "sus"

@@ -2,11 +2,9 @@
 
 module Auth.Get (getUser) where
 
-import Auth.User
-import Control.Exception (throw)
 import Control.Lens (view, (^?))
-import Control.Monad.Except (ExceptT, MonadError (throwError), runExceptT)
-import Control.Monad.IO.Class
+import Control.Monad.Except (MonadError (throwError), runExceptT)
+import Control.Monad.IO.Class (MonadIO (liftIO))
 import Crypto.JOSE (JWK, decodeCompact)
 import Crypto.JOSE.JWK (fromOctets)
 import Crypto.JWT (ClaimsSet, JWTError, SignedJWT, claimSub, defaultJWTValidationSettings, string, verifyClaims)
@@ -16,13 +14,19 @@ import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
 import qualified Data.Text.Lazy as TL
 import qualified Data.Text.Lazy.Encoding as TL
-import GHC.RTS.Flags (TraceFlags (user))
 import qualified Hasql.Pool as HP
 import qualified Hasql.Session as HS
 import qualified Hasql.Statement as S
 import qualified Hasql.TH as TH
-import Network.HTTP.Types.Status (status200, status401, status500)
+import Network.HTTP.Types.Status (status401, status500)
 import Web.Scotty
+  ( ActionM,
+    ScottyM,
+    get,
+    header,
+    json,
+    raiseStatus,
+  )
 
 data GetResponse = GetResponse
   { id :: Int,
