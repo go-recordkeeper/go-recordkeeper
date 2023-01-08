@@ -4,8 +4,7 @@ module Auth.Login (login) where
 
 -- import Auth.User
 
-import Control.Lens (set, view)
-import Control.Lens.Combinators (re)
+import Auth.JWT (generateJWK)
 import Control.Lens.Operators
 import Control.Monad.Except (runExceptT)
 import Control.Monad.IO.Class (liftIO)
@@ -18,7 +17,6 @@ import Data.String (fromString)
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
 import qualified Data.Text.Encoding.Base64 as T
-import qualified Data.Text.Strict.Lens as T
 import Data.Time (UTCTime, addUTCTime, getCurrentTime, nominalDay)
 import qualified Hasql.Pool as HP
 import qualified Hasql.Session as HS
@@ -76,20 +74,6 @@ mkClaims id' currentTime = do
     & claimIss ?~ "go-recordkeeper"
     & claimAud ?~ Audience ["go-recordkeeper"]
 
--- TODO delete this, load the JWK from the env var SECRET_KEY instead
-generateJWK :: IO JWK
-generateJWK = do
-  jwk <- genJWK (OctGenParam (4096 `div` 8))
-  let h = view thumbprint jwk :: Digest SHA256
-      kid' = view (re (base64url . digest) . T.utf8) h
-  pure $ set jwkKid (Just kid') jwk
-
-generateStableJWK :: IO JWK
-generateStableJWK = do
-  let secretKey = "django-insecure-(@ppnpk$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj"
-      jwk = fromOctets $ T.encodeUtf8 secretKey
-  pure jwk
-
 signJWT :: JWK -> ClaimsSet -> IO (Either JWTError SignedJWT)
 signJWT jwk claims = runExceptT $ do
   signClaims jwk (newJWSHeader ((), HS256)) claims
@@ -109,7 +93,7 @@ login pool = post "/api/login/" $ do
           case checkPassword password' passwordHash' of
             PasswordCheckSuccess -> do
               status status200
-              jwk <- liftIO generateStableJWK
+              jwk <- liftIO generateJWK
               now <- liftIO getCurrentTime
               maybeJWT <- liftIO $ signJWT jwk $ mkClaims id' now
               case maybeJWT of

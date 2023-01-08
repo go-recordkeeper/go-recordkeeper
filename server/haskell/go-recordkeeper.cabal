@@ -27,9 +27,9 @@ library
   exposed-modules:
       Auth
       Auth.Get
+      Auth.JWT
       Auth.Login
       Auth.Register
-      Auth.User
       Lib
   other-modules:
       Paths_go_recordkeeper

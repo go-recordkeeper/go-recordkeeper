@@ -6,7 +6,6 @@ import Auth.Register
 import qualified Hasql.Pool as HP
 import Web.Scotty
 
--- authEndpoints :: Server AuthAPI
 authEndpoints :: HP.Pool -> ScottyM ()
 authEndpoints pool = do
   getUser pool
