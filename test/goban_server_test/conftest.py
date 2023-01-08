@@ -32,12 +32,12 @@ def clean_db():
     yield
 
 
-@pytest.fixture(scope="session", params=["django", "fastapi", "haskell"])
+@pytest.fixture(scope="session", params=["django", "fastapi", "haskell"], autouse=True)
 def impl(request):
     return request.param
 
 
-@pytest.fixture(scope="session", params=["api_factory", "db_factory"])
+@pytest.fixture(scope="session", params=["api_factory", "db_factory"], autouse=True)
 def factory_method(request):
     return request.param
 
@@ -172,24 +172,3 @@ def move_factory(user_client, record):
 @pytest.fixture
 def fastapi_db():
     return DbClient()
-
-
-@pytest.fixture
-def internal_user_factory(fastapi_db, faker):
-    """An alternative user factory which uses the FastAPI implementation to interact directly with the database."""
-    def factory(username=None, email=None, password=None):
-        if username is None:
-            username = faker.first_name()
-        if email is None:
-            email = faker.email()
-        if password is None:
-            password = faker.password()
-        password_hash = encode_password(password)
-        user = create_user(fastapi_db, username, email, password_hash)
-        return {
-            "id": user.id,
-            "username": username,
-            "email": email,
-            "password": password,
-        }
-    return factory
