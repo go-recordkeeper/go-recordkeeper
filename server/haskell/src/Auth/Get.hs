@@ -1,5 +1,3 @@
-{-# LANGUAGE QuasiQuotes #-}
-
 module Auth.Get (getUser) where
 
 import Auth.JWT (authorizedUserId)

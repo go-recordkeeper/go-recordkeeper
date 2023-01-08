@@ -1,5 +1,3 @@
-{-# LANGUAGE QuasiQuotes #-}
-
 module Auth.Register (register) where
 
 import Control.Monad.IO.Class (liftIO)

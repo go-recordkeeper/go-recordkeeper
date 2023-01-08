@@ -1,5 +1,3 @@
-{-# LANGUAGE QuasiQuotes #-}
-
 module Auth.Login (login) where
 
 import Auth.JWT (generateJWK)

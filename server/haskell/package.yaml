@@ -57,6 +57,7 @@ ghc-options:
 - -XOverloadedStrings
 - -XDuplicateRecordFields
 - -XNamedFieldPuns
+- -XQuasiQuotes
 
 library:
   source-dirs: src
