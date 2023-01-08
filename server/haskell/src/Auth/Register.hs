@@ -2,8 +2,6 @@
 
 module Auth.Register (register) where
 
--- import Auth.User
-
 import Control.Monad.IO.Class (liftIO)
 import Data.Aeson.TH (defaultOptions, deriveJSON)
 import qualified Data.ByteString.Char8 as BS

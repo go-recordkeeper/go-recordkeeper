@@ -2,8 +2,6 @@
 
 module Auth.Login (login) where
 
--- import Auth.User
-
 import Auth.JWT (generateJWK)
 import Control.Lens.Operators
 import Control.Monad.Except (runExceptT)

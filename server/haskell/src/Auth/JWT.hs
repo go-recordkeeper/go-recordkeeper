@@ -12,6 +12,7 @@ import qualified Data.Text.Encoding as T
 import qualified Data.Text.Lazy as TL
 import qualified Data.Text.Lazy.Encoding as TL
 import Network.HTTP.Types.Status (status403, status500)
+import System.Environment (getEnv, lookupEnv)
 import Web.Scotty
   ( ActionM,
     header,
@@ -21,8 +22,11 @@ import Web.Scotty.Internal.Types (ActionError)
 
 generateJWK :: IO JWK
 generateJWK = do
-  let secretKey = "django-insecure-(@ppnpk$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj"
-      jwk = fromOctets $ T.encodeUtf8 secretKey
+  dev <- lookupEnv "GOBAN_DEVELOPMENT"
+  secretKey <- case dev of
+    Just _ -> pure "django-insecure-(@ppnpk$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj"
+    Nothing -> getEnv "GOBAN_SECRET_KEY"
+  let jwk = fromOctets $ T.encodeUtf8 $ T.pack secretKey
   pure jwk
 
 verifyJWT :: JWK -> SignedJWT -> IO (Either JWTError ClaimsSet)
