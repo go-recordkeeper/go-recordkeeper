@@ -33,7 +33,7 @@ data CreateRequest = CreateRequest
     white_player :: Maybe String,
     comment :: Maybe String,
     handicap :: Maybe Int,
-    komi :: Maybe Float,
+    komi :: Maybe Double,
     ruleset :: Maybe String
   }
   deriving (Eq, Show)
@@ -50,7 +50,7 @@ data CreateResponse = CreateResponse
     white_player :: String,
     comment :: String,
     handicap :: Int,
-    komi :: Float,
+    komi :: Double,
     ruleset :: String,
     winner :: String
   }
@@ -58,7 +58,7 @@ data CreateResponse = CreateResponse
 
 $(deriveJSON defaultOptions ''CreateResponse)
 
-type RecordRow = (Int64, Int64, T.Text, T.Text, T.Text, T.Text, Int64, Float, T.Text, T.Text, UTCTime)
+type RecordRow = (Int64, Int64, T.Text, T.Text, T.Text, T.Text, Int64, Double, T.Text, T.Text, UTCTime)
 
 insert :: S.Statement RecordRow Int64
 insert =
@@ -66,7 +66,7 @@ insert =
     insert into record_record
     (owner_id, board_size, name, black_player, white_player, comment, handicap, komi, ruleset, winner, created)
     values
-    ($1 :: int8, $2 :: int8, $3 :: text, $4 :: text, $5 :: text, $6 :: text, $7 :: int8, $8 :: float, $9 :: text, $10 :: text, $11 :: timestamptz)
+    ($1 :: int8, $2 :: int8, $3 :: text, $4 :: text, $5 :: text, $6 :: text, $7 :: int8, $8 :: float8, $9 :: text, $10 :: text, $11 :: timestamptz)
     returning id :: int8
   |]
 
