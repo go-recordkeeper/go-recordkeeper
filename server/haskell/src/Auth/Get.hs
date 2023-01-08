@@ -18,7 +18,7 @@ import qualified Hasql.Pool as HP
 import qualified Hasql.Session as HS
 import qualified Hasql.Statement as S
 import qualified Hasql.TH as TH
-import Network.HTTP.Types.Status (status401, status500)
+import Network.HTTP.Types.Status (status403, status500)
 import Web.Scotty
   ( ActionM,
     ScottyM,
@@ -41,7 +41,7 @@ xtractr :: ActionM TL.Text
 xtractr = do
   headerValue <- header "Authorization"
   let token = TL.stripPrefix "Bearer " =<< headerValue
-  maybe (raiseStatus status401 "Not Authorized") pure token
+  maybe (raiseStatus status403 "Not Authorized") pure token
 
 selectUser :: S.Statement Int64 (T.Text, T.Text, Bool)
 selectUser =
