@@ -31,6 +31,8 @@ library
       Auth.Login
       Auth.Register
       Lib
+      Record
+      Record.Create
   other-modules:
       Paths_go_recordkeeper
   hs-source-dirs:
