@@ -8,7 +8,8 @@ import requests
 from goban_server_fastapi.db import DbClient, dictify
 from goban_server_fastapi.auth.models import create_user
 from goban_server_fastapi.auth.password import encode_password
-from goban_server_fastapi.records.models import Record
+from goban_server_fastapi.records.models import Move, Record, next_color
+from sqlalchemy import asc, select
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -185,10 +186,10 @@ def record(record_factory):
 
 
 @pytest.fixture
-def move_factory(user_client, record):
+def move_factory(factory_method, fastapi_db, user_client, record, user):
     default_record = record
 
-    def factory(x, y, record=None):
+    def api_factory(x, y, record=None):
         if record is None:
             record = default_record
         move = user_client.post(
@@ -197,7 +198,38 @@ def move_factory(user_client, record):
         ).json()
         return move
 
-    return factory
+    def db_factory(x, y, record=None):
+        if record is None:
+            record = default_record
+        with fastapi_db.session() as session:
+            record_model: Record = session.scalar(
+                select(Record)
+                .where(Record.id == record["id"])
+                .where(Record.owner_id == user["id"])
+            )
+            moves = list(
+                session.scalars(
+                    select(Move)
+                    .where(Move.record_id == record_model.id)
+                    .order_by(asc(Move.move))
+                )
+            )
+            color = next_color(record_model, moves)
+            position = x + (y * record_model.board_size)
+            move_number = len(moves) + 1
+            move = Move(
+                position=position,
+                color=color,
+                move=move_number,
+                record_id=record_model.id,
+            )
+            session.add(move)
+            session.commit()
+
+    if factory_method == "api_factory":
+        return api_factory
+    elif factory_method == "db_factory":
+        return db_factory
 
 
 @pytest.fixture
