@@ -29,7 +29,13 @@ class JWTAuthentication(authentication.BaseAuthentication):
         token = authorization.removeprefix('Bearer ')
 
         try:
-            payload = jwt.decode(token, key=settings.SECRET_KEY, algorithms='HS256')
+            payload = jwt.decode(
+                token,
+                key=settings.SECRET_KEY,
+                algorithms='HS256',
+                audience='go-recordkeeper',
+                issuer='go-recordkeeper',
+            )
         except jwt.InvalidTokenError:
             raise exceptions.AuthenticationFailed('invalid authorization token')
         if 'sub' not in payload:

@@ -35,7 +35,13 @@ def jwt_user(
 ) -> User:
 
     try:
-        payload = jwt.decode(token.credentials, key=SECRET_KEY, algorithms="HS256")
+        payload = jwt.decode(
+            token.credentials,
+            key=SECRET_KEY,
+            algorithms='HS256',
+            audience='go-recordkeeper',
+            issuer='go-recordkeeper',
+        )
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=403, detail="invalid authorization token")
     if "sub" not in payload:

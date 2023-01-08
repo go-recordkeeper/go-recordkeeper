@@ -13,7 +13,13 @@ def test_login(client, user):
     )
     assert response.status_code == 200
     token = response.json()
-    payload = jwt.decode(token, key=settings.SECRET_KEY, algorithms='HS256')
+    payload = jwt.decode(
+        token,
+        key=settings.SECRET_KEY,
+        algorithms='HS256',
+        audience='go-recordkeeper',
+        issuer='go-recordkeeper',
+    )
     # If no exception, it's a valid token
     assert payload['id'] == user.id
 
@@ -54,7 +60,13 @@ def test_login_with_token(authenticated_client, user):
     )
     assert response.status_code == 200
     token = response.json()
-    payload = jwt.decode(token, key=settings.SECRET_KEY, algorithms='HS256')
+    payload = jwt.decode(
+        token,
+        key=settings.SECRET_KEY,
+        algorithms='HS256',
+        audience='go-recordkeeper',
+        issuer='go-recordkeeper',
+    )
     # If no exception, it's a valid token
     assert payload['id'] == user.id
 
