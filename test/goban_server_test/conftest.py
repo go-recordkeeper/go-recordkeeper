@@ -1,12 +1,14 @@
+from datetime import datetime
 import time
 from subprocess import run
 from urllib.parse import urljoin
 
 import pytest
 import requests
-from goban_server_fastapi.db import DbClient
+from goban_server_fastapi.db import DbClient, dictify
 from goban_server_fastapi.auth.models import create_user
 from goban_server_fastapi.auth.password import encode_password
+from goban_server_fastapi.records.models import Record
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -134,18 +136,47 @@ def user(user_factory):
 
 
 @pytest.fixture
-def record_factory(user_client_factory, user):
-    def factory(owner=None, board_size=9, handicap=0):
+def record_factory(factory_method, user_client_factory, fastapi_db, user):
+    def api_factory(owner=None, board_size=9, **kwargs):
         if owner is None:
             owner = user
         user_client = user_client_factory(owner)
         record = user_client.post(
             "/api/records/",
-            json={"board_size": board_size, "handicap": handicap}
+            json={"board_size": board_size, **kwargs}
         ).json()
         return record
 
-    return factory
+    def db_factory(owner=None, board_size=9, **kwargs):
+        if owner is None:
+            owner = user
+        record = Record(**{
+            "owner_id": owner['id'],
+            "board_size": board_size,
+            "created": datetime.now(),
+            "name": "",
+            "black_player": "Black",
+            "white_player": "White",
+            "comment": "",
+            "handicap": 0,
+            "komi": 7.5,
+            "ruleset": "AGA",
+            "winner": "U",
+            **kwargs,
+        })
+        with fastapi_db.session() as session:
+            session.add(record)
+            session.commit()
+            return {
+                **dictify(record),
+                "owner": record.owner_id,
+                "created": record.created.isoformat()
+            }
+
+    if factory_method == "api_factory":
+        return api_factory
+    elif factory_method == "db_factory":
+        return db_factory
 
 
 @pytest.fixture
