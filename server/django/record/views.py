@@ -6,11 +6,19 @@ from rest_framework import mixins, serializers, status, viewsets
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import exception_handler
 
 from record.auth import generate_token
-from record.go import Board, Stone
+from record.go import Board, Stone, IllegalMoveError
 from record.models import Record
 from record.sgf import export_sgf
+
+
+def custom_exception_handler(exc, context):
+    if isinstance(exc, IllegalMoveError):
+        return Response("Illegal move.", status=status.HTTP_403_FORBIDDEN)
+    else:
+        return exception_handler(exc, context)
 
 
 class RecordSerializer(serializers.ModelSerializer):
@@ -161,7 +169,7 @@ class RecordViewSet(
         removal_color = record.next_move_color
         move = record.last_move
         if move is None:
-            return Response('no moves to undo', status=status.HTTP_400_BAD_REQUEST)
+            return Response('no moves to undo', status=status.HTTP_403_FORBIDDEN)
         move.delete()
 
         if move.position is not None:

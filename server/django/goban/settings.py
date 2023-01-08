@@ -142,4 +142,5 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParser',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': ['record.auth.JWTAuthentication'],
+    'EXCEPTION_HANDLER': 'record.views.custom_exception_handler',
 }
