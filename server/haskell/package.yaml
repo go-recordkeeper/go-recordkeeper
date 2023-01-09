@@ -38,6 +38,7 @@ dependencies:
 - scotty >= 0.12
 - text
 - time
+- vector
 - wai
 - wai-extra
 # - warp
