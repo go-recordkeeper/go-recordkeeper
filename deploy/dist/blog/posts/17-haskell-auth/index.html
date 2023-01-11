@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Authentication in Haskell</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='haskell, pytest'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/17-haskell-auth/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Authentication in Haskell">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Authentication in Haskell">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/17-haskell-auth/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/17-haskell-auth/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/17-haskell-auth/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Authentication in Haskell</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            January 10, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/haskell">haskell</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/pytest">pytest</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <h1 id="authentication-in-haskell">Authentication in Haskell</h1>
+<p>Accomplished.</p>
+<h2 id="jwt-compliance">JWT compliance</h2>
+<p>Thanks to Haskell&rsquo;s incredible type safety, I learned that the way I was using <a href="https://jwt.io/">JWT</a>s for authentication was not standards compliant, because it simply wasn&rsquo;t possible to do in Haskell. My JWT payloads basically looked like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;id&#34;</span>: {<span style="color:#960050;background-color:#1e0010">user</span> <span style="color:#960050;background-color:#1e0010">ID</span>},
+  <span style="color:#f92672">&#34;exp&#34;</span>: {<span style="color:#960050;background-color:#1e0010">time</span> <span style="color:#960050;background-color:#1e0010">of</span> <span style="color:#960050;background-color:#1e0010">issue</span> <span style="color:#960050;background-color:#1e0010">+</span> <span style="color:#960050;background-color:#1e0010">1</span> <span style="color:#960050;background-color:#1e0010">day</span>},
+}
+</code></pre></div><p>As it happens, the <code>id</code> field isn&rsquo;t in <a href="https://www.rfc-editor.org/rfc/rfc7519#section-4.1">the RFC</a>. I had to change it to <code>sub</code> instead.</p>
+<p>Additionally, Haskell&rsquo;s <a href="https://hackage.haskell.org/package/jose"><code>JOSE</code></a> library requires an <code>aud</code> (audience) field so that it can be checked when validating a JWT. While I was at it I tacked on the <code>iss</code> (issuer, same as <code>aud</code>) and <code>iat</code> (issued at) fields as well. Adding everything to the Django and FastAPI implementations was trivial.</p>
+<h2 id="lenses-">&ldquo;Lenses&rdquo; 🤮</h2>
+<p>Along the way, I also encountered the concept of &ldquo;lenses&rdquo;. Haskell has &ldquo;records&rdquo;, which have named fields, which are painful to work with. Rather than suffer, clever people invented the <a href="https://hackage.haskell.org/package/lens">lens</a> library to make getting and setting fields more functional.</p>
+<p>This is great and all and I&rsquo;m happy for them, but again, it&rsquo;s something I don&rsquo;t appreciate very much about Haskell. The core of the language is infinitely(*) powerful, but users have to resort to a mishmash of third party packages to make it usable. I&rsquo;d never encountered <code>lens</code> before, so while trying to get another dependency working I had to adapt to this new paradigm for working with records, something Haskell already does.</p>
+<p>It wouldn&rsquo;t be so bad if this stuff was documented effectively, but the target audience for the documentation apparently isn&rsquo;t me. This is the introductory image on hackage and on the wiki:</p>
+<p><a href="https://creately.com/diagram/h5nyo9ne1/QZ9UBOtw4AJWtmAKYK3wT8Mm1HM%3D"><img src="https://raw.githubusercontent.com/wiki/ekmett/lens/images/Hierarchy.png" alt="UML Diagram"></a></p>
+<p>To their credit, <code>lens</code> does seem like a nice thing to have. The use case seems to be complex nested record types, which I am not working with here. The learning curve for all the operators seems very steep, but that is pretty much par for the course with the rest of the Haskell ecosystem. I&rsquo;m sure that if I get in deep enough <code>lens</code> will seem essential and obvious, but right now I&rsquo;m trying to get things done and it is an unwanted and intrusive distraction.</p>
+<h2 id="using-goban_secret_key-as-the-jwt-key">Using <code>GOBAN_SECRET_KEY</code> as the JWT key</h2>
+<p>I expected environment variables to be more of a pain in the neck, but they were shockingly easy. <code>lookupEnv</code> (maybe find the variable) and <code>getEnv</code> (throw an IO exception if not available) are both in the standard library and both work in a normal IO monad. The resulting code to generate the JWT key is pretty concise:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">generateJWK</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">IO</span> <span style="color:#66d9ef">JWK</span>
+<span style="color:#a6e22e">generateJWK</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">do</span>
+  dev <span style="color:#f92672">&lt;-</span> lookupEnv <span style="color:#e6db74">&#34;GOBAN_DEVELOPMENT&#34;</span>
+  secretKey <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">case</span> dev <span style="color:#66d9ef">of</span>
+    <span style="color:#66d9ef">Just</span> <span style="color:#66d9ef">_</span> <span style="color:#f92672">-&gt;</span> pure <span style="color:#e6db74">&#34;django-insecure-(@ppnpk$wx_z%2^#^0sext&amp;+%b58=%e^!_u_*yd2p#d2&amp;9)9cj&#34;</span>
+    <span style="color:#66d9ef">Nothing</span> <span style="color:#f92672">-&gt;</span> getEnv <span style="color:#e6db74">&#34;GOBAN_SECRET_KEY&#34;</span>
+  <span style="color:#66d9ef">let</span> jwk <span style="color:#f92672">=</span> fromOctets <span style="color:#f92672">$</span> <span style="color:#66d9ef">T</span><span style="color:#f92672">.</span>encodeUtf8 <span style="color:#f92672">$</span> <span style="color:#66d9ef">T</span><span style="color:#f92672">.</span>pack secretKey
+  pure jwk
+</code></pre></div><h2 id="wrapping-up">Wrapping up</h2>
+<p>Writing the actual code to generate and verify JWTs wasn&rsquo;t that interesting. I got it working after the aforementioned fuss, and even had time to refactor it and clean up the auth checking function so that it&rsquo;s easily usable in any Scotty request handler.</p>
+<p>I didn&rsquo;t have the heart to dive into unit testing, so that&rsquo;s for later I guess. Everyone raves about quickcheck, but I haven&rsquo;t been able to identify any easily testable, non-trivial properties about any of my code so far. Perhaps ChatGPT might have some recommendations.</p>
+<h1 id="moving-on-records-api">Moving on: Records API</h1>
+<p>The second, considerably more significant half of the REST API deals with the actual game records. I&rsquo;ve already nailed down the web API (scotty) and the database (hasql), so the only remaining dependency to integrate is the SGF library (tragically there seems to be only one offering on hackage and it was last updated in 2009, so hopefully it&rsquo;s simply good enough that no updates are needed, or I will be rolling my own). The actual move checking and capturing is all pure code, which is the perfect thing to learn pure Haskell.</p>
+<h2 id="api-and-db-injection-test-fixtures">API and DB injection test fixtures</h2>
+<p>I did wind up implementing separate REST API and database injection fixtures for the integration tests so that I could test the Read endpoints before writing the Create endpoints. The move DB fixture was rather involved as I left a lot of business logic in the view function, which isn&rsquo;t really callable on its own, but it&rsquo;s not too awful.</p>
+<h2 id="list-records">List Records</h2>
+<p>Trivial. The most difficult part was mapping the tuple from the hasql response to the JSON response object, but that was mostly just tedious.</p>
+<h2 id="create-record">Create Record</h2>
+<p>Also trivial. Again, the most difficult part was mapping from JSON request object to hasql tuple. This was complicated by having optional fields in the request which have defaults, but nothing awful.</p>
+<h2 id="get-record">Get Record</h2>
+<p>This is where I was stumped. Most of the endpoint was, again, trivial. Get is just List, but only one thing, after all. The problem is that there are two new fields, <code>moves</code> and <code>stones</code>.</p>
+<ul>
+<li><code>moves</code> is a list of all moves played so far, which requires another hasql query, but isn&rsquo;t too bad.</li>
+<li><code>stones</code> is a list of all stones currently on the board, which requires evaluating every move played so far. Not so easy.</li>
+</ul>
+<p>For now, I just return <code>moves: [], stones: []</code> and let the tests fail while I work on the game logic.</p>
+<h2 id="the-rules-of-go">The rules of Go</h2>
+<p>Basically, I need a function which simulates a series of moves on a go board of arbitrary size and returns the final board state (moves - captures) and any stones captured by the last move (not relevant for now, but will be for other endpoints). In the Python implementations I used a <code>Board</code> class which was mutated iteratively to achieve the final board state. That&rsquo;s obviously not gonna fly here.</p>
+<p>Many functions involved in this implementation work will need to know about the board size. I totally could just pass that in as an argument every time, but I thought it would be cooler to encode that state in a Monad instead; that&rsquo;s, like, the whole point of Haskell, right? So far I haven&rsquo;t had the brain cells to get that working properly, but hope springs eternal.</p>
+<h1 id="total-non-sequitur-unikraft-for-deployment">Total non-sequitur: Unikraft for deployment</h1>
+<p>As avid readers will now, I am using <code>docker compose</code> for dev, test, and production deployment. Dev and test are accepted standard practice, but production not so much. I excuse it because this is a toy application running on a toy computer for purposes of recreation, but a more robust deployment is an aspiration.</p>
+<p>Just today I stumbled on <a href="https://unikraft.org/">Unikraft</a>, a build tool that builds your application into a minimal <code>.iso</code>s that can be run by a VM. This eliminates the OS from the deployment completely, which shaves off a significant amount of overhead. I would need to set up <code>qemu</code> or some equivalent to run the VMs, figure out a reliable orchestration scheme for getting everything communicating, and figure out my own SSL certs, but the result would be considerably more realistic.</p>
+<p>It&rsquo;s not going to happen until I&rsquo;m done with Haskell though, so lets just put a pin in that.</p>
+<h1 id="next-steps">Next steps</h1>
+<ol>
+<li>Figure out the game logic monad stuff</li>
+<li>Write the rest of the record endpoints</li>
+<li>Figure out proper testing in Haskell</li>
+</ol>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/16-password-hashing/"> Password Hashing </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#authentication-in-haskell">Authentication in Haskell</a>
+      <ul>
+        <li><a href="#jwt-compliance">JWT compliance</a></li>
+        <li><a href="#lenses-">&ldquo;Lenses&rdquo; 🤮</a></li>
+        <li><a href="#using-goban_secret_key-as-the-jwt-key">Using <code>GOBAN_SECRET_KEY</code> as the JWT key</a></li>
+        <li><a href="#wrapping-up">Wrapping up</a></li>
+      </ul>
+    </li>
+    <li><a href="#moving-on-records-api">Moving on: Records API</a>
+      <ul>
+        <li><a href="#api-and-db-injection-test-fixtures">API and DB injection test fixtures</a></li>
+        <li><a href="#list-records">List Records</a></li>
+        <li><a href="#create-record">Create Record</a></li>
+        <li><a href="#get-record">Get Record</a></li>
+        <li><a href="#the-rules-of-go">The rules of Go</a></li>
+      </ul>
+    </li>
+    <li><a href="#total-non-sequitur-unikraft-for-deployment">Total non-sequitur: Unikraft for deployment</a></li>
+    <li><a href="#next-steps">Next steps</a></li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

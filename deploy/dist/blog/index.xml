@@ -6,7 +6,18 @@
     <description>Recent content on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 04 Jan 2023 20:43:50 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 10 Jan 2023 19:24:07 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Authentication in Haskell</title>
+      <link>https://go.chiquit.ooo/blog/posts/17-haskell-auth/</link>
+      <pubDate>Tue, 10 Jan 2023 19:24:07 -0500</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/17-haskell-auth/</guid>
+      <description>Authentication in Haskell Accomplished.
+JWT compliance Thanks to Haskell&amp;rsquo;s incredible type safety, I learned that the way I was using JWTs for authentication was not standards compliant, because it simply wasn&amp;rsquo;t possible to do in Haskell. My JWT payloads basically looked like this:
+{ &amp;#34;id&amp;#34;: {user ID}, &amp;#34;exp&amp;#34;: {time of issue + 1 day}, } As it happens, the id field isn&amp;rsquo;t in the RFC. I had to change it to sub instead.</description>
+    </item>
+    
     <item>
       <title>Password Hashing</title>
       <link>https://go.chiquit.ooo/blog/posts/16-password-hashing/</link>
