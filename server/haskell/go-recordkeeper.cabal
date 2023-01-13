@@ -34,6 +34,7 @@ library
       Record
       Record.Create
       Record.Get
+      Record.Go
       Record.List
   other-modules:
       Paths_go_recordkeeper
@@ -45,6 +46,7 @@ library
     , base >=4.7 && <5
     , base64
     , bytestring
+    , containers
     , email-validate
     , hasql
     , hasql-pool
@@ -76,6 +78,7 @@ executable go-recordkeeper-exe
     , base >=4.7 && <5
     , base64
     , bytestring
+    , containers
     , email-validate
     , go-recordkeeper
     , hasql
@@ -111,6 +114,7 @@ test-suite go-recordkeeper-test
     , base >=4.7 && <5
     , base64
     , bytestring
+    , containers
     , email-validate
     , go-recordkeeper
     , hasql

@@ -24,6 +24,7 @@ dependencies:
 - aeson
 - base64
 - bytestring
+- containers
 - email-validate
 - hasql
 - hasql-pool
