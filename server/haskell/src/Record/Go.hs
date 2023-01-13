@@ -1,7 +1,7 @@
 {-# HLINT ignore "Use tuple-section" #-}
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 
-module Record.Go () where
+module Record.Go (toCoord, toPos, adjacents) where
 
 import Data.IntMap.Strict (IntMap)
 import qualified Data.IntMap.Strict as IntMap
