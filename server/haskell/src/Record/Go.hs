@@ -1,15 +1,19 @@
-{-# LANGUAGE DeriveFunctor #-}
 {-# HLINT ignore "Use tuple-section" #-}
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 
 module Record.Go
   ( BoardS,
-    toCoord',
-    toPos',
+    BoardA,
+    boardSize,
+    toCoord,
+    toPos,
     adjacents,
+    runBoardA,
   )
 where
 
+import Control.Monad (foldM)
+import Control.Monad.Reader (MonadReader (ask), Reader, runReader)
 import Data.IntMap.Strict (IntMap)
 import qualified Data.IntMap.Strict as IntMap
 import Data.Maybe (isNothing)
@@ -28,76 +32,86 @@ type Board = IntMap Color
 -- Several functions need the board and it's size, so wrap that into a single type
 newtype BoardS = BoardS {boardState :: (Int, Board)}
 
-mapBoard :: (Board -> Board) -> BoardS -> BoardS
-mapBoard f (BoardS (size, b)) = BoardS (size, f b)
+type BoardA = Reader BoardS
 
-boardSize :: BoardS -> Int
-boardSize (BoardS (size, _)) = size
+runBoardA :: Int -> BoardA a -> a
+runBoardA size action = runReader action $ BoardS (size, IntMap.empty)
 
-board :: BoardS -> Board
-board (BoardS (_, board')) = board'
+boardSize :: BoardA Int
+boardSize = do
+  BoardS (size, _) <- ask
+  return size
 
-toCoord' :: Int -> Pos -> Coord
-toCoord' size pos = (mod pos size, div pos size)
+board :: BoardA Board
+board = do
+  BoardS (_, board') <- ask
+  return board'
 
-toCoord :: BoardS -> Pos -> Coord
-toCoord state = toCoord' $ boardSize state
+toCoord :: Pos -> BoardA Coord
+toCoord pos = do
+  size <- boardSize
+  return (mod pos size, div pos size)
 
-toPos' :: Int -> Coord -> Pos
-toPos' size (x, y) = (y * size) + x
+toPos :: Coord -> BoardA Pos
+toPos (x, y) = do
+  size <- boardSize
+  return $ (y * size) + x
 
-toPos :: BoardS -> Coord -> Pos
-toPos state = toPos' $ boardSize state
+adjacents :: Coord -> BoardA [Coord]
+adjacents (x, y) = do
+  size <- boardSize
+  return [(x', y') | (x', y') <- [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)], 0 <= x', x' < size, 0 <= y', y' < size]
 
-adjacents :: BoardS -> Coord -> [Coord]
-adjacents state (x, y) =
-  [(x', y') | (x', y') <- [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)], 0 <= x', x' < boardSize state, 0 <= y', y' < boardSize state]
+buildGroup' :: Color -> Set Int -> Set Int -> [Coord] -> BoardA (Set Int, Set Int)
+buildGroup' color group liberties coordsToCheck
+  | null coordsToCheck = return (group, liberties)
+  | otherwise = do
+      let coord = head coordsToCheck
+      pos <- toPos coord
+      b <- board
+      let stone = b IntMap.!? pos
+      adjs <- adjacents coord
+      let (group', coordsToCheck') =
+            if stone == Just color
+              then (Set.insert pos group, tail coordsToCheck ++ adjs)
+              else (group, tail coordsToCheck)
+      let liberties' =
+            if isNothing stone
+              then Set.insert pos liberties
+              else liberties
+      buildGroup' color group' liberties' coordsToCheck'
 
-buildGroup' :: BoardS -> Color -> Set Int -> Set Int -> [Coord] -> (Set Int, Set Int)
-buildGroup' state color group liberties coordsToCheck
-  | null coordsToCheck = (group, liberties)
-  | Set.member pos group = buildGroup' state color group liberties $ tail coordsToCheck
-  | otherwise = buildGroup' state color group' liberties' coordsToCheck'
-  where
-    coord = head coordsToCheck
-    pos = toPos state coord
-    stone = board state IntMap.!? toPos state coord
-    (group', coordsToCheck') =
-      if stone == Just color
-        then (Set.insert pos group, tail coordsToCheck ++ adjacents state coord)
-        else (group, tail coordsToCheck)
-    liberties' =
-      if isNothing stone
-        then Set.insert pos liberties
-        else liberties
-
-buildGroup :: BoardS -> Coord -> (Set Int, Set Int)
-buildGroup state coord =
+buildGroup :: Coord -> BoardA (Set Int, Set Int)
+buildGroup coord = do
+  b <- board
+  pos <- toPos coord
+  let intersection = b IntMap.!? pos
   case intersection of
-    Just color -> buildGroup' state color group liberties coordsToCheck
-    Nothing -> (group, liberties)
+    Just color -> buildGroup' color group liberties coordsToCheck
+    Nothing -> return (group, liberties)
   where
-    intersection = board state IntMap.!? toPos state coord
     group = Set.empty
     liberties = Set.empty
     coordsToCheck = [coord]
 
-attemptMurder :: BoardS -> Coord -> BoardS
-attemptMurder state coord =
-  if Set.null liberties
-    then mapBoard (IntMap.filterWithKey (\pos _ -> not $ Set.member pos group)) state
-    else state
-  where
-    (group, liberties) = buildGroup state coord
+attemptMurder :: Coord -> BoardA Board
+attemptMurder coord = do
+  b <- board
+  (group, liberties) <- buildGroup coord
+  return $
+    if Set.null liberties
+      then IntMap.filterWithKey (\pos _ -> not $ Set.member pos group) b
+      else b
 
-placeStone :: BoardS -> Pos -> Color -> BoardS
-placeStone state pos color =
+placeStone :: Pos -> Color -> BoardA Board
+placeStone pos color = do
   -- TODO check if space is already occupied
   -- TODO check if move is suicidal
-  foldl attemptMurder addedStone $ adjacents state coord
-  where
-    addedStone = mapBoard (IntMap.insert pos color) state
-    coord = toCoord state pos
+  coord <- toCoord pos
+  adjs <- adjacents coord
+  b <- board
+  let addedStone = IntMap.insert pos color b
+  foldM (const attemptMurder) addedStone adjs
 
 --
 --
@@ -107,7 +121,6 @@ placeStone state pos color =
 --
 --
 -- TODO figure out all this monad ****
-newtype BoardA a = BoardA {runBoardAction :: a} deriving (Functor)
 
 newtype BoardM s a = BoardM {runBoardM :: Int -> s -> (a, s, Int)}
 
