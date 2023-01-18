@@ -4,6 +4,7 @@
 module Record.Go
   ( BoardS,
     BoardA,
+    GoError,
     Pos,
     Coord,
     Color (White, Black),
@@ -21,6 +22,7 @@ module Record.Go
 where
 
 import Control.Monad (foldM)
+import Control.Monad.Except (ExceptT, runExceptT)
 import Control.Monad.Reader (MonadReader (ask), Reader, runReader)
 import Data.IntMap.Strict (IntMap)
 import qualified Data.IntMap.Strict as IntMap
@@ -40,10 +42,12 @@ type Board = IntMap Color
 -- The board size
 type BoardS = Int
 
-type BoardA = Reader BoardS
+data GoError = OutOfBounds Coord | SpaceOccupied Coord | Suicide Coord deriving (Eq, Show)
 
-runBoardA :: Int -> BoardA a -> a
-runBoardA size action = runReader action size
+type BoardA = ExceptT GoError (Reader BoardS)
+
+runBoardA :: Int -> BoardA a -> Either GoError a
+runBoardA size action = runReader (runExceptT action) size
 
 boardSize :: BoardA Int
 boardSize = do ask

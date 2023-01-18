@@ -1,14 +1,18 @@
 module Record.GoSpec (spec) where
 
 import qualified Data.IntMap.Strict as IntMap
-import Record.Go (BoardA, Color (Black, White), adjacents, boardSize, placeStone, playStones, runBoardA, toCoord, toPos)
+import Record.Go (BoardA, Color (Black, White), GoError, adjacents, boardSize, placeStone, playStones, runBoardA, toCoord, toPos)
 import Test.Hspec
 
 withBoardSizes :: BoardA Expectation -> Expectation
-withBoardSizes test = mapM_ (`runBoardA` test) [9, 13, 19]
+withBoardSizes test = mapM_ (\size -> noError $ runBoardA size test) [9, 13, 19]
 
 withStones :: [(Color, Int, Int)] -> BoardA Expectation -> Expectation
 withStones stones = withBoardSizes
+
+noError :: Either GoError a -> a
+noError (Left e) = error $ show e
+noError (Right a') = a'
 
 spec :: Spec
 spec = describe "Record.Go" $ do
@@ -72,7 +76,7 @@ spec = describe "Record.Go" $ do
           (board IntMap.!? 1) `shouldBe` Just White
         ]
 
-  it "captures a stone" $ runBoardA 9 $ do
+  it "captures a stone" $ noError $ runBoardA 9 $ do
     board <- playStones [(0, Black), (1, White), (10, Black), (9, White)]
     return $
       sequence_
@@ -83,7 +87,7 @@ spec = describe "Record.Go" $ do
           (board IntMap.!? 10) `shouldBe` Just Black
         ]
 
-  it "captures a group" $ runBoardA 9 $ do
+  it "captures a group" $ noError $ runBoardA 9 $ do
     board <- playStones [(0, Black), (9, White), (1, Black), (10, White), (2, Black), (11, White), (12, Black), (3, White)]
     return $
       sequence_
