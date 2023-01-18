@@ -1,7 +1,7 @@
 module Record.GoSpec (spec) where
 
 import qualified Data.IntMap.Strict as IntMap
-import Record.Go (BoardA, Color (Black, White), GoError, adjacents, boardSize, placeStone, playStones, runBoardA, toCoord, toPos)
+import Record.Go (BoardA, Color (Black, White), GoError (OutOfBounds), adjacents, boardSize, placeStone, playStones, runBoardA, toCoord, toPos)
 import Test.Hspec
 
 withBoardSizes :: BoardA Expectation -> Expectation
@@ -13,6 +13,10 @@ withStones stones = withBoardSizes
 noError :: Either GoError a -> a
 noError (Left e) = error $ show e
 noError (Right a') = a'
+
+expectError :: GoError -> Either GoError a -> Expectation
+expectError expected (Left actual) = expected `shouldBe` actual
+expectError _ (Right _) = error "Test did not fail"
 
 spec :: Spec
 spec = describe "Record.Go" $ do
@@ -66,6 +70,14 @@ spec = describe "Record.Go" $ do
         [ IntMap.size board `shouldBe` 1,
           (board IntMap.!? 0) `shouldBe` Just Black
         ]
+
+  it "cannot place a stone at -1" $ expectError (OutOfBounds (-1)) $ runBoardA 9 $ do
+    let board = IntMap.empty
+    placeStone board (-1, Black)
+
+  it "cannot place a stone beyond the board" $ expectError (OutOfBounds 81) $ runBoardA 9 $ do
+    let board = IntMap.empty
+    placeStone board (81, Black)
 
   it "plays two stones" $ withBoardSizes $ do
     board <- playStones [(0, Black), (1, White)]

@@ -4,7 +4,7 @@
 module Record.Go
   ( BoardS,
     BoardA,
-    GoError,
+    GoError (OutOfBounds),
     Pos,
     Coord,
     Color (White, Black),
@@ -21,8 +21,8 @@ module Record.Go
   )
 where
 
-import Control.Monad (foldM)
-import Control.Monad.Except (ExceptT, runExceptT)
+import Control.Monad (foldM, when)
+import Control.Monad.Except (ExceptT, MonadError (throwError), runExceptT)
 import Control.Monad.Reader (MonadReader (ask), Reader, runReader)
 import Data.IntMap.Strict (IntMap)
 import qualified Data.IntMap.Strict as IntMap
@@ -42,9 +42,11 @@ type Board = IntMap Color
 -- The board size
 type BoardS = Int
 
-data GoError = OutOfBounds Coord | SpaceOccupied Coord | Suicide Coord deriving (Eq, Show)
+data GoError = OutOfBounds Pos | SpaceOccupied Coord | Suicide Coord deriving (Eq, Show)
 
 type BoardA = ExceptT GoError (Reader BoardS)
+
+-- instance MonadError GoError (ExceptT GoError (Reader BoardS))
 
 runBoardA :: Int -> BoardA a -> Either GoError a
 runBoardA size action = runReader (runExceptT action) size
@@ -112,6 +114,8 @@ placeStone :: Board -> (Pos, Color) -> BoardA Board
 placeStone board (pos, color) = do
   -- TODO check if space is already occupied
   -- TODO check if move is suicidal
+  size <- boardSize
+  when (pos < 0 || pos >= size * size) (throwError $ OutOfBounds pos)
   coord <- toCoord pos
   adjs <- adjacents coord
   let addedStone = IntMap.insert pos color board
