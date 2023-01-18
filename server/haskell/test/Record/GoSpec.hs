@@ -1,7 +1,7 @@
 module Record.GoSpec (spec) where
 
 import qualified Data.IntMap.Strict as IntMap
-import Record.Go (BoardA, Color (Black, White), adjacents, boardSize, placeStone, runBoardA, toCoord, toPos)
+import Record.Go (BoardA, Color (Black, White), adjacents, boardSize, placeStone, playStones, runBoardA, toCoord, toPos)
 import Test.Hspec
 
 withBoardSizes :: BoardA Expectation -> Expectation
@@ -54,13 +54,11 @@ spec = describe "Record.Go" $ do
     adjs <- adjacents (1, 1)
     return $ adjs `shouldBe` [(0, 1), (2, 1), (1, 0), (1, 2)]
 
-  -- it "builds a one stone group" $ withBoardSizes $ do
-  --   return
-
   it "places a stone" $ withBoardSizes $ do
-    b <- placeStone 0 Black
+    let board = IntMap.empty
+    board <- placeStone board (0, Black)
     return $
       sequence_
-        [ IntMap.size b `shouldBe` 1,
-          (b IntMap.!? 0) `shouldBe` Just Black
+        [ IntMap.size board `shouldBe` 1,
+          (board IntMap.!? 0) `shouldBe` Just Black
         ]

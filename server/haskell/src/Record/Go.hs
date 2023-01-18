@@ -16,6 +16,7 @@ module Record.Go
     buildGroup,
     attemptMurder,
     placeStone,
+    playStones,
   )
 where
 
@@ -36,23 +37,16 @@ type Coord = (Int, Int)
 -- Map the Pos to the color of the stone occupying that space
 type Board = IntMap Color
 
--- Several functions need the board and it's size, so wrap that into a single type
-newtype BoardS = BoardS {boardState :: (Int, Board)}
+-- The board size
+type BoardS = Int
 
 type BoardA = Reader BoardS
 
 runBoardA :: Int -> BoardA a -> a
-runBoardA size action = runReader action $ BoardS (size, IntMap.empty)
+runBoardA size action = runReader action size
 
 boardSize :: BoardA Int
-boardSize = do
-  BoardS (size, _) <- ask
-  return size
-
-board :: BoardA Board
-board = do
-  BoardS (_, board') <- ask
-  return board'
+boardSize = do ask
 
 toCoord :: Pos -> BoardA Coord
 toCoord pos = do
@@ -69,32 +63,33 @@ adjacents (x, y) = do
   size <- boardSize
   return [(x', y') | (x', y') <- [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)], 0 <= x', x' < size, 0 <= y', y' < size]
 
-buildGroup' :: Color -> Set Int -> Set Int -> [Coord] -> BoardA (Set Int, Set Int)
-buildGroup' color group liberties coordsToCheck
+buildGroup' :: Board -> Color -> Set Int -> Set Int -> [Coord] -> BoardA (Set Int, Set Int)
+buildGroup' board color group liberties coordsToCheck
   | null coordsToCheck = return (group, liberties)
   | otherwise = do
       let coord = head coordsToCheck
       pos <- toPos coord
-      b <- board
-      let stone = b IntMap.!? pos
-      adjs <- adjacents coord
-      let (group', coordsToCheck') =
-            if stone == Just color
-              then (Set.insert pos group, tail coordsToCheck ++ adjs)
-              else (group, tail coordsToCheck)
-      let liberties' =
-            if isNothing stone
-              then Set.insert pos liberties
-              else liberties
-      buildGroup' color group' liberties' coordsToCheck'
+      if pos `Set.member` group || pos `Set.member` liberties
+        then buildGroup' board color group liberties $ tail coordsToCheck
+        else do
+          let stone = board IntMap.!? pos
+          adjs <- adjacents coord
+          let (group', coordsToCheck') =
+                if stone == Just color
+                  then (Set.insert pos group, tail coordsToCheck ++ adjs)
+                  else (group, tail coordsToCheck)
+          let liberties' =
+                if isNothing stone
+                  then Set.insert pos liberties
+                  else liberties
+          buildGroup' board color group' liberties' coordsToCheck'
 
-buildGroup :: Coord -> BoardA (Set Int, Set Int)
-buildGroup coord = do
-  b <- board
+buildGroup :: Board -> Coord -> BoardA (Set Int, Set Int)
+buildGroup board coord = do
   pos <- toPos coord
-  let intersection = b IntMap.!? pos
+  let intersection = board IntMap.!? pos
   case intersection of
-    Just color -> buildGroup' color group liberties coordsToCheck
+    Just color -> buildGroup' board color group liberties coordsToCheck
     Nothing -> return (group, liberties)
   where
     group = Set.empty
@@ -102,19 +97,21 @@ buildGroup coord = do
     coordsToCheck = [coord]
 
 attemptMurder :: Board -> Coord -> BoardA Board
-attemptMurder b coord = do
-  (group, liberties) <- buildGroup coord
+attemptMurder board coord = do
+  (group, liberties) <- buildGroup board coord
   return $
     if Set.null liberties
-      then IntMap.filterWithKey (\pos _ -> not $ Set.member pos group) b
-      else b
+      then IntMap.filterWithKey (\pos _ -> not $ Set.member pos group) board
+      else board
 
-placeStone :: Pos -> Color -> BoardA Board
-placeStone pos color = do
+placeStone :: Board -> (Pos, Color) -> BoardA Board
+placeStone board (pos, color) = do
   -- TODO check if space is already occupied
   -- TODO check if move is suicidal
   coord <- toCoord pos
   adjs <- adjacents coord
-  b <- board
-  let addedStone = IntMap.insert pos color b
+  let addedStone = IntMap.insert pos color board
   foldM attemptMurder addedStone adjs
+
+playStones :: [(Pos, Color)] -> BoardA Board
+playStones = foldM placeStone IntMap.empty
