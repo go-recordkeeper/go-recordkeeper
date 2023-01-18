@@ -62,3 +62,38 @@ spec = describe "Record.Go" $ do
         [ IntMap.size board `shouldBe` 1,
           (board IntMap.!? 0) `shouldBe` Just Black
         ]
+
+  it "plays two stones" $ withBoardSizes $ do
+    board <- playStones [(0, Black), (1, White)]
+    return $
+      sequence_
+        [ IntMap.size board `shouldBe` 2,
+          (board IntMap.!? 0) `shouldBe` Just Black,
+          (board IntMap.!? 1) `shouldBe` Just White
+        ]
+
+  it "captures a stone" $ runBoardA 9 $ do
+    board <- playStones [(0, Black), (1, White), (10, Black), (9, White)]
+    return $
+      sequence_
+        [ IntMap.size board `shouldBe` 3,
+          (board IntMap.!? 0) `shouldBe` Nothing,
+          (board IntMap.!? 1) `shouldBe` Just White,
+          (board IntMap.!? 9) `shouldBe` Just White,
+          (board IntMap.!? 10) `shouldBe` Just Black
+        ]
+
+  it "captures a group" $ runBoardA 9 $ do
+    board <- playStones [(0, Black), (9, White), (1, Black), (10, White), (2, Black), (11, White), (12, Black), (3, White)]
+    return $
+      sequence_
+        [ IntMap.size board `shouldBe` 5,
+          (board IntMap.!? 0) `shouldBe` Nothing,
+          (board IntMap.!? 1) `shouldBe` Nothing,
+          (board IntMap.!? 2) `shouldBe` Nothing,
+          (board IntMap.!? 3) `shouldBe` Just White,
+          (board IntMap.!? 9) `shouldBe` Just White,
+          (board IntMap.!? 10) `shouldBe` Just White,
+          (board IntMap.!? 11) `shouldBe` Just White,
+          (board IntMap.!? 12) `shouldBe` Just Black
+        ]
