@@ -4,11 +4,18 @@
 module Record.Go
   ( BoardS,
     BoardA,
+    Pos,
+    Coord,
+    Color (White, Black),
     boardSize,
     toCoord,
     toPos,
     adjacents,
     runBoardA,
+    buildGroup',
+    buildGroup,
+    attemptMurder,
+    placeStone,
   )
 where
 
@@ -20,7 +27,7 @@ import Data.Maybe (isNothing)
 import Data.Set (Set)
 import qualified Data.Set as Set
 
-data Color = White | Black deriving (Eq)
+data Color = White | Black deriving (Eq, Show)
 
 type Pos = Int
 
@@ -94,9 +101,8 @@ buildGroup coord = do
     liberties = Set.empty
     coordsToCheck = [coord]
 
-attemptMurder :: Coord -> BoardA Board
-attemptMurder coord = do
-  b <- board
+attemptMurder :: Board -> Coord -> BoardA Board
+attemptMurder b coord = do
   (group, liberties) <- buildGroup coord
   return $
     if Set.null liberties
@@ -111,4 +117,4 @@ placeStone pos color = do
   adjs <- adjacents coord
   b <- board
   let addedStone = IntMap.insert pos color b
-  foldM (const attemptMurder) addedStone adjs
+  foldM attemptMurder addedStone adjs
