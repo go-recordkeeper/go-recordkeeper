@@ -41,10 +41,18 @@ spec = describe "Record.Go" $ do
             y <- [0 .. size - 1]
         ]
 
-  it "calculates correct adjacents for corners" $ withBoardSizes $ do
-    adjs <- adjacents (0, 0)
-    -- TODO other corners
-    return $ adjs `shouldBe` [(1, 0), (0, 1)]
+  it "calculates correct adjacents for corners" $ noError $ runBoardA 9 $ do
+    topLeft <- adjacents (0, 0)
+    topRight <- adjacents (8, 0)
+    bottomLeft <- adjacents (0, 8)
+    bottomRight <- adjacents (8, 8)
+    return $
+      sequence_
+        [ topLeft `shouldBe` [(1, 0), (0, 1)],
+          topRight `shouldBe` [(7, 0), (8, 1)],
+          bottomLeft `shouldBe` [(1, 8), (0, 7)],
+          bottomRight `shouldBe` [(7, 8), (8, 7)]
+        ]
 
   it "calculates correct adjacents for edges" $ withBoardSizes $ do
     topAdjs <- adjacents (1, 0)
