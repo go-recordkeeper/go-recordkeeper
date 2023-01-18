@@ -46,8 +46,6 @@ data GoError = OutOfBounds Pos | SpaceOccupied Coord | Suicide Coord deriving (E
 
 type BoardA = ExceptT GoError (Reader BoardS)
 
--- instance MonadError GoError (ExceptT GoError (Reader BoardS))
-
 runBoardA :: Int -> BoardA a -> Either GoError a
 runBoardA size action = runReader (runExceptT action) size
 
@@ -106,22 +104,26 @@ attemptMurder :: Board -> Coord -> BoardA Board
 attemptMurder board coord = do
   (group, liberties) <- buildGroup board coord
   return $
+    -- If the group is dead, remove it from the board
     if Set.null liberties
       then IntMap.filterWithKey (\pos _ -> not $ Set.member pos group) board
       else board
 
 placeStone :: Board -> (Pos, Color) -> BoardA Board
 placeStone board (pos, color) = do
-  -- TODO check if move is suicidal
   size <- boardSize
+  -- Test that the position is on the board
   when (pos < 0 || pos >= size * size) $ throwError $ OutOfBounds pos
   coord <- toCoord pos
+  -- Test that there are no stones already at the desired location
   when (isJust $ board IntMap.!? pos) $ throwError $ SpaceOccupied coord
   adjs <- adjacents coord
   let addedStone = IntMap.insert pos color board
   killedBoard <- foldM attemptMurder addedStone adjs
+  -- Test if the newly placed stone has any liberties
   (_, liberties) <- buildGroup killedBoard coord
   when (Set.null liberties) $ throwError $ Suicide coord
+  -- TODO also return captured stones
   return killedBoard
 
 playStones :: [(Pos, Color)] -> BoardA Board
