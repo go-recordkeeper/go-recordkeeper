@@ -67,25 +67,23 @@ adjacents (x, y) = do
   return [(x', y') | (x', y') <- [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)], 0 <= x', x' < size, 0 <= y', y' < size]
 
 buildGroup' :: Board -> Color -> Set Int -> Set Int -> [Coord] -> BoardA (Set Int, Set Int)
-buildGroup' board color group liberties coordsToCheck
-  | null coordsToCheck = return (group, liberties)
-  | otherwise = do
-      let coord = head coordsToCheck
-      pos <- toPos coord
-      if pos `Set.member` group || pos `Set.member` liberties
-        then buildGroup' board color group liberties $ tail coordsToCheck
-        else do
-          let stone = board IntMap.!? pos
-          adjs <- adjacents coord
-          let (group', coordsToCheck') =
-                if stone == Just color
-                  then (Set.insert pos group, tail coordsToCheck ++ adjs)
-                  else (group, tail coordsToCheck)
-          let liberties' =
-                if isNothing stone
-                  then Set.insert pos liberties
-                  else liberties
-          buildGroup' board color group' liberties' coordsToCheck'
+buildGroup' _ _ group liberties [] = return (group, liberties)
+buildGroup' board color group liberties (coord : coordsToCheck) = do
+  pos <- toPos coord
+  if pos `Set.member` group || pos `Set.member` liberties
+    then buildGroup' board color group liberties coordsToCheck
+    else do
+      let stone = board IntMap.!? pos
+      adjs <- adjacents coord
+      let (group', coordsToCheck') =
+            if stone == Just color
+              then (Set.insert pos group, coordsToCheck ++ adjs)
+              else (group, coordsToCheck)
+      let liberties' =
+            if isNothing stone
+              then Set.insert pos liberties
+              else liberties
+      buildGroup' board color group' liberties' coordsToCheck'
 
 buildGroup :: Board -> Coord -> BoardA (Set Int, Set Int)
 buildGroup board coord = do
