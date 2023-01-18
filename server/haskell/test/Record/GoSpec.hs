@@ -116,3 +116,6 @@ spec = describe "Record.Go" $ do
 
   it "cannot play on top of another stone" $ expectError (SpaceOccupied (0, 0)) $ runBoardA 9 $ do
     playStones [(0, Black), (0, White)]
+
+  it "cannot commit suicide" $ expectError (Suicide (0, 0)) $ runBoardA 9 $ do
+    playStones [(1, White), (9, White), (0, Black)]

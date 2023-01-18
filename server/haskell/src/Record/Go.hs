@@ -114,12 +114,15 @@ placeStone :: Board -> (Pos, Color) -> BoardA Board
 placeStone board (pos, color) = do
   -- TODO check if move is suicidal
   size <- boardSize
-  when (pos < 0 || pos >= size * size) (throwError $ OutOfBounds pos)
+  when (pos < 0 || pos >= size * size) $ throwError $ OutOfBounds pos
   coord <- toCoord pos
-  when (isJust $ board IntMap.!? pos) (throwError $ SpaceOccupied coord)
+  when (isJust $ board IntMap.!? pos) $ throwError $ SpaceOccupied coord
   adjs <- adjacents coord
   let addedStone = IntMap.insert pos color board
-  foldM attemptMurder addedStone adjs
+  killedBoard <- foldM attemptMurder addedStone adjs
+  (_, liberties) <- buildGroup killedBoard coord
+  when (Set.null liberties) $ throwError $ Suicide coord
+  return killedBoard
 
 playStones :: [(Pos, Color)] -> BoardA Board
 playStones = foldM placeStone IntMap.empty
