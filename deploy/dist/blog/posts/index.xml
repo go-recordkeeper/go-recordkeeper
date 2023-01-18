@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 10 Jan 2023 19:24:07 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 17 Jan 2023 22:15:43 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go Logic in Haskell</title>
+      <link>https://go.chiquit.ooo/blog/posts/18-go-logic-in-haskell/</link>
+      <pubDate>Tue, 17 Jan 2023 22:15:43 -0500</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/18-go-logic-in-haskell/</guid>
+      <description>I implemented the basic logic for the game of Go in Haskell. This is just a recording app, so it doesn&amp;rsquo;t need to have any knowledge of kos or scoring. The only difficult bit is capturing groups that have no liberties.
+Design I started by naively writing simple functions, layering them on top of each other. This was relatively easy, as I&amp;rsquo;ve more or less got the hang of Haskell syntax at this point.</description>
+    </item>
+    
     <item>
       <title>Authentication in Haskell</title>
       <link>https://go.chiquit.ooo/blog/posts/17-haskell-auth/</link>

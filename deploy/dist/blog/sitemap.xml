@@ -2,22 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://go.chiquit.ooo/blog/</loc>
+    <lastmod>2023-01-17T22:15:43-05:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/posts/18-go-logic-in-haskell/</loc>
+    <lastmod>2023-01-17T22:15:43-05:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/tags/haskell/</loc>
+    <lastmod>2023-01-17T22:15:43-05:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/posts/</loc>
+    <lastmod>2023-01-17T22:15:43-05:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/tags/</loc>
+    <lastmod>2023-01-17T22:15:43-05:00</lastmod>
+  </url><url>
     <loc>https://go.chiquit.ooo/blog/posts/17-haskell-auth/</loc>
     <lastmod>2023-01-10T19:24:07-05:00</lastmod>
   </url><url>
-    <loc>https://go.chiquit.ooo/blog/</loc>
-    <lastmod>2023-01-10T19:24:07-05:00</lastmod>
-  </url><url>
-    <loc>https://go.chiquit.ooo/blog/tags/haskell/</loc>
-    <lastmod>2023-01-10T19:24:07-05:00</lastmod>
-  </url><url>
-    <loc>https://go.chiquit.ooo/blog/posts/</loc>
-    <lastmod>2023-01-10T19:24:07-05:00</lastmod>
-  </url><url>
     <loc>https://go.chiquit.ooo/blog/tags/pytest/</loc>
-    <lastmod>2023-01-10T19:24:07-05:00</lastmod>
-  </url><url>
-    <loc>https://go.chiquit.ooo/blog/tags/</loc>
     <lastmod>2023-01-10T19:24:07-05:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/tags/fastapi/</loc>
