@@ -1,7 +1,7 @@
 module Record.GoSpec (spec) where
 
 import qualified Data.IntMap.Strict as IntMap
-import Record.Go (BoardA, Color (Black, White), GoError (OutOfBounds), adjacents, boardSize, placeStone, playStones, runBoardA, toCoord, toPos)
+import Record.Go (BoardA, Color (Black, White), GoError (OutOfBounds, SpaceOccupied, Suicide), adjacents, boardSize, placeStone, playStones, runBoardA, toCoord, toPos)
 import Test.Hspec
 
 withBoardSizes :: BoardA Expectation -> Expectation
@@ -113,3 +113,6 @@ spec = describe "Record.Go" $ do
           (board IntMap.!? 11) `shouldBe` Just White,
           (board IntMap.!? 12) `shouldBe` Just Black
         ]
+
+  it "cannot play on top of another stone" $ expectError (SpaceOccupied (0, 0)) $ runBoardA 9 $ do
+    playStones [(0, Black), (0, White)]

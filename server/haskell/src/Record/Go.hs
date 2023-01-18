@@ -4,7 +4,7 @@
 module Record.Go
   ( BoardS,
     BoardA,
-    GoError (OutOfBounds),
+    GoError (..),
     Pos,
     Coord,
     Color (White, Black),
@@ -26,7 +26,7 @@ import Control.Monad.Except (ExceptT, MonadError (throwError), runExceptT)
 import Control.Monad.Reader (MonadReader (ask), Reader, runReader)
 import Data.IntMap.Strict (IntMap)
 import qualified Data.IntMap.Strict as IntMap
-import Data.Maybe (isNothing)
+import Data.Maybe (isJust, isNothing)
 import Data.Set (Set)
 import qualified Data.Set as Set
 
@@ -112,11 +112,11 @@ attemptMurder board coord = do
 
 placeStone :: Board -> (Pos, Color) -> BoardA Board
 placeStone board (pos, color) = do
-  -- TODO check if space is already occupied
   -- TODO check if move is suicidal
   size <- boardSize
   when (pos < 0 || pos >= size * size) (throwError $ OutOfBounds pos)
   coord <- toCoord pos
+  when (isJust $ board IntMap.!? pos) (throwError $ SpaceOccupied coord)
   adjs <- adjacents coord
   let addedStone = IntMap.insert pos color board
   foldM attemptMurder addedStone adjs
