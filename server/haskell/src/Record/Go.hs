@@ -107,7 +107,7 @@ deadGroup board coord = do
       then group
       else Set.empty
 
-placeStone :: Board -> (Pos, Color) -> BoardA Board
+placeStone :: Board -> (Pos, Color) -> BoardA (Board, Set Int)
 placeStone board (pos, color) = do
   size <- boardSize
   -- Test that the position is on the board
@@ -131,8 +131,7 @@ placeStone board (pos, color) = do
   -- Test if the newly placed stone has any liberties
   (_, liberties) <- buildGroup culledBoard coord
   when (Set.null captures && Set.null liberties) $ throwError $ Suicide coord
-  -- TODO also return captured stones
-  return culledBoard
+  return (culledBoard, captures)
 
-playStones :: [(Pos, Color)] -> BoardA Board
-playStones = foldM placeStone IntMap.empty
+playStones :: [(Pos, Color)] -> BoardA (Board, Set Int)
+playStones = foldM (\(board, _) -> placeStone board) (IntMap.empty, Set.empty)

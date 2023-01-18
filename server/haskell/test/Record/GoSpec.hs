@@ -1,14 +1,12 @@
 module Record.GoSpec (spec) where
 
 import qualified Data.IntMap.Strict as IntMap
+import qualified Data.Set as Set
 import Record.Go (BoardA, Color (Black, White), GoError (OutOfBounds, SpaceOccupied, Suicide), adjacents, boardSize, placeStone, playStones, runBoardA, toCoord, toPos)
 import Test.Hspec
 
 withBoardSizes :: BoardA Expectation -> Expectation
 withBoardSizes test = mapM_ (\size -> noError $ runBoardA size test) [9, 13, 19]
-
-withStones :: [(Color, Int, Int)] -> BoardA Expectation -> Expectation
-withStones stones = withBoardSizes
 
 noError :: Either GoError a -> a
 noError (Left e) = error $ show e
@@ -63,44 +61,44 @@ spec = describe "Record.Go" $ do
     return $ adjs `shouldBe` [(0, 1), (2, 1), (1, 0), (1, 2)]
 
   it "places a stone" $ withBoardSizes $ do
-    let board = IntMap.empty
-    board <- placeStone board (0, Black)
+    (board, captures) <- placeStone IntMap.empty (0, Black)
     return $
       sequence_
         [ IntMap.size board `shouldBe` 1,
-          (board IntMap.!? 0) `shouldBe` Just Black
+          (board IntMap.!? 0) `shouldBe` Just Black,
+          captures `shouldBe` Set.empty
         ]
 
   it "cannot place a stone at -1" $ expectError (OutOfBounds (-1)) $ runBoardA 9 $ do
-    let board = IntMap.empty
-    placeStone board (-1, Black)
+    placeStone IntMap.empty (-1, Black)
 
   it "cannot place a stone beyond the board" $ expectError (OutOfBounds 81) $ runBoardA 9 $ do
-    let board = IntMap.empty
-    placeStone board (81, Black)
+    placeStone IntMap.empty (81, Black)
 
   it "plays two stones" $ withBoardSizes $ do
-    board <- playStones [(0, Black), (1, White)]
+    (board, captures) <- playStones [(0, Black), (1, White)]
     return $
       sequence_
         [ IntMap.size board `shouldBe` 2,
           (board IntMap.!? 0) `shouldBe` Just Black,
-          (board IntMap.!? 1) `shouldBe` Just White
+          (board IntMap.!? 1) `shouldBe` Just White,
+          captures `shouldBe` Set.empty
         ]
 
   it "captures a stone" $ noError $ runBoardA 9 $ do
-    board <- playStones [(0, Black), (1, White), (10, Black), (9, White)]
+    (board, captures) <- playStones [(0, Black), (1, White), (10, Black), (9, White)]
     return $
       sequence_
         [ IntMap.size board `shouldBe` 3,
           (board IntMap.!? 0) `shouldBe` Nothing,
           (board IntMap.!? 1) `shouldBe` Just White,
           (board IntMap.!? 9) `shouldBe` Just White,
-          (board IntMap.!? 10) `shouldBe` Just Black
+          (board IntMap.!? 10) `shouldBe` Just Black,
+          captures `shouldBe` Set.fromList [0]
         ]
 
   it "captures a group" $ noError $ runBoardA 9 $ do
-    board <- playStones [(0, Black), (9, White), (1, Black), (10, White), (2, Black), (11, White), (12, Black), (3, White)]
+    (board, captures) <- playStones [(0, Black), (9, White), (1, Black), (10, White), (2, Black), (11, White), (12, Black), (3, White)]
     return $
       sequence_
         [ IntMap.size board `shouldBe` 5,
@@ -111,14 +109,15 @@ spec = describe "Record.Go" $ do
           (board IntMap.!? 9) `shouldBe` Just White,
           (board IntMap.!? 10) `shouldBe` Just White,
           (board IntMap.!? 11) `shouldBe` Just White,
-          (board IntMap.!? 12) `shouldBe` Just Black
+          (board IntMap.!? 12) `shouldBe` Just Black,
+          captures `shouldBe` Set.fromList [0, 1, 2]
         ]
 
   it "captures suicidally" $ noError $ runBoardA 9 $ do
     -- Black plays at X
     -- XWB
     -- WB
-    board <- playStones [(2, Black), (1, White), (10, Black), (9, White), (0, Black)]
+    (board, captures) <- playStones [(2, Black), (1, White), (10, Black), (9, White), (0, Black)]
     return $
       sequence_
         [ IntMap.size board `shouldBe` 4,
@@ -126,7 +125,8 @@ spec = describe "Record.Go" $ do
           (board IntMap.!? 1) `shouldBe` Nothing,
           (board IntMap.!? 2) `shouldBe` Just Black,
           (board IntMap.!? 9) `shouldBe` Just White,
-          (board IntMap.!? 10) `shouldBe` Just Black
+          (board IntMap.!? 10) `shouldBe` Just Black,
+          captures `shouldBe` Set.fromList [1]
         ]
 
   it "cannot play on top of another stone" $ expectError (SpaceOccupied (0, 0)) $ runBoardA 9 $ do
