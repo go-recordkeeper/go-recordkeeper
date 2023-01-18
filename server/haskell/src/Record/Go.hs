@@ -66,7 +66,7 @@ adjacents (x, y) = do
   size <- boardSize
   return [(x', y') | (x', y') <- [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)], 0 <= x', x' < size, 0 <= y', y' < size]
 
-buildGroup' :: Board -> Color -> Set Int -> Set Int -> [Coord] -> BoardA (Set Int, Set Int)
+buildGroup' :: Board -> Color -> Set Pos -> Set Pos -> [Coord] -> BoardA (Set Pos, Set Pos)
 buildGroup' _ _ group liberties [] = return (group, liberties)
 buildGroup' board color group liberties (coord : coordsToCheck) = do
   pos <- toPos coord
@@ -85,7 +85,7 @@ buildGroup' board color group liberties (coord : coordsToCheck) = do
               else liberties
       buildGroup' board color group' liberties' coordsToCheck'
 
-buildGroup :: Board -> Coord -> BoardA (Set Int, Set Int)
+buildGroup :: Board -> Coord -> BoardA (Set Pos, Set Pos)
 buildGroup board coord = do
   pos <- toPos coord
   let intersection = board IntMap.!? pos
@@ -97,7 +97,7 @@ buildGroup board coord = do
     liberties = Set.empty
     coordsToCheck = [coord]
 
-deadGroup :: Board -> Coord -> BoardA (Set Int)
+deadGroup :: Board -> Coord -> BoardA (Set Pos)
 deadGroup board coord = do
   (group, liberties) <- buildGroup board coord
   return $
@@ -105,7 +105,7 @@ deadGroup board coord = do
       then group
       else Set.empty
 
-placeStone :: Board -> (Pos, Color) -> BoardA (Board, Set Int)
+placeStone :: Board -> (Pos, Color) -> BoardA (Board, Set Pos)
 placeStone board (pos, color) = do
   size <- boardSize
   -- Test that the position is on the board
@@ -131,5 +131,5 @@ placeStone board (pos, color) = do
   when (Set.null captures && Set.null liberties) $ throwError $ Suicide coord
   return (culledBoard, captures)
 
-playStones :: [(Pos, Color)] -> BoardA (Board, Set Int)
+playStones :: [(Pos, Color)] -> BoardA (Board, Set Pos)
 playStones = foldM (\(board, _) -> placeStone board) (IntMap.empty, Set.empty)
