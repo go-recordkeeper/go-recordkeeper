@@ -114,6 +114,21 @@ spec = describe "Record.Go" $ do
           (board IntMap.!? 12) `shouldBe` Just Black
         ]
 
+  it "captures suicidally" $ noError $ runBoardA 9 $ do
+    -- Black plays at X
+    -- XWB
+    -- WB
+    board <- playStones [(2, Black), (1, White), (10, Black), (9, White), (0, Black)]
+    return $
+      sequence_
+        [ IntMap.size board `shouldBe` 4,
+          (board IntMap.!? 0) `shouldBe` Just Black,
+          (board IntMap.!? 1) `shouldBe` Nothing,
+          (board IntMap.!? 2) `shouldBe` Just Black,
+          (board IntMap.!? 9) `shouldBe` Just White,
+          (board IntMap.!? 10) `shouldBe` Just Black
+        ]
+
   it "cannot play on top of another stone" $ expectError (SpaceOccupied (0, 0)) $ runBoardA 9 $ do
     playStones [(0, Black), (0, White)]
 

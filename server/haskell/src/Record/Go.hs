@@ -15,7 +15,6 @@ module Record.Go
     runBoardA,
     buildGroup',
     buildGroup,
-    attemptMurder,
     placeStone,
     playStones,
   )
@@ -100,14 +99,13 @@ buildGroup board coord = do
     liberties = Set.empty
     coordsToCheck = [coord]
 
-attemptMurder :: Board -> Coord -> BoardA Board
-attemptMurder board coord = do
+deadGroup :: Board -> Coord -> BoardA (Set Int)
+deadGroup board coord = do
   (group, liberties) <- buildGroup board coord
   return $
-    -- If the group is dead, remove it from the board
     if Set.null liberties
-      then IntMap.filterWithKey (\pos _ -> not $ Set.member pos group) board
-      else board
+      then group
+      else Set.empty
 
 placeStone :: Board -> (Pos, Color) -> BoardA Board
 placeStone board (pos, color) = do
@@ -118,13 +116,23 @@ placeStone board (pos, color) = do
   -- Test that there are no stones already at the desired location
   when (isJust $ board IntMap.!? pos) $ throwError $ SpaceOccupied coord
   adjs <- adjacents coord
-  let addedStone = IntMap.insert pos color board
-  killedBoard <- foldM attemptMurder addedStone adjs
+  let boardWithStone = IntMap.insert pos color board
+  -- Collect all captured groups into a single set
+  captures <-
+    foldM
+      ( \captures' adj -> do
+          captures'' <- deadGroup boardWithStone adj
+          return $ Set.union captures' captures''
+      )
+      Set.empty
+      adjs
+  -- Remove captured stones from the board
+  let culledBoard = IntMap.filterWithKey (\p _ -> not $ Set.member p captures) boardWithStone
   -- Test if the newly placed stone has any liberties
-  (_, liberties) <- buildGroup killedBoard coord
-  when (Set.null liberties) $ throwError $ Suicide coord
+  (_, liberties) <- buildGroup culledBoard coord
+  when (Set.null captures && Set.null liberties) $ throwError $ Suicide coord
   -- TODO also return captured stones
-  return killedBoard
+  return culledBoard
 
 playStones :: [(Pos, Color)] -> BoardA Board
 playStones = foldM placeStone IntMap.empty
