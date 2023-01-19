@@ -8,7 +8,6 @@ import qualified Data.IntMap.Strict as IntMap
 import Data.Set (Set)
 import qualified Data.Set as Set
 import qualified Data.Text as T
-import qualified Data.Text.Lazy as TL
 import Data.Time (UTCTime)
 import qualified Data.Vector as V
 import qualified Hasql.Pool as HP
@@ -130,7 +129,6 @@ getRecord pool = get "/api/records/:recordId/" $ do
   case (recordSelect, movesSelect) of
     (Right record, Right moves') -> do
       let moves = V.toList moves'
-      -- TODO determine captures for each move
       -- TODO desgostang
       let (size', _, _, _, _, _, _, _, _, _) = record
       let size = fromIntegral size'
@@ -144,8 +142,5 @@ getRecord pool = get "/api/records/:recordId/" $ do
           json $ toResponse userId recordId record movesAndCaptures stones
     (Left (HP.SessionError (HS.QueryError _ _ (HS.ResultError (HS.UnexpectedAmountOfRows 0)))), _) -> do
       raiseStatus status404 "Does not exist."
-    (x, y) -> do
-      liftIO $ putStrLn "Oh ho"
-      liftIO $ print x
-      liftIO $ print y
-      raiseStatus status500 $ TL.pack $ show y
+    _ -> do
+      raiseStatus status500 "DB error"
