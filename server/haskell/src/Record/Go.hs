@@ -9,7 +9,9 @@ module Record.Go
     Coord,
     Color (White, Black),
     boardSize,
+    toCoord',
     toCoord,
+    toPos',
     toPos,
     adjacents,
     runBoardA,
@@ -17,6 +19,7 @@ module Record.Go
     buildGroup,
     placeStone,
     playStones,
+    identifyCaptures,
   )
 where
 
@@ -35,6 +38,10 @@ type Pos = Int
 
 type Coord = (Int, Int)
 
+type Move = (Pos, Color)
+
+type Group = Set Pos
+
 -- Map the Pos to the color of the stone occupying that space
 type Board = IntMap Color
 
@@ -51,22 +58,28 @@ runBoardA size action = runReader (runExceptT action) size
 boardSize :: BoardA Int
 boardSize = do ask
 
+toCoord' :: Int -> Pos -> Coord
+toCoord' size pos = (mod pos size, div pos size)
+
 toCoord :: Pos -> BoardA Coord
 toCoord pos = do
   size <- boardSize
-  return (mod pos size, div pos size)
+  return $ toCoord' size pos
+
+toPos' :: Int -> Coord -> Pos
+toPos' size (x, y) = (y * size) + x
 
 toPos :: Coord -> BoardA Pos
-toPos (x, y) = do
+toPos coord = do
   size <- boardSize
-  return $ (y * size) + x
+  return $ toPos' size coord
 
 adjacents :: Coord -> BoardA [Coord]
 adjacents (x, y) = do
   size <- boardSize
   return [(x', y') | (x', y') <- [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)], 0 <= x', x' < size, 0 <= y', y' < size]
 
-buildGroup' :: Board -> Color -> Set Pos -> Set Pos -> [Coord] -> BoardA (Set Pos, Set Pos)
+buildGroup' :: Board -> Color -> Group -> Group -> [Coord] -> BoardA (Group, Group)
 buildGroup' _ _ group liberties [] = return (group, liberties)
 buildGroup' board color group liberties (coord : coordsToCheck) = do
   pos <- toPos coord
@@ -85,7 +98,7 @@ buildGroup' board color group liberties (coord : coordsToCheck) = do
               else liberties
       buildGroup' board color group' liberties' coordsToCheck'
 
-buildGroup :: Board -> Coord -> BoardA (Set Pos, Set Pos)
+buildGroup :: Board -> Coord -> BoardA (Group, Group)
 buildGroup board coord = do
   pos <- toPos coord
   let intersection = board IntMap.!? pos
@@ -97,7 +110,7 @@ buildGroup board coord = do
     liberties = Set.empty
     coordsToCheck = [coord]
 
-deadGroup :: Board -> Coord -> BoardA (Set Pos)
+deadGroup :: Board -> Coord -> BoardA Group
 deadGroup board coord = do
   (group, liberties) <- buildGroup board coord
   return $
@@ -105,7 +118,7 @@ deadGroup board coord = do
       then group
       else Set.empty
 
-placeStone :: Board -> (Pos, Color) -> BoardA (Board, Set Pos)
+placeStone :: Board -> Move -> BoardA (Board, Group)
 placeStone board (pos, color) = do
   size <- boardSize
   -- Test that the position is on the board
@@ -131,5 +144,15 @@ placeStone board (pos, color) = do
   when (Set.null captures && Set.null liberties) $ throwError $ Suicide coord
   return (culledBoard, captures)
 
-playStones :: [(Pos, Color)] -> BoardA (Board, Set Pos)
+playStones :: [Move] -> BoardA (Board, Group)
 playStones = foldM (\(board, _) -> placeStone board) (IntMap.empty, Set.empty)
+
+identifyCaptures :: [Move] -> BoardA ([(Move, Group)], Board)
+identifyCaptures moves = do
+  foldM
+    ( \(previousMoves, board) move' -> do
+        (board', captures) <- placeStone board move'
+        return (previousMoves ++ [(move', captures)], board')
+    )
+    ([], IntMap.empty)
+    moves
