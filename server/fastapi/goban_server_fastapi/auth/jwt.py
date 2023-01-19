@@ -38,9 +38,9 @@ def jwt_user(
         payload = jwt.decode(
             token.credentials,
             key=SECRET_KEY,
-            algorithms='HS256',
-            audience='go-recordkeeper',
-            issuer='go-recordkeeper',
+            algorithms="HS256",
+            audience="go-recordkeeper",
+            issuer="go-recordkeeper",
         )
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=403, detail="invalid authorization token")

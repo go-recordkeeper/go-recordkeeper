@@ -65,8 +65,8 @@ def test_get_record(user_client, user, record_factory, move_factory):
         "ruleset": "AGA",
         "winner": "U",
         "stones": [
-            {"x": 1, "y": 0, "color": "B"},
             {"x": 0, "y": 0, "color": "W"},
+            {"x": 1, "y": 0, "color": "B"},
         ],
         "moves": [
             {"position": 1, "color": "B", "captures": []},

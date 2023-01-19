@@ -110,11 +110,10 @@ class RecordViewSet(
         last_move = record.last_move
         serializer = RecordSerializer(instance=record)
         board: Board = last_move.board_state if last_move is not None else Board(record.board_size)
+        sorted_stones = sorted(board.moves.items(), key=lambda x: tuple(reversed(x[0])))
         response = {
             **serializer.data,
-            'stones': [
-                {'x': x, 'y': y, 'color': color.value} for (x, y), color in board.moves.items()
-            ],
+            'stones': [{'x': x, 'y': y, 'color': color.value} for (x, y), color in sorted_stones],
             'moves': [
                 {
                     'position': position,

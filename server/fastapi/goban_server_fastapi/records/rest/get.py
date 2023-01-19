@@ -83,13 +83,14 @@ def get_record(
             }
             for move in moves
         ]
-
+        sorted_stones = sorted(
+            board_state.stones.items(), key=lambda x: tuple(reversed(x[0]))
+        )
         return {
             **dictify(record),
             "owner": record.owner_id,
             "stones": [
-                {"x": x, "y": y, "color": color}
-                for ((x, y), color) in board_state.stones.items()
+                {"x": x, "y": y, "color": color} for ((x, y), color) in sorted_stones
             ],
             "moves": moves,
         }

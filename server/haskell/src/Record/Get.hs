@@ -139,8 +139,7 @@ getRecord pool = get "/api/records/:recordId/" $ do
       case runBoardA size $ identifyCaptures movesToPlay of
         Left _ -> raiseStatus status500 "Invalid game record."
         Right (movesAndCaptures, board) -> do
-          -- TODO order stones stably in integration tests
-          let stones = [(toCoord' size pos, color) | (pos, color) <- IntMap.toDescList board]
+          let stones = [(toCoord' size pos, color) | (pos, color) <- IntMap.toAscList board]
           status status200
           json $ toResponse userId recordId record movesAndCaptures stones
     (Left (HP.SessionError (HS.QueryError _ _ (HS.ResultError (HS.UnexpectedAmountOfRows 0)))), _) -> do

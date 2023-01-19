@@ -2,7 +2,7 @@ module Record.GoSpec (spec) where
 
 import qualified Data.IntMap.Strict as IntMap
 import qualified Data.Set as Set
-import Record.Go (BoardA, Color (Black, White), GoError (OutOfBounds, SpaceOccupied, Suicide), adjacents, boardSize, placeStone, playStones, runBoardA, toCoord, toPos)
+import Record.Go (BoardA, Color (Black, White), GoError (OutOfBounds, SpaceOccupied, Suicide), adjacents, boardSize, identifyCaptures, placeStone, playStones, runBoardA, toCoord, toPos)
 import Test.Hspec
 
 withBoardSizes :: BoardA Expectation -> Expectation
@@ -142,3 +142,7 @@ spec = describe "Record.Go" $ do
 
   it "cannot commit suicide" $ expectError (Suicide (0, 0)) $ runBoardA 9 $ do
     playStones [(1, White), (9, White), (0, Black)]
+
+  it "identifies a capture" $ noError $ runBoardA 9 $ do
+    (movesAndCaptures, _) <- identifyCaptures [(1, Black), (0, White), (9, Black)]
+    return $ movesAndCaptures `shouldBe` [((1, Black), Set.fromList []), ((0, White), Set.fromList []), ((9, Black), Set.fromList [0])]
