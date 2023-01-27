@@ -70,6 +70,9 @@ services:
       # - ./certs:/etc/nginx/certs
       - ./vhost.d:/etc/nginx/vhost.d
       - ./dist:/dist
+    depends_on:
+      - django
+      - fastapi
 
   # dockergen:
   #   image: nginxproxy/docker-gen
