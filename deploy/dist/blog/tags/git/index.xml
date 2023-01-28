@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>git on Dev Blog</title>
+    <link>https://go.chiquit.ooo/blog/tags/git/</link>
+    <description>Recent content in git on Dev Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 27 Jan 2023 21:56:35 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tangent - Hardware Upgrade</title>
+      <link>https://go.chiquit.ooo/blog/posts/19-tangent-hardware-upgrade/</link>
+      <pubDate>Fri, 27 Jan 2023 21:56:35 -0500</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/19-tangent-hardware-upgrade/</guid>
+      <description>My velocity on the Haskell implementation has been stalling in favor of other infrastructural work I&amp;rsquo;ve been doing on my home network. It&amp;rsquo;s only tangentially related to the go recordkeeper, but it&amp;rsquo;s what I&amp;rsquo;ve been doing so that&amp;rsquo;s what I&amp;rsquo;m going to write about.
+New NAS device! I recently acquired a Promethean Classflow ActiveConnect PRM-ACON1-01 Mini PC that I&amp;rsquo;ve been setting up as a NAS. It&amp;rsquo;s intended use was as a lightweight PC for attaching to a projector or monitor in a classroom setting.</description>
+    </item>
+    
+  </channel>
+</rss>
