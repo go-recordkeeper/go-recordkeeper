@@ -85,6 +85,7 @@ register pool = post "/api/register/" $ do
       result <- liftIO $ HP.use pool sess
       case result of
         Right id' -> do
+          -- TODO this is not an ID, it is the number of rows affected. It will always be 1
           status status201
           json (RegisterResponse {id = fromIntegral id', username, email})
         Left err ->

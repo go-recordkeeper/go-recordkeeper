@@ -36,6 +36,7 @@ library
       Record.Get
       Record.Go
       Record.List
+      Record.Play
   other-modules:
       Paths_go_recordkeeper
   hs-source-dirs:

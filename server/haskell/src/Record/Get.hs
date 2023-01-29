@@ -129,7 +129,7 @@ getRecord pool = get "/api/records/:recordId/" $ do
   case (recordSelect, movesSelect) of
     (Right record, Right moves') -> do
       let moves = V.toList moves'
-      -- TODO desgostang
+      -- TODO desgostang check if you can extract non-tuples from hasql
       let (size', _, _, _, _, _, _, _, _, _) = record
       let size = fromIntegral size'
       -- TODO effective error checking for invalid move strings

@@ -8,6 +8,7 @@ module Record.Go
     Pos,
     Coord,
     Color (White, Black),
+    Move,
     boardSize,
     toCoord',
     toCoord,
