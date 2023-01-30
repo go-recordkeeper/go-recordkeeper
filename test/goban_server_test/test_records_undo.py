@@ -32,8 +32,8 @@ def test_undo_move(user_client, record, move_factory):
     response = user_client.get(f"/api/records/{record['id']}/")
     assert response.status_code == 200
     assert response.json()["stones"] == [
-        {"x": 1, "y": 0, "color": "B"},
         {"x": 0, "y": 0, "color": "W"},
+        {"x": 1, "y": 0, "color": "B"},
     ]
     assert response.json()["moves"] == [
         {"position": 1, "color": "B", "captures": []},
