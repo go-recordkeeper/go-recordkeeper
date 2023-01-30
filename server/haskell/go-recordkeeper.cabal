@@ -36,6 +36,7 @@ library
       Record.Get
       Record.Go
       Record.List
+      Record.Pass
       Record.Play
   other-modules:
       Paths_go_recordkeeper

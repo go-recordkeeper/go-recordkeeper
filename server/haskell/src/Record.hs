@@ -4,6 +4,7 @@ import qualified Hasql.Pool as HP
 import Record.Create (create)
 import Record.Get (getRecord)
 import Record.List (list)
+import Record.Pass (pass)
 import Record.Play (play)
 import Web.Scotty (ScottyM)
 
@@ -13,3 +14,4 @@ recordEndpoints pool = do
   getRecord pool
   list pool
   play pool
+  pass pool
