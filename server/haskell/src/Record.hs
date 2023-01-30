@@ -6,6 +6,7 @@ import Record.Get (getRecord)
 import Record.List (list)
 import Record.Pass (pass)
 import Record.Play (play)
+import Record.Undo (undo)
 import Web.Scotty (ScottyM)
 
 recordEndpoints :: HP.Pool -> ScottyM ()
@@ -15,3 +16,4 @@ recordEndpoints pool = do
   list pool
   play pool
   pass pool
+  undo pool
