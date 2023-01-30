@@ -55,13 +55,13 @@ selectRecord =
     owner_id = $1 :: int8 and id = $2 :: int8
   |]
 
-type MoveRow = (Int64, T.Text)
+type MoveRow = (Maybe Int64, T.Text)
 
 selectMoves :: S.Statement Int64 (V.Vector MoveRow)
 selectMoves =
   [TH.vectorStatement|
     select
-    position :: int8, color :: text
+    position :: int8?, color :: text
     from record_move
     where
     record_id = $1 :: int8
@@ -104,12 +104,12 @@ play pool = post "/api/records/:recordId/play/" $ do
   movesSelect <- liftIO $ HP.use pool $ HS.statement recordId selectMoves
   case (recordSelect, movesSelect) of
     (Right (size', handicap'), Right moves') -> do
-      let moves = [(fromIntegral position', toColor color') | (position', color') <- V.toList moves']
+      let moves = [(fmap fromIntegral position', toColor color') | (position', color') <- V.toList moves']
           size = fromIntegral size'
           handicap = fromIntegral handicap'
           position = toPos' size (x, y)
           moveColor = nextColor handicap moves
-      case runBoardA size $ playStones $ moves ++ [(position, moveColor)] of
+      case runBoardA size $ playStones $ moves ++ [(Just position, moveColor)] of
         Right (_, captures) -> do
           let removals = [Point {x = x', y = y'} | (x', y') <- map (toCoord' size) $ Set.toAscList captures]
           result <- liftIO $ HP.use pool $ HS.statement (fromIntegral recordId, fromIntegral position, fromColor moveColor, fromIntegral $ 1 + length moves) insertMove

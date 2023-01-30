@@ -39,7 +39,7 @@ type Pos = Int
 
 type Coord = (Int, Int)
 
-type Move = (Pos, Color)
+type Move = (Maybe Pos, Color)
 
 type Group = Set Pos
 
@@ -120,7 +120,8 @@ deadGroup board coord = do
       else Set.empty
 
 placeStone :: Board -> Move -> BoardA (Board, Group)
-placeStone board (pos, color) = do
+placeStone board (Nothing, _) = return (board, Set.empty)
+placeStone board (Just pos, color) = do
   size <- boardSize
   -- Test that the position is on the board
   when (pos < 0 || pos >= size * size) $ throwError $ OutOfBounds pos

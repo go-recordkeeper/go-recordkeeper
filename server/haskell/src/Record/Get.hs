@@ -29,7 +29,7 @@ data Capture = Capture {x :: Int, y :: Int} deriving (Show)
 
 $(deriveJSON defaultOptions ''Capture)
 
-data Move = Move {position :: Int, color :: String, captures :: [Capture]} deriving (Show)
+data Move = Move {position :: Maybe Int, color :: String, captures :: [Capture]} deriving (Show)
 
 $(deriveJSON defaultOptions ''Move)
 
@@ -70,13 +70,13 @@ selectRecord =
     owner_id = $1 :: int8 and id = $2 :: int8
   |]
 
-type MoveRow = (Int64, T.Text)
+type MoveRow = (Maybe Int64, T.Text)
 
 selectMoves :: S.Statement Int64 (V.Vector MoveRow)
 selectMoves =
   [TH.vectorStatement|
     select
-    position :: int8, color :: text
+    position :: int8?, color :: text
     from record_move
     where
     record_id = $1 :: int8
@@ -87,7 +87,7 @@ fromColor color = case color of
   Black -> "B"
   White -> "W"
 
-toResponse :: Int64 -> Int64 -> RecordRow -> [((Int, Color), Set Int)] -> [((Int, Int), Color)] -> GetResponse
+toResponse :: Int64 -> Int64 -> RecordRow -> [((Maybe Int, Color), Set Int)] -> [((Int, Int), Color)] -> GetResponse
 toResponse userId recordId (board_size, name, black_player, white_player, comment, handicap, komi, ruleset, winner, created) moves stones =
   GetResponse
     { id = fromIntegral recordId,
@@ -133,7 +133,7 @@ getRecord pool = get "/api/records/:recordId/" $ do
       let (size', _, _, _, _, _, _, _, _, _) = record
       let size = fromIntegral size'
       -- TODO effective error checking for invalid move strings
-      let movesToPlay = [(fromIntegral position, if color == "B" then Black else White) | (position, color) <- moves]
+      let movesToPlay = [(fmap fromIntegral position, if color == "B" then Black else White) | (position, color) <- moves]
       case runBoardA size $ identifyCaptures movesToPlay of
         Left _ -> raiseStatus status500 "Invalid game record."
         Right (movesAndCaptures, board) -> do
