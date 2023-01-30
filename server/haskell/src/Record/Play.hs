@@ -4,18 +4,15 @@ import Auth.JWT (authorizedUserId)
 import Control.Monad.IO.Class (liftIO)
 import Data.Aeson.TH (defaultOptions, deriveJSON)
 import Data.Int (Int64)
-import qualified Data.IntMap.Strict as IntMap
-import Data.Set (Set)
 import qualified Data.Set as Set
 import qualified Data.Text as T
-import Data.Time (UTCTime)
 import qualified Data.Vector as V
 import qualified Hasql.Pool as HP
 import qualified Hasql.Session as HS
 import qualified Hasql.Statement as S
 import qualified Hasql.TH as TH
-import Network.HTTP.Types (status201, status400, status403, status404, status500)
-import Record.Go (Color (Black, White), GoError (OutOfBounds, SpaceOccupied, Suicide), Move, identifyCaptures, playStones, runBoardA, toCoord', toPos')
+import Network.HTTP.Types (status201, status403, status404, status500)
+import Record.Go (Color (Black, White), GoError (OutOfBounds, SpaceOccupied, Suicide), Move, playStones, runBoardA, toCoord', toPos')
 import Web.Scotty
   ( ActionM,
     ScottyM,
@@ -112,7 +109,7 @@ play pool = post "/api/records/:recordId/play/" $ do
       case runBoardA size $ playStones $ moves ++ [(Just position, moveColor)] of
         Right (_, captures) -> do
           let removals = [Point {x = x', y = y'} | (x', y') <- map (toCoord' size) $ Set.toAscList captures]
-          result <- liftIO $ HP.use pool $ HS.statement (fromIntegral recordId, fromIntegral position, fromColor moveColor, fromIntegral $ 1 + length moves) insertMove
+          result <- liftIO $ HP.use pool $ HS.statement (recordId, fromIntegral position, fromColor moveColor, fromIntegral $ 1 + length moves) insertMove
           case result of
             Right _ -> do
               status status201

@@ -12,11 +12,10 @@ import qualified Hasql.Session as HS
 import qualified Hasql.Statement as S
 import qualified Hasql.TH as TH
 import Network.HTTP.Types (status200, status403, status404, status500)
-import Record.Go (Color (Black, White), GoError (OutOfBounds, SpaceOccupied, Suicide), Move, identifyCaptures, playStones, runBoardA, toCoord', toPos')
+import Record.Go (Color (Black, White), playStones, runBoardA, toCoord')
 import Web.Scotty
   ( ScottyM,
     json,
-    jsonData,
     param,
     post,
     raiseStatus,
