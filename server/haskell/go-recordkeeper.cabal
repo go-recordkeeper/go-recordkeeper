@@ -40,6 +40,7 @@ library
       Record.Pass
       Record.Play
       Record.Undo
+      Record.Update
   other-modules:
       Paths_go_recordkeeper
   hs-source-dirs:
