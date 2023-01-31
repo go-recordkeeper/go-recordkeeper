@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-	<meta name="generator" content="Hugo 0.92.2" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -18,25 +17,25 @@
     
 
     
-    <title>Dev Blog</title>
+    <title>Ticking Boxes With Haskell</title>
     <meta name="description" content="Records of the Go Recordkeeper">
-    <meta name="keywords" content=''>
+    <meta name="keywords" content='haskell'>
 
-    <meta property="og:url" content="https://go.chiquit.ooo/blog/">
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/20-ticking-boxes-with-haskell/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Dev Blog">
+    <meta property="og:title" content="Ticking Boxes With Haskell">
     <meta property="og:description" content="Records of the Go Recordkeeper">
     <meta property="og:image" content="/images/mrbubz.jpg">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Dev Blog">
+    <meta name="twitter:title" content="Ticking Boxes With Haskell">
     <meta name="twitter:description" content="Records of the Go Recordkeeper">
-    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/">
-    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/20-ticking-boxes-with-haskell/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/20-ticking-boxes-with-haskell/">
     <meta name="twitter:image" content="/images/mrbubz.jpg">
 
     
-    <link rel="canonical" href="https://go.chiquit.ooo/blog/" />
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/20-ticking-boxes-with-haskell/" />
 
     <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
@@ -141,56 +140,70 @@
     </nav>
 </header>
 <main id="content">
-<section class="home-about">
-	<div class="avatar">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Ticking Boxes With Haskell</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            January 31, 2023
+        </p>
+
+        <ul class="post-tags">
         
-        <img class=size-xl src='https://go.chiquit.ooo/blog/images/mrbubz.jpg' alt="avatar" />
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/haskell">haskell</a></li>
         
-	</div>
-    <h1>Dev Blog</h1>
-    <h3>Records of the Go Recordkeeper</h3>
-</section>
-
-<div class="flex-break"></div>
-
-
-
-
-
-
-
-
-    <div class="home-posts list-posts">
-        <h2>Recent Posts</h2>
-
-    
-
-    
-        <article class="post-title">
-    <a href="https://go.chiquit.ooo/blog/posts/20-ticking-boxes-with-haskell/" class="post-link">Ticking Boxes With Haskell</a>
-    <div class="flex-break"></div>
-    <span class="post-date">January 31, 2023</span>
-</article>
-<article class="post-title">
-    <a href="https://go.chiquit.ooo/blog/posts/19-tangent-hardware-upgrade/" class="post-link">Tangent - Hardware Upgrade</a>
-    <div class="flex-break"></div>
-    <span class="post-date">January 27, 2023</span>
-</article>
-<article class="post-title">
-    <a href="https://go.chiquit.ooo/blog/posts/18-go-logic-in-haskell/" class="post-link">Go Logic in Haskell</a>
-    <div class="flex-break"></div>
-    <span class="post-date">January 17, 2023</span>
-</article>
-<article class="post-title">
-    <a href="https://go.chiquit.ooo/blog/posts/17-haskell-auth/" class="post-link">Authentication in Haskell</a>
-    <div class="flex-break"></div>
-    <span class="post-date">January 10, 2023</span>
-</article>
-
-    
+        </ul>
     </div>
 
+    <div class="post-content">
+        <p>
+            <p>I&rsquo;ve finished implementing all the &ldquo;interesting&rdquo; record related endpoints in Haskell:</p>
+<ul>
+<li>Playing moves</li>
+<li>Passing</li>
+<li>Undoing moves</li>
+<li>Deleting records</li>
+<li>Updating records</li>
+</ul>
+<p>The process was pretty mechanical:</p>
+<ol>
+<li>Copy a similar endpoint</li>
+<li>Rename the functions, add the new endpoint to <code>Records.hs</code></li>
+<li>Copy the request/response from the FastAPI serializers (if necessary)</li>
+<li>Write the necessary SQL statements in <code>hasql-th</code> format</li>
+<li>Translate the endpoint logic from the FastAPI endpoint</li>
+<li>Run integration tests</li>
+<li>Iron out bugs until tests pass</li>
+</ol>
+<p>The only real obstacles were:</p>
+<ul>
+<li>Realizing that the position field in the moves table is nullable, to represent passing. The core game logic needed to be tweaked a bit, but nothing invasive.</li>
+<li>The ordering of the <code>removals</code> field in the response to the undo endpoint was relying on implicit ordering, so that had to be made explicit, and the tests needed updating.</li>
+</ul>
+<h2 id="thoughts">Thoughts</h2>
+<p>Most of the code is dedicated to converting data types between the hasql API, the JSON API, and the game logic API. It would be nice to separate that from the business logic somehow.</p>
+<p>The hasql-th queries are effective, concise SQL. The only problem is that they output tuples, which are tedious and verbose to consume and translate. I have yet to find a better alternative, sadly.</p>
+<p>There was surprisingly little overlap in the required SQL statements for each endpoint. I could just make a single &ldquo;fetch the entire record&rdquo; endpoint and hide all the SQL, but most of the data would be wasted most of the time. I like the specificity, but not the associated verbosity.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>The only remaining Haskell endpoint is downloading the SGF file. That will require either figuring out the API for a library, or writing my own, either of which are a substantial chunk of work.</p>
+<p>Now that (almost) all the Haskell code is written, it would be a good time to do some refactoring and tidying. The strict compartmentalization I&rsquo;ve been doing also makes it easier to identify untested branches, so I&rsquo;ll probably tack on some more integration tests.</p>
 
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/19-tangent-hardware-upgrade/"> Tangent - Hardware Upgrade </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+
+
+    
 
         </main><footer class="footer">
     <span>&copy; 2023 Daniel Chiquito</span>
