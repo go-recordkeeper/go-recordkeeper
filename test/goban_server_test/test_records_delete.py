@@ -13,6 +13,6 @@ def test_delete_record(user_client, user, record):
 
     # Verify that deleting a record that does not exist fails
     response = user_client.delete(
-        f"/api/records/9999/",
+        "/api/records/9999/",
     )
     assert response.status_code == 404

@@ -86,7 +86,6 @@ undo pool = post "/api/records/:recordId/undo/" $ do
   movesSelect <- liftIO $ HP.use pool $ HS.statement recordId selectMoves
   case (recordSelect, movesSelect) of
     (Right size', Right moves') -> do
-      -- let moves = [(fmap fromIntegral position', toColor color') | (position', color') <- V.toList moves']
       let size = fromIntegral size'
           (moveNumber, pos, color) = V.last moves'
           removals = case pos of

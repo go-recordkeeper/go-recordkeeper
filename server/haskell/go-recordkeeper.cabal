@@ -33,6 +33,7 @@ library
       Lib
       Record
       Record.Create
+      Record.Delete
       Record.Get
       Record.Go
       Record.List
