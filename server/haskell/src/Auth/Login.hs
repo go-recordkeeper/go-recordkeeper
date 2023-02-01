@@ -5,6 +5,7 @@ import Control.Lens.Operators
 import Control.Monad.Except (runExceptT)
 import Control.Monad.IO.Class (liftIO)
 import Crypto.JWT hiding (hash, jwk)
+import DB (execute')
 import Data.Aeson.TH (defaultOptions, deriveJSON)
 import qualified Data.ByteString.Lazy as BSL
 import Data.Int (Int64)
@@ -74,30 +75,27 @@ signJWT :: JWK -> ClaimsSet -> IO (Either JWTError SignedJWT)
 signJWT jwk claims = runExceptT $ do
   signClaims jwk (newJWSHeader ((), HS256)) claims
 
+errorHandler :: a -> ActionM b
+errorHandler _ = raiseStatus status401 "sus" -- lol
+
 login :: HP.Pool -> ScottyM ()
 login pool = post "/api/login/" $ do
   LoginRequest {username, password} <- jsonData :: ActionM LoginRequest
   let password' = mkPassword $ T.pack password
-  -- (id', passwordHash, isActive) <- execute pool getUser $ T.pack username
-  -- Can't use the helper because we need the special error handler
-  let sess = HS.statement (T.pack username) getUser
-  result <- liftIO $ HP.use pool sess
-  case result of
-    Right (id', passwordHash, isActive) -> do
-      -- The reference implementation uses a different hash storage format, so we need to convert
-      let passwordHash' = convertPasswordHash passwordHash
-      if isActive
-        then do
-          case checkPassword password' passwordHash' of
-            PasswordCheckSuccess -> do
-              status status200
-              jwk <- liftIO generateJWK
-              now <- liftIO getCurrentTime
-              maybeJWT <- liftIO $ signJWT jwk $ mkClaims id' now
-              case maybeJWT of
-                Right jwt -> json $ T.decodeUtf8 $ BSL.toStrict $ encodeCompact jwt
-                Left err -> json $ T.pack $ show err
-            -- TODO proper error messages
-            PasswordCheckFail -> raiseStatus status401 "sus"
-        else raiseStatus status401 "sus"
-    Left err -> raiseStatus status401 "sus"
+  (id', passwordHash, isActive) <- execute' errorHandler pool getUser $ T.pack username
+  -- The reference implementation uses a different hash storage format, so we need to convert
+  let passwordHash' = convertPasswordHash passwordHash
+  if isActive
+    then do
+      case checkPassword password' passwordHash' of
+        PasswordCheckSuccess -> do
+          status status200
+          jwk <- liftIO generateJWK
+          now <- liftIO getCurrentTime
+          maybeJWT <- liftIO $ signJWT jwk $ mkClaims id' now
+          case maybeJWT of
+            Right jwt -> json $ T.decodeUtf8 $ BSL.toStrict $ encodeCompact jwt
+            Left err -> json $ T.pack $ show err
+        -- TODO proper error messages
+        PasswordCheckFail -> raiseStatus status401 "sus"
+    else raiseStatus status401 "sus"

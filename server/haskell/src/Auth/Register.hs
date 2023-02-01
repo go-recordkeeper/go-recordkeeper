@@ -1,6 +1,7 @@
 module Auth.Register (register) where
 
 import Control.Monad.IO.Class (liftIO)
+import DB (execute')
 import Data.Aeson.TH (defaultOptions, deriveJSON)
 import qualified Data.ByteString.Char8 as BS
 import Data.Int (Int64)
@@ -73,6 +74,10 @@ hashPassword password = do
   let referenceHash = "pbkdf2_sha256$390000$" ++ BS.unpack (getSalt salt) ++ "$" ++ hash
   return referenceHash
 
+errorHandler :: HP.UsageError -> ActionM Int64
+errorHandler (HP.SessionError (HS.QueryError _ _ (HS.ResultError (HS.ServerError "23505" _ _ _)))) = raiseStatus status400 "A user with that username already exists."
+errorHandler _ = raiseStatus status500 "DB error."
+
 register :: HP.Pool -> ScottyM ()
 register pool = post "/api/register/" $ do
   RegisterRequest {username, email, password} <- jsonData :: ActionM RegisterRequest
@@ -81,13 +86,6 @@ register pool = post "/api/register/" $ do
     else do
       passwordHash <- liftAndCatchIO $ hashPassword password
       now <- liftAndCatchIO Clock.getCurrentTime
-      -- id' <- execute pool insert (T.pack username, T.pack email, T.pack passwordHash, now)
-      -- Cannot use the helper because we need the special constraint check error handler
-      let sess = HS.statement (T.pack username, T.pack email, T.pack passwordHash, now) insert
-      result <- liftIO $ HP.use pool sess
-      case result of
-        Right id' -> do
-          status status201
-          json (RegisterResponse {id = fromIntegral id', username, email})
-        Left (HP.SessionError (HS.QueryError _ _ (HS.ResultError (HS.ServerError "23505" _ _ _)))) -> raiseStatus status400 "A user with that username already exists."
-        Left _ -> raiseStatus status500 "DB error."
+      id' <- execute' errorHandler pool insert (T.pack username, T.pack email, T.pack passwordHash, now)
+      status status201
+      json (RegisterResponse {id = fromIntegral id', username, email})

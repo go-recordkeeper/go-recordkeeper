@@ -1,4 +1,4 @@
-module DB (execute) where
+module DB (execute, execute') where
 
 import Control.Monad.IO.Class (liftIO)
 import Data.Maybe (isJust)
@@ -15,15 +15,33 @@ isDebug = do
   env <- liftIO $ lookupEnv "GOBAN_DEVELOPMENT"
   return $ isJust env
 
-execute :: HP.Pool -> S.Statement a b -> a -> ActionM b
-execute pool query args = do
-  debug <- liftIO isDebug
+execute' :: (HP.UsageError -> ActionM b) -> HP.Pool -> S.Statement a b -> a -> ActionM b
+execute' errorHandler pool query args = do
   result <- liftIO $ HP.use pool $ HS.statement args query
   case result of
     Right value -> return value
-    Left (HP.SessionError (HS.QueryError _ _ (HS.ResultError (HS.UnexpectedAmountOfRows 0)))) -> do
+    Left err -> errorHandler err
+
+defaultErrorHandler :: HP.UsageError -> ActionM b
+defaultErrorHandler err = do
+  debug <- liftIO isDebug
+  case err of
+    HP.SessionError (HS.QueryError _ _ (HS.ResultError (HS.UnexpectedAmountOfRows 0))) -> do
       raiseStatus status404 "Does not exist."
-    Left err -> do
+    _ -> do
       if debug
         then raiseStatus status500 $ TL.pack $ show err
         else raiseStatus status500 "DB error."
+
+execute :: HP.Pool -> S.Statement a b -> a -> ActionM b
+execute = execute' defaultErrorHandler
+
+-- result <- execute' pool query args defaultErrorHandler
+-- case result of
+--   Right value -> return value
+--   Left (HP.SessionError (HS.QueryError _ _ (HS.ResultError (HS.UnexpectedAmountOfRows 0)))) -> do
+--     raiseStatus status404 "Does not exist."
+--   Left err -> do
+--     if debug
+--       then raiseStatus status500 $ TL.pack $ show err
+--       else raiseStatus status500 "DB error."
