@@ -2,6 +2,7 @@ module Record.Update (update) where
 
 import Auth.JWT (authorizedUserId)
 import Control.Monad.IO.Class (liftIO)
+import DB (execute)
 import Data.Aeson.TH (defaultOptions, deriveJSON)
 import Data.Int (Int64)
 import qualified Data.Text as T
@@ -111,12 +112,6 @@ update pool = put "/api/records/:recordId/" $ do
   recordId <- param "recordId"
   request <- jsonData :: ActionM UpdateRequest
   let row = toRow userId recordId request
-  result <- liftIO $ HP.use pool $ HS.statement row updateRecord
-  case result of
-    Right (size, created) -> do
-      status status200
-      json $ toResponse row size created
-    Left (HP.SessionError (HS.QueryError _ _ (HS.ResultError (HS.UnexpectedAmountOfRows 0)))) -> do
-      raiseStatus status404 "Does not exist."
-    Left _ -> do
-      raiseStatus status500 "DB error"
+  (size, created) <- execute pool updateRecord row
+  status status200
+  json $ toResponse row size created

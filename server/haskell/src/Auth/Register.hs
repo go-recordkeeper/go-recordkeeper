@@ -6,7 +6,6 @@ import qualified Data.ByteString.Char8 as BS
 import Data.Int (Int64)
 import Data.Password.PBKDF2 (PBKDF2, PBKDF2Algorithm (PBKDF2_SHA256), PBKDF2Params (PBKDF2Params, pbkdf2Algorithm, pbkdf2Iterations, pbkdf2OutputLength, pbkdf2Salt), PasswordHash (unPasswordHash), Salt (Salt, getSalt), hashPasswordWithSalt, mkPassword)
 import qualified Data.Text as T
-import qualified Data.Text.Lazy as TL
 import Data.Time (UTCTime)
 import qualified Data.Time as Clock
 import qualified Hasql.Pool as HP
@@ -47,11 +46,12 @@ $(deriveJSON defaultOptions ''RegisterResponse)
 
 insert :: S.Statement (T.Text, T.Text, T.Text, UTCTime) Int64
 insert =
-  [TH.rowsAffectedStatement|
+  [TH.singletonStatement|
     insert into auth_user
     (username, email, password, date_joined, last_login, first_name, last_name, is_superuser, is_staff, is_active)
     values
     ($1 :: text, $2 :: text, $3 :: text, $4 :: timestamptz, $4 :: timestamptz, '', '', false, false, true)
+    returning id :: int8
   |]
 
 generateSalt :: IO (Salt PBKDF2)
@@ -81,14 +81,13 @@ register pool = post "/api/register/" $ do
     else do
       passwordHash <- liftAndCatchIO $ hashPassword password
       now <- liftAndCatchIO Clock.getCurrentTime
+      -- id' <- execute pool insert (T.pack username, T.pack email, T.pack passwordHash, now)
+      -- Cannot use the helper because we need the special constraint check error handler
       let sess = HS.statement (T.pack username, T.pack email, T.pack passwordHash, now) insert
       result <- liftIO $ HP.use pool sess
       case result of
         Right id' -> do
-          -- TODO this is not an ID, it is the number of rows affected. It will always be 1
           status status201
           json (RegisterResponse {id = fromIntegral id', username, email})
-        Left err ->
-          case err of
-            HP.SessionError (HS.QueryError _ _ (HS.ResultError (HS.ServerError "23505" _ _ _))) -> raiseStatus status400 "A user with that username already exists."
-            _ -> raiseStatus status500 $ TL.pack $ show err
+        Left (HP.SessionError (HS.QueryError _ _ (HS.ResultError (HS.ServerError "23505" _ _ _)))) -> raiseStatus status400 "A user with that username already exists."
+        Left _ -> raiseStatus status500 "DB error."

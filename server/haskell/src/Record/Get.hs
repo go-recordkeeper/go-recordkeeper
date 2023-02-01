@@ -1,7 +1,7 @@
 module Record.Get (getRecord) where
 
 import Auth.JWT (authorizedUserId)
-import Control.Monad.IO.Class (liftIO)
+import DB (execute)
 import Data.Aeson.TH (defaultOptions, deriveJSON)
 import Data.Int (Int64)
 import qualified Data.IntMap.Strict as IntMap
@@ -11,10 +11,9 @@ import qualified Data.Text as T
 import Data.Time (UTCTime)
 import qualified Data.Vector as V
 import qualified Hasql.Pool as HP
-import qualified Hasql.Session as HS
 import qualified Hasql.Statement as S
 import qualified Hasql.TH as TH
-import Network.HTTP.Types (status200, status404, status500)
+import Network.HTTP.Types (status200, status500)
 import Record.Go (Color (Black, White), identifyCaptures, runBoardA, toCoord')
 import Web.Scotty
   ( ScottyM,
@@ -124,23 +123,17 @@ getRecord :: HP.Pool -> ScottyM ()
 getRecord pool = get "/api/records/:recordId/" $ do
   userId <- authorizedUserId
   recordId <- param "recordId"
-  recordSelect <- liftIO $ HP.use pool $ HS.statement (userId, recordId) selectRecord
-  movesSelect <- liftIO $ HP.use pool $ HS.statement recordId selectMoves
-  case (recordSelect, movesSelect) of
-    (Right record, Right moves') -> do
-      let moves = V.toList moves'
-      -- TODO desgostang check if you can extract non-tuples from hasql
-      let (size', _, _, _, _, _, _, _, _, _) = record
-      let size = fromIntegral size'
-      -- TODO effective error checking for invalid move strings
-      let movesToPlay = [(fmap fromIntegral position, if color == "B" then Black else White) | (position, color) <- moves]
-      case runBoardA size $ identifyCaptures movesToPlay of
-        Left _ -> raiseStatus status500 "Invalid game record."
-        Right (movesAndCaptures, board) -> do
-          let stones = [(toCoord' size pos, color) | (pos, color) <- IntMap.toAscList board]
-          status status200
-          json $ toResponse userId recordId record movesAndCaptures stones
-    (Left (HP.SessionError (HS.QueryError _ _ (HS.ResultError (HS.UnexpectedAmountOfRows 0)))), _) -> do
-      raiseStatus status404 "Does not exist."
-    _ -> do
-      raiseStatus status500 "DB error"
+  record <- execute pool selectRecord (userId, recordId)
+  moves' <- execute pool selectMoves recordId
+  let moves = V.toList moves'
+  -- TODO desgostang check if you can extract non-tuples from hasql
+  let (size', _, _, _, _, _, _, _, _, _) = record
+  let size = fromIntegral size'
+  -- TODO effective error checking for invalid move strings
+  let movesToPlay = [(fmap fromIntegral position, if color == "B" then Black else White) | (position, color) <- moves]
+  case runBoardA size $ identifyCaptures movesToPlay of
+    Left _ -> raiseStatus status500 "Invalid game record."
+    Right (movesAndCaptures, board) -> do
+      let stones = [(toCoord' size pos, color) | (pos, color) <- IntMap.toAscList board]
+      status status200
+      json $ toResponse userId recordId record movesAndCaptures stones

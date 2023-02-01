@@ -30,6 +30,7 @@ library
       Auth.JWT
       Auth.Login
       Auth.Register
+      DB
       Lib
       Record
       Record.Create

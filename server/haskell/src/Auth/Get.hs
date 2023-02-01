@@ -2,6 +2,7 @@ module Auth.Get (getUser) where
 
 import Auth.JWT (authorizedUserId)
 import Control.Monad.IO.Class (MonadIO (liftIO))
+import DB (execute)
 import Data.Aeson.TH (defaultOptions, deriveJSON)
 import Data.Int (Int64)
 import qualified Data.Text as T
@@ -39,12 +40,8 @@ selectUser =
 authorizedUser :: HP.Pool -> ActionM GetResponse
 authorizedUser pool = do
   userId <- authorizedUserId
-  let sess = HS.statement userId selectUser
-  result <- liftIO $ HP.use pool sess
-  case result of
-    Right (username, email, isActive) -> do
-      return GetResponse {id = fromIntegral userId, username = T.unpack username, email = T.unpack email}
-    Left err -> raiseStatus status500 "disaster usin the DB"
+  (username, email, isActive) <- execute pool selectUser userId
+  return GetResponse {id = fromIntegral userId, username = T.unpack username, email = T.unpack email}
 
 getUser :: HP.Pool -> ScottyM ()
 getUser pool = get "/api/user/" $ do

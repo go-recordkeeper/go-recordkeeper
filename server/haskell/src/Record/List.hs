@@ -1,22 +1,20 @@
 module Record.List (list) where
 
 import Auth.JWT (authorizedUserId)
-import Control.Monad.IO.Class (liftIO)
+import DB (execute)
 import Data.Aeson.TH (defaultOptions, deriveJSON)
 import Data.Int (Int64)
 import qualified Data.Text as T
 import Data.Time (UTCTime)
 import qualified Data.Vector as V
 import qualified Hasql.Pool as HP
-import qualified Hasql.Session as HS
 import qualified Hasql.Statement as S
 import qualified Hasql.TH as TH
-import Network.HTTP.Types (status200, status500)
+import Network.HTTP.Types (status200)
 import Web.Scotty
   ( ScottyM,
     get,
     json,
-    raiseStatus,
     status,
   )
 
@@ -71,10 +69,6 @@ toResponse userId (recordId, board_size, name, black_player, white_player, comme
 list :: HP.Pool -> ScottyM ()
 list pool = get "/api/records/" $ do
   userId <- authorizedUserId
-  result <- liftIO $ HP.use pool $ HS.statement userId select
-  case result of
-    Right rows -> do
-      status status200
-      json $ V.map (toResponse userId) rows
-    Left _ -> do
-      raiseStatus status500 "Error"
+  rows <- execute pool select userId
+  status status200
+  json $ V.map (toResponse userId) rows

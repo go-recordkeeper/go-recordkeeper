@@ -2,19 +2,17 @@ module Record.Create (create) where
 
 import Auth.JWT (authorizedUserId)
 import Control.Monad (when)
-import Control.Monad.IO.Class (liftIO)
+import DB (execute)
 import Data.Aeson.TH (defaultOptions, deriveJSON)
 import Data.Int (Int64)
 import Data.Maybe (fromMaybe)
 import qualified Data.Text as T
-import qualified Data.Text.Lazy as TL
 import Data.Time (UTCTime)
 import qualified Data.Time as Clock
 import qualified Hasql.Pool as HP
-import qualified Hasql.Session as HS
 import qualified Hasql.Statement as S
 import qualified Hasql.TH as TH
-import Network.HTTP.Types (status201, status400, status500)
+import Network.HTTP.Types (status201, status400)
 import Web.Scotty
   ( ActionM,
     ScottyM,
@@ -112,10 +110,6 @@ create pool = post "/api/records/" $ do
   when (board_size /= 9 && board_size /= 13 && board_size /= 19) $ raiseStatus status400 "Invalid board size"
   now <- liftAndCatchIO Clock.getCurrentTime
   let row = withDefaults userId now request
-  result <- liftIO $ HP.use pool $ HS.statement row insert
-  case result of
-    Right recordId -> do
-      status status201
-      json $ toResponse recordId row
-    Left err -> do
-      raiseStatus status500 $ TL.pack $ show err
+  recordId <- execute pool insert row
+  status status201
+  json $ toResponse recordId row

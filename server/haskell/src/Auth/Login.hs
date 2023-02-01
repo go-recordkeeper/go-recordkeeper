@@ -78,6 +78,8 @@ login :: HP.Pool -> ScottyM ()
 login pool = post "/api/login/" $ do
   LoginRequest {username, password} <- jsonData :: ActionM LoginRequest
   let password' = mkPassword $ T.pack password
+  -- (id', passwordHash, isActive) <- execute pool getUser $ T.pack username
+  -- Can't use the helper because we need the special error handler
   let sess = HS.statement (T.pack username) getUser
   result <- liftIO $ HP.use pool sess
   case result of

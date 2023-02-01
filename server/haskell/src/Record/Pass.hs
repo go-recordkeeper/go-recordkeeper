@@ -1,21 +1,19 @@
 module Record.Pass (pass) where
 
 import Auth.JWT (authorizedUserId)
-import Control.Monad.IO.Class (liftIO)
+import DB (execute)
 import Data.Int (Int64)
 import qualified Data.Text as T
 import qualified Data.Vector as V
 import qualified Hasql.Pool as HP
-import qualified Hasql.Session as HS
 import qualified Hasql.Statement as S
 import qualified Hasql.TH as TH
-import Network.HTTP.Types (status201, status404, status500)
+import Network.HTTP.Types (status201)
 import Record.Go (Color (Black, White))
 import Web.Scotty
   ( ScottyM,
     param,
     post,
-    raiseStatus,
     status,
   )
 
@@ -73,20 +71,10 @@ pass :: HP.Pool -> ScottyM ()
 pass pool = post "/api/records/:recordId/pass/" $ do
   userId <- authorizedUserId
   recordId <- param "recordId"
-  recordSelect <- liftIO $ HP.use pool $ HS.statement (userId, recordId) selectRecord
-  movesSelect <- liftIO $ HP.use pool $ HS.statement recordId selectMoves
-  case (recordSelect, movesSelect) of
-    (Right handicap', Right moves') -> do
-      let moves = map toColor $ V.toList moves'
-          handicap = fromIntegral handicap'
-          moveColor = nextColor handicap moves
-      result <- liftIO $ HP.use pool $ HS.statement (fromIntegral recordId, fromColor moveColor, fromIntegral $ 1 + length moves) insertMove
-      case result of
-        Right _ -> do
-          status status201
-        Left _ -> do
-          raiseStatus status500 "DB error"
-    (Left (HP.SessionError (HS.QueryError _ _ (HS.ResultError (HS.UnexpectedAmountOfRows 0)))), _) -> do
-      raiseStatus status404 "Does not exist."
-    (_, _) -> do
-      raiseStatus status500 "DB error"
+  handicap' <- execute pool selectRecord (userId, recordId)
+  moves' <- execute pool selectMoves recordId
+  let handicap = fromIntegral handicap'
+      moves = map toColor $ V.toList moves'
+      moveColor = nextColor handicap moves
+  _ <- execute pool insertMove (recordId, fromColor moveColor, fromIntegral $ 1 + length moves)
+  status status201

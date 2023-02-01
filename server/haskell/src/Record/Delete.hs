@@ -1,13 +1,12 @@
 module Record.Delete (deleteRecord) where
 
 import Auth.JWT (authorizedUserId)
-import Control.Monad.IO.Class (liftIO)
+import DB (execute)
 import Data.Int (Int64)
 import qualified Hasql.Pool as HP
-import qualified Hasql.Session as HS
 import qualified Hasql.Statement as S
 import qualified Hasql.TH as TH
-import Network.HTTP.Types (status204, status404, status500)
+import Network.HTTP.Types (status204, status404)
 import Web.Scotty
   ( ScottyM,
     delete,
@@ -27,11 +26,11 @@ deleteRecord :: HP.Pool -> ScottyM ()
 deleteRecord pool = delete "/api/records/:recordId/" $ do
   userId <- authorizedUserId
   recordId <- param "recordId"
-  deleted <- liftIO $ HP.use pool $ HS.statement (userId, recordId) deleteRecordStatement
+  deleted <- execute pool deleteRecordStatement (userId, recordId)
   case deleted of
-    Right 1 -> do
-      status status204
-    Right 0 -> do
+    0 -> do
       raiseStatus status404 "Does not exist."
     _ -> do
-      raiseStatus status500 "DB error"
+      -- 1 is expected
+      -- More than 1 should be impossible due to DB constraints
+      status status204
