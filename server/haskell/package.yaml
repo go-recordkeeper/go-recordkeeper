@@ -39,6 +39,7 @@ dependencies:
 - scotty >= 0.12
 - text
 - time
+- utf8-string
 - vector
 - wai
 - wai-extra

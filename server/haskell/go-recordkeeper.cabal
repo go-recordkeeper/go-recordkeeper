@@ -69,6 +69,7 @@ library
     , scotty >=0.12
     , text
     , time
+    , utf8-string
     , vector
     , wai
     , wai-extra
@@ -102,6 +103,7 @@ executable go-recordkeeper-exe
     , scotty >=0.12
     , text
     , time
+    , utf8-string
     , vector
     , wai
     , wai-extra
@@ -141,6 +143,7 @@ test-suite go-recordkeeper-test
     , servant-client
     , text
     , time
+    , utf8-string
     , vector
     , wai
     , wai-extra
