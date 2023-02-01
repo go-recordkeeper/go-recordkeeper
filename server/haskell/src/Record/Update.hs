@@ -1,17 +1,15 @@
 module Record.Update (update) where
 
 import Auth.JWT (authorizedUserId)
-import Control.Monad.IO.Class (liftIO)
 import DB (execute)
 import Data.Aeson.TH (defaultOptions, deriveJSON)
 import Data.Int (Int64)
 import qualified Data.Text as T
 import Data.Time (UTCTime)
 import qualified Hasql.Pool as HP
-import qualified Hasql.Session as HS
 import qualified Hasql.Statement as S
 import qualified Hasql.TH as TH
-import Network.HTTP.Types (status200, status404, status500)
+import Network.HTTP.Types (status200)
 import Web.Scotty
   ( ActionM,
     ScottyM,
@@ -19,7 +17,6 @@ import Web.Scotty
     jsonData,
     param,
     put,
-    raiseStatus,
     status,
   )
 
