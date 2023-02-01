@@ -69,7 +69,7 @@ spec = describe "Record.Go" $ do
     return $ adjs `shouldBe` [(0, 1), (2, 1), (1, 0), (1, 2)]
 
   it "places a stone" $ withBoardSizes $ do
-    (board, captures) <- placeStone IntMap.empty (0, Black)
+    (board, captures) <- placeStone IntMap.empty (Just 0, Black)
     return $
       sequence_
         [ IntMap.size board `shouldBe` 1,
@@ -78,13 +78,13 @@ spec = describe "Record.Go" $ do
         ]
 
   it "cannot place a stone at -1" $ expectError (OutOfBounds (-1)) $ runBoardA 9 $ do
-    placeStone IntMap.empty (-1, Black)
+    placeStone IntMap.empty (Just (-1), Black)
 
   it "cannot place a stone beyond the board" $ expectError (OutOfBounds 81) $ runBoardA 9 $ do
-    placeStone IntMap.empty (81, Black)
+    placeStone IntMap.empty (Just 81, Black)
 
   it "plays two stones" $ withBoardSizes $ do
-    (board, captures) <- playStones [(0, Black), (1, White)]
+    (board, captures) <- playStones [(Just 0, Black), (Just 1, White)]
     return $
       sequence_
         [ IntMap.size board `shouldBe` 2,
@@ -94,7 +94,7 @@ spec = describe "Record.Go" $ do
         ]
 
   it "captures a stone" $ noError $ runBoardA 9 $ do
-    (board, captures) <- playStones [(0, Black), (1, White), (10, Black), (9, White)]
+    (board, captures) <- playStones [(Just 0, Black), (Just 1, White), (Just 10, Black), (Just 9, White)]
     return $
       sequence_
         [ IntMap.size board `shouldBe` 3,
@@ -106,7 +106,7 @@ spec = describe "Record.Go" $ do
         ]
 
   it "captures a group" $ noError $ runBoardA 9 $ do
-    (board, captures) <- playStones [(0, Black), (9, White), (1, Black), (10, White), (2, Black), (11, White), (12, Black), (3, White)]
+    (board, captures) <- playStones [(Just 0, Black), (Just 9, White), (Just 1, Black), (Just 10, White), (Just 2, Black), (Just 11, White), (Just 12, Black), (Just 3, White)]
     return $
       sequence_
         [ IntMap.size board `shouldBe` 5,
@@ -125,7 +125,7 @@ spec = describe "Record.Go" $ do
     -- Black plays at X
     -- XWB
     -- WB
-    (board, captures) <- playStones [(2, Black), (1, White), (10, Black), (9, White), (0, Black)]
+    (board, captures) <- playStones [(Just 2, Black), (Just 1, White), (Just 10, Black), (Just 9, White), (Just 0, Black)]
     return $
       sequence_
         [ IntMap.size board `shouldBe` 4,
@@ -138,11 +138,11 @@ spec = describe "Record.Go" $ do
         ]
 
   it "cannot play on top of another stone" $ expectError (SpaceOccupied (0, 0)) $ runBoardA 9 $ do
-    playStones [(0, Black), (0, White)]
+    playStones [(Just 0, Black), (Just 0, White)]
 
   it "cannot commit suicide" $ expectError (Suicide (0, 0)) $ runBoardA 9 $ do
-    playStones [(1, White), (9, White), (0, Black)]
+    playStones [(Just 1, White), (Just 9, White), (Just 0, Black)]
 
   it "identifies a capture" $ noError $ runBoardA 9 $ do
-    (movesAndCaptures, _) <- identifyCaptures [(1, Black), (0, White), (9, Black)]
-    return $ movesAndCaptures `shouldBe` [((1, Black), Set.fromList []), ((0, White), Set.fromList []), ((9, Black), Set.fromList [0])]
+    (movesAndCaptures, _) <- identifyCaptures [(Just 1, Black), (Just 0, White), (Just 9, Black)]
+    return $ movesAndCaptures `shouldBe` [((Just 1, Black), Set.fromList []), ((Just 0, White), Set.fromList []), ((Just 9, Black), Set.fromList [0])]
