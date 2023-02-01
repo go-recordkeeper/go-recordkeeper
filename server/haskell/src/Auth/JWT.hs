@@ -1,3 +1,6 @@
+{-# OPTIONS_GHC -Wno-missing-methods #-}
+{-# OPTIONS_GHC -Wno-orphans #-}
+
 module Auth.JWT (generateJWK, authorizedUserId) where
 
 import Control.Lens (view, (^?))
@@ -57,4 +60,4 @@ authorizedUserId = do
             Just id'' -> return $ read $ T.unpack id''
             Nothing -> raiseStatus status500 "sub is a URL?????"
         Nothing -> raiseStatus status500 "claim has no sub???"
-    Left err -> raiseStatus status500 "disaster parsin that token"
+    Left _err -> raiseStatus status500 "disaster parsin that token"

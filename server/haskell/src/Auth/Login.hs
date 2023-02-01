@@ -16,7 +16,6 @@ import qualified Data.Text.Encoding as T
 import qualified Data.Text.Encoding.Base64 as T
 import Data.Time (UTCTime, addUTCTime, getCurrentTime, nominalDay)
 import qualified Hasql.Pool as HP
-import qualified Hasql.Session as HS
 import qualified Hasql.Statement as S
 import qualified Hasql.TH as TH
 import Network.HTTP.Types (status200, status401)
