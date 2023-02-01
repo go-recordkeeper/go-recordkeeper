@@ -41,10 +41,10 @@ async function _submit(e: Event) {
     e.preventDefault();
     let response: APIResponse<Record, RecordError> | null = null;
     if (!!props.create) {
-        let createRequest: CreateRecordRequest = { board_size: board_size.value, name: name.value, black_player: black_player.value, white_player: white_player.value, comment: comment.value, handicap: handicap.value, komi: komi.value, ruleset: ruleset.value };
+        let createRequest: CreateRecordRequest = { board_size: board_size.value, name: name.value, black_player: black_player.value, white_player: white_player.value, comment: comment.value, handicap: parseInt(handicap.value), komi: parseFloat(komi.value), ruleset: ruleset.value };
         response = await props.create(createRequest);
     } else if (!!props.update) {
-        let updateRequest: UpdateRecordRequest = { name: name.value, black_player: black_player.value, white_player: white_player.value, comment: comment.value, handicap: handicap.value, komi: komi.value, ruleset: ruleset.value, winner: winner.value };
+        let updateRequest: UpdateRecordRequest = { name: name.value, black_player: black_player.value, white_player: white_player.value, comment: comment.value, handicap: parseInt(handicap.value), komi: parseFloat(komi.value), ruleset: ruleset.value, winner: winner.value };
         response = await props.update(updateRequest);
     }
     if (response && response.is_err()) {
