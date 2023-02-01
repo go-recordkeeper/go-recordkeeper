@@ -34,6 +34,7 @@ library
       Record
       Record.Create
       Record.Delete
+      Record.Download
       Record.Get
       Record.Go
       Record.List
@@ -41,6 +42,7 @@ library
       Record.Play
       Record.Undo
       Record.Update
+      SGF
   other-modules:
       Paths_go_recordkeeper
   hs-source-dirs:

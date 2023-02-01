@@ -9,6 +9,7 @@ import Record.Pass (pass)
 import Record.Play (play)
 import Record.Undo (undo)
 import Record.Update (update)
+import Record.Download (download)
 import Web.Scotty (ScottyM)
 
 recordEndpoints :: HP.Pool -> ScottyM ()
@@ -21,3 +22,4 @@ recordEndpoints pool = do
   pass pool
   undo pool
   deleteRecord pool
+  download pool
