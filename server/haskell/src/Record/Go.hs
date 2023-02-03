@@ -53,6 +53,10 @@ data GoError = OutOfBounds Pos | SpaceOccupied Coord | Suicide Coord deriving (E
 
 type BoardA = ExceptT GoError (Reader BoardS)
 
+inverse :: Color -> Color
+inverse Black = White
+inverse White = Black
+
 runBoardA :: Int -> BoardA a -> Either GoError a
 runBoardA size action = runReader (runExceptT action) size
 
@@ -111,11 +115,12 @@ buildGroup board coord = do
     liberties = Set.empty
     coordsToCheck = [coord]
 
-deadGroup :: Board -> Coord -> BoardA Group
-deadGroup board coord = do
+deadGroup :: Color -> Board -> Coord -> BoardA Group
+deadGroup color board coord = do
   (group, liberties) <- buildGroup board coord
+  pos <- toPos coord
   return $
-    if Set.null liberties
+    if board IntMap.!? pos == Just color && Set.null liberties
       then group
       else Set.empty
 
@@ -134,7 +139,7 @@ placeStone board (Just pos, color) = do
   captures <-
     foldM
       ( \captures' adj -> do
-          captures'' <- deadGroup boardWithStone adj
+          captures'' <- deadGroup (inverse color) boardWithStone adj
           return $ Set.union captures' captures''
       )
       Set.empty

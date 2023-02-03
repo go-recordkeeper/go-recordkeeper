@@ -143,6 +143,9 @@ spec = describe "Record.Go" $ do
   it "cannot commit suicide" $ expectError (Suicide (0, 0)) $ runBoardA 9 $ do
     playStones [(Just 1, White), (Just 9, White), (Just 0, Black)]
 
+  it "cannot suicide a whole group" $ expectError (Suicide (0, 0)) $ runBoardA 9 $ do
+    playStones [(Just 1, Black), (Just 9, White), (Just 10, White), (Just 2, White), (Just 0, Black)]
+
   it "identifies a capture" $ noError $ runBoardA 9 $ do
     (movesAndCaptures, _) <- identifyCaptures [(Just 1, Black), (Just 0, White), (Just 9, Black)]
     return $ movesAndCaptures `shouldBe` [((Just 1, Black), Set.fromList []), ((Just 0, White), Set.fromList []), ((Just 9, Black), Set.fromList [0])]
