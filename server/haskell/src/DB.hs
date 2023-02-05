@@ -31,5 +31,9 @@ defaultErrorHandler err = do
         then raiseStatus status500 $ TL.pack $ show err
         else raiseStatus status500 "DB error."
 
-execute :: HP.Pool -> S.Statement a b -> a -> ActionM b
-execute = execute' defaultErrorHandler
+execute :: (Show a, Show b) => HP.Pool -> S.Statement a b -> a -> ActionM b
+execute pool query args = do
+  liftIO $ print args
+  result <- execute' defaultErrorHandler pool query args
+  liftIO $ print result
+  return result
