@@ -1,5 +1,4 @@
 acme/
 certs/
-conf.d/
 .env.django
 
