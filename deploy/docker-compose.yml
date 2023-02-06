@@ -46,20 +46,20 @@ services:
     depends_on:
       - postgres
 
-  haskell:
-    build: ../server/haskell
-    ports:
-      - 8002:8000
-    env_file:
-      - .env.django
-    environment:
-      POSTGRES_NAME: default
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_HOST: postgres # this refers to the postgres service above ^
-      GOBAN_HOST: go.chiquit.ooo
-    depends_on:
-      - postgres
+  # haskell:
+  #   build: ../server/haskell
+  #   ports:
+  #     - 8002:8000
+  #   env_file:
+  #     - .env.django
+  #   environment:
+  #     POSTGRES_NAME: default
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_HOST: postgres # this refers to the postgres service above ^
+  #     GOBAN_HOST: go.chiquit.ooo
+  #   depends_on:
+  #     - postgres
 
   nginx:
     image: nginx
