@@ -6,7 +6,18 @@
     <description>Recent content in haskell on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 31 Jan 2023 12:54:00 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/haskell/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 07 Feb 2023 21:50:18 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/haskell/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Wrapping Up Haskell</title>
+      <link>https://go.chiquit.ooo/blog/posts/21-wrapping-up-haskell/</link>
+      <pubDate>Tue, 07 Feb 2023 21:50:18 -0500</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/21-wrapping-up-haskell/</guid>
+      <description>I&amp;rsquo;ve been procrastinating on the &amp;ldquo;final&amp;rdquo; Haskell post until I reached a point with some closure, so there&amp;rsquo;s quite a list.
+Download The only remaining API endpoint is the download endpoint. This is non-trivial because it requires converting the record details and move list into a .sgf file.
+I first tried using the sgf hackage package. Sadly it wasn&amp;rsquo;t included in the stackage (Haskell has two package repositories; anyone can upload anything to hackage, while stackage is a curated subset of hackage packages that are known to work).</description>
+    </item>
+    
     <item>
       <title>Ticking Boxes With Haskell</title>
       <link>https://go.chiquit.ooo/blog/posts/20-ticking-boxes-with-haskell/</link>

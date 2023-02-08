@@ -6,11 +6,20 @@
     <description>Recent content in Tags on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 31 Jan 2023 12:54:00 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 07 Feb 2023 21:50:18 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>docker</title>
+      <link>https://go.chiquit.ooo/blog/tags/docker/</link>
+      <pubDate>Tue, 07 Feb 2023 21:50:18 -0500</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/tags/docker/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>haskell</title>
       <link>https://go.chiquit.ooo/blog/tags/haskell/</link>
-      <pubDate>Tue, 31 Jan 2023 12:54:00 -0500</pubDate>
+      <pubDate>Tue, 07 Feb 2023 21:50:18 -0500</pubDate>
       
       <guid>https://go.chiquit.ooo/blog/tags/haskell/</guid>
       <description></description>
@@ -76,15 +85,6 @@
       <pubDate>Mon, 14 Nov 2022 20:36:14 -0500</pubDate>
       
       <guid>https://go.chiquit.ooo/blog/tags/nginx/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>docker</title>
-      <link>https://go.chiquit.ooo/blog/tags/docker/</link>
-      <pubDate>Sun, 30 Oct 2022 20:23:47 -0400</pubDate>
-      
-      <guid>https://go.chiquit.ooo/blog/tags/docker/</guid>
       <description></description>
     </item>
     

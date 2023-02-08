@@ -3,16 +3,22 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://go.chiquit.ooo/blog/</loc>
-    <lastmod>2023-01-31T12:54:00-05:00</lastmod>
+    <lastmod>2023-02-07T21:50:18-05:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/tags/docker/</loc>
+    <lastmod>2023-02-07T21:50:18-05:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/tags/haskell/</loc>
-    <lastmod>2023-01-31T12:54:00-05:00</lastmod>
+    <lastmod>2023-02-07T21:50:18-05:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/posts/</loc>
-    <lastmod>2023-01-31T12:54:00-05:00</lastmod>
+    <lastmod>2023-02-07T21:50:18-05:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/tags/</loc>
-    <lastmod>2023-01-31T12:54:00-05:00</lastmod>
+    <lastmod>2023-02-07T21:50:18-05:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/posts/21-wrapping-up-haskell/</loc>
+    <lastmod>2023-02-07T21:50:18-05:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/posts/20-ticking-boxes-with-haskell/</loc>
     <lastmod>2023-01-31T12:54:00-05:00</lastmod>
@@ -79,9 +85,6 @@
   </url><url>
     <loc>https://go.chiquit.ooo/blog/posts/6-quick-update/</loc>
     <lastmod>2022-10-31T19:09:06-04:00</lastmod>
-  </url><url>
-    <loc>https://go.chiquit.ooo/blog/tags/docker/</loc>
-    <lastmod>2022-10-30T20:23:47-04:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/posts/5-integration-testing-harness/</loc>
     <lastmod>2022-10-30T20:23:47-04:00</lastmod>

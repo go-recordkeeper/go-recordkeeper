@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Wrapping Up Haskell</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='haskell, docker'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/21-wrapping-up-haskell/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Wrapping Up Haskell">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Wrapping Up Haskell">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/21-wrapping-up-haskell/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/21-wrapping-up-haskell/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/21-wrapping-up-haskell/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Wrapping Up Haskell</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            February 7, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/haskell">haskell</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/docker">docker</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>I&rsquo;ve been procrastinating on the &ldquo;final&rdquo; Haskell post until I reached a point with some closure, so there&rsquo;s quite a list.</p>
+<h2 id="download">Download</h2>
+<p>The only remaining API endpoint is the download endpoint. This is non-trivial because it requires converting the record details and move list into a <code>.sgf</code> file.</p>
+<p>I first tried using the <a href="https://hackage.haskell.org/package/sgf"><code>sgf</code></a> hackage package. Sadly it wasn&rsquo;t included in the stackage (Haskell has two package repositories; anyone can upload anything to <a href="https://hackage.haskell.org/">hackage</a>, while <a href="https://www.stackage.org/">stackage</a> is a curated subset of hackage packages that are known to work). After installing directly from hackage, I learned that it just didn&rsquo;t compile with my (stable) GHC.</p>
+<p>Fortunately, writing my own SGF file turned out to be easier than expected. SGF files are very general and support basically arbitrary metadata and move information. My particular use case is much more limited. From the previous Python implementation, I already know exactly what I want the file contents to be, so it was easy enough to just stitch it together myself with string concatenation. There is definitely a more efficient way to accomplish it, but it works and only takes ~50 LOC.</p>
+<p>With a function that spits out valid SGF files, it was trivial to make a new endpoint that just returned that content with the appropriate headers. All the endpoints are done!</p>
+<h2 id="configuration">Configuration</h2>
+<p>At this point I realized that I was still hardcoding the DB connection information for testing purposes, so the code was undeployable. This was also a surprisingly easy fix:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">import</span> <span style="color:#66d9ef">qualified</span> Data.ByteString.UTF8 <span style="color:#66d9ef">as</span> BSU
+<span style="color:#66d9ef">import</span> <span style="color:#66d9ef">qualified</span> Hasql.Connection <span style="color:#66d9ef">as</span> HC
+
+<span style="color:#a6e22e">startApp</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">IO</span> ()
+<span style="color:#a6e22e">startApp</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">do</span>
+  dbName <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">BSU</span><span style="color:#f92672">.</span>fromString <span style="color:#f92672">&lt;$&gt;</span> getEnv <span style="color:#e6db74">&#34;POSTGRES_NAME&#34;</span>
+  dbUser <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">BSU</span><span style="color:#f92672">.</span>fromString <span style="color:#f92672">&lt;$&gt;</span> getEnv <span style="color:#e6db74">&#34;POSTGRES_USER&#34;</span>
+  dbPassword <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">BSU</span><span style="color:#f92672">.</span>fromString <span style="color:#f92672">&lt;$&gt;</span> getEnv <span style="color:#e6db74">&#34;POSTGRES_PASSWORD&#34;</span>
+  dbHost <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">BSU</span><span style="color:#f92672">.</span>fromString <span style="color:#f92672">&lt;$&gt;</span> getEnv <span style="color:#e6db74">&#34;POSTGRES_HOST&#34;</span>
+  <span style="color:#66d9ef">let</span> connectionSettings <span style="color:#f92672">=</span> <span style="color:#66d9ef">HC</span><span style="color:#f92672">.</span>settings dbHost <span style="color:#ae81ff">5432</span> dbUser dbPassword dbName
+</code></pre></div><p>hasql requires UTF8 encoded byte strings (yet another Haskell string type 🤮), so the only mildly interesting part was remembering the <code>&lt;$&gt;</code> fmap operator to apply the type conversion to a monad.</p>
+<h2 id="refactoring">Refactoring</h2>
+<p>With all the code written, the logical next step is to reevaluate it and tidy it up a bit. I obviously squashed all the warnings and tidied up some edge cases and removed all the leftover comments, but I was too lazy to properly docstring every function. None of that is particularly interesting, though.</p>
+<p>The good stuff was the reorganization. The only pure code I have is the game logic and the SGF formatter; both of those are already highly isolated, reasonably polished, and good enough for me. Pretty much all the other code is endpoints, which is all structured pretty similarly:</p>
+<ul>
+<li>Data types for JSON request/response</li>
+<li>The SQL queries, in hasql-th form</li>
+<li>The handler, generally shaped like this:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell">  create <span style="color:#f92672">::</span> <span style="color:#66d9ef">HP</span><span style="color:#f92672">.</span><span style="color:#66d9ef">Pool</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">ScottyM</span> ()
+  create pool <span style="color:#f92672">=</span> post <span style="color:#e6db74">&#34;/api/records/&#34;</span> <span style="color:#f92672">$</span> <span style="color:#66d9ef">do</span>
+    <span style="color:#f92672">...</span> logic <span style="color:#f92672">...</span>
+</code></pre></div></li>
+</ul>
+<p>The JSON types and SQL queries are already in their simplest form and ungeneralizable. There are similarities between endpoints, but I don&rsquo;t think any JSON types or SQL queries are actually duplicated wholly. I could have hypothetically centralized the SQL queries and created a handful of general use queries that do everything, but that would be less efficient than the carefully optimized queries I have now, and would violate the whole vertical slice architecture.</p>
+<p>The only place where substantial refactoring is even possible is in the endpoint logic itself. Scotty has proven to be very friendly and concise; All the scotty code I have written is basically already as simply as possible.</p>
+<p>All the actual logic itself is obviously highly endpoint specific, so that just leaves invoking the SQL queries. As this example from the <code>create</code> endpoint shows, this is rather verbose:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#75715e">-- insert is the INSERT INTO ... query function</span>
+<span style="color:#75715e">-- row is a tuple of data to insert into the DB</span>
+<span style="color:#a6e22e">result</span> <span style="color:#f92672">&lt;-</span> liftIO <span style="color:#f92672">$</span> <span style="color:#66d9ef">HP</span><span style="color:#f92672">.</span>use pool <span style="color:#f92672">$</span> <span style="color:#66d9ef">HS</span><span style="color:#f92672">.</span>statement row insert
+<span style="color:#66d9ef">case</span> result <span style="color:#66d9ef">of</span>
+  <span style="color:#66d9ef">Right</span> recordId <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">do</span>
+    status status201
+    json <span style="color:#f92672">$</span> toResponse recordId row
+  <span style="color:#66d9ef">Left</span> err <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">do</span>
+    raiseStatus status500 <span style="color:#f92672">$</span> <span style="color:#e6db74">&#34;DB Error.&#34;</span>
+</code></pre></div><p>It gets worse when we need to make multiple queries at once, like fetching a record and its moves:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">recordSelect</span> <span style="color:#f92672">&lt;-</span> liftIO <span style="color:#f92672">$</span> <span style="color:#66d9ef">HP</span><span style="color:#f92672">.</span>use pool <span style="color:#f92672">$</span> <span style="color:#66d9ef">HS</span><span style="color:#f92672">.</span>statement (userId, recordId) selectRecord
+<span style="color:#a6e22e">movesSelect</span> <span style="color:#f92672">&lt;-</span> liftIO <span style="color:#f92672">$</span> <span style="color:#66d9ef">HP</span><span style="color:#f92672">.</span>use pool <span style="color:#f92672">$</span> <span style="color:#66d9ef">HS</span><span style="color:#f92672">.</span>statement recordId selectMoves
+<span style="color:#66d9ef">case</span> (recordSelect, movesSelect) <span style="color:#66d9ef">of</span>
+  (<span style="color:#66d9ef">Right</span> record, <span style="color:#66d9ef">Right</span> moves&#39;) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">do</span>
+    <span style="color:#f92672">...</span> useful code <span style="color:#f92672">...</span>
+  (<span style="color:#66d9ef">Left</span> (<span style="color:#66d9ef">HP</span><span style="color:#f92672">.</span><span style="color:#66d9ef">SessionError</span> (<span style="color:#66d9ef">HS</span><span style="color:#f92672">.</span><span style="color:#66d9ef">QueryError</span> <span style="color:#66d9ef">_</span> <span style="color:#66d9ef">_</span> (<span style="color:#66d9ef">HS</span><span style="color:#f92672">.</span><span style="color:#66d9ef">ResultError</span> (<span style="color:#66d9ef">HS</span><span style="color:#f92672">.</span><span style="color:#66d9ef">UnexpectedAmountOfRows</span> <span style="color:#ae81ff">0</span>)))), <span style="color:#66d9ef">_</span>) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">do</span>
+    raiseStatus status404 <span style="color:#e6db74">&#34;Does not exist.&#34;</span>
+  <span style="color:#66d9ef">_</span> <span style="color:#f92672">-&gt;</span> raiseStatus status500 <span style="color:#e6db74">&#34;DB error.&#34;</span>
+</code></pre></div><p>This code runs both queries and proceeds with the rest of the endpoint if both succeed. The <code>selectRecord</code> function is a <code>singletonStatement</code>, which means it throws an error if nothing is returned. If this exact error happens, a 404 message is appropriate. Otherwise, a generic 500 error.</p>
+<p>These patterns occurred in every endpoint, so it made sense to refactor them into a helper function, <code>execute</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">isDebug</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">IO</span> <span style="color:#66d9ef">Bool</span>
+<span style="color:#a6e22e">isDebug</span> <span style="color:#f92672">=</span> isJust <span style="color:#f92672">&lt;$&gt;</span> lookupEnv <span style="color:#e6db74">&#34;GOBAN_DEVELOPMENT&#34;</span>
+
+<span style="color:#a6e22e">execute&#39;</span> <span style="color:#f92672">::</span> (<span style="color:#66d9ef">HP</span><span style="color:#f92672">.</span><span style="color:#66d9ef">UsageError</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">ActionM</span> b) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">HP</span><span style="color:#f92672">.</span><span style="color:#66d9ef">Pool</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">S</span><span style="color:#f92672">.</span><span style="color:#66d9ef">Statement</span> a b <span style="color:#f92672">-&gt;</span> a <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">ActionM</span> b
+<span style="color:#a6e22e">execute&#39;</span> errorHandler pool query args <span style="color:#f92672">=</span> <span style="color:#66d9ef">do</span>
+  result <span style="color:#f92672">&lt;-</span> liftIO <span style="color:#f92672">$</span> <span style="color:#66d9ef">HP</span><span style="color:#f92672">.</span>use pool <span style="color:#f92672">$</span> <span style="color:#66d9ef">HS</span><span style="color:#f92672">.</span>statement args query
+  <span style="color:#66d9ef">case</span> result <span style="color:#66d9ef">of</span>
+    <span style="color:#66d9ef">Right</span> value <span style="color:#f92672">-&gt;</span> return value
+    <span style="color:#66d9ef">Left</span> err <span style="color:#f92672">-&gt;</span> errorHandler err
+
+<span style="color:#a6e22e">defaultErrorHandler</span> <span style="color:#f92672">::</span> <span style="color:#66d9ef">HP</span><span style="color:#f92672">.</span><span style="color:#66d9ef">UsageError</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">ActionM</span> b
+<span style="color:#a6e22e">defaultErrorHandler</span> err <span style="color:#f92672">=</span> <span style="color:#66d9ef">do</span>
+  debug <span style="color:#f92672">&lt;-</span> liftIO isDebug
+  <span style="color:#66d9ef">case</span> err <span style="color:#66d9ef">of</span>
+    <span style="color:#66d9ef">HP</span><span style="color:#f92672">.</span><span style="color:#66d9ef">SessionError</span> (<span style="color:#66d9ef">HS</span><span style="color:#f92672">.</span><span style="color:#66d9ef">QueryError</span> <span style="color:#66d9ef">_</span> <span style="color:#66d9ef">_</span> (<span style="color:#66d9ef">HS</span><span style="color:#f92672">.</span><span style="color:#66d9ef">ResultError</span> (<span style="color:#66d9ef">HS</span><span style="color:#f92672">.</span><span style="color:#66d9ef">UnexpectedAmountOfRows</span> <span style="color:#ae81ff">0</span>))) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">do</span>
+      raiseStatus status404 <span style="color:#e6db74">&#34;Does not exist.&#34;</span>
+    <span style="color:#66d9ef">_</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">do</span>
+      <span style="color:#66d9ef">if</span> debug
+        <span style="color:#66d9ef">then</span> raiseStatus status500 <span style="color:#f92672">$</span> <span style="color:#66d9ef">TL</span><span style="color:#f92672">.</span>pack <span style="color:#f92672">$</span> show err
+        <span style="color:#66d9ef">else</span> raiseStatus status500 <span style="color:#e6db74">&#34;DB error.&#34;</span>
+
+<span style="color:#a6e22e">execute</span> <span style="color:#f92672">::</span> (<span style="color:#66d9ef">Show</span> a, <span style="color:#66d9ef">Show</span> b) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">HP</span><span style="color:#f92672">.</span><span style="color:#66d9ef">Pool</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">S</span><span style="color:#f92672">.</span><span style="color:#66d9ef">Statement</span> a b <span style="color:#f92672">-&gt;</span> a <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">ActionM</span> b
+<span style="color:#a6e22e">execute</span> pool query args <span style="color:#f92672">=</span> <span style="color:#66d9ef">do</span>
+  liftIO <span style="color:#f92672">$</span> print args
+  result <span style="color:#f92672">&lt;-</span> execute&#39; defaultErrorHandler pool query args
+  liftIO <span style="color:#f92672">$</span> print result
+  return result
+</code></pre></div><p><code>execute</code> takes the connection pool, a query to run, and the argument tuple, and returns result in a scotty <code>ActionM</code> monad. If the query fails, <code>defaultErrorHandler</code> is called, which will return a 404 or 500 error as appropriate. It will even check if the deployment is in <code>DEVELOPMENT</code> mode and provide a more helpful error message if so.</p>
+<p>The <code>execute'</code> function is also available for endpoints that need to handle errors differently. For example, the login endpoint needs to return a 401 instead of a 404 if there is no row in the DB for the given username.</p>
+<p>With the help of <code>execute</code>, the two-query example above is simplified to:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#a6e22e">record</span> <span style="color:#f92672">&lt;-</span> execute pool selectRecord (userId, recordId)
+<span style="color:#a6e22e">moves&#39;</span> <span style="color:#f92672">&lt;-</span> execute pool selectMoves recordId
+<span style="color:#f92672">...</span> useful code <span style="color:#f92672">...</span>
+</code></pre></div><p>That&rsquo;s a lot less boilerplate, and a lot less indentation. I&rsquo;m quite proud of that.</p>
+<h2 id="bugs">Bugs</h2>
+<p>On to deployment!</p>
+<p>Shockingly, despite its type system, Haskell code can contain bugs.</p>
+<h3 id="json-validation">JSON validation</h3>
+<p>As soon as I tried to actually test the Haskell backend with the frontend client, I ran into a JSON serialization issue. Logging in and creating default games worked fine, but as soon as you started editing fields before creating a record, the request would fail.</p>
+<p>Apparently all input fields will always return strings, even in TypeScript with typed refs. The initial komi and handicap values (<code>7.5</code>, <code>0</code>) are both <code>number</code>s in JS, but as soon as you modify the text field they are converted to strings (`&ldquo;7.5&rdquo;, &ldquo;0&rdquo;). It seems django-rest-framework and pydantic are permissive enough to cast these strings back to the appropriate numerical type while validating, but Haskell&rsquo;s <a href="https://hackage.haskell.org/package/aeson">aeson</a> is not.</p>
+<p>This is actually not a Haskell bug, but a client bug. I resolved it by casting the text field values in the client before sending the request.</p>
+<h3 id="suicide">Suicide</h3>
+<p>As soon as I started clicking around on the game board, I noticed some weird behavior with captures. Sometimes, but not always, suicidal moves were allowed, which put any subsequent moves into a weird state where logic ceased to apply.</p>
+<p>Put simply, the <code>placeStone</code> function follows these steps:</p>
+<ul>
+<li>Verify that the position is on the board</li>
+<li>Verify that there is not already a stone at that position</li>
+<li>Put the stone on the board</li>
+<li>For each adjacent position:
+<ul>
+<li>Check if there is a stone there</li>
+<li>If so, identify the group it belongs to and count the groups liberties</li>
+<li>If liberties == 0, add all the stones in the group to a list of stones to capture</li>
+</ul>
+</li>
+<li>Remove any captured stones from the board</li>
+<li>If there were no captures, identify the group the new stone belongs to, count its liberties, and throw an error if liberties == 0</li>
+</ul>
+<p>Can you spot the error? It is obnoxiously subtle.</p>
+<p>When checking if adjacent positions are captured, I neglected to stipulate that they must be of the opposite color. This is fine if a single stone is played suicidally, which is incidentally the only case I tested. If, however, a move was played that killed a whole group, the capture test would dutifully capture all the stones, including the one that was just placed. Finally, there was indeed a capture, so the final liberty check is not done, which would have caught the error when there was no group to check the liberties of.</p>
+<p>It was a simple fix, but an obnoxious bug to hunt. Perhaps there is a more lucid way to write the code, but I suspect not. Some logic is just complicated.</p>
+<h3 id="cascade-deletes">CASCADE deletes</h3>
+<p>In the Django ORM, there is a handy flag on all foreign key fields called <code>on_delete</code> which specifies the behavior when deleting the row a foreign key refers to. The recommended default (which I used) is <code>on_delete=CASCADE</code>, which will cause a &ldquo;cascade&rdquo; of deletes in order to preserve referential integrity.</p>
+<p>I use this cascading deletion behavior to make deleting records easier. When a record is deleted, it causes all the moves that point to that record to be deleted implicitly, which is great. Without that <code>CASCADE</code> constraint, the database would complain about referential integrity and stop the record delete from happening in the first place.</p>
+<p>Unfortunately, I was bamboozled.</p>
+<p>The Django ORM <code>on_delete=CASCADE</code> is implemented completely in the Django ORM, despite the identically named postgres constraint. There are <a href="https://code.djangoproject.com/ticket/21961">reasons</a> for this, but I was certainly mislead.</p>
+<p>The upshot is that I had to rewrite the deletion endpoint:</p>
+<ul>
+<li>Check if the record exists, if not, 404</li>
+<li>Delete all the moves for the record</li>
+<li>Delete the record</li>
+</ul>
+<p>This is substantially more awkward than just attempting the deletion and 404-ing if no such record could be deleted. An unfortunate unforeseen consequence of using Django.</p>
+<p>Fun fact, this is actually also a bug with the FastAPI implementation. I just never tested it, somehow. Deletes work fine on records with no moves, which is why the integration tests were passing.</p>
+<h2 id="deployment">Deployment</h2>
+<p>All the code is written and the bugs are squashed, so it&rsquo;s time to deploy to production!</p>
+<p>Deployment failed utterly.</p>
+<p>;_;</p>
+<p>Adding the <code>haskell</code> profile to the docker compose and nginx server block was easy. Running <code>docker compose build</code> on the Raspberry Pi was not.</p>
+<p>Firstly, my network connection was somewhat unstable. Building a docker image involves pulling a lot of data from the internet. I had problems with <code>apt</code>, <code>pip</code>, and <code>stack</code> all aborting prematurely whenever a packet dropped. My solution was to run <code>docker compose build haskell</code> to avoid distracting the CPU cores as much as possible, then just rerunning it until it got past the <code>stack update</code> step.</p>
+<p>The next step in the image was to build the dependencies only.</p>
+<p>This took 6 hours.</p>
+<p>And failed.</p>
+<p>This step does admittedly take ~2 minutes on my laptop, which is pretty long. I have no justification as to why it would take four orders of magnitude longer on the Raspberry Pi.</p>
+<p>The actual build failure seemed to be related to the ARM build of some networking package, so not exactly something that be worked around.</p>
+<p>My options are to run the build on my laptop targeting ARM and uploading the image, or to throw out docker compose entirely and try a different deployment mechanism (<a href="https://unikraft.org/">Unikraft?</a>), or even a different server entirely.</p>
+<p>I lack the motivation to do any of those things, so for now I have admitted defeat and disabled the Haskell implementation entirely. Tragic.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>Build up some courage to get Haskell working, I guess.</p>
+<p>I was being very deliberate with the Haskell implementation because I wanted to learn Haskell. My next prospective languages are Rust and Java, which I am already quite familiar with. I&rsquo;m thinking of just feeding my existing implementations into ChatGPT and asking it to do the lifting, since I care less building up my own knowledge of those languages. It would certainly speed things up a bit, and our AI overlords do seem to be imminent. Learning to effectively use a language model is probably a better use of my time than rehashing a language I already know.</p>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/20-ticking-boxes-with-haskell/"> Ticking Boxes With Haskell </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#download">Download</a></li>
+        <li><a href="#configuration">Configuration</a></li>
+        <li><a href="#refactoring">Refactoring</a></li>
+        <li><a href="#bugs">Bugs</a>
+          <ul>
+            <li><a href="#json-validation">JSON validation</a></li>
+            <li><a href="#suicide">Suicide</a></li>
+            <li><a href="#cascade-deletes">CASCADE deletes</a></li>
+          </ul>
+        </li>
+        <li><a href="#deployment">Deployment</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>
