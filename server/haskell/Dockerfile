@@ -5,13 +5,17 @@ WORKDIR /opt/haskell
 # Install dependencies only for docker caching
 RUN stack update
 COPY ./stack.yaml ./package.yaml /opt/haskell/
-RUN stack build --only-dependencies
+RUN --mount=type=cache,target=/root/.stack \
+  --mount=type=cache,target=/opt/haskell/.stack-work \
+  stack build --only-dependencies
 
 COPY ./README.md ./CHANGELOG.md /opt/haskell/
 COPY ./app/ /opt/haskell/app/
 COPY ./src/ /opt/haskell/src/
 COPY ./test/ /opt/haskell/test/
-RUN stack install
+RUN --mount=type=cache,target=/root/.stack \
+  --mount=type=cache,target=/opt/haskell/.stack-work \
+  stack install
 
 # This is the ultimate base image for the haskell container, so that's what we'll use
 FROM buildpack-deps:buster
