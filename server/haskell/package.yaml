@@ -46,6 +46,7 @@ dependencies:
 # - warp
 
 ghc-options:
+- -j1
 - -Wall
 - -Wcompat
 - -Widentities
