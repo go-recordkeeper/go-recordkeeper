@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Finishing Haskell Deployment</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='haskell, docker'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/22-finishing-haskell-deployment/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Finishing Haskell Deployment">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Finishing Haskell Deployment">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/22-finishing-haskell-deployment/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/22-finishing-haskell-deployment/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/22-finishing-haskell-deployment/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Finishing Haskell Deployment</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            March 9, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/haskell">haskell</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/docker">docker</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>After a month of respite, I have finally mustered the courage to get the Haskell implementation deployed and achieve some closure.</p>
+<h2 id="building-haskell">Building Haskell</h2>
+<p>My first step was to simply retry the build and hope it just works. Not only did the Haskell build continue to crash, but the FastAPI build also began failing. So that was swell.</p>
+<h3 id="making-pi-from-scratch">Making Pi from scratch</h3>
+<p>My next step was to switch to a different Raspberry Pi, do a clean reinstall, and start from scratch. I have two Raspberry Pi 3&rsquo;s and one Raspberry Pi 4, so I decided to upgrade to the Pi 4. Sadly I could not locate my <a href="https://en.wikipedia.org/wiki/HDMI#Connectors">Type D</a> adapter, so I had to go through the installation process on a Pi 3 using an old monitor and an HDMI-VGA adapter. Thankfully the Pi 4 booted after switching out the SD card.</p>
+<p>With a nice fresh installation, I kicked off a build and let it spin for a few hours. When I came back to it, it had failed due to a network error. My internet is spotty and spontaneously drops for a few minutes a couple of times a day, and with the extremely long Haskell build times I could expect this was not really acceptable.</p>
+<h3 id="caching-stack-builds">Caching stack builds</h3>
+<p>To get around this, I discovered that <code>stack</code> caches its work in the <code>~/.stack</code> and <code>.stack-work</code> directories. Caching these directories during the build process allows some degree of incremental progress:</p>
+<pre tabindex="0"><code>RUN --mount=type=cache,target=/root/.stack \
+  --mount=type=cache,target=/opt/haskell/.stack-work \
+  stack build --only-dependencies
+</code></pre><p>After some aborted attempts, it seems that progress is only saved per dependency listed in <code>package.yaml</code>. Once a dependency is built, it doesn&rsquo;t need to be repeated on subsequent builds, but aborting a build means the current dependency will need to be restarted. This level of granularity was especially problematic for the <a href="https://hackage.haskell.org/package/lens"><code>lens</code></a> package, which I estimate took 18 hours to compile. Thankfully it succeeded the second try.</p>
+<h3 id="memory-management">Memory management</h3>
+<p>Even after getting some traction with this approach, the build was now reliably crashing around the same point after chewing for several hours. Some sleuthing revealed that I, in my infinite frugal wisdom, purchased the 1 GB RAM Raspberry Pi 4. In addition to the ~1.5 GB of swap, <code>stack build</code> was easily exceeding 2.5 GB of memory (wow).</p>
+<p>My first guess was to single thread the build process. I noticed four different <code>ghc</code> processes in <code>top</code> while the build was going, which matched the number of cores. I also noticed that the build logs generally alternated between two or three packages, interspersing modules from multiple packages. Presumably running four builds at once would require four times as much memory.</p>
+<p>After explicitly limiting the build to a single thread, I noticed no change in behavior. It&rsquo;s possible that I just did it wrong somehow, but documentation suggests that one thread is actually the default, and you need to explicitly opt in to multithreaded builds. No luck there.</p>
+<p>The solution was to just add a new 4 GB swap file. Utilization topped out around 4 GB, so this was a good guess. <code>kswapd0</code> was also going crazy the entire time, and I cringe to think of the damage I did to my SD card, but it never actually crashed.</p>
+<h3 id="waiting">Waiting&hellip;</h3>
+<p>I waited a long time. With frequent restarts, interruptions, and tinkering, I was babysitting the Haskell build for about 36 hours.</p>
+<p>But it finished!</p>
+<p>At last, I have a functioning ARM Haskell image of the application.</p>
+<p>Sadly, I fear that I will never be able to update it on pain of another tragic build marathon, but at least it&rsquo;s over.</p>
+<h2 id="building-fastapi">Building FastAPI</h2>
+<p>I&rsquo;m still not sure what broke here, tbh. When running the <code>poetry install</code> step of the build, any number of wheels would report an &ldquo;invalid hash&rdquo; and crash the build. Most often, it was <code>uvloop</code>, but sometimes <code>uvloop</code> would work and frequently other packages would fail. The non-matching hash value would change every time, as well. My working theory is that downloads were having a bit flipped or something and poetry was simply not handling that intelligently. I don&rsquo;t know how that would happen short of downloading over UDP (!!!), but there we are.</p>
+<p>I tried upgrading the poetry version, with no success.</p>
+<p>I tried enabling the poetry build cache in the same manner as the Haskell build cache, in the hopes that the good packages would be cached, and the bad ones would be retried next time. This actually made the problem worse; the bad packages were cached, and the exact same errors were spat out every build.</p>
+<p>Ultimately, I just retried the build a bunch of times, and it eventually succeeded. No closure there, I guess. Hopefully I never need to update FastAPI either.</p>
+<h2 id="deploying">Deploying!</h2>
+<h3 id="failure-to-deploy">Failure to deploy</h3>
+<p>As previously mentioned, I switched Pi&rsquo;s while debugging. Unfortunately, during all the SD card juggling, the SD card formerly hosting the application stopped booting. This was very concerning, as it also had the database with all of my games on it.</p>
+<p>Fortunately, it still mounted OK on my laptop, so I was able to recover the docker volumes. They are conveniently stored under <code>/var/lib/docker/volumes/{volume id}/_data/</code>, so it was fairly trivial to just replace the contents of the empty DB volume on the new Pi with the old DB contents. I would have preferred doing a proper SQL dump/load, but all&rsquo;s well that end&rsquo;s well.</p>
+<h3 id="success-to-deploy">Success to deploy!</h3>
+<p>It worked! At least, the container ran. I wrapped up the final deployment steps about 30 minutes before heading out to play a game which I wanted to record, so I didn&rsquo;t tempt the fates by updating the front end to use the Haskell API. That is a problem for next week.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>Nothing Haskell related, that&rsquo;s for gosh darn sure.</p>
+<ul>
+<li>That said I do need to test that it works. Turns out load balancing doesn&rsquo;t work because the different implementations handle CSRF differently, so just slapping together an nginx config isn&rsquo;t an option. I&rsquo;ve been thinking of putting in some kind of switcher to choose which backend you would like to use. It would only really be useful to me, but it would be neat.</li>
+<li>Move the DB in prod. I have a postgres DB running on a separate server, I just need to migrate the data and aim the production deployment at it. It&rsquo;s not hard, and after being burned I really need to learn my lesson.</li>
+<li>Do a new implementation! Now that I&rsquo;ve finished all this scut work perhaps some green field development would spark joy. Rust, Java, F#, the possibilities are endless.</li>
+</ul>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/21-wrapping-up-haskell/"> Wrapping Up Haskell </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#building-haskell">Building Haskell</a>
+          <ul>
+            <li><a href="#making-pi-from-scratch">Making Pi from scratch</a></li>
+            <li><a href="#caching-stack-builds">Caching stack builds</a></li>
+            <li><a href="#memory-management">Memory management</a></li>
+            <li><a href="#waiting">Waiting&hellip;</a></li>
+          </ul>
+        </li>
+        <li><a href="#building-fastapi">Building FastAPI</a></li>
+        <li><a href="#deploying">Deploying!</a>
+          <ul>
+            <li><a href="#failure-to-deploy">Failure to deploy</a></li>
+            <li><a href="#success-to-deploy">Success to deploy!</a></li>
+          </ul>
+        </li>
+        <li><a href="#next-steps">Next steps</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

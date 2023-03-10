@@ -6,7 +6,18 @@
     <description>Recent content in haskell on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 07 Feb 2023 21:50:18 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/haskell/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 09 Mar 2023 21:02:10 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/haskell/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Finishing Haskell Deployment</title>
+      <link>https://go.chiquit.ooo/blog/posts/22-finishing-haskell-deployment/</link>
+      <pubDate>Thu, 09 Mar 2023 21:02:10 -0500</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/22-finishing-haskell-deployment/</guid>
+      <description>After a month of respite, I have finally mustered the courage to get the Haskell implementation deployed and achieve some closure.
+Building Haskell My first step was to simply retry the build and hope it just works. Not only did the Haskell build continue to crash, but the FastAPI build also began failing. So that was swell.
+Making Pi from scratch My next step was to switch to a different Raspberry Pi, do a clean reinstall, and start from scratch.</description>
+    </item>
+    
     <item>
       <title>Wrapping Up Haskell</title>
       <link>https://go.chiquit.ooo/blog/posts/21-wrapping-up-haskell/</link>
