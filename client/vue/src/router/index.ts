@@ -48,12 +48,17 @@ const router = createRouter({
       name: 'register',
       component: () => import('@/views/RegisterView.vue')
     },
+    {
+      path: '/implementations',
+      name: 'implementations',
+      component: () => import('@/views/ImplementationsView.vue')
+    },
   ]
 })
 router.beforeEach((to, from) => {
   if (user.value === null) {
     let { name } = to;
-    if (name !== 'home' && name !== 'login' && name !== 'register') {
+    if (name !== 'home' && name !== 'login' && name !== 'register' && name !== 'implementations') {
       return { name: 'home' };
     }
   }
