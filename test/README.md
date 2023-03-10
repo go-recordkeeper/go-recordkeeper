@@ -17,11 +17,11 @@ poetry run test
 
 A specific test
 ```sh
-poetry run test -k a_specific_test
+poetry run test -- -k a_specific_test
 ```
 A specific implementation
 ```sh
-poetry run test -k "[django]"
+poetry run test -- -k "[django]"
 ```
 
 ## Code hygiene
