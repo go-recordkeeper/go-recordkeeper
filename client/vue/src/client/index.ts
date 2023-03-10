@@ -89,9 +89,24 @@ export interface RecordError {
 }
 
 class Client {
-    baseUrl: string;
+    baseUrlTemplate: string;
+    implementations: string[];
     constructor() {
-        this.baseUrl = import.meta.env.VITE_API_URL;
+        this.baseUrlTemplate = import.meta.env.VITE_API_URL;
+        this.implementations = [
+          'django',
+          'fastapi',
+          'haskell',
+        ]
+    }
+    getImplementation() {
+        return localStorage.getItem('implementation') || this.implementations[0];
+    }
+    setImplementation(implementation: string) {
+        localStorage.setItem('implementation', implementation);
+    }
+    #getBaseUrl() {
+        return this.baseUrlTemplate.replace('{language}', this.getImplementation()); // TODO language selector
     }
     #getToken() {
         return localStorage.getItem('token');
@@ -111,13 +126,13 @@ class Client {
         return headers;
     }
     async #get(endpoint: string) {
-        return fetch(`${this.baseUrl}${endpoint}/`, {
+        return fetch(`${this.#getBaseUrl()}${endpoint}/`, {
             method: 'GET',
             headers: this.#headers(),
         });
     }
     async #delete(endpoint: string) {
-        return fetch(`${this.baseUrl}${endpoint}/`, {
+        return fetch(`${this.#getBaseUrl()}${endpoint}/`, {
             method: 'DELETE',
             headers: this.#headers(),
         });
@@ -129,7 +144,7 @@ class Client {
             request['body'] = JSON.stringify(body);
             headers.append('Content-Type', 'application/json');
         }
-        return fetch(`${this.baseUrl}${endpoint}/`, request);
+        return fetch(`${this.#getBaseUrl()}${endpoint}/`, request);
     }
     async #put(endpoint: string, body?: any) {
         let headers = this.#headers();
@@ -138,7 +153,7 @@ class Client {
             request['body'] = JSON.stringify(body);
             headers.append('Content-Type', 'application/json');
         }
-        return fetch(`${this.baseUrl}${endpoint}/`, request);
+        return fetch(`${this.#getBaseUrl()}${endpoint}/`, request);
     }
     async initializeUser() {
         try {

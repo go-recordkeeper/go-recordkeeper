@@ -4,6 +4,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline';
 import { defineComponent, provide, ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
 import AuthWidget from '@/components/AuthWidget.vue';
+import ImplementationSelector from '@/components/ImplementationSelector.vue';
 import { user } from '@/client';
 </script>
 
@@ -32,9 +33,6 @@ import { user } from '@/client';
             </div> -->
             <div class="hidden sm:block">
               <div class="flex items-baseline space-x-4">
-                <!-- <a v-for="item in navigation" :key="item.name" :href="item.href"
-                  :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']"
-                  :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a> -->
                 <RouterLink :to="{ 'name': 'home' }"
                   class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                   Home
@@ -51,6 +49,7 @@ import { user } from '@/client';
                   class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                   New Game
                 </RouterLink>
+                <ImplementationSelector buttonClass="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" />
               </div>
             </div>
           </div>
@@ -90,6 +89,7 @@ import { user } from '@/client';
             class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
             New Game
           </RouterLink>
+          <ImplementationSelector buttonClass="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" />
           <AuthWidget :closeDialog="close" />
         </div>
       </DisclosurePanel>
