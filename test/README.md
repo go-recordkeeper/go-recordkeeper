@@ -3,8 +3,6 @@ Integration testing for goban-server implementations
 
 ## Setup
 ```sh
-git submodule init
-git submodule update
 poetry install
 cp .env.template .env
 ```
@@ -21,7 +19,7 @@ poetry run test -- -k a_specific_test
 ```
 A specific implementation
 ```sh
-poetry run test -- -k "[django]"
+poetry run test -- -k "django"
 ```
 
 ## Code hygiene
