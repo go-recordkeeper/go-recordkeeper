@@ -1,9 +1,10 @@
-from sqlalchemy import select
+from sqlalchemy import delete, select
 
+from typing import List
 from fastapi import Depends, HTTPException
 from goban_server_fastapi.auth import User, jwt_user
-from goban_server_fastapi.db import DbClient, dictify
-from goban_server_fastapi.records.models import Record
+from goban_server_fastapi.db import DbClient
+from goban_server_fastapi.records.models import Move, Record
 from goban_server_fastapi.rest import app
 
 
@@ -13,6 +14,7 @@ def delete_record(
     db: DbClient = Depends(),
     current_user: User = Depends(jwt_user),
 ):
+    # raise HTTPException(status_code=555)
     with db.session() as session:
         record: Record = session.scalar(
             select(Record)
@@ -21,5 +23,7 @@ def delete_record(
         )
         if record is None:
             raise HTTPException(status_code=404)
+
+        session.execute(delete(Move).where(Move.record_id == record_id))
         session.delete(record)
         session.commit()
