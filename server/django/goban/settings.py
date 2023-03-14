@@ -28,6 +28,9 @@ else:
     ALLOWED_HOSTS = [os.environ.get('GOBAN_HOST')]
     CSRF_COOKIE_DOMAIN = os.environ.get('GOBAN_HOST')
     CSRF_TRUSTED_ORIGINS = [f'https://{CSRF_COOKIE_DOMAIN}']
+    # This is the URL prefix that is trimmed off by nginx.
+    # Django needs to know it's there when generating URLs.
+    FORCE_SCRIPT_NAME = '/django'
     STATIC_ROOT = '/dist/static'
 
 
