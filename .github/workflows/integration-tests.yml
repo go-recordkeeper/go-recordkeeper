@@ -10,15 +10,15 @@ jobs:
         run: |
           cd test
           cp .env.template .env
+          # Required to export all the values in the .env file
+          set -a
           source .env
+          set +a
           echo "Sourced env!"
-          echo "$POSTGRES_USER"
           # poetry 1.4.0 fails to install FastAPI
           pip install "poetry==1.3.2"
           echo "Installed poetry!"
           poetry install
           echo "Installed dependencies!"
-          echo "$POSTGRES_USER"
-          echo "$POSTGRES_PASSWORD"
-          POSTGRES_USER=postgres poetry run test
+          poetry run test
 
