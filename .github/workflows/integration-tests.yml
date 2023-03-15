@@ -7,7 +7,6 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
       - name: do the needful
-        uses: addnab/docker-run-action@v3
         run: |
           cd test
           pip install "poetry==1.4.0"
