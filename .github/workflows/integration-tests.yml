@@ -9,10 +9,10 @@ jobs:
       - name: do the needful
         run: |
           cd test
-          source .env.template
+          cp .env.template .env
+          source .env
           echo "Sourced env!"
           echo "$POSTGRES_USER"
-          env
           # poetry 1.4.0 fails to install FastAPI
           pip install "poetry==1.3.2"
           echo "Installed poetry!"
