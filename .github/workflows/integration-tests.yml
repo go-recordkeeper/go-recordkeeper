@@ -4,6 +4,8 @@ jobs:
   test-test-test:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
       - name: log
         run: echo "hello it begins"
       - name: docker version
@@ -11,6 +13,7 @@ jobs:
       - name: docker compose help
         run: docker compose --help 
       - name: do the needful
+        uses: addnab/docker-run-action@v3
         with:
           image: fnndsc/python-poetry
           run: |
