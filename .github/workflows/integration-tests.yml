@@ -1,0 +1,19 @@
+name: Integration Tests
+on: [push]
+jobs:
+  test-test-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: log
+        run: echo "hello it begins"
+      - name: docker version
+        run: docker --version
+      - name: docker compose help
+        run: docker compose --help 
+      - name: do the needful
+        with:
+          image: fnndsc/python-poetry
+          run: |
+            curl -L "https://github.com/docker/compose/releases/download/v2.16.0/docker-compose-$(uname -s)-$(uname -m)" -o ~/.docker/cli-plugins 
+            docker compose --help
+
