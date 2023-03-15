@@ -18,5 +18,7 @@ jobs:
           echo "Installed poetry!"
           poetry install
           echo "Installed dependencies!"
-          poetry run test
+          echo "$POSTGRES_USER"
+          echo "$POSTGRES_PASSWORD"
+          POSTGRES_USER=postgres poetry run test
 
