@@ -6,17 +6,12 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-      - name: python version
-        run: python --version
-      - name: python3 version
-        run: python3 --version
       - name: do the needful
         uses: addnab/docker-run-action@v3
-        with:
-          image: fnndsc/python-poetry
-          run: |
-            cd test
-            poetry install
-            cp .env.template .env
-            poetry run test
+        run: |
+          cd test
+          pip install "poetry==1.4.0"
+          poetry install
+          cp .env.template .env
+          poetry run test
 
