@@ -3,11 +3,8 @@
 ![FastAPI](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/fastapi.yml/badge.svg)
 ![Haskell](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/haskell.yml/badge.svg)
 
-An application to record go games.
+An application to record go games. Try it out at [go.chiquit.ooo](https://go.chiquit.ooo/)!
 
-Try it out at [go.chiquit.ooo](https://go.chiquit.ooo/)!
-
-The project was just migrated to a monorepo, so bear with me while things are under construction.
 
 ## Why record go games?
 Because I want to review them after I play them.
