@@ -33,8 +33,8 @@ jobs:
         working-directory: test
         run: |
           # Required to export all the values in the .env file
-          set -a
-          source .env
-          set +a
-          set -e
+          set -a &&
+          source .env &&
+          set +a &&
+          set -e &&
           poetry run test -- -k "fastapi"
