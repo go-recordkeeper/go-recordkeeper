@@ -30,7 +30,7 @@ jobs:
           path: |
             ${{ steps.setup.outputs.stack-root }}
             ${{ steps.setup.outputs.cabal-store }}
-          key: ${{ hashFiles('server/haskell/go-recordkeeper.cabal') }}
+          key: ${{ hashFiles('server/haskell/go-recordkeeper.cabal', 'server/haskell/stack.yaml', 'server/haskell/stack.yaml.lock', 'server/haskell/package.yaml') }}
       - name: Build
         run: stack build
       - name: Run unit tests
