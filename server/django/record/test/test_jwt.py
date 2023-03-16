@@ -1,7 +1,8 @@
-from django.conf import settings
-from django.contrib.auth.models import User
 import jwt
 import pytest
+
+from django.conf import settings
+from django.contrib.auth.models import User
 
 
 @pytest.mark.django_db

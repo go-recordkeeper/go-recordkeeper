@@ -1,6 +1,3 @@
-from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
-from django.http import HttpResponse
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import mixins, serializers, status, viewsets
 from rest_framework.decorators import action, api_view, permission_classes
@@ -8,15 +5,18 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import exception_handler
 
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 from record.auth import generate_token
-from record.go import Board, Stone, IllegalMoveError
+from record.go import Board, IllegalMoveError, Stone
 from record.models import Record
 from record.sgf import export_sgf
 
 
 def custom_exception_handler(exc, context):
     if isinstance(exc, IllegalMoveError):
-        return Response("Illegal move.", status=status.HTTP_403_FORBIDDEN)
+        return Response('Illegal move.', status=status.HTTP_403_FORBIDDEN)
     else:
         return exception_handler(exc, context)
 
@@ -140,7 +140,7 @@ class RecordViewSet(
             if position is not None
         )
         replay = Board(record.board_size)
-        for (stone, x, y) in moves:
+        for stone, x, y in moves:
             replay.place_stone(stone, x, y)
         removals = replay.place_stone(Stone(move.color), move.x, move.y)
         # No problems placing the stone, save it
@@ -178,7 +178,7 @@ class RecordViewSet(
                 if position is not None
             )
             replay = Board(record.board_size)
-            for (stone, x, y) in moves:
+            for stone, x, y in moves:
                 replay.place_stone(stone, x, y)
             removals = replay.place_stone(Stone(move.color), move.x, move.y)
 

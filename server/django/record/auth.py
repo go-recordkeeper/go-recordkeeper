@@ -1,9 +1,10 @@
 from datetime import datetime, timedelta, timezone
 
-from django.conf import settings
-from django.contrib.auth.models import User
 import jwt
 from rest_framework import authentication, exceptions
+
+from django.conf import settings
+from django.contrib.auth.models import User
 
 
 def generate_token(user: User):

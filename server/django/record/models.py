@@ -129,7 +129,7 @@ class Move(models.Model):
     @property
     def board_state(self):
         board = Board(self.record.board_size)
-        for (color, position) in self.record.moves.filter(move__lte=self.move).values_list(
+        for color, position in self.record.moves.filter(move__lte=self.move).values_list(
             'color',
             'position',
         ):

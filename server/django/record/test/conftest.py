@@ -1,7 +1,7 @@
-from django.contrib.auth.models import User
-from django.test import Client
 import pytest
 
+from django.contrib.auth.models import User
+from django.test import Client
 from record.auth import generate_token
 from record.models import Record
 

@@ -10,7 +10,6 @@ from record.models import komi_validator
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
