@@ -48,7 +48,7 @@ library
       Paths_go_recordkeeper
   hs-source-dirs:
       src
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -XTemplateHaskell -XOverloadedStrings -XDuplicateRecordFields -XNamedFieldPuns -XQuasiQuotes
+  ghc-options: -j1 -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -XTemplateHaskell -XOverloadedStrings -XDuplicateRecordFields -XNamedFieldPuns -XQuasiQuotes
   build-depends:
       aeson
     , base >=4.7 && <5
@@ -81,7 +81,7 @@ executable go-recordkeeper-exe
       Paths_go_recordkeeper
   hs-source-dirs:
       app
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -XTemplateHaskell -XOverloadedStrings -XDuplicateRecordFields -XNamedFieldPuns -XQuasiQuotes -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -j1 -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -XTemplateHaskell -XOverloadedStrings -XDuplicateRecordFields -XNamedFieldPuns -XQuasiQuotes -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aeson
     , base >=4.7 && <5
@@ -117,7 +117,7 @@ test-suite go-recordkeeper-test
       Paths_go_recordkeeper
   hs-source-dirs:
       test
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -XTemplateHaskell -XOverloadedStrings -XDuplicateRecordFields -XNamedFieldPuns -XQuasiQuotes -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -j1 -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -XTemplateHaskell -XOverloadedStrings -XDuplicateRecordFields -XNamedFieldPuns -XQuasiQuotes -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       QuickCheck
     , aeson
@@ -131,7 +131,6 @@ test-suite go-recordkeeper-test
     , hasql-pool
     , hasql-th
     , hspec
-    , http-client
     , http-types
     , jose
     , lens
@@ -140,7 +139,6 @@ test-suite go-recordkeeper-test
     , random
     , resource-pool
     , scotty >=0.12
-    , servant-client
     , text
     , time
     , utf8-string
