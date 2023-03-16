@@ -31,5 +31,11 @@ jobs:
       - name: Run tests
         shell: bash
         working-directory: test
-        run: poetry run test -- -k "django"
+        run: |
+          # Required to export all the values in the .env file
+          set -a
+          source .env
+          set +a
+          set -e
+          poetry run test -- -k "django"
 
