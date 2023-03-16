@@ -3,8 +3,6 @@
 ![FastAPI](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/fastapi.yml/badge.svg)
 ![Haskell](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/haskell.yml/badge.svg)
 
-https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/<WORKFLOW_FILE>/badge.svg
-
 An application to record go games.
 
 Try it out at [go.chiquit.ooo](https://go.chiquit.ooo/)!
