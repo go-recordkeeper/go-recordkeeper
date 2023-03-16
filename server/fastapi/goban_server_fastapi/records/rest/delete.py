@@ -1,6 +1,7 @@
+from typing import List
+
 from sqlalchemy import delete, select
 
-from typing import List
 from fastapi import Depends, HTTPException
 from goban_server_fastapi.auth import User, jwt_user
 from goban_server_fastapi.db import DbClient
