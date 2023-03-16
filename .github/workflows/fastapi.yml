@@ -6,8 +6,29 @@ on:
       - 'test/**'
       - '.github/workflows/fastapi.yml'
 jobs:
+  linting:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server/fastapi
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Setup Python and Poetry
+        uses: ITProKyle/action-setup-python@v0.3.0
+        with:
+          python-version: 3.11
+          poetry-version: 1.4.0
+          poetry-install: false
+      - name: Install FastAPI service
+        run: poetry install
+      - name: Run isort
+        run: poetry run isort --check goban_server_fastapi
+      - name: Run black
+        run: poetry run black --check goban_server_fastapi
   unit-tests:
     runs-on: ubuntu-latest
+    needs: linting
     services:
       postgres:
         image: postgres
