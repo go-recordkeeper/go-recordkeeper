@@ -1,4 +1,4 @@
-name: Haskell integration tests
+name: Haskell
 on:
   push:
     paths:
