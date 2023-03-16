@@ -19,12 +19,16 @@ jobs:
         uses: haskell/actions/setup@v2
         with:
           enable-stack: true
+      - name: logggg
+        run: |
+          echo ${{ steps.setup.outputs.stack-root }}
+          echo ${{ steps.setup.outputs.cabal-store }}
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-          path: |
-            ${{ steps.setup.outputs.stack-root }}
-            ${{ steps.setup.outputs.cabal-store }}
+          path:
+            - ${{ steps.setup.outputs.stack-root }}
+            - ${{ steps.setup.outputs.cabal-store }}
           key: ${{ hashFiles('server/haskell/go-recordkeeper.cabal') }}
       - name: Build
         run: stack build
