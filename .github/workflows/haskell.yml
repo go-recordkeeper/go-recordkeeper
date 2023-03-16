@@ -4,7 +4,7 @@ on:
     paths:
       - 'server/haskell/**'
       - 'test/**'
-      - '.github/workflows/haskell-integration-tests.yml'
+      - '.github/workflows/haskell.yml'
 jobs:
   unit-tests:
     runs-on: ubuntu-latest

@@ -4,7 +4,7 @@ on:
     paths:
       - 'server/fastapi/**'
       - 'test/**'
-      - '.github/workflows/fastapi-integration-tests.yml'
+      - '.github/workflows/fastapi.yml'
 jobs:
   unit-tests:
     runs-on: ubuntu-latest

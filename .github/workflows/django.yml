@@ -4,7 +4,7 @@ on:
     paths:
       - 'server/django/**'
       - 'test/**'
-      - '.github/workflows/django-integration-tests.yml'
+      - '.github/workflows/django.yml'
 jobs:
   tox:
     runs-on: ubuntu-latest
