@@ -22,7 +22,7 @@ def test_login(client, user):
         issuer='go-recordkeeper',
     )
     # If no exception, it's a valid token
-    assert payload['id'] == user.id
+    assert payload['sub'] == user.id
 
 
 @pytest.mark.django_db
@@ -69,7 +69,7 @@ def test_login_with_token(authenticated_client, user):
         issuer='go-recordkeeper',
     )
     # If no exception, it's a valid token
-    assert payload['id'] == user.id
+    assert payload['sub'] == user.id
 
 
 @pytest.mark.django_db

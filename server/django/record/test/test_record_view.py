@@ -209,8 +209,8 @@ def test_get_record_after_capture(authenticated_client, record):
         'ruleset': record.ruleset,
         'winner': 'U',
         'stones': [
-            {'x': 0, 'y': 1, 'color': 'W'},
             {'x': 1, 'y': 0, 'color': 'W'},
+            {'x': 0, 'y': 1, 'color': 'W'},
         ],
         'moves': [
             {'position': 0, 'color': 'B', 'captures': []},

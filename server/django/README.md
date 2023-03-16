@@ -36,6 +36,7 @@ tox # lint and run tests
 tox -e lint # only lint
 tox -e format # format all code using black and isort
 tox -e test # run tests
+tox -e test -- -k name_of_test # run a specific test
 ```
 
 The tests require a postgres instance to be running. You can run `docker compose up -d postgres` to bring up the development database in the background.
