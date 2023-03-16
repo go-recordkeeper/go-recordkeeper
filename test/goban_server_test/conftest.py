@@ -16,6 +16,8 @@ from sqlalchemy import asc, select
 def init_db():
     run(["docker", "compose", "down"])
     run(["docker", "compose", "up", "postgres", "-d", "--wait"])
+    # Wait to be sure the DB comes up
+    time.sleep(5)
     run(["poetry", "run", "python", "../server/django/manage.py", "migrate"])
     flush = run(["poetry", "run", "python", "../server/django/manage.py",
                 "sqlflush"], capture_output=True).stdout
@@ -50,7 +52,7 @@ def server_under_test(impl):
     run(["docker", "compose", "--profile", impl, "up", "-d", "--wait"])
     # Wait for the service to be ready to receive requests.
     # This should be a healthcheck or something, but hey
-    time.sleep(1)
+    time.sleep(5)
     yield
     run(["docker", "compose", "--profile", impl, "stop", impl])
     run(["docker", "compose", "--profile", impl, "rm", "--force", impl])
