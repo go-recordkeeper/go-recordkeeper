@@ -6,8 +6,28 @@ on:
       - 'test/**'
       - '.github/workflows/haskell-integration-tests.yml'
 jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: server/haskell
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Setup Haskell
+        uses: haskell/actions/setup@v2
+        with:
+          enable-stack: true
+      - name: Run unit tests
+        run: stack test
   integration-tests:
     runs-on: ubuntu-latest
+    needs: unit-tests
+    defaults:
+      run:
+        shell: bash
+        working-directory: test
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -20,7 +40,6 @@ jobs:
           poetry-install: false
       - name: Install tests
         shell: bash
-        working-directory: test
         run: |
           cp .env.template .env
           # Required to export all the values in the .env file
@@ -30,7 +49,6 @@ jobs:
           poetry install
       - name: Run tests
         shell: bash
-        working-directory: test
         run: |
           # Required to export all the values in the .env file
           set -a &&
