@@ -1,0 +1,33 @@
+name: Haskell integration tests
+on:
+  push:
+    paths:
+      - 'server/haskell/**'
+      - 'test/**'
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'poetry'
+      - name: Install tests
+        shell: bash
+        working-directory: test
+        run: |
+          cp .env.template .env
+          # Required to export all the values in the .env file
+          set -a
+          source .env
+          set +a
+          # poetry 1.4.0 fails to install FastAPI
+          pip install "poetry==1.3.2"
+          poetry install
+      - name: Run tests
+        shell: bash
+        working-directory: test
+        run: poetry run test -- -k "haskell"
