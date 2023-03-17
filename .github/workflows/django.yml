@@ -27,7 +27,7 @@ jobs:
         working-directory: server/django
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
@@ -52,7 +52,7 @@ jobs:
         working-directory: test
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Python and Poetry
         uses: ITProKyle/action-setup-python@v0.3.0
         with:
