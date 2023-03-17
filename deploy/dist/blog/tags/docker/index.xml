@@ -6,7 +6,17 @@
     <description>Recent content in docker on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 09 Mar 2023 21:02:10 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 16 Mar 2023 20:26:57 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Spring Cleaning</title>
+      <link>https://go.chiquit.ooo/blog/posts/23-spring-cleaning/</link>
+      <pubDate>Thu, 16 Mar 2023 20:26:57 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/23-spring-cleaning/</guid>
+      <description>With the release of the Haskell implementation, I took some time to mop up some of the mess I&amp;rsquo;ve made while trying to maintain momentum.
+Selecting implementation Now that there are three implementations to choose from, I decided it was time to expose that functionality. I added a dropdown to the web app so that you can select which implementation is used for API requests. The Tailwind CSS library I&amp;rsquo;m using for components doesn&amp;rsquo;t provide a very opinionated style for the dropdown, so it looks a little janky in mobile mode, but it works OK.</description>
+    </item>
+    
     <item>
       <title>Finishing Haskell Deployment</title>
       <link>https://go.chiquit.ooo/blog/posts/22-finishing-haskell-deployment/</link>
