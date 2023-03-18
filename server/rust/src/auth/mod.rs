@@ -20,10 +20,8 @@ where
             .headers
             .get(AUTHORIZATION)
             .map(HeaderValue::to_str)
-            .map(Result::ok)
-            .flatten()
-            .map(|auth| auth.strip_prefix("Bearer "))
-            .flatten()
+            .and_then(Result::ok)
+            .and_then(|auth| auth.strip_prefix("Bearer "))
             .map_or(
                 Err((StatusCode::BAD_REQUEST, "Failed to authenticate")),
                 |token| Ok(ExtractAuthorizationBearer(token.to_string())),
@@ -39,9 +37,9 @@ async fn register() {
     println!("Registering");
 }
 
-async fn get_current_user(ExtractAuthorizationBearer(foo): ExtractAuthorizationBearer) {
+async fn get_current_user(ExtractAuthorizationBearer(fooo): ExtractAuthorizationBearer) {
     println!("gettin current user");
-    println!("{}", foo);
+    println!("{}", fooo);
 }
 
 /// Define all the routes
