@@ -1,4 +1,4 @@
-use axum::{extract::State, http::StatusCode};
+use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
 use base64::{engine::general_purpose, Engine as _};
 use pbkdf2::pbkdf2_hmac;
 use rand::{thread_rng, Rng};
@@ -45,10 +45,7 @@ async fn hash_password(password: &str) -> String {
     reference_hash
 }
 
-pub async fn register(
-    State(client): State<Arc<Client>>,
-    body: String,
-) -> Result<String, StatusCode> {
+pub async fn register(State(client): State<Arc<Client>>, body: String) -> impl IntoResponse {
     println!("Registering");
     let RegisterRequest {
         username,
@@ -56,18 +53,22 @@ pub async fn register(
         password,
     } = serde_json::from_str(&body).unwrap();
     let password_hash = hash_password(&password);
-    let users = client
-        .query("SELECT username, password FROM auth_user;", &[])
-        .await
-        .unwrap();
-    println!("{:?}", users);
-    let username: &str = users[0].get(0);
-    let password: &str = users[0].get(1);
-    println!("{}:{}", username, password);
-    Ok(serde_json::to_string(&RegisterResponse {
-        id: 666,
-        username: username.to_string(),
-        email: email.to_string(),
-    })
-    .unwrap())
+    // let users = client
+    //     .query("SELECT username, password FROM auth_user;", &[])
+    //     .await
+    //     .unwrap();
+    // println!("{:?}", users);
+    // let username: &str = users[0].get(0);
+    // let password: &str = users[0].get(1);
+    // println!("{}:{}", username, password);
+    (
+        StatusCode::CREATED,
+        Json(
+            RegisterResponse {
+                id: 666,
+                username: username.to_string(),
+                email: email.to_string(),
+            }, // StatusCode::NO_CONTENT,
+        ),
+    )
 }
