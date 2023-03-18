@@ -1,11 +1,25 @@
-use std::sync::Arc;
-
-use axum::extract::State;
+use axum::{extract::State, http::StatusCode};
 use base64::{engine::general_purpose, Engine as _};
 use pbkdf2::pbkdf2_hmac;
 use rand::{thread_rng, Rng};
+use serde::{Deserialize, Serialize};
 use sha2::Sha256;
+use std::sync::Arc;
 use tokio_postgres::Client;
+
+#[derive(Serialize, Deserialize)]
+struct RegisterRequest {
+    username: String,
+    email: String,
+    password: String,
+}
+
+#[derive(Serialize, Deserialize)]
+struct RegisterResponse {
+    id: u32,
+    username: String,
+    email: String,
+}
 
 fn generate_salt() -> [u8; 16] {
     let mut salt = [0u8; 16];
@@ -31,8 +45,17 @@ async fn hash_password(password: &str) -> String {
     reference_hash
 }
 
-pub async fn register(State(client): State<Arc<Client>>) {
+pub async fn register(
+    State(client): State<Arc<Client>>,
+    body: String,
+) -> Result<String, StatusCode> {
     println!("Registering");
+    let RegisterRequest {
+        username,
+        email,
+        password,
+    } = serde_json::from_str(&body).unwrap();
+    let password_hash = hash_password(&password);
     let users = client
         .query("SELECT username, password FROM auth_user;", &[])
         .await
@@ -41,4 +64,10 @@ pub async fn register(State(client): State<Arc<Client>>) {
     let username: &str = users[0].get(0);
     let password: &str = users[0].get(1);
     println!("{}:{}", username, password);
+    Ok(serde_json::to_string(&RegisterResponse {
+        id: 666,
+        username: username.to_string(),
+        email: email.to_string(),
+    })
+    .unwrap())
 }

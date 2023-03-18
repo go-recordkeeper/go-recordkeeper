@@ -11,6 +11,8 @@ base64 = "0.21.0"
 hex = "0.4.3"
 pbkdf2 = "0.12.1"
 rand = "0.8.5"
+serde = { version = "1.0.157", features = ["derive"] }
+serde_json = "1.0.94"
 sha2 = "0.10.6"
 tokio = { version = "1.22.0", features = ["full"] }
 tokio-postgres = "0.7.7"
