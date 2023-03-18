@@ -52,29 +52,19 @@ fn hash_password(password: &str) -> String {
 }
 
 pub async fn register(State(client): State<Arc<Client>>, body: String) -> impl IntoResponse {
-    println!("Registering");
     let RegisterRequest {
         username,
         email,
         password,
     } = serde_json::from_str(&body).unwrap();
-    println!("hashin password");
+    if !validator::validate_email(&email) {
+        return Err((StatusCode::BAD_REQUEST, "Invalid email."));
+    }
     let password_hash = hash_password(&password);
-    println!("le hash {:?}", password_hash);
     let now: chrono::DateTime<chrono::Utc> = chrono::Utc::now();
-    // let users = client
-    //     .query("SELECT username, password FROM auth_user;", &[])
-    //     .await
-    //     .unwrap();
-    // println!("{:?}", users);
-    // let username: &str = users[0].get(0);
-    // let password: &str = users[0].get(1);
-    // println!("{}:{}", username, password);
-    println!("Firin the query now {}", now);
     let result = client.query_one("INSERT INTO auth_user (username, email, password, date_joined, last_login, first_name, last_name, is_superuser, is_staff, is_active) VALUES ($1::TEXT, $2::TEXT, $3::TEXT, $4::TIMESTAMPTZ, $4::TIMESTAMPTZ, '', '', false, false, true) RETURNING id", &[&username, &email, &password_hash, &now]).await;
     if let Ok(new_user) = result {
         let id: i32 = new_user.get(0);
-        println!("{:?}", id);
         if id == 4 {}
         Ok((
             StatusCode::CREATED,
