@@ -1,13 +1,13 @@
+use std::env;
 use tokio_postgres::{tls::NoTlsStream, Client, Config, Error, NoTls};
 
 pub async fn connect() -> Result<Client, Error> {
     let mut config = Config::new();
-    // TODO load these configurations from environment variables
     config
-        .user("postgres")
-        .password("postgres")
-        .dbname("default")
-        .host("localhost");
+        .user(&env::var("POSTGRES_USER").unwrap())
+        .password(&env::var("POSTGRES_PASSWORD").unwrap())
+        .dbname(&env::var("POSTGRES_NAME").unwrap())
+        .host(&env::var("POSTGRES_HOST").unwrap());
 
     let (client, connection) = config.connect(NoTls).await?;
 
