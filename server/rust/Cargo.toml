@@ -7,5 +7,6 @@ edition = "2021"
 
 [dependencies]
 axum = "0.6.1"
+pbkdf2 = "0.12.1"
 tokio = { version = "1.22.0", features = ["full"] }
 tokio-postgres = "0.7.7"

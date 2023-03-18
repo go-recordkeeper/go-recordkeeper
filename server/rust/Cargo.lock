@@ -238,6 +238,7 @@ name = "go-recordkeeper"
 version = "0.1.0"
 dependencies = [
  "axum",
+ "pbkdf2",
  "tokio",
  "tokio-postgres",
 ]
@@ -424,6 +425,16 @@ dependencies = [
  "redox_syscall",
  "smallvec",
  "windows-sys",
+]
+
+[[package]]
+name = "pbkdf2"
+version = "0.12.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f0ca0b5a68607598bf3bad68f32227a8164f6254833f84eafaac409cd6746c31"
+dependencies = [
+ "digest",
+ "hmac",
 ]
 
 [[package]]
