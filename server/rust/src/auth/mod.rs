@@ -1,8 +1,13 @@
+use std::sync::Arc;
+
+use tokio_postgres::Client;
+
 use axum::{
     async_trait,
-    extract::FromRequestParts,
+    body::Body,
+    extract::{FromRequestParts, State},
     http::{header::AUTHORIZATION, request::Parts, HeaderValue, StatusCode},
-    routing::{get, post},
+    routing::{get, post, MethodRouter},
     Router,
 };
 
@@ -33,8 +38,16 @@ async fn login() {
     println!("loggin in");
 }
 
-async fn register() {
+async fn register(State(client): State<Arc<Client>>) {
     println!("Registering");
+    let users = client
+        .query("SELECT username, password FROM auth_user;", &[])
+        .await
+        .unwrap();
+    println!("{:?}", users);
+    let username: &str = users[0].get(0);
+    let password: &str = users[0].get(1);
+    println!("{}:{}", username, password);
 }
 
 async fn get_current_user(ExtractAuthorizationBearer(fooo): ExtractAuthorizationBearer) {
@@ -43,7 +56,7 @@ async fn get_current_user(ExtractAuthorizationBearer(fooo): ExtractAuthorization
 }
 
 /// Define all the routes
-pub fn register_routes(router: Router) -> Router {
+pub fn register_routes(router: Router<Arc<Client>, Body>) -> Router<Arc<Client>, Body> {
     router
         .route("/api/login/", post(login))
         .route("/api/register/", post(register))
