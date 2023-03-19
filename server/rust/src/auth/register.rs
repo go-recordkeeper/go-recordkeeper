@@ -39,10 +39,7 @@ fn hash_password(password: &str) -> String {
     let salt = generate_salt();
     let n = 390000;
     let mut key = [0u8; 32];
-    println!("Runnin pbkdf2");
-    // TODO use a different library, this one is very slow
     pbkdf2_hmac::<Sha256>(password.as_bytes(), &salt, n, &mut key);
-    println!("Ran pbkdf2");
     let reference_hash = format!(
         "pbkdf2_sha256$390000${}${}",
         general_purpose::STANDARD_NO_PAD.encode(salt),
