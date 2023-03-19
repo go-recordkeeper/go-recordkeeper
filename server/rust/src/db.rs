@@ -1,5 +1,5 @@
 use std::env;
-use tokio_postgres::{tls::NoTlsStream, Client, Config, Error, NoTls};
+use tokio_postgres::{Client, Config, Error, NoTls};
 
 pub async fn connect() -> Result<Client, Error> {
     let mut config = Config::new();

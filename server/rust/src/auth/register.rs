@@ -4,11 +4,8 @@ use pbkdf2::pbkdf2_hmac;
 use rand::{thread_rng, Rng};
 use serde::{Deserialize, Serialize};
 use sha2::Sha256;
-use std::{error::Error, sync::Arc};
-use tokio_postgres::{
-    error::{DbError, SqlState},
-    Client,
-};
+use std::sync::Arc;
+use tokio_postgres::{error::SqlState, Client};
 
 #[derive(Serialize, Deserialize)]
 struct RegisterRequest {
