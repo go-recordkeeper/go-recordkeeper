@@ -59,7 +59,6 @@ pub async fn register(State(client): State<Arc<Client>>, body: String) -> impl I
     let result = client.query_one("INSERT INTO auth_user (username, email, password, date_joined, last_login, first_name, last_name, is_superuser, is_staff, is_active) VALUES ($1::TEXT, $2::TEXT, $3::TEXT, $4::TIMESTAMPTZ, $4::TIMESTAMPTZ, '', '', false, false, true) RETURNING id", &[&username, &email, &password_hash, &now]).await;
     if let Ok(new_user) = result {
         let id: i32 = new_user.get(0);
-        if id == 4 {}
         Ok((
             StatusCode::CREATED,
             Json(
