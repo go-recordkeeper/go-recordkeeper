@@ -21,7 +21,7 @@ struct RegisterResponse {
     email: String,
 }
 
-fn generate_salt() -> [u8; 16] {
+fn generate_salt() -> Vec<u8> {
     let mut salt = [0u8; 16];
     let mut rng = thread_rng();
     let whitelist = b"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -29,18 +29,17 @@ fn generate_salt() -> [u8; 16] {
         let index = rng.gen_range(0..whitelist.len());
         salt[i] = whitelist[index];
     });
-    salt
+    salt.to_vec()
 }
 
-fn hash_password(password: &str) -> String {
-    let salt = generate_salt();
+pub fn hash_password(salt: &[u8], password: &str) -> String {
     let n = 390000;
     let mut key = [0u8; 32];
-    pbkdf2_hmac::<Sha256>(password.as_bytes(), &salt, n, &mut key);
+    pbkdf2_hmac::<Sha256>(password.as_bytes(), salt, n, &mut key);
     let reference_hash = format!(
         "pbkdf2_sha256$390000${}${}",
-        general_purpose::STANDARD_NO_PAD.encode(salt),
-        general_purpose::STANDARD_NO_PAD.encode(key),
+        std::str::from_utf8(salt).expect("it to work"),
+        general_purpose::STANDARD.encode(key),
     );
     reference_hash
 }
@@ -54,7 +53,8 @@ pub async fn register(State(client): State<Arc<Client>>, body: String) -> impl I
     if !validator::validate_email(&email) {
         return Err((StatusCode::BAD_REQUEST, "Invalid email."));
     }
-    let password_hash = hash_password(&password);
+    let salt = generate_salt();
+    let password_hash = hash_password(&salt, &password);
     let now: chrono::DateTime<chrono::Utc> = chrono::Utc::now();
     let result = client.query_one("INSERT INTO auth_user (username, email, password, date_joined, last_login, first_name, last_name, is_superuser, is_staff, is_active) VALUES ($1::TEXT, $2::TEXT, $3::TEXT, $4::TIMESTAMPTZ, $4::TIMESTAMPTZ, '', '', false, false, true) RETURNING id", &[&username, &email, &password_hash, &now]).await;
     if let Ok(new_user) = result {
