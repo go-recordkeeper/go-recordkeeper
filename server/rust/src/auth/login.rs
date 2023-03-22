@@ -15,19 +15,12 @@ use std::sync::Arc;
 use tokio_postgres::{error::SqlState, Client};
 
 use crate::auth::jwt::encode_jwt;
+use crate::auth::password::hash_password;
 
 #[derive(Serialize, Deserialize)]
 struct LoginRequest {
     username: String,
     password: String,
-}
-
-// TODO dedup
-pub fn hash_password(salt: &[u8], password: &str) -> String {
-    let n = 390000;
-    let mut key = [0u8; 32];
-    pbkdf2_hmac::<Sha256>(password.as_bytes(), salt, n, &mut key);
-    general_purpose::STANDARD.encode(key)
 }
 
 pub async fn login(State(client): State<Arc<Client>>, body: String) -> impl IntoResponse {

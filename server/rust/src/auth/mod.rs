@@ -6,12 +6,15 @@ use axum::{
 use std::sync::Arc;
 use tokio_postgres::Client;
 
-mod get_current_user;
+// Helpers
 mod jwt;
+mod password;
+
+// Endpoints
+mod get_current_user;
 mod login;
 mod register;
 
-/// Define all the routes
 pub fn register_routes(router: Router<Arc<Client>, Body>) -> Router<Arc<Client>, Body> {
     router
         .route("/api/login/", post(login::login))
