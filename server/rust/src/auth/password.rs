@@ -18,10 +18,29 @@ pub fn hash_password(salt: &[u8], password: &str) -> String {
     let n = 390000;
     let mut key = [0u8; 32];
     pbkdf2_hmac::<Sha256>(password.as_bytes(), salt, n, &mut key);
-    let reference_hash = format!(
+    general_purpose::STANDARD.encode(key)
+}
+
+pub fn format_password_hash(salt: &[u8], hash: &str) -> String {
+    format!(
         "pbkdf2_sha256$390000${}${}",
         std::str::from_utf8(salt).expect("it to work"),
-        general_purpose::STANDARD.encode(key),
-    );
-    reference_hash
+        hash,
+    )
+}
+
+pub fn parse_formatted_hash(formatted_hash: &str) -> (Vec<u8>, String) {
+    let hash_re =
+        regex::Regex::new(r"^pbkdf2_sha256\$390000\$([a-zA-Z0-9+/]+)\$([a-zA-Z0-9+/=]+)$")
+            .expect("Invalid password hash in DB");
+    let captures = hash_re.captures(formatted_hash).unwrap();
+    let salt = captures
+        .get(1)
+        .unwrap()
+        .as_str()
+        .as_bytes()
+        .try_into()
+        .expect("Unprocessable salt string");
+    let hash = captures.get(2).unwrap().as_str().into();
+    (salt, hash)
 }

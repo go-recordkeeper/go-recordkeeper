@@ -46,8 +46,6 @@ pub async fn get_current_user(
     State(client): State<Arc<Client>>,
     UserId(user_id): UserId,
 ) -> impl IntoResponse {
-    println!("gettin current user");
-    println!("{}", user_id);
     let result = client
         .query_one(
             "SELECT username, email, is_active FROM auth_user WHERE id=$1",
@@ -63,7 +61,6 @@ pub async fn get_current_user(
             email,
         }))
     } else {
-        println!("woe {:?}", result);
         Err((StatusCode::FORBIDDEN, "not allowed"))
     }
 }

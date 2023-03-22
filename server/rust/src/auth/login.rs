@@ -4,7 +4,7 @@ use std::sync::Arc;
 use tokio_postgres::Client;
 
 use crate::auth::jwt::encode_jwt;
-use crate::auth::password::hash_password;
+use crate::auth::password::{hash_password, parse_formatted_hash};
 
 #[derive(Serialize, Deserialize)]
 struct LoginRequest {
@@ -13,7 +13,6 @@ struct LoginRequest {
 }
 
 pub async fn login(State(client): State<Arc<Client>>, body: String) -> impl IntoResponse {
-    println!("loggin in");
     let LoginRequest { username, password } = serde_json::from_str(&body).unwrap();
     let result = client
         .query_one(
@@ -27,19 +26,8 @@ pub async fn login(State(client): State<Arc<Client>>, body: String) -> impl Into
     let mut hash: String = "not a real password hash".into();
     if let Ok(user) = result {
         id = user.get("id");
-        let password_hash: String = user.get("password");
-        let hash_re =
-            regex::Regex::new(r"^pbkdf2_sha256\$390000\$([a-zA-Z0-9+/]+)\$([a-zA-Z0-9+/=]+)$")
-                .expect("Invalid password hash in DB");
-        let captures = hash_re.captures(&password_hash).unwrap();
-        salt = captures
-            .get(1)
-            .unwrap()
-            .as_str()
-            .as_bytes()
-            .try_into()
-            .expect("Unprocessable salt string");
-        hash = captures.get(2).unwrap().as_str().into();
+        let formatted_hash: String = user.get("password");
+        (salt, hash) = parse_formatted_hash(&formatted_hash);
     }
     // This hash will always happen for any input, which prevents timing attacks
     let login_attempt = hash_password(&salt, &password);
