@@ -1,18 +1,7 @@
-use axum::{
-    async_trait,
-    body::Body,
-    extract::{FromRequestParts, State},
-    http::{header::AUTHORIZATION, request::Parts, HeaderValue, StatusCode},
-    response::{IntoResponse, Response},
-    routing::{get, post},
-    Json, Router,
-};
-use base64::{engine::general_purpose, Engine as _};
-use pbkdf2::pbkdf2_hmac;
+use axum::{extract::State, http::StatusCode, response::IntoResponse, Json};
 use serde::{Deserialize, Serialize};
-use sha2::Sha256;
 use std::sync::Arc;
-use tokio_postgres::{error::SqlState, Client};
+use tokio_postgres::Client;
 
 use crate::auth::jwt::encode_jwt;
 use crate::auth::password::hash_password;

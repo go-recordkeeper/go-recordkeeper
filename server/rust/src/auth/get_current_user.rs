@@ -1,17 +1,13 @@
 use axum::{
     async_trait,
-    body::Body,
     extract::{FromRequestParts, State},
     http::{header::AUTHORIZATION, request::Parts, HeaderValue, StatusCode},
-    response::{IntoResponse, Response},
-    routing::{get, post},
-    Json, Router,
+    response::IntoResponse,
+    Json,
 };
-use jsonwebtoken::{Algorithm, DecodingKey, Validation};
 use serde::{Deserialize, Serialize};
-use std::env;
 use std::sync::Arc;
-use tokio_postgres::{error::SqlState, Client};
+use tokio_postgres::Client;
 
 use crate::auth::jwt::decode_jwt;
 
