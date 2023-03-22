@@ -11,6 +11,7 @@ use base64::{engine::general_purpose, Engine as _};
 use pbkdf2::pbkdf2_hmac;
 use serde::{Deserialize, Serialize};
 use sha2::Sha256;
+use std::env;
 use std::sync::Arc;
 use tokio_postgres::{error::SqlState, Client};
 
@@ -40,6 +41,14 @@ impl Claims {
             iss: "go-recordkeeper".into(),
             aud: "go-recordkeeper".into(),
         }
+    }
+}
+
+fn secret() -> String {
+    if env::var("GOBAN_DEVELOPMENT").is_ok() {
+        "django-insecure-(@ppnpk$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj".into()
+    } else {
+        env::var("GOBAN_SECRET_KEY").expect("GOBAN_SECRET_KEY not set")
     }
 }
 
@@ -87,7 +96,7 @@ pub async fn login(State(client): State<Arc<Client>>, body: String) -> impl Into
         jsonwebtoken::encode(
             &jsonwebtoken::Header::default(),
             &claims,
-            &jsonwebtoken::EncodingKey::from_secret("secret".as_ref()),
+            &jsonwebtoken::EncodingKey::from_secret(secret().as_ref()),
         )
         .map(Json)
         .or(Err((StatusCode::UNAUTHORIZED, "sus")))
