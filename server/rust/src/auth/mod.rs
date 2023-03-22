@@ -7,6 +7,7 @@ use std::sync::Arc;
 use tokio_postgres::Client;
 
 mod get_current_user;
+mod jwt;
 mod login;
 mod register;
 

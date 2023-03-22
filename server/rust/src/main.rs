@@ -18,4 +18,3 @@ async fn main() {
         .await
         .unwrap();
 }
-

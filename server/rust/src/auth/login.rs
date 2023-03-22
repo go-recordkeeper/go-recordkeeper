@@ -11,45 +11,15 @@ use base64::{engine::general_purpose, Engine as _};
 use pbkdf2::pbkdf2_hmac;
 use serde::{Deserialize, Serialize};
 use sha2::Sha256;
-use std::env;
 use std::sync::Arc;
 use tokio_postgres::{error::SqlState, Client};
+
+use crate::auth::jwt::encode_jwt;
 
 #[derive(Serialize, Deserialize)]
 struct LoginRequest {
     username: String,
     password: String,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Claims {
-    sub: i32,
-    iat: u64,
-    exp: u64,
-    iss: String,
-    aud: String,
-}
-
-impl Claims {
-    fn new(id: i32) -> Claims {
-        let now = jsonwebtoken::get_current_timestamp();
-        Claims {
-            sub: id,
-            iat: now,
-            // Increment the timestamp by one day's worth of seconds
-            exp: now + (24 * 60 * 60),
-            iss: "go-recordkeeper".into(),
-            aud: "go-recordkeeper".into(),
-        }
-    }
-}
-
-fn secret() -> String {
-    if env::var("GOBAN_DEVELOPMENT").is_ok() {
-        "django-insecure-(@ppnpk$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj".into()
-    } else {
-        env::var("GOBAN_SECRET_KEY").expect("GOBAN_SECRET_KEY not set")
-    }
 }
 
 // TODO dedup
@@ -92,14 +62,9 @@ pub async fn login(State(client): State<Arc<Client>>, body: String) -> impl Into
     // This hash will always happen for any input, which prevents timing attacks
     let login_attempt = hash_password(&salt, &password);
     if login_attempt == hash {
-        let claims = Claims::new(id);
-        jsonwebtoken::encode(
-            &jsonwebtoken::Header::default(),
-            &claims,
-            &jsonwebtoken::EncodingKey::from_secret(secret().as_ref()),
-        )
-        .map(Json)
-        .or(Err((StatusCode::UNAUTHORIZED, "sus")))
+        encode_jwt(id)
+            .map(Json)
+            .or(Err((StatusCode::UNAUTHORIZED, "sus")))
     } else {
         Err((StatusCode::UNAUTHORIZED, "sus"))
     }

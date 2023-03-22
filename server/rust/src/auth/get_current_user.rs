@@ -13,6 +13,8 @@ use std::env;
 use std::sync::Arc;
 use tokio_postgres::{error::SqlState, Client};
 
+use crate::auth::jwt::decode_jwt;
+
 #[derive(Serialize, Deserialize)]
 struct GetResponse {
     id: i32,
@@ -21,23 +23,6 @@ struct GetResponse {
 }
 
 pub struct UserId(i32);
-
-#[derive(Debug, Serialize, Deserialize)]
-struct Claims {
-    sub: i32,
-    iat: u64,
-    exp: u64,
-    iss: String,
-    aud: String,
-}
-
-fn secret() -> String {
-    if env::var("GOBAN_DEVELOPMENT").is_ok() {
-        "django-insecure-(@ppnpk$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj".into()
-    } else {
-        env::var("GOBAN_SECRET_KEY").expect("GOBAN_SECRET_KEY not set")
-    }
-}
 
 #[async_trait]
 impl<S> FromRequestParts<S> for UserId
@@ -53,17 +38,10 @@ where
             .map(HeaderValue::to_str)
             .and_then(Result::ok)
             .and_then(|auth| auth.strip_prefix("Bearer "))
-            .map(|jwt| {
-                jsonwebtoken::decode::<Claims>(
-                    jwt,
-                    &DecodingKey::from_secret(secret().as_ref()),
-                    &Validation::new(Algorithm::HS256),
-                )
-                .unwrap()
-            })
+            .map(decode_jwt)
             .map_or(
                 Err((StatusCode::FORBIDDEN, "Failed to authenticate")),
-                |token| Ok(UserId(token.claims.sub)),
+                |user_id| Ok(UserId(user_id.unwrap())),
             )
     }
 }
