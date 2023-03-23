@@ -8,7 +8,10 @@ use tokio_postgres::Client;
 
 // Endpoints
 mod create;
+mod list;
 
 pub fn register_routes(router: Router<Arc<Client>, Body>) -> Router<Arc<Client>, Body> {
-    router.route("/api/records/", post(create::create))
+    router
+        .route("/api/records/", post(create::create))
+        .route("/api/records/", get(list::list))
 }
