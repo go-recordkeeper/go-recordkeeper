@@ -10,6 +10,9 @@ use tokio_postgres::Client;
 mod jwt;
 mod password;
 
+// Re-export this for use in the record endpoints
+pub use crate::auth::get_current_user::UserId;
+
 // Endpoints
 mod get_current_user;
 mod login;

@@ -24,6 +24,7 @@ impl Claims {
         }
     }
 }
+
 fn secret() -> String {
     if env::var("GOBAN_DEVELOPMENT").is_ok() {
         "django-insecure-(@ppnpk$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj".into()

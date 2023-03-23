@@ -18,7 +18,7 @@ struct GetResponse {
     email: String,
 }
 
-pub struct UserId(i32);
+pub struct UserId(pub i32);
 
 #[async_trait]
 impl<S> FromRequestParts<S> for UserId
