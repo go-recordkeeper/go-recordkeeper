@@ -27,27 +27,23 @@ pub async fn list(State(client): State<Arc<Client>>, UserId(user_id): UserId) ->
     if let Ok(rows) = result {
         Ok(Json(
             rows.iter()
-                .map(|row| {
-                    println!("{:?} hrm hrm", row);
-                    ListResponse {
-                        id: row.get("id"),
-                        owner: user_id,
-                        board_size: row.get("board_size"),
-                        created: row.get("created"),
-                        name: row.get("name"),
-                        black_player: row.get("black_player"),
-                        white_player: row.get("white_player"),
-                        comment: row.get("comment"),
-                        handicap: row.get("handicap"),
-                        komi: row.get("komi"),
-                        ruleset: row.get("ruleset"),
-                        winner: row.get("winner"),
-                    }
+                .map(|row| ListResponse {
+                    id: row.get("id"),
+                    owner: user_id,
+                    board_size: row.get("board_size"),
+                    created: row.get("created"),
+                    name: row.get("name"),
+                    black_player: row.get("black_player"),
+                    white_player: row.get("white_player"),
+                    comment: row.get("comment"),
+                    handicap: row.get("handicap"),
+                    komi: row.get("komi"),
+                    ruleset: row.get("ruleset"),
+                    winner: row.get("winner"),
                 })
                 .collect::<Vec<ListResponse>>(),
         ))
     } else {
-        println!("hmm disaster {:?}", result);
         Err((StatusCode::INTERNAL_SERVER_ERROR, "Error saving new record"))
     }
 }

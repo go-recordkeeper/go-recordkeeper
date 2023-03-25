@@ -82,7 +82,6 @@ pub async fn create(
             }),
         ))
     } else {
-        println!("hmm disaster {:?}", result);
         Err((StatusCode::INTERNAL_SERVER_ERROR, "Error saving new record"))
     }
 }
