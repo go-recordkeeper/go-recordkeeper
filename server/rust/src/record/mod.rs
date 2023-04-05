@@ -6,6 +6,9 @@ use axum::{
 use std::sync::Arc;
 use tokio_postgres::Client;
 
+// Go board helper
+mod go;
+
 // Endpoints
 mod create;
 mod list;
