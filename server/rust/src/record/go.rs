@@ -17,9 +17,9 @@ impl Color {
         }
     }
     fn invert(&self) -> Color {
-        match self {
-            &Color::Black => Color::White,
-            &Color::White => Color::Black,
+        match &self {
+            Color::Black => Color::White,
+            Color::White => Color::Black,
         }
     }
 }
@@ -39,7 +39,7 @@ type Coord = (i32, i32);
 pub struct Pos(i32);
 impl Pos {
     pub fn new(position: i32) -> Pos {
-        return Pos(position);
+        Pos(position)
     }
     pub fn index(&self) -> i32 {
         self.0
@@ -65,7 +65,7 @@ pub type Move = (Option<Pos>, Color);
 pub type Group = HashSet<Pos>;
 pub type Liberties = HashSet<Pos>;
 
-type Board = HashMap<Pos, Color>;
+pub type Board = HashMap<Pos, Color>;
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum GoError {
@@ -170,12 +170,23 @@ fn place_stone(board_size: i32, board: &mut Board, move_: &Move) -> Result<Group
     }
 }
 
-pub fn identify_captures(board_size: i32, moves: &[Move], _move: &Move) -> Result<Group> {
+pub fn find_captures(board_size: i32, moves: &[Move], _move: &Move) -> Result<Group> {
     let mut board = HashMap::new();
     for m in moves.iter() {
         place_stone(board_size, &mut board, m)?;
     }
     place_stone(board_size, &mut board, _move)
+}
+
+pub fn play_out_game(board_size: i32, moves: &[Move]) -> Result<(Board, Vec<(Move, Group)>)> {
+    let mut board = HashMap::new();
+    // I would use an iterator but I couldn't figure out how to have a mutable reference to the
+    // board passed around
+    let mut captures = vec![];
+    for m in moves.iter() {
+        captures.push((m.clone(), place_stone(board_size, &mut board, m)?));
+    }
+    Ok((board, captures))
 }
 
 #[cfg(test)]

@@ -11,6 +11,7 @@ mod go;
 
 // Endpoints
 mod create;
+mod get;
 mod list;
 mod play;
 
@@ -18,5 +19,6 @@ pub fn register_routes(router: Router<Arc<Client>, Body>) -> Router<Arc<Client>,
     router
         .route("/api/records/", post(create::create))
         .route("/api/records/", get(list::list))
+        .route("/api/records/:record/", get(get::get))
         .route("/api/records/:record/play/", post(play::play))
 }

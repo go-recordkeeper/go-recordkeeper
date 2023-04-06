@@ -8,10 +8,10 @@ use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 use tokio_postgres::Client;
 
-use crate::auth::UserId;
 use crate::record::go::Pos;
+use crate::{auth::UserId, record::go::GoError};
 
-use super::go::{identify_captures, Color, Move};
+use super::go::{find_captures, Color, Move};
 
 #[derive(Serialize, Deserialize)]
 struct PlayRequest {
@@ -77,10 +77,19 @@ pub async fn play(
             } else {
                 Color::White
             };
-            let captures =
-                identify_captures(board_size, &moves, &(Some(Pos::new(pos)), Color::White))
-                    .unwrap(); // TODO errors
-            let move_number: i32 = 666;
+            let captures = match find_captures(board_size, &moves, &(Some(Pos::new(pos)), color)) {
+                Err(GoError::OutOfBounds(_)) => {
+                    return Err((StatusCode::FORBIDDEN, "Out of bounds"));
+                }
+                Err(GoError::SpaceOccupied(_)) => {
+                    return Err((StatusCode::FORBIDDEN, "Already a stone there"));
+                }
+                Err(GoError::Suicide(_)) => {
+                    return Err((StatusCode::FORBIDDEN, "Move is suicidal"));
+                }
+                Ok(captures) => captures,
+            };
+            let move_number: i32 = (1 + moves.len()).try_into().unwrap();
             let result = client.query("INSERT INTO record_move (record_id, position, color, move) VALUES ($1, $2, $3, $4)", &[&record_id, &pos, &format!("{}",color), &move_number]).await;
             if result.is_ok() {
                 Ok((
@@ -106,6 +115,7 @@ pub async fn play(
             Err((StatusCode::INTERNAL_SERVER_ERROR, "Error fetching moves"))
         }
     } else {
+        println!("{:?}", result);
         Err((StatusCode::INTERNAL_SERVER_ERROR, "Error fetching record"))
     }
 }
