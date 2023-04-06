@@ -3,12 +3,19 @@ use std::error::Error;
 use std::fmt;
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
-enum Color {
-    White,
+pub enum Color {
     Black,
+    White,
 }
 
 impl Color {
+    pub fn new(color: &str) -> Color {
+        match color {
+            "B" => Color::Black,
+            "W" => Color::White,
+            _ => panic!(),
+        }
+    }
     fn invert(&self) -> Color {
         match self {
             &Color::Black => Color::White,
@@ -17,53 +24,51 @@ impl Color {
     }
 }
 
-type Coord = (u32, u32);
+impl fmt::Display for Color {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Color::Black => write!(f, "B"),
+            Color::White => write!(f, "W"),
+        }
+    }
+}
+
+type Coord = (i32, i32);
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
-struct Pos(u32);
+pub struct Pos(i32);
 impl Pos {
-    fn new(position: u32) -> Pos {
+    pub fn new(position: i32) -> Pos {
         return Pos(position);
     }
-    fn index(&self) -> u32 {
+    pub fn index(&self) -> i32 {
         self.0
     }
-    fn to_coord(&self, board_size: u32) -> Coord {
+    pub fn to_coord(&self, board_size: i32) -> Coord {
         let Pos(pos) = &self;
         (pos % board_size, pos / board_size)
     }
-    fn from_coord(board_size: u32, (x, y): Coord) -> Pos {
+    pub fn from_coord(board_size: i32, (x, y): Coord) -> Pos {
         Pos(x + (board_size * y))
     }
-    fn to_coord_signed(&self, board_size: u32) -> (i32, i32) {
-        let Pos(pos) = &self;
-        (
-            (pos % board_size).try_into().unwrap(),
-            (pos / board_size).try_into().unwrap(),
-        )
-    }
-    fn from_coord_signed(board_size: i32, (x, y): (i32, i32)) -> Pos {
-        Pos((x + (board_size * y)).try_into().unwrap())
-    }
-    fn adjacents(&self, board_size: u32) -> Vec<Pos> {
-        let (x, y) = self.to_coord_signed(board_size);
-        let board_size: i32 = board_size.try_into().unwrap();
+    fn adjacents(&self, board_size: i32) -> Vec<Pos> {
+        let (x, y) = self.to_coord(board_size);
         vec![(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
             .into_iter()
             .filter(|&(x, y)| 0 <= x && x < board_size && 0 <= y && y < board_size)
-            .map(|coord| Pos::from_coord_signed(board_size, coord))
+            .map(|coord| Pos::from_coord(board_size, coord))
             .collect()
     }
 }
 
-type Move = (Option<Pos>, Color);
-type Group = HashSet<Pos>;
-type Liberties = HashSet<Pos>;
+pub type Move = (Option<Pos>, Color);
+pub type Group = HashSet<Pos>;
+pub type Liberties = HashSet<Pos>;
 
 type Board = HashMap<Pos, Color>;
 
 #[derive(Debug, PartialEq, Eq)]
-enum GoError {
+pub enum GoError {
     OutOfBounds(Pos),
     SpaceOccupied(Coord),
     Suicide(Coord),
@@ -86,7 +91,7 @@ impl Error for GoError {}
 type Result<T> = std::result::Result<T, GoError>;
 
 fn build_group(
-    board_size: u32,
+    board_size: i32,
     board: &Board,
     pos: &Pos,
     color: &Color,
@@ -125,12 +130,12 @@ fn build_group(
     Some((group, liberties))
 }
 
-fn place_stone(board_size: u32, board: &mut Board, move_: &Move) -> Result<Group> {
+fn place_stone(board_size: i32, board: &mut Board, move_: &Move) -> Result<Group> {
     match move_ {
         (None, _) => Ok(HashSet::new()),
         (Some(pos), color) => {
             // Verify the position is on the board
-            if pos.index() > board_size * board_size {
+            if pos.index() < 0 || pos.index() > board_size * board_size {
                 return Err(GoError::OutOfBounds(pos.clone()));
             }
             // Verify there is no stone at the desired location
@@ -163,6 +168,14 @@ fn place_stone(board_size: u32, board: &mut Board, move_: &Move) -> Result<Group
             Ok(captured_stones)
         }
     }
+}
+
+pub fn identify_captures(board_size: i32, moves: &[Move], _move: &Move) -> Result<Group> {
+    let mut board = HashMap::new();
+    for m in moves.iter() {
+        place_stone(board_size, &mut board, m)?;
+    }
+    place_stone(board_size, &mut board, _move)
 }
 
 #[cfg(test)]
