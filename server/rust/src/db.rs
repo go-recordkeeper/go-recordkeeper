@@ -34,7 +34,8 @@ where
     T: ?Sized + ToStatement,
 {
     client.query_one(statement, params).await.map_err(|err| {
-        if err.code() == Some(&SqlState::NO_DATA_FOUND) {
+        if err.code().is_none() {
+            eprintln!("Assuming error means data was not found: {:?}", err);
             (StatusCode::NOT_FOUND, "")
         } else {
             eprintln!("{}", err);
