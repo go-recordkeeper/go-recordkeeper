@@ -62,7 +62,7 @@ type Liberties = HashSet<Pos>;
 
 type Board = HashMap<Pos, Color>;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 enum GoError {
     OutOfBounds(Pos),
     SpaceOccupied(Coord),
@@ -138,12 +138,14 @@ fn place_stone(board_size: u32, board: &mut Board, move_: &Move) -> Result<Group
                 return Err(GoError::SpaceOccupied(pos.to_coord(board_size)));
             }
             // Place the new stone on the board
+            // This needs to be undone if the move is not valid
             board.insert(pos.clone(), *color);
             // Identify adjacent groups of the opposite color
             let captured_stones: HashSet<Pos> = pos
                 .adjacents(board_size)
                 .iter()
                 .filter_map(|adj| build_group(board_size, board, adj, &color.invert()))
+                .filter(|(_, liberties)| liberties.is_empty())
                 .flat_map(|(group, _)| group)
                 .collect();
             // Remove them from the board
@@ -153,6 +155,8 @@ fn place_stone(board_size: u32, board: &mut Board, move_: &Move) -> Result<Group
             // Verify that the group of the newly placed stone has at least one liberty
             if let Some((_, liberties)) = build_group(board_size, board, pos, color) {
                 if liberties.is_empty() {
+                    // The move was suicidal, so fix the board
+                    board.remove(pos);
                     return Err(GoError::Suicide(pos.to_coord(board_size)));
                 }
             }
@@ -193,9 +197,8 @@ mod tests {
             {
                 let mut board = board!();
                 $(
-                    place_stone(19, &mut board, &(Some(pos!($x, $y)), color!($color))).unwrap();
+                    board.insert(pos!($x, $y), color!($color));
                 )?
-                // TODO play the moves
                 board
             }
         };
@@ -259,20 +262,161 @@ mod tests {
 
     #[test]
     fn build_group_two_stones() {
-        // Two white stones in a corner
-        &board![(W, 0, 0), (W, 1, 0)];
-        // assert_eq!(
-        //     build_group(
-        //         19,
-        //         &board![(W, 0, 0), (W, 1, 0)],
-        //         &pos!(0, 0),
-        //         &Color::White
-        //     ),
-        //     Some((group![(0, 0), (1, 0)], group![(2, 0), (0, 1), (1, 1)]))
-        // );
-        // assert_eq!(
-        //     build_group(19, &board![(B, 1, 1)], &pos!(1, 1), &Color::Black),
-        //     Some((group![(1, 1)], group![(1, 0), (0, 1), (2, 1), (1, 2)]))
-        // );
+        // Two horizontal white stones in a corner
+        assert_eq!(
+            build_group(
+                19,
+                &board![(W, 0, 0), (W, 1, 0)],
+                &pos!(0, 0),
+                &Color::White
+            ),
+            Some((group![(0, 0), (1, 0)], group![(2, 0), (0, 1), (1, 1)]))
+        );
+        // Two vertical black stones in the middle
+        assert_eq!(
+            build_group(
+                19,
+                &board![(B, 1, 1), (B, 1, 2)],
+                &pos!(1, 2),
+                &Color::Black
+            ),
+            Some((
+                group![(1, 1), (1, 2)],
+                group![(1, 0), (0, 1), (2, 1), (0, 2), (2, 2), (1, 3)]
+            ))
+        );
+    }
+
+    #[test]
+    fn build_group_liberty_counting() {
+        // A white stone in the corner next to a black stone
+        assert_eq!(
+            build_group(
+                19,
+                &board![(W, 0, 0), (B, 1, 0)],
+                &pos!(0, 0),
+                &Color::White
+            ),
+            Some((group![(0, 0)], group![(0, 1)]))
+        );
+        // A white stone in the corner surrounded by black stones
+        assert_eq!(
+            build_group(
+                19,
+                &board![(W, 0, 0), (B, 1, 0), (B, 0, 1)],
+                &pos!(0, 0),
+                &Color::White
+            ),
+            Some((group![(0, 0)], group![]))
+        );
+        // A white stone in the middle surrounded by black stones
+        assert_eq!(
+            build_group(
+                19,
+                &board![(W, 1, 1), (B, 1, 0), (B, 0, 1), (B, 2, 1), (B, 1, 2)],
+                &pos!(1, 1),
+                &Color::White
+            ),
+            Some((group![(1, 1)], group![]))
+        );
+    }
+
+    #[test]
+    fn place_stone_simple_moves() {
+        let test_cases = vec![
+            (board![], color!(B), pos!(0, 0)),
+            (board![], color!(W), pos!(1, 1)),
+            (board![(B, 0, 0)], color!(B), pos!(1, 0)),
+            (board![(B, 0, 0)], color!(W), pos!(1, 0)),
+            (board![(B, 0, 0)], color!(W), pos!(0, 1)),
+            (board![(B, 0, 1)], color!(W), pos!(0, 0)),
+        ];
+        for (mut board, color, pos) in test_cases {
+            // Playing these moves should not capture anything
+            assert_eq!(
+                place_stone(19, &mut board, &(Some(pos.clone()), color)),
+                Ok(group![]),
+            );
+            // The board should now contain the new move
+            assert_eq!(board.get(&pos), Some(&color));
+        }
+    }
+
+    #[test]
+    fn place_stone_capture() {
+        let test_cases = vec![
+            // Capture a corner stones
+            (board![(B, 0, 0), (W, 1, 0)], pos!(0, 1), group![(0, 0)]),
+            // Capture two corner stones
+            (
+                board![(B, 0, 0), (B, 1, 0), (W, 0, 1), (W, 1, 1)],
+                pos!(2, 0),
+                group![(0, 0), (1, 0)],
+            ),
+            // Capture a ko that would otherwise be suicidal
+            (
+                board![(B, 0, 0), (B, 2, 0), (B, 1, 1), (W, 3, 0), (W, 2, 1)],
+                pos!(1, 0),
+                group![(2, 0)],
+            ),
+        ];
+        for (mut board, pos, captures) in test_cases {
+            // Playing should result in a capture
+            assert_eq!(
+                place_stone(19, &mut board, &(Some(pos.clone()), color!(W))),
+                Ok(captures.clone()),
+            );
+            // The board should now be missing the captured stones
+            for capture in &captures {
+                assert_eq!(board.get(capture), None);
+            }
+        }
+    }
+
+    #[test]
+    fn place_stone_out_of_bounds() {
+        assert_eq!(
+            place_stone(19, &mut board![], &(Some(pos!(20, 20)), color!(W))),
+            Err(GoError::OutOfBounds(pos!(20, 20)))
+        );
+    }
+
+    #[test]
+    fn place_stone_on_existing_stone() {
+        assert_eq!(
+            place_stone(19, &mut board![(B, 0, 0)], &(Some(pos!(0, 0)), color!(W))),
+            Err(GoError::SpaceOccupied((0, 0)))
+        );
+        assert_eq!(
+            place_stone(19, &mut board![(B, 0, 0)], &(Some(pos!(0, 0)), color!(B))),
+            Err(GoError::SpaceOccupied((0, 0)))
+        );
+    }
+
+    #[test]
+    fn place_stone_suicidally() {
+        // Two stones surrounding the corner
+        let mut board = board![(B, 1, 0), (B, 0, 1)];
+        assert_eq!(
+            place_stone(19, &mut board, &(Some(pos!(0, 0)), color!(W))),
+            Err(GoError::Suicide((0, 0)))
+        );
+        // Verify the board was not changed
+        assert_eq!(board, board![(B, 1, 0), (B, 0, 1)])
+    }
+
+    #[test]
+    fn place_stone_suicidally_in_a_squeeze() {
+        // Two white stones surrounding the corner, surrounded by three black stones
+        let mut board = board![(W, 1, 0), (W, 0, 1), (B, 2, 0), (B, 1, 1), (B, 0, 2)];
+        assert_eq!(
+            place_stone(19, &mut board, &(Some(pos!(0, 0)), color!(W))),
+            Err(GoError::Suicide((0, 0)))
+        );
+        // Verify the board was not changed
+        assert_eq!(
+            board,
+            board![(W, 1, 0), (W, 0, 1), (B, 2, 0), (B, 1, 1), (B, 0, 2)]
+        );
     }
 }
