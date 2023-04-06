@@ -1,5 +1,8 @@
+use axum::{http::StatusCode, response::IntoResponse};
 use std::env;
-use tokio_postgres::{Client, Config, Error, NoTls};
+use tokio_postgres::{
+    error::SqlState, types::ToSql, Client, Config, Error, NoTls, Row, ToStatement,
+};
 
 pub async fn connect() -> Result<Client, Error> {
     let mut config = Config::new();
@@ -20,4 +23,47 @@ pub async fn connect() -> Result<Client, Error> {
     });
 
     Ok(client)
+}
+
+pub async fn query_one<T>(
+    client: &Client,
+    statement: &T,
+    params: &[&(dyn ToSql + Sync)],
+) -> Result<Row, (StatusCode, &'static str)>
+where
+    T: ?Sized + ToStatement,
+{
+    client.query_one(statement, params).await.map_err(|err| {
+        if err.code() == Some(&SqlState::NO_DATA_FOUND) {
+            (StatusCode::NOT_FOUND, "")
+        } else {
+            eprintln!("{}", err);
+            (StatusCode::INTERNAL_SERVER_ERROR, "Something went wrong")
+        }
+    })
+}
+
+pub async fn query<T>(
+    client: &Client,
+    statement: &T,
+    params: &[&(dyn ToSql + Sync)],
+) -> Result<Vec<Row>, (StatusCode, &'static str)>
+where
+    T: ?Sized + ToStatement,
+{
+    client.query(statement, params).await.map_err(|err| {
+        eprintln!("{}", err);
+        (StatusCode::INTERNAL_SERVER_ERROR, "Something went wrong")
+    })
+}
+
+#[macro_export]
+macro_rules! derow {
+    ($row:expr, {$($varname:ident : $vartype:ty),*}) => {
+        (
+            $(
+                $row.get::<&str, $vartype>(stringify!($varname), ),
+            )+
+        )
+    };
 }
