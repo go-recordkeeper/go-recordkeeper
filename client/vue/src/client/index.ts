@@ -97,6 +97,7 @@ class Client {
           'django',
           'fastapi',
           'haskell',
+          'rust',
         ]
     }
     getImplementation() {

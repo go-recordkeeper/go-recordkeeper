@@ -61,6 +61,21 @@ services:
     depends_on:
       - postgres
 
+  rust:
+    build: ../server/rust
+    ports:
+      - 8003:8000
+    env_file:
+      - .env.django
+    environment:
+      POSTGRES_NAME: default
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres # this refers to the postgres service above ^
+      GOBAN_HOST: go.chiquit.ooo
+    depends_on:
+      - postgres
+
   nginx:
     image: nginx
     container_name: nginx
