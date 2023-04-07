@@ -1,0 +1,3 @@
+[registries.crates-io]
+# This should cut down on network traffic for raspberry pi builds
+protocol = "sparse"
