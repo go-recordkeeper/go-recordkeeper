@@ -1,8 +1,6 @@
-use axum::{http::StatusCode, response::IntoResponse};
+use axum::http::StatusCode;
 use std::env;
-use tokio_postgres::{
-    error::SqlState, types::ToSql, Client, Config, Error, NoTls, Row, ToStatement,
-};
+use tokio_postgres::{types::ToSql, Client, Config, Error, NoTls, Row, ToStatement};
 
 pub async fn connect() -> Result<Client, Error> {
     let mut config = Config::new();

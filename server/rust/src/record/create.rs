@@ -5,6 +5,7 @@ use std::sync::Arc;
 use tokio_postgres::Client;
 
 use crate::auth::UserId;
+use crate::db::query_one;
 
 #[derive(Serialize, Deserialize)]
 struct CreateRequest {
@@ -61,27 +62,23 @@ pub async fn create(
     let ruleset = ruleset.unwrap_or("AGA".to_string());
     let winner = "U".to_string();
     let now: chrono::DateTime<chrono::Utc> = chrono::Utc::now();
-    let result = client.query_one("INSERT INTO record_record (owner_id, board_size, name, black_player, white_player, comment, handicap, komi, ruleset, winner, created) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id", &[&user_id, &TryInto::<i32>::try_into(board_size).unwrap(), &name, &black_player, &white_player, &comment, &handicap, &komi, &ruleset, &winner, &now]).await;
-    if let Ok(row) = result {
-        let record_id = row.get("id");
-        Ok((
-            StatusCode::CREATED,
-            Json(CreateResponse {
-                id: record_id,
-                owner: user_id,
-                board_size,
-                created: now,
-                name,
-                black_player,
-                white_player,
-                comment,
-                handicap,
-                komi,
-                ruleset,
-                winner,
-            }),
-        ))
-    } else {
-        Err((StatusCode::INTERNAL_SERVER_ERROR, "Error saving new record"))
-    }
+    let row = query_one(&client, "INSERT INTO record_record (owner_id, board_size, name, black_player, white_player, comment, handicap, komi, ruleset, winner, created) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id", &[&user_id, &TryInto::<i32>::try_into(board_size).unwrap(), &name, &black_player, &white_player, &comment, &handicap, &komi, &ruleset, &winner, &now]).await?;
+    let record_id = row.get("id");
+    Ok((
+        StatusCode::CREATED,
+        Json(CreateResponse {
+            id: record_id,
+            owner: user_id,
+            board_size,
+            created: now,
+            name,
+            black_player,
+            white_player,
+            comment,
+            handicap,
+            komi,
+            ruleset,
+            winner,
+        }),
+    ))
 }
