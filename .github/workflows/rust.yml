@@ -1,0 +1,66 @@
+name: Rust
+on:
+  push:
+    paths:
+      - 'server/rust/**'
+      - 'test/**'
+      - '.github/workflows/rust.yml'
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: server/rust
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      - name: Setup Rust
+        id: setup
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Cache dependencies
+        uses: Swatinem/rust-cache@v2
+      - name: Build
+        run: cargo build --release --all-features
+      - name: Run unit tests
+        run: cargo test
+      - name: Run clippy
+        run: cargo clippy
+  integration-tests:
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    defaults:
+      run:
+        shell: bash
+        working-directory: test
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      - name: Setup Python and Poetry
+        uses: ITProKyle/action-setup-python@v0.3.0
+        with:
+          python-version: 3.11
+          # poetry 1.4.0 fails to install FastAPI
+          poetry-version: 1.3.2
+          poetry-install: false
+      - name: Install tests
+        shell: bash
+        run: |
+          cp .env.template .env
+          # Required to export all the values in the .env file
+          set -a
+          source .env
+          set +a
+          poetry install
+      - name: Run tests
+        shell: bash
+        run: |
+          # Required to export all the values in the .env file
+          set -a &&
+          source .env &&
+          set +a &&
+          set -e &&
+          poetry run test -- -k "rust"
+

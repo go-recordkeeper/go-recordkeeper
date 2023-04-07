@@ -2,6 +2,7 @@
 ![Django](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/django.yml/badge.svg)
 ![FastAPI](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/fastapi.yml/badge.svg)
 ![Haskell](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/haskell.yml/badge.svg)
+![Rust](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/rust.yml/badge.svg)
 
 An application to record go games. Try it out at [go.chiquit.ooo](https://go.chiquit.ooo/)!
 
