@@ -16,7 +16,7 @@ impl Color {
             _ => panic!(),
         }
     }
-    fn invert(&self) -> Color {
+    pub fn invert(&self) -> Color {
         match &self {
             Color::Black => Color::White,
             Color::White => Color::Black,

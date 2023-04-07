@@ -15,6 +15,7 @@ mod get;
 mod list;
 mod pass;
 mod play;
+mod undo;
 mod update;
 
 pub fn register_routes(router: Router<Arc<Client>, Body>) -> Router<Arc<Client>, Body> {
@@ -25,4 +26,5 @@ pub fn register_routes(router: Router<Arc<Client>, Body>) -> Router<Arc<Client>,
         .route("/api/records/:record/", put(update::update))
         .route("/api/records/:record/play/", post(play::play))
         .route("/api/records/:record/pass/", post(pass::pass))
+        .route("/api/records/:record/undo/", post(undo::undo))
 }
