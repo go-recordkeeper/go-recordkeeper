@@ -12,6 +12,7 @@ mod go;
 // Endpoints
 mod create;
 mod delete;
+mod download;
 mod get;
 mod list;
 mod pass;
@@ -29,4 +30,5 @@ pub fn register_routes(router: Router<Arc<Client>, Body>) -> Router<Arc<Client>,
         .route("/api/records/:record/play/", post(play::play))
         .route("/api/records/:record/pass/", post(pass::pass))
         .route("/api/records/:record/undo/", post(undo::undo))
+        .route("/api/records/:record/download/", get(download::download))
 }
