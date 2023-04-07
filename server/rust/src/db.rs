@@ -1,5 +1,5 @@
 use axum::http::StatusCode;
-use std::env;
+use std::{env, fmt::Debug};
 use tokio_postgres::{types::ToSql, Client, Config, Error, NoTls, Row, ToStatement};
 
 pub async fn connect() -> Result<Client, Error> {
@@ -29,8 +29,9 @@ pub async fn query_one<T>(
     params: &[&(dyn ToSql + Sync)],
 ) -> Result<Row, (StatusCode, &'static str)>
 where
-    T: ?Sized + ToStatement,
+    T: ?Sized + ToStatement + Debug,
 {
+    println!("Querying {:?} with params {:?}", statement, params);
     client.query_one(statement, params).await.map_err(|err| {
         if err.code().is_none() {
             eprintln!("Assuming error means data was not found: {:?}", err);
@@ -48,8 +49,9 @@ pub async fn query<T>(
     params: &[&(dyn ToSql + Sync)],
 ) -> Result<Vec<Row>, (StatusCode, &'static str)>
 where
-    T: ?Sized + ToStatement,
+    T: ?Sized + ToStatement + Debug,
 {
+    println!("Querying {:?} with params {:?}", statement, params);
     client.query(statement, params).await.map_err(|err| {
         eprintln!("{}", err);
         (StatusCode::INTERNAL_SERVER_ERROR, "Something went wrong")
