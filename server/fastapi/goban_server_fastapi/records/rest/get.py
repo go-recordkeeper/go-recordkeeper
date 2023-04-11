@@ -22,7 +22,7 @@ class Stone(CoordinateModel):
 
 
 class MoveModel(BaseModel):
-    position: Optional[int]
+    position: Optional[CoordinateModel]
     color: Literal["B", "W"]
     captures: list[CoordinateModel]
 
@@ -63,13 +63,17 @@ def get_record(
         if record is None:
             raise HTTPException(status_code=404)
         moves = session.scalars(
-            select(Move).where(Move.record_id ==
-                               record.id).order_by(asc(Move.move))
+            select(Move).where(Move.record_id == record.id).order_by(asc(Move.move))
         )
         board_state = BoardState(size=record.board_size)
         moves = [
             {
-                "position": move.position,
+                "position": {
+                    "x": move.position % record.board_size,
+                    "y": move.position // record.board_size,
+                }
+                if move.position is not None
+                else None,
                 "color": move.color,
                 "captures": [
                     {"x": x, "y": y}
