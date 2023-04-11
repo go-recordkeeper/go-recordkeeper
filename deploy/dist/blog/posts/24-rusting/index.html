@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Rusting</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='rust, axum'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/24-rusting/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Rusting">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rusting">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/24-rusting/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/24-rusting/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/24-rusting/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Rusting</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            April 11, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/rust">rust</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/axum">axum</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>The Rust implementation is finished! Surprise!</p>
+<p>Usually it takes several blog posts to finish an implementation, but Rust was quite straightforward. It definitely helped that I was already conversant in Rust, and I had a decent template from the Haskell implementation.</p>
+<h2 id="workflow">Workflow</h2>
+<p>The implementation plan I&rsquo;ve settled on looks something like this:</p>
+<ol>
+<li><em>Hello World</em> - Get the language installed.</li>
+<li><em>Choose your frameworks</em> - Specifically the REST API framework and the postgres library.</li>
+<li><em>Translate password hashing</em> - Practically all endpoints require the user to be logged in, so we need to be able to register and log in before we can test anything else. So far I have yet to find two <code>pbkdf2</code> libraries in any language that use the same hash format, so I need to manage the hashing/unhashing myself.</li>
+<li><em>Set up auth endpoints</em> - Stub out the register, login, and get current user endpoints, which involves getting the REST API framework working.</li>
+<li><em>Get/Set JWT</em> - Figure out the language&rsquo;s JWT library, and how to get the <code>Authorization</code> header idiomatically in the web framework.</li>
+<li><em>Database</em> - Set up the postgres library, copy the necessary SQL statements, and plug them into the endpoints. Also figure out how to read environment variables to set up the database connection in a configurable way.</li>
+<li><em>Dockerize</em> - Get the app building in a Docker image. This is highly language dependent. For Rust and Haskell I found it very useful to use multistage builds to minimize image size, which I assume applies to similar compiled languages..</li>
+<li><em>Integration tests</em> - Add the docker image to the <code>tests/docker-compose.yml</code> and run tests. Fix bugs until the tests pass.</li>
+<li><em>Create/List Record endpoints</em> - These endpoints don&rsquo;t involve moves, and so don&rsquo;t require any knowledge of the rules of go. Just a bunch of CRUD boilerplate. Take the opportunity to refactor and generalize helpers as appropriate here.</li>
+<li><em>The rules of Go</em> - Write the code that identifies captures and illegal moves. These are essentially pure algorithms, so this is the best chance to get down and dirty with the nuts and bolts of the language. I haven&rsquo;t had much success copying this code from past implementations, and writing it from scratch is funner anyway. Don&rsquo;t forget unit tests, you are guaranteed to have missed some corner cases.</li>
+<li><em>All other endpoints</em> - This actually goes really fast. There&rsquo;s nothing new being done here, just more CRUD endpoints and SQL queries.</li>
+</ol>
+<ul>
+<li><em>&hellip;and SGF download</em> - This sucks, actually. All I really need is a valid SGF file, so I&rsquo;ve just been using string templates/concatenation to construct the contents of the file. It&rsquo;s pretty ugly, but it works, so ¯_(ツ)_/¯</li>
+</ul>
+<ol>
+<li><em>CI</em> - Copy an existing CI file, figure out what actions you need for your language, and add a badge to the <code>README.md</code>. In different circumstances I&rsquo;d say you should do this sooner, but since it&rsquo;s just me writing a feature all at once from scratch, the CI is mostly a seal of approval and a reminder if I need to revisit the implementation in the future.</li>
+<li><em>Deploy</em> - After all the integration tests pass, slap the new entry in the <code>deploy/docker-compose.yml</code>, add the URL to the nginx config, and add the new implementation to the selector in the client. Easy as that!</li>
+</ol>
+<h2 id="rust-specifics">Rust specifics</h2>
+<p>Not a lot to say honestly, I just followed the script.</p>
+<p>For my frameworks, I chose <a href="https://docs.rs/axum/latest/axum/">axum</a> and <a href="https://docs.rs/tokio-postgres/latest/tokio_postgres/index.html">tokio_postgres</a>. I opted not to use an ORM since I already had all my SQL queries typed out, and translating between JSON-serializable objects and ORM-serializable objects is rather obnoxious. If I were actively making changes to the API it would be more tempting.</p>
+<p>While I was writing the password hashing code, I some problems with the <code>pbkdf2</code> crate taking ~10 seconds to hash a password. My settings require 39,000 rehashes, but that&rsquo;s still an egregiously long time. It turns out that running <code>cargo build --release</code> instead of <code>cargo build</code> is quite important.</p>
+<p>Building the final result on the Raspberry Pi was once again a painful experience. Every build would start experiencing network failures about 20 seconds in to pulling the cargo dependencies. Fortunately, others have felt my pain. There is a cargo configuration option that pulls individual files over HTTP as needed, rather than cloning a whole git repo for every repository. Add the following to <code>.cargo/config.toml</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">[<span style="color:#a6e22e">registries</span>.<span style="color:#a6e22e">crates-io</span>]
+<span style="color:#a6e22e">protocol</span> = <span style="color:#e6db74">&#34;sparse&#34;</span>
+</code></pre></div><p>I heard something to the effect that this will be the default behavior soon (possibly in Rust 1.69?), so this point may be moot.</p>
+<h2 id="takeaways">Takeaways</h2>
+<p>Rust is great! Axum and tokio_postgres both worked well, there were crates that did basically everything I needed (shoutout to <a href="https://docs.rs/serde_json/latest/serde_json/">serde_json</a>), and everything pretty much just worked. The downside is that I didn&rsquo;t learn anything particularly revelatory, but I had a good time.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>I&rsquo;ve got a backlog of issues to chew through, so that should be done soon. I&rsquo;m also thinking of rehashing the API a bit to make it a little saner; some fields serialize moves coordinates as <code>{x:...,y:...}</code>, and some use an integer index. We&rsquo;ll see what strikes my fancy.</p>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/23-spring-cleaning/"> Spring Cleaning </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

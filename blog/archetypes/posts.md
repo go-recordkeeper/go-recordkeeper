@@ -8,6 +8,5 @@ tags:
   - vue
   - nginx
 showTableOfContents: true
-draft: true
 ---
 
