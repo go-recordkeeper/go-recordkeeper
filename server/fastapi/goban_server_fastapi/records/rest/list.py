@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel
 from sqlalchemy import desc, select
@@ -13,7 +14,7 @@ from goban_server_fastapi.rest import app
 class ListResponse(BaseModel):
     id: int
     owner: int
-    board_size: int
+    board_size: Literal[9, 13, 19]
     created: datetime
     name: str
     black_player: str
@@ -21,8 +22,8 @@ class ListResponse(BaseModel):
     comment: str
     handicap: int
     komi: float
-    ruleset: str
-    winner: str
+    ruleset: Literal["AGA", "JPN", "CHN"]
+    winner: Literal["U", "B", "W"]
 
 
 @app.get("/api/records/", status_code=200, response_model=list[ListResponse])

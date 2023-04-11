@@ -30,7 +30,7 @@ class MoveModel(BaseModel):
 class GetResponse(BaseModel):
     id: int
     owner: int
-    board_size: int
+    board_size: Literal[9, 13, 19]
     created: datetime
     name: str
     black_player: str
@@ -38,8 +38,8 @@ class GetResponse(BaseModel):
     comment: str
     handicap: int
     komi: float
-    ruleset: str
-    winner: str
+    ruleset: Literal["AGA", "JPN", "CHN"]
+    winner: Literal["U", "B", "W"]
     stones: list[Stone]
     moves: list[MoveModel]
 
@@ -63,7 +63,8 @@ def get_record(
         if record is None:
             raise HTTPException(status_code=404)
         moves = session.scalars(
-            select(Move).where(Move.record_id == record.id).order_by(asc(Move.move))
+            select(Move).where(Move.record_id ==
+                               record.id).order_by(asc(Move.move))
         )
         board_state = BoardState(size=record.board_size)
         moves = [

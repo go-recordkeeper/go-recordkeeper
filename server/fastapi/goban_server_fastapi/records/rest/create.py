@@ -24,7 +24,7 @@ class CreateRequest(BaseModel):
 class CreateResponse(BaseModel):
     id: int
     owner: int
-    board_size: int
+    board_size: Literal[9, 13, 19]
     created: datetime
     name: str
     black_player: str
@@ -32,8 +32,8 @@ class CreateResponse(BaseModel):
     comment: str
     handicap: int
     komi: float
-    ruleset: str
-    winner: str
+    ruleset: Literal["AGA", "JPN", "CHN"]
+    winner: Literal["U", "B", "W"]
 
 
 @app.post(
