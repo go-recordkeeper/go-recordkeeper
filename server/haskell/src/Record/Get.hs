@@ -24,11 +24,11 @@ import Web.Scotty
     status,
   )
 
-data Capture = Capture {x :: Int, y :: Int} deriving (Show)
+data Point = Point {x :: Int, y :: Int} deriving (Show)
 
-$(deriveJSON defaultOptions ''Capture)
+$(deriveJSON defaultOptions ''Point)
 
-data Move = Move {position :: Maybe Int, color :: String, captures :: [Capture]} deriving (Show)
+data Move = Move {position :: Maybe Point, color :: String, captures :: [Point]} deriving (Show)
 
 $(deriveJSON defaultOptions ''Move)
 
@@ -103,9 +103,9 @@ toResponse userId recordId (board_size, name, black_player, white_player, commen
       winner = T.unpack winner,
       moves =
         [ Move
-            { position,
+            { position = fmap (uncurry Point . toCoord' (fromIntegral board_size)) position,
               color = fromColor color,
-              captures = [Capture {x, y} | (x, y) <- map (toCoord' $ fromIntegral board_size) $ Set.toAscList captures]
+              captures = [Point {x, y} | (x, y) <- map (toCoord' $ fromIntegral board_size) $ Set.toAscList captures]
             }
           | ((position, color), captures) <- moves
         ],
