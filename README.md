@@ -21,6 +21,8 @@ So far, I've finished three implementations:
 * [Python + FastAPI](https://github.com/go-recordkeeper/go-recordkeeper/tree/main/server/fastapi) - Also written in Python, but using [FastAPI](https://fastapi.tiangolo.com/) for the REST stuff and [SQLAlchemy](https://www.sqlalchemy.org/) for the DB. So far this is my favorite :)
 * [Haskell](https://github.com/go-recordkeeper/go-recordkeeper/tree/main/server/haskell) - Written in [Haskell](https://www.haskell.org/) using [scotty](https://hackage.haskell.org/package/scotty) for the REST API and [hasql](https://hackage.haskell.org/package/hasql) for the DB. It's a powerful language, but the build times are atrocious.
 
+OpenAPI specs are provided for [FastAPI](https://go.chiquit.ooo/fastapi/redoc) and [Django](https://go.chiquit.ooo/django/swagger/). Because I took some shortcuts on the Django implementation, the FastAPI API is more canonical.
+
 ## Architecture
 I'm more interested in API services than traditional web template stuff, so I decided to make it a single page application. The website consists of three parts:
 
