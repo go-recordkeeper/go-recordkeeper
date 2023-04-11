@@ -22,7 +22,7 @@ let size = ref(0);
 // 1 means after the first stone has been placed
 // {moves.length} means after the final move has been made
 let move = ref(0);
-let moves: Ref<{ position: number | null, color: 'B' | 'W', captures: { x: number, y: number }[] }[]> = ref([]);
+let moves: Ref<{ position: { x: number, y: number } | null, color: 'B' | 'W', captures: { x: number, y: number }[] }[]> = ref([]);
 
 let matrix: ('B' | 'W' | ' ')[][] = reactive([]);
 
@@ -35,8 +35,7 @@ watch(move, (newMove) => {
   for (let i = 0; i < newMove; i += 1) {
     const { position, color, captures } = moves.value[i];
     if (position) {
-      const x = position % size.value;
-      const y = Math.floor(position / size.value);
+      const { x, y } = position;
       matrix[x][y] = color;
     }
     for (const { x, y } of captures) {
