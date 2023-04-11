@@ -36,8 +36,8 @@ def test_undo_move(user_client, record, move_factory):
         {"x": 1, "y": 0, "color": "B"},
     ]
     assert response.json()["moves"] == [
-        {"position": 1, "color": "B", "captures": []},
-        {"position": 0, "color": "W", "captures": []},
+        {"position": {"x": 1, "y": 0}, "color": "B", "captures": []},
+        {"position": {"x": 0, "y": 0}, "color": "W", "captures": []},
     ]
 
     # Undo the remaining two moves

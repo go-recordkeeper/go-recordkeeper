@@ -69,8 +69,8 @@ def test_get_record(user_client, user, record_factory, move_factory):
             {"x": 1, "y": 0, "color": "B"},
         ],
         "moves": [
-            {"position": 1, "color": "B", "captures": []},
-            {"position": 0, "color": "W", "captures": []},
+            {"position": {"x": 1, "y": 0}, "color": "B", "captures": []},
+            {"position": {"x": 0, "y": 0}, "color": "W", "captures": []},
         ],
     }
 
@@ -96,8 +96,9 @@ def test_get_record(user_client, user, record_factory, move_factory):
             {"x": 0, "y": 1, "color": "B"},
         ],
         "moves": [
-            {"position": 1, "color": "B", "captures": []},
-            {"position": 0, "color": "W", "captures": []},
-            {"position": 9, "color": "B", "captures": [{"x": 0, "y": 0}]},
+            {"position": {"x": 1, "y": 0}, "color": "B", "captures": []},
+            {"position": {"x": 0, "y": 0}, "color": "W", "captures": []},
+            {"position": {"x": 0, "y": 1}, "color": "B",
+                "captures": [{"x": 0, "y": 0}]},
         ],
     }
