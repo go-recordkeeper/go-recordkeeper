@@ -116,13 +116,11 @@ class RecordViewSet(
             'stones': [{'x': x, 'y': y, 'color': color.value} for (x, y), color in sorted_stones],
             'moves': [
                 {
-                    'position': position,
-                    'color': color,
+                    'position': {'x': move.x, 'y': move.y} if move.position is not None else None,
+                    'color': move.color,
                     'captures': [{'x': x, 'y': y} for (x, y) in captures],
                 }
-                for (position, color), captures in zip(
-                    record.moves.values_list('position', 'color'), board.removals
-                )
+                for move, captures in zip(record.moves.all(), board.removals)
             ],
         }
         return Response(response, status=status.HTTP_200_OK)
