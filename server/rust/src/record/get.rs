@@ -16,12 +16,12 @@ use crate::{
 };
 
 #[derive(Serialize, Deserialize, PartialEq, Eq)]
-struct Capture {
+struct Point {
     x: i32,
     y: i32,
 }
 
-impl PartialOrd for Capture {
+impl PartialOrd for Point {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
         if self.y == other.y {
             self.x.partial_cmp(&other.x)
@@ -30,7 +30,7 @@ impl PartialOrd for Capture {
         }
     }
 }
-impl Ord for Capture {
+impl Ord for Point {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         self.partial_cmp(other).unwrap()
     }
@@ -38,9 +38,9 @@ impl Ord for Capture {
 
 #[derive(Serialize, Deserialize)]
 struct MoveResponse {
-    position: Option<i32>,
+    position: Option<Point>,
     color: String,
-    captures: Vec<Capture>,
+    captures: Vec<Point>,
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Eq)]
@@ -118,14 +118,17 @@ pub async fn get(
     let moves = moves
         .iter()
         .map(|((pos, color), captures)| {
-            let mut captures: Vec<Capture> = captures
+            let mut captures: Vec<Point> = captures
                 .iter()
                 .map(|p| p.to_coord(board_size))
-                .map(|(x, y)| Capture { x, y })
+                .map(|(x, y)| Point { x, y })
                 .collect();
             captures.sort();
             MoveResponse {
-                position: pos.as_ref().map(|p| p.index()),
+                position: pos
+                    .as_ref()
+                    .map(|p| p.to_coord(board_size))
+                    .map(|(x, y)| Point { x, y }),
                 color: format!("{}", color),
                 captures,
             }
