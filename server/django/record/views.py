@@ -1,6 +1,7 @@
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import mixins, serializers, status, viewsets
 from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import exception_handler
@@ -75,6 +76,20 @@ class MoveSerializer(serializers.Serializer):
     y = serializers.IntegerField()
 
 
+class ListRecordPagination(PageNumberPagination):
+    page_size_query_param = 'page_size'
+    page_size = 10
+
+    def get_paginated_response(self, data):
+        return Response(
+            {
+                'count': self.page.paginator.count,
+                'pages': self.page.paginator.num_pages,
+                'results': data,
+            }
+        )
+
+
 class RecordViewSet(
     mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
@@ -86,6 +101,7 @@ class RecordViewSet(
     queryset = Record.objects.all()
     serializer_class = RecordSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = ListRecordPagination
 
     def get_queryset(self):
         return Record.objects.filter(owner=self.request.user)

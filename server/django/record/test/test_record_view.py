@@ -108,14 +108,16 @@ def test_update_record(authenticated_client, user, record):
 def test_get_records_empty(authenticated_client):
     response = authenticated_client.get('/api/records/')
     assert response.status_code == 200
-    assert response.json() == []
+    assert response.json() == {'count': 0, 'pages': 1, 'results': []}
 
 
 @pytest.mark.django_db
 def test_get_records(authenticated_client, record):
     response = authenticated_client.get('/api/records/')
     assert response.status_code == 200
-    assert len(response.json()) == 1
+    assert response.json()['count'] == 1
+    assert response.json()['pages'] == 1
+    assert len(response.json()['results']) == 1
 
 
 @pytest.mark.django_db
