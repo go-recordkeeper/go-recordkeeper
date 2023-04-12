@@ -19,11 +19,22 @@ def init_db():
     # Wait to be sure the DB comes up
     time.sleep(5)
     run(["poetry", "run", "python", "../server/django/manage.py", "migrate"])
-    flush = run(["poetry", "run", "python", "../server/django/manage.py",
-                "sqlflush"], capture_output=True).stdout
-    reset_sequence = run(["poetry", "run", "python", "../server/django/manage.py",
-                         "sqlsequencereset", "record"], capture_output=True).stdout
-    with open('reset.sql', 'wb') as sql_file:
+    flush = run(
+        ["poetry", "run", "python", "../server/django/manage.py", "sqlflush"],
+        capture_output=True,
+    ).stdout
+    reset_sequence = run(
+        [
+            "poetry",
+            "run",
+            "python",
+            "../server/django/manage.py",
+            "sqlsequencereset",
+            "record",
+        ],
+        capture_output=True,
+    ).stdout
+    with open("reset.sql", "wb") as sql_file:
         sql_file.write(flush)
         sql_file.write(reset_sequence)
     yield
@@ -32,12 +43,16 @@ def init_db():
 
 @pytest.fixture(scope="function", autouse=True)
 def clean_db():
-    run(["psql", "--file", "reset.sql", "-h", "localhost",
-        "default", "postgres"], env={"PGPASSWORD": "postgres"})
+    run(
+        ["psql", "--file", "reset.sql", "-h", "localhost", "default", "postgres"],
+        env={"PGPASSWORD": "postgres"},
+    )
     yield
 
 
-@pytest.fixture(scope="session", params=["django", "fastapi", "haskell", "rust"], autouse=True)
+@pytest.fixture(
+    scope="session", params=["django", "fastapi", "haskell", "rust"], autouse=True
+)
 def impl(request):
     return request.param
 
@@ -106,12 +121,13 @@ def user_factory(factory_method, client, fastapi_db, faker):
         return {
             **client.post(
                 "/api/register/",
-                json={"username": username,
-                      "email": email, "password": password},
+                json={"username": username, "email": email, "password": password},
             ).json(),
             "password": password,
         }
+
     """An alternative user factory which uses the FastAPI implementation to interact directly with the database."""
+
     def db_factory(username=None, email=None, password=None):
         if username is None:
             username = faker.first_name()
@@ -127,6 +143,7 @@ def user_factory(factory_method, client, fastapi_db, faker):
             "email": email,
             "password": password,
         }
+
     if factory_method == "api_factory":
         return api_factory
     elif factory_method == "db_factory":
@@ -145,35 +162,36 @@ def record_factory(factory_method, user_client_factory, fastapi_db, user):
             owner = user
         user_client = user_client_factory(owner)
         record = user_client.post(
-            "/api/records/",
-            json={"board_size": board_size, **kwargs}
+            "/api/records/", json={"board_size": board_size, **kwargs}
         ).json()
         return record
 
     def db_factory(owner=None, board_size=9, **kwargs):
         if owner is None:
             owner = user
-        record = Record(**{
-            "owner_id": owner['id'],
-            "board_size": board_size,
-            "created": datetime.now(),
-            "name": "",
-            "black_player": "Black",
-            "white_player": "White",
-            "comment": "",
-            "handicap": 0,
-            "komi": 7.5,
-            "ruleset": "AGA",
-            "winner": "U",
-            **kwargs,
-        })
+        record = Record(
+            **{
+                "owner_id": owner["id"],
+                "board_size": board_size,
+                "created": datetime.now(),
+                "name": "",
+                "black_player": "Black",
+                "white_player": "White",
+                "comment": "",
+                "handicap": 0,
+                "komi": 7.5,
+                "ruleset": "AGA",
+                "winner": "U",
+                **kwargs,
+            }
+        )
         with fastapi_db.session() as session:
             session.add(record)
             session.commit()
             return {
                 **dictify(record),
                 "owner": record.owner_id,
-                "created": record.created.isoformat()
+                "created": record.created.isoformat(),
             }
 
     if factory_method == "api_factory":
@@ -195,8 +213,7 @@ def move_factory(factory_method, fastapi_db, user_client, record, user):
         if record is None:
             record = default_record
         move = user_client.post(
-            f"/api/records/{record['id']}/play/",
-            json={"x": x, "y": y}
+            f"/api/records/{record['id']}/play/", json={"x": x, "y": y}
         ).json()
         return move
 

@@ -18,8 +18,7 @@ def test_login(client, user_factory):
     # Verify login fails with incorrect password
     response = client.post(
         "/api/login/",
-        json={"username": user["username"],
-              "password": user["password"] + "!"},
+        json={"username": user["username"], "password": user["password"] + "!"},
     )
     assert response.status_code == 401
 
@@ -60,8 +59,7 @@ def test_register(client, faker):
     assert username != new_username
     response = client.post(
         "/api/register/",
-        json={"username": new_username,
-              "email": new_email, "password": password},
+        json={"username": new_username, "email": new_email, "password": password},
     )
     assert response.status_code == 201
     assert response.json() == {
@@ -75,8 +73,7 @@ def test_register(client, faker):
     bad_email = faker.name()
     response = client.post(
         "/api/register/",
-        json={"username": good_username,
-              "email": bad_email, "password": password},
+        json={"username": good_username, "email": bad_email, "password": password},
     )
     assert response.status_code == 400
 
@@ -116,8 +113,7 @@ def test_auth_flow(client, faker, user):
     assert token
 
     # Verify that the newly created user can be fetched with the token
-    response = client.get(
-        "/api/user/", headers={"Authorization": f"Bearer {token}"})
+    response = client.get("/api/user/", headers={"Authorization": f"Bearer {token}"})
     assert response.status_code == 200
     assert response.json() == {
         "username": username,
@@ -131,8 +127,7 @@ def test_auth_flow(client, faker, user):
     )
     assert response.status_code == 200
     token = response.json()
-    response = client.get(
-        "/api/user/", headers={"Authorization": f"Bearer {token}"})
+    response = client.get("/api/user/", headers={"Authorization": f"Bearer {token}"})
     assert response.status_code == 200
     assert response.json() == {
         "username": user["username"],

@@ -98,7 +98,10 @@ def test_get_record(user_client, user, record_factory, move_factory):
         "moves": [
             {"position": {"x": 1, "y": 0}, "color": "B", "captures": []},
             {"position": {"x": 0, "y": 0}, "color": "W", "captures": []},
-            {"position": {"x": 0, "y": 1}, "color": "B",
-                "captures": [{"x": 0, "y": 0}]},
+            {
+                "position": {"x": 0, "y": 1},
+                "color": "B",
+                "captures": [{"x": 0, "y": 0}],
+            },
         ],
     }

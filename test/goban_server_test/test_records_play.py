@@ -18,7 +18,8 @@ def test_play_move(user_client, record):
     assert response.status_code == 200
     assert response.json()["stones"] == [{"x": 0, "y": 0, "color": "B"}]
     assert response.json()["moves"] == [
-        {"position": {"x": 0, "y": 0}, "color": "B", "captures": []}]
+        {"position": {"x": 0, "y": 0}, "color": "B", "captures": []}
+    ]
 
 
 def test_play_capture(user_client, record):
