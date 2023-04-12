@@ -136,3 +136,12 @@ def test_list_records(user_client, user, record_factory):
             },
         ],
     }
+
+    response = user_client.get("/api/records/?page_size=1&page=3")
+    assert response.status_code == 404
+
+    response = user_client.get("/api/records/?page_size=1&page=0")
+    assert response.status_code == 404
+
+    response = user_client.get("/api/records/?page_size=1&page=-1")
+    assert response.status_code == 404
