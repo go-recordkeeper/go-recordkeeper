@@ -41,7 +41,7 @@ def test_get_record_one_move(user_client, record, move_factory):
         "ruleset": record.ruleset,
         "winner": record.winner,
         "stones": [{"x": 0, "y": 0, "color": "B"}],
-        "moves": [{"position": 0, "color": "B", "captures": []}],
+        "moves": [{"position": {"x": 0, "y": 0}, "color": "B", "captures": []}],
     }
 
 
@@ -68,8 +68,8 @@ def test_get_record_two_moves(user_client, record, move_factory):
             {"x": 1, "y": 0, "color": "W"},
         ],
         "moves": [
-            {"position": 0, "color": "B", "captures": []},
-            {"position": 1, "color": "W", "captures": []},
+            {"position": {"x": 0, "y": 0}, "color": "B", "captures": []},
+            {"position": {"x": 1, "y": 0}, "color": "W", "captures": []},
         ],
     }
 
@@ -98,9 +98,10 @@ def test_get_record_capture(user_client, record, move_factory):
             {"x": 0, "y": 1, "color": "B"},
         ],
         "moves": [
-            {"position": 1, "color": "B", "captures": []},
-            {"position": 0, "color": "W", "captures": []},
-            {"position": 19, "color": "B", "captures": [{"x": 0, "y": 0}]},
+            {"position": {"x": 1, "y": 0}, "color": "B", "captures": []},
+            {"position": {"x": 0, "y": 0}, "color": "W", "captures": []},
+            {"position": {"x": 0, "y": 1}, "color": "B",
+                "captures": [{"x": 0, "y": 0}]},
         ],
     }
 
