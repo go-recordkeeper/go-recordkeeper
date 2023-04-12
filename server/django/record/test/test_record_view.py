@@ -159,7 +159,7 @@ def test_get_record_with_move(authenticated_client, record):
         'ruleset': record.ruleset,
         'winner': 'U',
         'stones': [{'x': 0, 'y': 0, 'color': 'B'}],
-        'moves': [{'position': 0, 'color': 'B', 'captures': []}],
+        'moves': [{'position': {'x': 0, 'y': 0}, 'color': 'B', 'captures': []}],
     }
 
 
@@ -213,10 +213,11 @@ def test_get_record_after_capture(authenticated_client, record):
             {'x': 0, 'y': 1, 'color': 'W'},
         ],
         'moves': [
-            {'position': 0, 'color': 'B', 'captures': []},
-            {'position': 9, 'color': 'W', 'captures': []},
+            {'position': {'x': 0, 'y': 0}, 'color': 'B', 'captures': []},
+            {'position': {'x': 0, 'y': 1}, 'color': 'W', 'captures': []},
             {'position': None, 'color': 'B', 'captures': []},
-            {'position': 1, 'color': 'W', 'captures': [{'x': 0, 'y': 0}]},
+            {'position': {'x': 1, 'y': 0}, 'color': 'W',
+                'captures': [{'x': 0, 'y': 0}]},
         ],
     }
 
@@ -229,7 +230,8 @@ def test_play_move(authenticated_client, record):
         content_type='application/json',
     )
     assert response.status_code == 201
-    assert response.json() == {'add': [{'x': 0, 'y': 0, 'color': 'B'}], 'remove': []}
+    assert response.json() == {
+        'add': [{'x': 0, 'y': 0, 'color': 'B'}], 'remove': []}
     record.refresh_from_db()
     assert record.moves.count() == 1
     move = record.moves.first()
@@ -252,7 +254,8 @@ def test_play_two_moves(authenticated_client, record):
         content_type='application/json',
     )
     assert response.status_code == 201
-    assert response.json() == {'add': [{'x': 0, 'y': 1, 'color': 'W'}], 'remove': []}
+    assert response.json() == {
+        'add': [{'x': 0, 'y': 1, 'color': 'W'}], 'remove': []}
     record.refresh_from_db()
     assert record.moves.count() == 2
     move = record.moves.last()
@@ -271,7 +274,8 @@ def test_play_after_pass(authenticated_client, record):
         content_type='application/json',
     )
     assert response.status_code == 201
-    assert response.json() == {'add': [{'x': 0, 'y': 0, 'color': 'W'}], 'remove': []}
+    assert response.json() == {
+        'add': [{'x': 0, 'y': 0, 'color': 'W'}], 'remove': []}
     record.refresh_from_db()
     assert record.moves.count() == 2
     move = record.moves.last()
