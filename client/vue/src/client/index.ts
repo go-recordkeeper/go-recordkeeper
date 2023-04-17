@@ -59,6 +59,12 @@ export interface UserAuthError {
     authFailed?: boolean,
 }
 
+export interface ListRecordResponse {
+    count: number,
+    pages: number,
+    results: Record[],
+}
+
 export interface UpdateRecordRequest {
     name: string | null,
     black_player: string,
@@ -94,10 +100,10 @@ class Client {
     constructor() {
         this.baseUrlTemplate = import.meta.env.VITE_API_URL;
         this.implementations = [
-          'django',
-          'fastapi',
-          'haskell',
-          'rust',
+            'django',
+            'fastapi',
+            'haskell',
+            'rust',
         ]
     }
     getImplementation() {
@@ -126,8 +132,12 @@ class Client {
         }
         return headers;
     }
-    async #get(endpoint: string) {
-        return fetch(`${this.#getBaseUrl()}${endpoint}/`, {
+    async #get(endpoint: string, params?: any) {
+        let url = `${this.#getBaseUrl()}${endpoint}/`;
+        if (params) {
+            url += "?" + new URLSearchParams(params);
+        }
+        return fetch(url, {
             method: 'GET',
             headers: this.#headers(),
         });
@@ -197,9 +207,9 @@ class Client {
         }
         return await response.json();
     }
-    async getRecords(): Promise<Array<Record>> {
-        let response = await this.#get('records');
-        let json = await response.json();
+    async getRecords(page: number): Promise<ListRecordResponse> {
+        let response = await this.#get('records', { page_size: 10, page: page });
+        const json = await response.json();
         return json
     }
     async createNewRecord(request: CreateRecordRequest): Promise<APIResponse<Record, RecordError>> {

@@ -1,37 +1,62 @@
 <script setup lang="ts">
 import { DocumentArrowDownIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/outline';
 import Client from '@/client';
-import type { Record } from '@/client';
+import type { Record, ListRecordResponse } from '@/client';
 import type { Ref } from 'vue';
-import { ref } from 'vue';
+import { watchEffect, ref } from 'vue';
 import router from '@/router';
 
-let client = new Client();
-let records: Ref<Record[]> = ref([]);
-client.getRecords().then((rs) => {
-    records.value = rs;
-});
+const client = new Client();
+const page: Ref<number> = ref(1);
+const records: Ref<ListRecordResponse | null> = ref(null);
 
-async function newRecord() {
-    await router.push({ name: 'create' });
-}
+watchEffect(() => {
+    client.getRecords(page.value).then((rs) => {
+        records.value = rs;
+    });
+});
 
 async function deleteRecord(id: number) {
     await client.deleteRecord(id);
-    records.value = await client.getRecords();
+    records.value = await client.getRecords(page.value);
 }
 
 async function downloadRecord(id: number) {
     await client.downloadRecord(id);
 }
+
+async function clickPage(pageNum: number) {
+    page.value = pageNum;
+}
+
+function canPageBack() {
+    return page.value > 1;
+}
+
+function pageBack() {
+    if (canPageBack()) {
+        page.value -= 1;
+    }
+}
+
+function canPageForward() {
+    return records.value && page.value < records.value.pages;
+}
+
+function pageForward() {
+    if (canPageForward()) {
+        page.value += 1;
+    }
+}
+
 </script>
 
 <template>
     <div>
         <div class="text-xl m-4">Games</div>
-        <table class="table-auto w-full">
+        <table v-if="records" class="table-auto w-full">
             <tbody>
-                <tr v-for="record of records" :key="record.id" class="border-b">
+                <tr v-for="record of records.results" :key="record.id" class="border-b">
                     <td class="p-4">
                         <router-link :to="{ name: 'record', params: { id: record.id } }">
                             {{ record.name }}
@@ -65,5 +90,36 @@ async function downloadRecord(id: number) {
                 </tr>
             </tbody>
         </table>
+        <div v-if="records" class="my-4 flex flex-row space-x-2">
+            <div class="grow"></div>
+            <!-- Back arrow -->
+            <button v-if="canPageBack()" @click="pageBack"
+                class="w-8 h-8 rounded-md flex items-center justify-center bg-gray-200">
+                &lt;
+            </button>
+            <button v-else class="w-8 h-8 rounded-md flex items-center justify-center bg-gray-200 text-gray-400">
+                &lt;
+            </button>
+            <!-- The page numbers -->
+            <div v-for="pageNum in records.pages" :key="pageNum" @click="clickPage(pageNum)">
+                <!-- Highlight the currently selected page -->
+                <button v-if="pageNum === page" class="w-8 h-8 rounded-md flex items-center justify-center bg-gray-300">
+                    {{ pageNum }}
+                </button>
+                <!-- Normal color for everything else -->
+                <button v-else class="w-8 h-8 rounded-md flex items-center justify-center bg-gray-200">
+                    {{ pageNum }}
+                </button>
+            </div>
+            <!-- Forward arrow -->
+            <button v-if="canPageForward()" @click="pageForward"
+                class="w-8 h-8 rounded-md flex items-center justify-center bg-gray-200">
+                &gt;
+            </button>
+            <button v-else class="w-8 h-8 rounded-md flex items-center justify-center bg-gray-200 text-gray-400">
+                &gt;
+            </button>
+            <div class="grow"></div>
+        </div>
     </div>
 </template>
