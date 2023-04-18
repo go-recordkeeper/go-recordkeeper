@@ -5,6 +5,10 @@
 ![Haskell](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/haskell.yml/badge.svg)
 ![Rust](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/rust.yml/badge.svg)
 
+<p align="center">
+<img src="https://go.chiquit.ooo/favicon.ico" width="200" />
+</p>
+
 An application to record go games. Try it out at [go.chiquit.ooo](https://go.chiquit.ooo/)!
 
 
