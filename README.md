@@ -1,4 +1,5 @@
 # go-recordkeeper
+![Vue](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/vue.yml/badge.svg)
 ![Django](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/django.yml/badge.svg)
 ![FastAPI](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/fastapi.yml/badge.svg)
 ![Haskell](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/haskell.yml/badge.svg)
