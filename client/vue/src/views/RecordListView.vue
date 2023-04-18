@@ -21,8 +21,10 @@ watchEffect(() => {
 });
 
 async function deleteRecord(id: number) {
-  await client.deleteRecord(id);
-  records.value = await client.getRecords(page.value);
+  if (confirm("This action cannot be undone. Are you sure?")) {
+    await client.deleteRecord(id);
+    records.value = await client.getRecords(page.value);
+  }
 }
 
 async function downloadRecord(id: number) {
