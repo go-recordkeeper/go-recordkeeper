@@ -41,12 +41,9 @@ def list_records(
 ):
     with db.session() as session:
         count = session.query(Record).filter_by(owner_id=current_user.id).count()
-        pages = count // page_size
-        # There is always at least an empty page
-        if pages == 0:
-            pages = 1
         if page_size < 1:
             raise HTTPException(status_code=404, detail="Invalid page_size")
+        pages = (max(count, 1) + page_size - 1) // page_size
         if page < 1 or page > pages:
             raise HTTPException(status_code=404, detail="Invalid page")
         start = (page - 1) * page_size

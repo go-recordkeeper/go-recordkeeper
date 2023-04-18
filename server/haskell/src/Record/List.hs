@@ -99,8 +99,7 @@ list pool = get "/api/records/" $ do
   page <- param "page" `rescue` (\_ -> return 1)
   when (pageSize < 1) $ raiseStatus status404 "Invalid page size"
   totalRecords <- execute pool countStatement userId
-  let pages' = totalRecords `div` pageSize
-      pages = if pages' == 0 then 1 else pages'
+  let pages = (max totalRecords 1 + pageSize - 1) `div` pageSize
   when (page < 1 || page > pages) $ raiseStatus status404 "Invalid page number"
   rows <- execute pool select (userId, pageSize, (page - 1) * pageSize)
   status status200

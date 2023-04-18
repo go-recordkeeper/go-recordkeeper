@@ -54,8 +54,8 @@ pub async fn list(
     )
     .await?;
     let count: i64 = row.get(0);
-    let pages = count / page_size;
-    let pages = if pages == 0 { 1 } else { pages };
+    // Black magic
+    let pages = (count.max(1) + page_size - 1) / page_size;
     if page < 1 || page > pages {
         return Err((StatusCode::NOT_FOUND, "Invalid page number"));
     }
