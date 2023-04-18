@@ -1,9 +1,11 @@
 # Django implementation
 
 <p align="center">
-<img src="https://go.chiquit.ooo/logo.png" width="200" style="display: inline;" />
+<p float="left">
+<img src="https://go.chiquit.ooo/logo.png" width="200" />
 <div style="font-size: 30px; display: inline;">+</div>
-<img src="https://go.chiquit.ooo/django.png" width="200" style="display: inline;" />
+<img src="https://go.chiquit.ooo/django.png" width="200" />
+</p>
 </p>
 
 Written entirely in Django. This was the first server written and serves as the reference implementation.
