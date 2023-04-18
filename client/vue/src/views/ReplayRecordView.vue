@@ -13,8 +13,6 @@ const props = defineProps({
   },
 });
 
-const { id } = props;
-
 const client = new Client();
 const size = ref(0);
 
@@ -50,7 +48,7 @@ watch(move, (newMove) => {
   }
 });
 
-client.getRecord(id).then((record) => {
+client.getRecord(props.id).then((record) => {
   size.value = record.board_size;
   moves.value = record.moves;
   move.value = moves.value.length;
@@ -64,7 +62,7 @@ client.getRecord(id).then((record) => {
 });
 
 async function undo() {
-  const { add, remove } = await client.undo(id);
+  const { add, remove } = await client.undo(props.id);
   for (const move of add) {
     const { x, y, color } = move;
     matrix[x][y] = color;

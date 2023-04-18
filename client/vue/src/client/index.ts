@@ -130,7 +130,7 @@ class Client {
     }
     return headers;
   }
-  async #get(endpoint: string, params?: any) {
+  async #get(endpoint: string, params?: globalThis.Record<string, string>) {
     let url = `${this.#getBaseUrl()}${endpoint}/`;
     if (params) {
       url += "?" + new URLSearchParams(params);
@@ -146,7 +146,7 @@ class Client {
       headers: this.#headers(),
     });
   }
-  async #post(endpoint: string, body?: any) {
+  async #post(endpoint: string, body?: object) {
     const headers = this.#headers();
     const request: RequestInit = { method: "POST", headers };
     if (body) {
@@ -155,7 +155,7 @@ class Client {
     }
     return fetch(`${this.#getBaseUrl()}${endpoint}/`, request);
   }
-  async #put(endpoint: string, body?: any) {
+  async #put(endpoint: string, body?: object) {
     const headers = this.#headers();
     const request: RequestInit = { method: "PUT", headers };
     if (body) {
@@ -217,7 +217,10 @@ class Client {
     return await response.json();
   }
   async getRecords(page: number): Promise<ListRecordResponse> {
-    const response = await this.#get("records", { page_size: 10, page: page });
+    const response = await this.#get("records", {
+      page_size: "10",
+      page: page.toString(),
+    });
     const json = await response.json();
     return json;
   }

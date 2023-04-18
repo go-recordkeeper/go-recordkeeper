@@ -16,15 +16,13 @@ const props = defineProps({
   },
 });
 
-const { id } = props;
-
 const client = new Client();
 const size = ref(0);
 
 // Initialize stones played
 const matrix: ("B" | "W" | " ")[][] = reactive([]);
 
-client.getRecord(id).then((record) => {
+client.getRecord(props.id).then((record) => {
   size.value = record.board_size;
   for (let x = 0; x < size.value; x += 1) {
     const column: ("B" | "W" | " ")[] = reactive([]);
@@ -39,7 +37,7 @@ client.getRecord(id).then((record) => {
 });
 
 async function onClick(x: number, y: number) {
-  client.playStone(id, x, y).then(({ add, remove }) => {
+  client.playStone(props.id, x, y).then(({ add, remove }) => {
     for (const move of add) {
       const { x, y, color } = move;
       matrix[x][y] = color;
@@ -52,7 +50,7 @@ async function onClick(x: number, y: number) {
 }
 
 async function undo() {
-  const { add, remove } = await client.undo(id);
+  const { add, remove } = await client.undo(props.id);
   for (const move of add) {
     const { x, y, color } = move;
     matrix[x][y] = color;
@@ -64,19 +62,19 @@ async function undo() {
 }
 
 async function download() {
-  await client.downloadRecord(id);
+  await client.downloadRecord(props.id);
 }
 
 async function modify() {
-  router.push({ name: "update", params: { id } });
+  router.push({ name: "update", params: { id: props.id } });
 }
 
 async function replay() {
-  router.push({ name: "replay", params: { id } });
+  router.push({ name: "replay", params: { id: props.id } });
 }
 
 async function pass() {
-  await client.pass(id);
+  await client.pass(props.id);
 }
 </script>
 

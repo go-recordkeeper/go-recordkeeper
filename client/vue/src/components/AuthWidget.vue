@@ -5,7 +5,7 @@ import Client, { user } from "@/client";
 import router from "@/router";
 
 const props = defineProps({
-  closeDialog: Function as PropType<() => {}>,
+  closeDialog: Function as PropType<() => never>,
 });
 const client = new Client();
 

@@ -19,8 +19,8 @@ export default defineComponent({
       required: true,
     },
   },
-  setup({ size, matrix, onClick }) {
-    const goban = new Goban("#goban", size, onClick);
+  setup(props) {
+    const goban = new Goban("#goban", props.size, props.onClick);
     return { goban };
   },
   mounted() {

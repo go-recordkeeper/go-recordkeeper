@@ -26,7 +26,7 @@ function selectImpl(impl: string, closeDropdown: () => never) {
 </script>
 
 <template>
-  <Disclosure as="nav" v-slot="open">
+  <Disclosure as="nav">
     <DisclosureButton :class="props.buttonClass">
       Implementation
     </DisclosureButton>
@@ -37,6 +37,7 @@ function selectImpl(impl: string, closeDropdown: () => never) {
     >
       <div
         v-for="impl in client.implementations"
+        :key="impl"
         @click="selectImpl(impl, close)"
         class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
       >
