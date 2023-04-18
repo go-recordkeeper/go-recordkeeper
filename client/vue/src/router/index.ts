@@ -1,67 +1,72 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
-import { user } from '@/client';
+import { createRouter, createWebHistory } from "vue-router";
+import HomeView from "@/views/HomeView.vue";
+import { user } from "@/client";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: () => import('@/views/HomeView.vue')
+      path: "/",
+      name: "home",
+      component: () => import("@/views/HomeView.vue"),
     },
     {
-      path: '/records',
-      name: 'records',
-      component: () => import('@/views/RecordListView.vue')
+      path: "/records",
+      name: "records",
+      component: () => import("@/views/RecordListView.vue"),
     },
     {
-      path: '/records/:id',
-      name: 'record',
+      path: "/records/:id",
+      name: "record",
       props: (route) => ({ id: Number(route.params.id) }),
-      component: () => import('@/views/RecordView.vue')
+      component: () => import("@/views/RecordView.vue"),
     },
     {
-      path: '/records/create',
-      name: 'create',
-      component: () => import('@/views/CreateRecordView.vue')
+      path: "/records/create",
+      name: "create",
+      component: () => import("@/views/CreateRecordView.vue"),
     },
     {
-      path: '/records/:id/update',
-      name: 'update',
+      path: "/records/:id/update",
+      name: "update",
       props: (route) => ({ id: Number(route.params.id) }),
-      component: () => import('@/views/UpdateRecordView.vue')
+      component: () => import("@/views/UpdateRecordView.vue"),
     },
     {
-      path: '/records/:id/replay',
-      name: 'replay',
+      path: "/records/:id/replay",
+      name: "replay",
       props: (route) => ({ id: Number(route.params.id) }),
-      component: () => import('@/views/ReplayRecordView.vue')
+      component: () => import("@/views/ReplayRecordView.vue"),
     },
     {
-      path: '/login',
-      name: 'login',
-      component: () => import('@/views/LoginView.vue')
+      path: "/login",
+      name: "login",
+      component: () => import("@/views/LoginView.vue"),
     },
     {
-      path: '/register',
-      name: 'register',
-      component: () => import('@/views/RegisterView.vue')
+      path: "/register",
+      name: "register",
+      component: () => import("@/views/RegisterView.vue"),
     },
     {
-      path: '/implementations',
-      name: 'implementations',
-      component: () => import('@/views/ImplementationsView.vue')
+      path: "/implementations",
+      name: "implementations",
+      component: () => import("@/views/ImplementationsView.vue"),
     },
-  ]
-})
+  ],
+});
 router.beforeEach((to, from) => {
   if (user.value === null) {
     let { name } = to;
-    if (name !== 'home' && name !== 'login' && name !== 'register' && name !== 'implementations') {
-      return { name: 'home' };
+    if (
+      name !== "home" &&
+      name !== "login" &&
+      name !== "register" &&
+      name !== "implementations"
+    ) {
+      return { name: "home" };
     }
   }
 });
 
-export default router
+export default router;

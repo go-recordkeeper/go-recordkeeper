@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { DocumentArrowDownIcon, PencilIcon, EyeIcon } from '@heroicons/vue/24/outline';
-import Client from '@/client';
-import Goban from '@/components/Goban.vue';
-import router from '@/router';
-import { reactive, ref } from 'vue';
+import {
+  DocumentArrowDownIcon,
+  PencilIcon,
+  EyeIcon,
+} from "@heroicons/vue/24/outline";
+import Client from "@/client";
+import Goban from "@/components/Goban.vue";
+import router from "@/router";
+import { reactive, ref } from "vue";
 
 const props = defineProps({
   id: {
     type: Number,
     required: true,
   },
-})
+});
 
 let { id } = props;
 
@@ -18,14 +22,14 @@ let client = new Client();
 let size = ref(0);
 
 // Initialize stones played
-let matrix: ('B' | 'W' | ' ')[][] = reactive([]);
+let matrix: ("B" | "W" | " ")[][] = reactive([]);
 
 client.getRecord(id).then((record) => {
   size.value = record.board_size;
   for (let x = 0; x < size.value; x += 1) {
-    let column: ('B' | 'W' | ' ')[] = reactive([]);
+    let column: ("B" | "W" | " ")[] = reactive([]);
     for (let y = 0; y < size.value; y += 1) {
-      column.push(' ');
+      column.push(" ");
     }
     matrix.push(column);
   }
@@ -42,9 +46,9 @@ async function onClick(x: number, y: number) {
     }
     for (let capture of remove) {
       let { x, y } = capture;
-      matrix[x][y] = ' ';
+      matrix[x][y] = " ";
     }
-  })
+  });
 }
 
 async function undo() {
@@ -55,7 +59,7 @@ async function undo() {
   }
   for (let capture of remove) {
     let { x, y } = capture;
-    matrix[x][y] = ' ';
+    matrix[x][y] = " ";
   }
 }
 
@@ -64,24 +68,29 @@ async function download() {
 }
 
 async function modify() {
-  router.push({ name: 'update', params: { id } })
+  router.push({ name: "update", params: { id } });
 }
 
 async function replay() {
-  router.push({ name: 'replay', params: { id }});
+  router.push({ name: "replay", params: { id } });
 }
 
 async function pass() {
   await client.pass(id);
 }
-
 </script>
-    
+
 <template>
-  <Goban v-if="size" :size="size" :matrix="matrix" :onClick="onClick" style="max-width: calc(100vh - 128px); max-height: calc(100vh - 128px); ">
+  <Goban
+    v-if="size"
+    :size="size"
+    :matrix="matrix"
+    :onClick="onClick"
+    style="max-width: calc(100vh - 128px); max-height: calc(100vh - 128px)"
+  >
   </Goban>
-  <div v-else>Loading game...{{size}}</div>
-  <div class="flex items-center mx-auto" style="max-width: calc(100vh - 128px);">
+  <div v-else>Loading game...{{ size }}</div>
+  <div class="flex items-center mx-auto" style="max-width: calc(100vh - 128px)">
     <button @click="download" class="rounded-md ring m-2">
       <DocumentArrowDownIcon class="block h-8 w-8 m-2" />
     </button>
@@ -91,7 +100,17 @@ async function pass() {
     <button @click="replay" class="rounded-md ring m-2">
       <EyeIcon class="block h-8 w-8 m-2" />
     </button>
-    <button @click="pass" class="grow m-2 h-12 rounded-md bg-red-600 text-gray-800">Pass</button>
-    <button @click="undo" class="grow m-2 h-12 rounded-md bg-yellow-600 text-gray-800">Undo</button>
+    <button
+      @click="pass"
+      class="grow m-2 h-12 rounded-md bg-red-600 text-gray-800"
+    >
+      Pass
+    </button>
+    <button
+      @click="undo"
+      class="grow m-2 h-12 rounded-md bg-yellow-600 text-gray-800"
+    >
+      Undo
+    </button>
   </div>
 </template>

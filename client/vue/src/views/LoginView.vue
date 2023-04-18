@@ -12,54 +12,73 @@ let password = ref("");
 let fieldErrors: Ref<UserAuthError> = ref({});
 
 async function login(e: Event) {
-    e.preventDefault();
-    let response = await client.login(username.value, password.value);
-    if (response.is_ok()) {
-        router.push({ name: "records" });
-    } else {
-        fieldErrors.value = response.error();
-    }
+  e.preventDefault();
+  let response = await client.login(username.value, password.value);
+  if (response.is_ok()) {
+    router.push({ name: "records" });
+  } else {
+    fieldErrors.value = response.error();
+  }
 }
 </script>
 
 <template>
-    <div class="mx-auto max-w-lg">
-        <div class="my-10 text-4xl text-center">Log in</div>
-        <form @submit="login">
-            <div class="my-6 flex">
-                <div class="mr-4">Username</div>
-                <div class="grow">
-                    <div>
-                        <input v-model="username" class="w-full rounded-md" />
-                    </div>
-                    <ul v-if="fieldErrors.username">
-                        <li v-for="error in fieldErrors.username" :key="error" class="text-sm text-red-600">
-                            {{ error }}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="my-6 flex">
-                <div class="mr-4">Password</div>
-                <div class="grow">
-                    <div>
-                        <input v-model="password" type="password" class="w-full rounded-md" />
-                    </div>
-                    <ul v-if="fieldErrors.password">
-                        <li v-for="error in fieldErrors.password" :key="error" class="text-sm text-red-600">
-                            {{ error }}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div v-if="fieldErrors.authFailed" class="my-2 text-md text-red-600 text-center">
-                Incorrect username or password
-            </div>
-            <button type="submit" class="my-2 w-full bg-gray-200 rounded-md">Log in</button>
-        </form>
-        <div class="my-6 text-center">
-            No account?
-            <RouterLink :to="{ 'name': 'register' }" class="text-blue-800 underline">Sign up!</RouterLink>
+  <div class="mx-auto max-w-lg">
+    <div class="my-10 text-4xl text-center">Log in</div>
+    <form @submit="login">
+      <div class="my-6 flex">
+        <div class="mr-4">Username</div>
+        <div class="grow">
+          <div>
+            <input v-model="username" class="w-full rounded-md" />
+          </div>
+          <ul v-if="fieldErrors.username">
+            <li
+              v-for="error in fieldErrors.username"
+              :key="error"
+              class="text-sm text-red-600"
+            >
+              {{ error }}
+            </li>
+          </ul>
         </div>
+      </div>
+      <div class="my-6 flex">
+        <div class="mr-4">Password</div>
+        <div class="grow">
+          <div>
+            <input
+              v-model="password"
+              type="password"
+              class="w-full rounded-md"
+            />
+          </div>
+          <ul v-if="fieldErrors.password">
+            <li
+              v-for="error in fieldErrors.password"
+              :key="error"
+              class="text-sm text-red-600"
+            >
+              {{ error }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        v-if="fieldErrors.authFailed"
+        class="my-2 text-md text-red-600 text-center"
+      >
+        Incorrect username or password
+      </div>
+      <button type="submit" class="my-2 w-full bg-gray-200 rounded-md">
+        Log in
+      </button>
+    </form>
+    <div class="my-6 text-center">
+      No account?
+      <RouterLink :to="{ name: 'register' }" class="text-blue-800 underline"
+        >Sign up!</RouterLink
+      >
     </div>
+  </div>
 </template>

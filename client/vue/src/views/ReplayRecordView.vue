@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { ArrowUturnLeftIcon } from '@heroicons/vue/24/outline';
-import Client from '@/client';
-import Goban from '@/components/Goban.vue';
-import router from '@/router';
-import { reactive, ref, watch } from 'vue';
-import type { Ref } from 'vue';
+import { ArrowUturnLeftIcon } from "@heroicons/vue/24/outline";
+import Client from "@/client";
+import Goban from "@/components/Goban.vue";
+import router from "@/router";
+import { reactive, ref, watch } from "vue";
+import type { Ref } from "vue";
 
 const props = defineProps({
   id: {
     type: Number,
     required: true,
   },
-})
+});
 
 let { id } = props;
 
@@ -22,14 +22,20 @@ let size = ref(0);
 // 1 means after the first stone has been placed
 // {moves.length} means after the final move has been made
 let move = ref(0);
-let moves: Ref<{ position: { x: number, y: number } | null, color: 'B' | 'W', captures: { x: number, y: number }[] }[]> = ref([]);
+let moves: Ref<
+  {
+    position: { x: number; y: number } | null;
+    color: "B" | "W";
+    captures: { x: number; y: number }[];
+  }[]
+> = ref([]);
 
-let matrix: ('B' | 'W' | ' ')[][] = reactive([]);
+let matrix: ("B" | "W" | " ")[][] = reactive([]);
 
 watch(move, (newMove) => {
   for (let x = 0; x < size.value; x += 1) {
     for (let y = 0; y < size.value; y += 1) {
-      matrix[x][y] = ' ';
+      matrix[x][y] = " ";
     }
   }
   for (let i = 0; i < newMove; i += 1) {
@@ -39,7 +45,7 @@ watch(move, (newMove) => {
       matrix[x][y] = color;
     }
     for (const { x, y } of captures) {
-      matrix[x][y] = ' ';
+      matrix[x][y] = " ";
     }
   }
 });
@@ -49,9 +55,9 @@ client.getRecord(id).then((record) => {
   moves.value = record.moves;
   move.value = moves.value.length;
   for (let x = 0; x < size.value; x += 1) {
-    let column: ('B' | 'W' | ' ')[] = reactive([]);
+    let column: ("B" | "W" | " ")[] = reactive([]);
     for (let y = 0; y < size.value; y += 1) {
-      column.push(' ');
+      column.push(" ");
     }
     matrix.push(column);
   }
@@ -65,7 +71,7 @@ async function undo() {
   }
   for (let capture of remove) {
     let { x, y } = capture;
-    matrix[x][y] = ' ';
+    matrix[x][y] = " ";
   }
 }
 
@@ -78,7 +84,7 @@ function skipToBeginning() {
 }
 
 function skipTenBack() {
-  move.value = Math.max(0, move.value - 10)
+  move.value = Math.max(0, move.value - 10);
 }
 
 function goBack() {
@@ -86,25 +92,29 @@ function goBack() {
 }
 
 function goForward() {
-  move.value = Math.min(moves.value.length, move.value + 1)
+  move.value = Math.min(moves.value.length, move.value + 1);
 }
 
 function skipTenForward() {
-  move.value = Math.min(moves.value.length, move.value + 10)
+  move.value = Math.min(moves.value.length, move.value + 10);
 }
 
 function skipToEnd() {
   move.value = moves.value.length;
 }
-
 </script>
-    
+
 <template>
-  <div class="mx-auto" style="max-width: calc(100vh - 220px);">
-    <Goban v-if="size" :size="size" :matrix="matrix" :onClick="() => {}"
-      style="max-width: calc(100vh - 220px); max-height: calc(100vh - 220px); ">
+  <div class="mx-auto" style="max-width: calc(100vh - 220px)">
+    <Goban
+      v-if="size"
+      :size="size"
+      :matrix="matrix"
+      :onClick="() => {}"
+      style="max-width: calc(100vh - 220px); max-height: calc(100vh - 220px)"
+    >
     </Goban>
-    <div v-else>Loading game...{{size}}</div>
+    <div v-else>Loading game...{{ size }}</div>
     <div class="flex items-center">
       <button @click="back" class="rounded-md ring m-2 bg-green-400">
         <ArrowUturnLeftIcon class="block h-7 w-7 m-2" />
@@ -128,9 +138,17 @@ function skipToEnd() {
         <div class="block h-7 w-7 m-2">&gt;|</div>
       </button>
     </div>
-    <div class="mx-auto my-4 text-center">Move {{ move}} / {{ moves.length }}</div>
+    <div class="mx-auto my-4 text-center">
+      Move {{ move }} / {{ moves.length }}
+    </div>
     <div class="flex mx-4 my-4">
-      <input type="range" :min="0" :max="moves.length" v-model="move" class="grow" />
+      <input
+        type="range"
+        :min="0"
+        :max="moves.length"
+        v-model="move"
+        class="grow"
+      />
     </div>
   </div>
 </template>
