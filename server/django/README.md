@@ -1,6 +1,8 @@
 # Django implementation
 
-<img src="https://go.chiquit.ooo/django.png" width="200" />
+<p align="center">
+<img src="https://go.chiquit.ooo/django.png" width="300" />
+</p>
 
 Written entirely in Django. This was the first server written and serves as the reference implementation.
 

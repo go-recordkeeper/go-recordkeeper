@@ -1,4 +1,9 @@
 # Haskell Implementation
+
+<p align="center">
+<img src="https://go.chiquit.ooo/haskell.svg" width="400" />
+</p>
+
 I'm using `stack` for package management, so you will need `ghc`, `cabal` and `stack` installed. I recommend [GHCup](https://www.haskell.org/ghcup/) for installing Haskell things.
 
 ## Initialize dev environment

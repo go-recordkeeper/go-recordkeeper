@@ -1,5 +1,9 @@
 # FastAPI Implementation
 
+<p align="center">
+<img src="https://go.chiquit.ooo/fastapi.png" width="400" />
+</p>
+
 ## Initialize dev environment
 ```
 docker compose build

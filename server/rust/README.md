@@ -1,5 +1,9 @@
 # Rust Implementation
 
+<p align="center">
+<img src="https://go.chiquit.ooo/rust.svg" width="200" />
+</p>
+
 ## Test Coverage
 ```sh
 RUSTFLAGS="-C instrument-coverage" cargo test
