@@ -9,7 +9,7 @@ import type {
   Winner,
 } from "@/client";
 import type { PropType, Ref } from "vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import router from "@/router";
 
 const props = defineProps({
@@ -41,22 +41,27 @@ const {
   black_player: ref("Black"),
   white_player: ref("White"),
   comment: ref(""),
-  handicap: ref(0),
-  komi: ref(7.5),
+  handicap: ref("0"),
+  komi: ref("7.5"),
   ruleset: ref("AGA") as Ref<Ruleset>,
   winner: ref("U") as Ref<Winner>,
 };
-if (props.defaults) {
-  board_size.value = props.defaults.board_size;
-  name.value = props.defaults.name;
-  black_player.value = props.defaults.black_player;
-  white_player.value = props.defaults.white_player;
-  comment.value = props.defaults.comment;
-  handicap.value = props.defaults.handicap;
-  komi.value = props.defaults.komi;
-  ruleset.value = props.defaults.ruleset;
-  winner.value = props.defaults.winner;
-}
+watch(
+  () => props.defaults,
+  () => {
+    if (props.defaults) {
+      board_size.value = props.defaults.board_size;
+      name.value = props.defaults.name;
+      black_player.value = props.defaults.black_player;
+      white_player.value = props.defaults.white_player;
+      comment.value = props.defaults.comment;
+      handicap.value = props.defaults.handicap.toString();
+      komi.value = props.defaults.komi.toString();
+      ruleset.value = props.defaults.ruleset;
+      winner.value = props.defaults.winner;
+    }
+});
+
 const fieldErrors: Ref<RecordError> = ref({});
 
 async function _submit(e: Event) {
