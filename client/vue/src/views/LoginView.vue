@@ -24,13 +24,12 @@ async function login(e: Event) {
 
 <template>
   <div class="mx-auto max-w-lg">
-    <div class="my-10 text-4xl text-center">Log in</div>
-    <form @submit="login">
-      <div class="my-6 flex">
-        <div class="mr-4">Username</div>
+    <form @submit="login" class="my-20">
+      <div class="mt-6 mb-2 mx-0 text-gray-800">Username</div>
+      <div class="mb-6 flex">
         <div class="grow">
           <div>
-            <input v-model="username" class="w-full rounded-md" />
+            <input v-model="username" class="w-full rounded-md text-lg px-2" />
           </div>
           <ul v-if="fieldErrors.username">
             <li
@@ -43,14 +42,14 @@ async function login(e: Event) {
           </ul>
         </div>
       </div>
-      <div class="my-6 flex">
-        <div class="mr-4">Password</div>
+      <div class="mt-6 mb-2 mx-0 text-gray-800">Password</div>
+      <div class="mb-6 flex">
         <div class="grow">
           <div>
             <input
               v-model="password"
               type="password"
-              class="w-full rounded-md"
+              class="w-full rounded-md text-lg px-2"
             />
           </div>
           <ul v-if="fieldErrors.password">
@@ -70,15 +69,18 @@ async function login(e: Event) {
       >
         Incorrect username or password
       </div>
-      <button type="submit" class="my-2 w-full bg-gray-200 rounded-md">
+      <button
+        type="submit"
+        class="my-2 py-1 w-full bg-gray-200 rounded-md text-xl"
+      >
         Log in
       </button>
     </form>
     <div class="my-6 text-center">
       No account?
-      <RouterLink :to="{ name: 'register' }" class="text-blue-800 underline"
-        >Sign up!</RouterLink
-      >
+      <RouterLink :to="{ name: 'register' }" class="text-blue-800 underline">
+        Sign up!
+      </RouterLink>
     </div>
   </div>
 </template>
