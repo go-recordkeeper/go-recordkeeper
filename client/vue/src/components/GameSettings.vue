@@ -9,7 +9,7 @@ import type {
   Winner,
 } from "@/client";
 import type { PropType, Ref } from "vue";
-import { ref, watch } from "vue";
+import { ref, watchEffect } from "vue";
 import router from "@/router";
 
 const props = defineProps({
@@ -46,22 +46,19 @@ const {
   ruleset: ref("AGA") as Ref<Ruleset>,
   winner: ref("U") as Ref<Winner>,
 };
-watch(
-  () => props.defaults,
-  () => {
-    if (props.defaults) {
-      board_size.value = props.defaults.board_size;
-      name.value = props.defaults.name;
-      black_player.value = props.defaults.black_player;
-      white_player.value = props.defaults.white_player;
-      comment.value = props.defaults.comment;
-      handicap.value = props.defaults.handicap.toString();
-      komi.value = props.defaults.komi.toString();
-      ruleset.value = props.defaults.ruleset;
-      winner.value = props.defaults.winner;
-    }
+watchEffect(() => {
+  if (props.defaults) {
+    board_size.value = props.defaults.board_size;
+    name.value = props.defaults.name;
+    black_player.value = props.defaults.black_player;
+    white_player.value = props.defaults.white_player;
+    comment.value = props.defaults.comment;
+    handicap.value = props.defaults.handicap.toString();
+    komi.value = props.defaults.komi.toString();
+    ruleset.value = props.defaults.ruleset;
+    winner.value = props.defaults.winner;
   }
-);
+});
 
 const fieldErrors: Ref<RecordError> = ref({});
 
