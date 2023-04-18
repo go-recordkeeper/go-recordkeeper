@@ -56,7 +56,7 @@ function pageForward() {
 
 <template>
   <div>
-    <div class="text-xl m-4">Games</div>
+    <div class="text-xl m-4">Records</div>
     <table v-if="records" class="table-auto w-full">
       <tbody>
         <!-- Desktop sized -->

@@ -58,14 +58,14 @@ import { user } from "@/client";
                   v-if="user"
                   class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
-                  Games
+                  Records
                 </RouterLink>
                 <RouterLink
                   :to="{ name: 'create' }"
                   v-if="user"
                   class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
-                  New Game
+                  New Record
                 </RouterLink>
                 <ImplementationSelector
                   buttonClass="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
@@ -118,7 +118,7 @@ import { user } from "@/client";
             @click="close"
             class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
           >
-            Games
+            Records
           </RouterLink>
           <RouterLink
             :to="{ name: 'create' }"
@@ -126,7 +126,7 @@ import { user } from "@/client";
             @click="close"
             class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
           >
-            New Game
+            New Record
           </RouterLink>
           <ImplementationSelector
             buttonClass="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
