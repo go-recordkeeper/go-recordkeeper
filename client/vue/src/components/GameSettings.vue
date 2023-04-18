@@ -60,7 +60,8 @@ watch(
       ruleset.value = props.defaults.ruleset;
       winner.value = props.defaults.winner;
     }
-});
+  }
+);
 
 const fieldErrors: Ref<RecordError> = ref({});
 

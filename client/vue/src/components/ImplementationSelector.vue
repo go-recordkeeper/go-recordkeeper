@@ -35,8 +35,11 @@ function selectImpl(impl: string, closeDropdown: () => never) {
       v-slot="{ close }"
       class="absolute top-15 bg-gray-800 rounded"
     >
-      <div v-for="impl in client.implementations" @click="selectImpl(impl, close)"
-        class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+      <div
+        v-for="impl in client.implementations"
+        @click="selectImpl(impl, close)"
+        class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+      >
         <div v-if="currentImpl === impl" class="font-bold">
           {{ impl }}
         </div>
@@ -44,8 +47,11 @@ function selectImpl(impl: string, closeDropdown: () => never) {
           {{ impl }}
         </div>
       </div>
-      <RouterLink :to="{ name: 'implementations' }" @click="close"
-        class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+      <RouterLink
+        :to="{ name: 'implementations' }"
+        @click="close"
+        class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+      >
         ...what?
       </RouterLink>
     </DisclosurePanel>
