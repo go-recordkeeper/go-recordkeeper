@@ -1,0 +1,25 @@
+name: Vue
+on:
+  push:
+    paths:
+      - 'client/vue/**'
+      - '.github/workflows/vue.yml'
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client/vue
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      - name: Setup npm
+        uses: actions/setup-node@v3
+      - name: Type check
+        run: npm run type-check
+      - name: eslint
+        run: npm run lint
+      - name: prettier
+        run: npx prettier --check .
+      - name: Build
+        run: npm run build-only
