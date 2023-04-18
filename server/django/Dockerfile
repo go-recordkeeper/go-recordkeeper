@@ -6,5 +6,8 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /goban
 COPY setup.py /goban/
-RUN pip install --no-cache-dir .
+# Install the application and also uvicorn
+RUN pip install --no-cache-dir . uvicorn
 COPY . /goban/
+
+CMD ["uvicorn", "goban.asgi:application", "--reload"] 

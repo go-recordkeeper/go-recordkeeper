@@ -11,4 +11,4 @@ COPY poetry.lock pyproject.toml /goban/
 RUN poetry config virtualenvs.create false \
   && poetry install --no-interaction --no-ansi --no-root
 
-ENTRYPOINT uvicorn goban_server_fastapi.main:app --host 0.0.0.0 --reload
+ENTRYPOINT ["uvicorn", "goban_server_fastapi.main:app", "--host", "0.0.0.0", "--reload"]
