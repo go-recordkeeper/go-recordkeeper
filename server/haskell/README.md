@@ -3,9 +3,9 @@ I'm using `stack` for package management, so you will need `ghc`, `cabal` and `s
 
 ## Initialize dev environment
 ```sh
-docker-compose build
-docker-compose run --rm django ./manage.py migrate
-docker-compose run --rm django ./manage.py createsuperuser
+docker compose build
+docker compose run --rm django ./manage.py migrate
+docker compose run --rm django ./manage.py createsuperuser
 ```
 
 ## Building

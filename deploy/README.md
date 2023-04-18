@@ -2,7 +2,7 @@
 
 Everything needed to actually deploy the app.
 
-I only plan on very light usage, so the app is deployed using docker-compose on a Raspberry Pi.
+I only plan on very light usage, so the app is deployed using docker compose on a Raspberry Pi.
 
 ## Building
 
@@ -20,25 +20,25 @@ You can also build specific parts using `build-blog.sh`, `build-django.sh`, and 
 ## First deploy
 ```
 ./generate-secret-key.sh
-docker-compose build
-docker-compose run django ./manage.py migrate
-docker-compose run django ./manage.py createsuperuser
-docker-compose up -d
+docker compose build
+docker compose run django ./manage.py migrate
+docker compose run django ./manage.py createsuperuser
+docker compose up -d
 ```
 
 ## Redeploying
 ```
-docker-compose stop
+docker compose stop
 git submodule update --remote
 # If any new pip packages are required
-docker-compose build --no-cache
+docker compose build --no-cache
 # If any database schema changes were made
-docker-compose run django ./manage.py migrate
-docker-compose up -d
+docker compose run django ./manage.py migrate
+docker compose up -d
 ```
 
 ## systemd
-Rather than using `docker-compose up -d` to start a backup process, you can instead use the included systemd service. This has the advantage of automatically restarting the service should it crash, and starting the service automatically when the server boots.
+Rather than using `docker compose up -d` to start a backup process, you can instead use the included systemd service. This has the advantage of automatically restarting the service should it crash, and starting the service automatically when the server boots.
 
 ```
 # Install the goban.service file to /etc/systemd/system/
@@ -53,7 +53,7 @@ sudo systemctl start goban
 sudo systemctl status goban
 ```
 
-You can use either `journalctl -fu goban` or `docker-compose logs` to check the service logs.
+You can use either `journalctl -fu goban` or `docker compose logs` to check the service logs.
 
 # Backups
 The `pg_dump.sh` and `pg_load_sh` scripts will, respectively, backup and restore the database to a SQL file.
