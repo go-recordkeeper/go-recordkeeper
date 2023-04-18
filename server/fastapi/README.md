@@ -2,6 +2,7 @@
 
 <p align="center">
 <img src="https://go.chiquit.ooo/fastapi.png" width="400" />
+![FastAPI](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/fastapi.yml/badge.svg)
 </p>
 
 ## Initialize dev environment

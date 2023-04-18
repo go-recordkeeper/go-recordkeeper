@@ -3,6 +3,9 @@
 <p align="center" style="background: white;">
 <img src="https://go.chiquit.ooo/rust.svg" width="200" />
 </p>
+<p align="center">
+![Rust](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/rust.yml/badge.svg)
+</p>
 
 ## Test Coverage
 ```sh
