@@ -4,7 +4,7 @@
 <img src="https://go.chiquit.ooo/rust.svg" width="200" />
 </p>
 <p align="center">
-![Rust](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/rust.yml/badge.svg)
+<img src="https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/rust.yml/badge.svg" />
 </p>
 
 ## Test Coverage
