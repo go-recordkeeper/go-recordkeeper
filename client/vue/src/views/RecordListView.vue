@@ -59,18 +59,21 @@ function pageForward() {
     <div class="text-xl m-4">Games</div>
     <table v-if="records" class="table-auto w-full">
       <tbody>
-        <tr v-for="record of records.results" :key="record.id" class="border-b">
+        <!-- Desktop sized -->
+        <tr
+          v-for="record of records.results"
+          :key="record.id"
+          class="border-b hidden md:table-row"
+        >
           <td class="p-4">
             <router-link :to="{ name: 'record', params: { id: record.id } }">
-              {{ record.name }}
+              <div class="text-lg">{{ record.black_player }} vs. {{ record.white_player }}</div>
+              <div class="text-md text-gray-700">
+                {{ record.name }}
+              </div>
             </router-link>
           </td>
-          <td class="p-4">
-            <router-link :to="{ name: 'record', params: { id: record.id } }">
-              {{ record.black_player }} vs. {{ record.white_player }}
-            </router-link>
-          </td>
-          <td class="p-4">
+          <td class="p-4 text-sm">
             <router-link :to="{ name: 'record', params: { id: record.id } }">
               {{ new Date(record.created).toLocaleString() }}
             </router-link>
@@ -86,6 +89,39 @@ function pageForward() {
             </RouterLink>
           </td>
           <td class="p-4">
+            <button @click="deleteRecord(record.id)">
+              <TrashIcon class="block h-6 w-6" />
+            </button>
+          </td>
+        </tr>
+        <!-- Mobile sized -->
+        <tr
+          v-for="record of records.results"
+          :key="record.id"
+          class="border-b table-row md:hidden"
+        >
+          <td class="p-4 block">
+            <router-link :to="{ name: 'record', params: { id: record.id } }">
+              <div>{{ record.black_player }} vs. {{ record.white_player }}</div>
+              <div class="text-sm text-gray-700">
+                {{ record.name }}
+              </div>
+              <div class="text-sm text-gray-700">
+                {{ new Date(record.created).toLocaleString() }}
+              </div>
+            </router-link>
+          </td>
+          <td class="p-1">
+            <button @click="downloadRecord(record.id)">
+              <DocumentArrowDownIcon class="block h-6 w-6" />
+            </button>
+          </td>
+          <td class="p-1">
+            <RouterLink :to="{ name: 'update', params: { id: record.id } }">
+              <PencilIcon class="block h-6 w-6" />
+            </RouterLink>
+          </td>
+          <td class="p-1">
             <button @click="deleteRecord(record.id)">
               <TrashIcon class="block h-6 w-6" />
             </button>
