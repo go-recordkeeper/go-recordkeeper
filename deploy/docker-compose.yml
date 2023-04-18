@@ -13,6 +13,7 @@ services:
   django:
     build: ../server/django
     command: python manage.py runserver 0.0.0.0:8000 # TODO gunicorn
+    init: true
     volumes:
       - ../server/django/:/goban
     ports:
@@ -30,6 +31,7 @@ services:
 
   fastapi:
     build: ../server/fastapi
+    init: true
     volumes:
       - ../server/fastapi/:/goban
     ports:
@@ -48,6 +50,7 @@ services:
 
   haskell:
     build: ../server/haskell
+    init: true
     ports:
       - 8002:8000
     env_file:
@@ -63,6 +66,7 @@ services:
 
   rust:
     build: ../server/rust
+    init: true
     ports:
       - 8003:8000
     env_file:

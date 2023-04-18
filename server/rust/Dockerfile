@@ -22,4 +22,4 @@ RUN --mount=type=cache,target=/root/.cargo \
 FROM debian:buster-slim
 
 COPY --from=build /usr/local/cargo/bin/go-recordkeeper /usr/local/bin/go-recordkeeper
-CMD ["go-recordkeeper"]
+ENTRYPOINT ["go-recordkeeper"]

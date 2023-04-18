@@ -10,6 +10,7 @@ services:
       POSTGRES_DB: default
   haskell:
     build: .
+    init: true
     ports:
       - 8000:8000
     environment:
