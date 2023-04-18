@@ -67,7 +67,9 @@ function pageForward() {
         >
           <td class="p-4">
             <router-link :to="{ name: 'record', params: { id: record.id } }">
-              <div class="text-lg">{{ record.black_player }} vs. {{ record.white_player }}</div>
+              <div class="text-lg">
+                {{ record.black_player }} vs. {{ record.white_player }}
+              </div>
               <div class="text-md text-gray-700">
                 {{ record.name }}
               </div>
