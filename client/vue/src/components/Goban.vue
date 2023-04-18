@@ -26,7 +26,7 @@ export default defineComponent({
   mounted() {
     this.goban.initialize();
     watchEffect(() => {
-      let stoneMatrix = this.matrix.map((column) =>
+      const stoneMatrix = this.matrix.map((column) =>
         column.map((color) => stoneFromColor(color))
       );
       this.goban.draw(stoneMatrix);

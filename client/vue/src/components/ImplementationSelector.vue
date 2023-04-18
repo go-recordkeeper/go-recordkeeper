@@ -11,12 +11,12 @@ import {
 import Client from "@/client";
 import { ref } from "vue";
 
-let props = defineProps({
+const props = defineProps({
   buttonClass: String,
 });
 
-let client = new Client();
-let currentImpl = ref(client.getImplementation());
+const client = new Client();
+const currentImpl = ref(client.getImplementation());
 
 function selectImpl(impl, closeDropdown) {
   client.setImplementation(impl);

@@ -57,7 +57,7 @@ const router = createRouter({
 });
 router.beforeEach((to, from) => {
   if (user.value === null) {
-    let { name } = to;
+    const { name } = to;
     if (
       name !== "home" &&
       name !== "login" &&

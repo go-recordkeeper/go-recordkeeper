@@ -7,7 +7,7 @@ import router from "@/router";
 const props = defineProps({
   closeDialog: Function as PropType<() => {}>,
 });
-let client = new Client();
+const client = new Client();
 
 function logout() {
   client.logout();

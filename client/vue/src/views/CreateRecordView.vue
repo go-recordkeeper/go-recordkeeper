@@ -4,10 +4,10 @@ import Client from "@/client";
 import router from "@/router";
 import GameSettings from "@/components/GameSettings.vue";
 
-let client = new Client();
+const client = new Client();
 
 async function createRecord(request: CreateRecordRequest) {
-  let response = await client.createNewRecord(request);
+  const response = await client.createNewRecord(request);
   if (response.is_ok()) {
     await router.push({ name: "record", params: { id: response.json().id } });
   }

@@ -5,15 +5,15 @@ import Client from "@/client";
 import type { UserAuthError } from "@/client";
 import router from "@/router";
 
-let client = new Client();
-let username = ref("");
-let password = ref("");
+const client = new Client();
+const username = ref("");
+const password = ref("");
 
-let fieldErrors: Ref<UserAuthError> = ref({});
+const fieldErrors: Ref<UserAuthError> = ref({});
 
 async function login(e: Event) {
   e.preventDefault();
-  let response = await client.login(username.value, password.value);
+  const response = await client.login(username.value, password.value);
   if (response.is_ok()) {
     router.push({ name: "records" });
   } else {

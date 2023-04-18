@@ -22,10 +22,10 @@ const props = defineProps({
   >,
 });
 
-let includeBoardSize = !!props.create;
-let includeWinner = !props.create;
+const includeBoardSize = !!props.create;
+const includeWinner = !props.create;
 
-let {
+const {
   board_size,
   name,
   black_player,
@@ -57,13 +57,13 @@ if (props.defaults) {
   ruleset.value = props.defaults.ruleset;
   winner.value = props.defaults.winner;
 }
-let fieldErrors: Ref<RecordError> = ref({});
+const fieldErrors: Ref<RecordError> = ref({});
 
 async function _submit(e: Event) {
   e.preventDefault();
   let response: APIResponse<Record, RecordError> | null = null;
-  if (!!props.create) {
-    let createRequest: CreateRecordRequest = {
+  if (props.create) {
+    const createRequest: CreateRecordRequest = {
       board_size: board_size.value,
       name: name.value,
       black_player: black_player.value,
@@ -74,8 +74,8 @@ async function _submit(e: Event) {
       ruleset: ruleset.value,
     };
     response = await props.create(createRequest);
-  } else if (!!props.update) {
-    let updateRequest: UpdateRecordRequest = {
+  } else if (props.update) {
+    const updateRequest: UpdateRecordRequest = {
       name: name.value,
       black_player: black_player.value,
       white_player: white_player.value,

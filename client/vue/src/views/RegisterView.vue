@@ -5,16 +5,16 @@ import Client from "@/client";
 import type { UserAuthError } from "@/client";
 import router from "@/router";
 
-let client = new Client();
-let username = ref("");
-let email = ref("");
-let password = ref("");
+const client = new Client();
+const username = ref("");
+const email = ref("");
+const password = ref("");
 
-let fieldErrors: Ref<UserAuthError> = ref({});
+const fieldErrors: Ref<UserAuthError> = ref({});
 
 async function register(e: Event) {
   e.preventDefault();
-  let response = await client.register(
+  const response = await client.register(
     username.value,
     email.value,
     password.value

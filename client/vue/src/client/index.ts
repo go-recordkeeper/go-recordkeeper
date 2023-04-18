@@ -37,7 +37,7 @@ export class APIResponse<T, E> {
   #json: T | undefined;
   #error: E | undefined;
   constructor(arg: { json?: T; error?: E }) {
-    let { json, error } = arg;
+    const { json, error } = arg;
     this.#json = json;
     this.#error = error;
   }
@@ -123,8 +123,8 @@ class Client {
     localStorage.removeItem("token");
   }
   #headers() {
-    let token = this.#getToken();
-    let headers = new Headers({});
+    const token = this.#getToken();
+    const headers = new Headers({});
     if (token) {
       headers.append("Authorization", `Bearer ${token}`);
     }
@@ -147,8 +147,8 @@ class Client {
     });
   }
   async #post(endpoint: string, body?: any) {
-    let headers = this.#headers();
-    let request: RequestInit = { method: "POST", headers };
+    const headers = this.#headers();
+    const request: RequestInit = { method: "POST", headers };
     if (body) {
       request["body"] = JSON.stringify(body);
       headers.append("Content-Type", "application/json");
@@ -156,8 +156,8 @@ class Client {
     return fetch(`${this.#getBaseUrl()}${endpoint}/`, request);
   }
   async #put(endpoint: string, body?: any) {
-    let headers = this.#headers();
-    let request: RequestInit = { method: "PUT", headers };
+    const headers = this.#headers();
+    const request: RequestInit = { method: "PUT", headers };
     if (body) {
       request["body"] = JSON.stringify(body);
       headers.append("Content-Type", "application/json");
@@ -166,7 +166,7 @@ class Client {
   }
   async initializeUser() {
     try {
-      let currentUser = await this.getCurrentUser();
+      const currentUser = await this.getCurrentUser();
       user.value = currentUser;
     } catch {
       user.value = null;
@@ -176,14 +176,14 @@ class Client {
     username: string,
     password: string
   ): Promise<APIResponse<User, UserAuthError>> {
-    let response = await this.#post("login", { username, password });
+    const response = await this.#post("login", { username, password });
     if (response.status == 400) {
-      let json = await response.json();
+      const json = await response.json();
       return new APIResponse({ error: json });
     } else if (response.status == 401) {
       return new APIResponse({ error: { authFailed: true } });
     }
-    let token = await response.json();
+    const token = await response.json();
     this.#setToken(token);
     user.value = await this.getCurrentUser();
     return new APIResponse({ json: user.value });
@@ -197,15 +197,19 @@ class Client {
     email: string,
     password: string
   ): Promise<APIResponse<User, UserAuthError>> {
-    let response = await this.#post("register", { username, email, password });
+    const response = await this.#post("register", {
+      username,
+      email,
+      password,
+    });
     if (response.status == 400) {
-      let json = await response.json();
+      const json = await response.json();
       return new APIResponse({ error: json });
     }
     return await this.login(username, password);
   }
   async getCurrentUser(): Promise<User> {
-    let response = await this.#get("user");
+    const response = await this.#get("user");
     if (response.status != 200) {
       this.#deleteToken();
       throw "Not logged in";
@@ -213,15 +217,15 @@ class Client {
     return await response.json();
   }
   async getRecords(page: number): Promise<ListRecordResponse> {
-    let response = await this.#get("records", { page_size: 10, page: page });
+    const response = await this.#get("records", { page_size: 10, page: page });
     const json = await response.json();
     return json;
   }
   async createNewRecord(
     request: CreateRecordRequest
   ): Promise<APIResponse<Record, RecordError>> {
-    let response = await this.#post("records", request);
-    let json = await response.json();
+    const response = await this.#post("records", request);
+    const json = await response.json();
     if (response.status === 400) {
       return new APIResponse({ error: json });
     }
@@ -231,8 +235,8 @@ class Client {
     id: number,
     request: UpdateRecordRequest
   ): Promise<APIResponse<Record, RecordError>> {
-    let response = await this.#put(`records/${id}`, request);
-    let json = await response.json();
+    const response = await this.#put(`records/${id}`, request);
+    const json = await response.json();
     if (response.status == 400) {
       return new APIResponse({ error: json });
     }
@@ -242,31 +246,31 @@ class Client {
     await this.#delete(`records/${id}`);
   }
   async getRecord(id: number): Promise<RecordDetail> {
-    let response = await this.#get(`records/${id}`);
-    let json = await response.json();
+    const response = await this.#get(`records/${id}`);
+    const json = await response.json();
     return json;
   }
   async playStone(id: number, x: number, y: number) {
-    let response = await this.#post(`records/${id}/play`, { x, y });
+    const response = await this.#post(`records/${id}/play`, { x, y });
     return await response.json();
   }
   async undo(id: number) {
-    let response = await this.#post(`records/${id}/undo`);
+    const response = await this.#post(`records/${id}/undo`);
     return await response.json();
   }
   async pass(id: number) {
     await this.#post(`records/${id}/pass`);
   }
   async downloadRecord(id: number) {
-    let response = await this.#get(`records/${id}/download`);
-    let blob = await response.blob();
-    var urlObject = window.URL.createObjectURL(blob);
-    var a = document.createElement("a");
+    const response = await this.#get(`records/${id}/download`);
+    const blob = await response.blob();
+    const urlObject = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
     a.href = urlObject;
-    let contentDisposition = response.headers.get(
+    const contentDisposition = response.headers.get(
       "content-disposition"
     ) as string;
-    let filename = (
+    const filename = (
       contentDisposition.match(/filename="(.*)"/) as RegExpMatchArray
     )[1];
     a.download = filename;
@@ -276,7 +280,7 @@ class Client {
   }
 }
 
-let user: Ref<User | null> = ref(null);
+const user: Ref<User | null> = ref(null);
 
 export default Client;
 export { user };

@@ -16,49 +16,49 @@ const props = defineProps({
   },
 });
 
-let { id } = props;
+const { id } = props;
 
-let client = new Client();
-let size = ref(0);
+const client = new Client();
+const size = ref(0);
 
 // Initialize stones played
-let matrix: ("B" | "W" | " ")[][] = reactive([]);
+const matrix: ("B" | "W" | " ")[][] = reactive([]);
 
 client.getRecord(id).then((record) => {
   size.value = record.board_size;
   for (let x = 0; x < size.value; x += 1) {
-    let column: ("B" | "W" | " ")[] = reactive([]);
+    const column: ("B" | "W" | " ")[] = reactive([]);
     for (let y = 0; y < size.value; y += 1) {
       column.push(" ");
     }
     matrix.push(column);
   }
-  for (let { x, y, color } of record.stones) {
+  for (const { x, y, color } of record.stones) {
     matrix[x][y] = color;
   }
 });
 
 async function onClick(x: number, y: number) {
   client.playStone(id, x, y).then(({ add, remove }) => {
-    for (let move of add) {
-      let { x, y, color } = move;
+    for (const move of add) {
+      const { x, y, color } = move;
       matrix[x][y] = color;
     }
-    for (let capture of remove) {
-      let { x, y } = capture;
+    for (const capture of remove) {
+      const { x, y } = capture;
       matrix[x][y] = " ";
     }
   });
 }
 
 async function undo() {
-  let { add, remove } = await client.undo(id);
-  for (let move of add) {
-    let { x, y, color } = move;
+  const { add, remove } = await client.undo(id);
+  for (const move of add) {
+    const { x, y, color } = move;
     matrix[x][y] = color;
   }
-  for (let capture of remove) {
-    let { x, y } = capture;
+  for (const capture of remove) {
+    const { x, y } = capture;
     matrix[x][y] = " ";
   }
 }

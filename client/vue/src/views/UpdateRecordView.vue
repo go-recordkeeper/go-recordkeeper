@@ -13,17 +13,17 @@ const props = defineProps({
   },
 });
 
-let client = new Client();
+const client = new Client();
 
-let isLoaded = ref(false);
-let record = ref(null) as Ref;
+const isLoaded = ref(false);
+const record = ref(null) as Ref;
 client.getRecord(props.id).then((detail) => {
   record.value = detail as Record;
   isLoaded.value = true;
 });
 
 async function updateRecord(request: UpdateRecordRequest) {
-  let response = await client.updateRecord(props.id, request);
+  const response = await client.updateRecord(props.id, request);
   if (response.is_ok()) {
     await router.push({ name: "record", params: { id: props.id } });
   }
