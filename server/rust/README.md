@@ -1,6 +1,6 @@
 # Rust Implementation
 
-<p align="center">
+<p align="center" style="background: white;">
 <img src="https://go.chiquit.ooo/rust.svg" width="200" />
 </p>
 
