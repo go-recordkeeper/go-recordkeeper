@@ -2,6 +2,8 @@
 
 <p align="center">
 <img src="https://go.chiquit.ooo/haskell.svg" width="400" />
+</p>
+<p align="center">
 <img src="https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/haskell.yml/badge.svg" />
 </p>
 

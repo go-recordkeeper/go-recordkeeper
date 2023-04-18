@@ -2,6 +2,8 @@
 
 <p align="center">
 <img src="https://go.chiquit.ooo/django.png" width="300" />
+</p>
+<p align="center">
 <img src="https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/django.yml/badge.svg" />
 </p>
 
