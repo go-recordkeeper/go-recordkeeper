@@ -38,14 +38,23 @@ I'm more interested in API services than traditional web template stuff, so I de
 
 The web app sends requests to the server using the REST API, which updates the database accordingly. The REST API and the database schema are both well-defined, so as long as the various server implementations conform to those expectations, they are interchangeable.
 
-An extra benefit of having interchangeable servers is that they can all use the same [integration tests](https://github.com/go-recordkeeper/go-recordkeeper/tree/main/test). For extra uniformity, every server implementation has a `Dockerfile` for easy containerization. The integration test code invokes docker directly to bring the various server containers up and down as needed, and to manage a postgres container to provide the DB. This enables effective black box testing while still providing control over the test data.
-
 ## Deployment
 For some extra credit, I decided to manage the deployment myself on my own hardware rather than using the free tier of a PaaS like Heroku. I had some Raspberry Pis lying around that are ample for my user base. The "proper" tool to manage a containerized deployment would be something like Kubernetes, but my understanding is that the primary value proposition of the heavy-duty containerization tools is scalability, which is not part of my use case. Instead, I'm just using Docker Compose to manage the various API servers.
 
 An interesting caveat of using Raspberry Pis is their truly abysmal processing power. It is actually more than sufficient for running the services since there is practically no load on the API server, but it is quite problematic for the build process. Pis have ARM processors, so Docker images built on x86 architectures are not compatible. So far I have just been building the images on the Pi, but it is quite slow. I did decide to just commit all the static resources directly into the [repository](https://github.com/go-recordkeeper/go-recordkeeper/tree/main/deploy) so that build step can be run in my development environment.
 
 I'm also using nginx as a frontend proxy for all my locally hosted servers, SSL termination, and static file hosting.
+
+## Testing
+
+### Unit tests
+Each implementation maintains its own set of unit tests. I initially tried to unit test all the code, but it proved to be painfully tedious to continuously rewrite the same exhaustive unit tests in each language. I ultimately settled on unit tests for the code related to the core game logic, since that is the most intricate, algorithmic, and error-prone.
+
+### Integration tests
+Because all the server implementations have the same API surface, they can all use the same [integration tests](https://github.com/go-recordkeeper/go-recordkeeper/tree/main/test), which makes life much easier. The integration test harness uses Docker Compose to bring the various server containers up and down as needed, and to manage a postgres container to provide the DB. The integration tests are the arbiter of implementation compliance, which is the only reason I feel like good unit tests are redundant.
+
+### Browser tests
+I did not and will not write any. There is a time and a place for browser testing, and this is neither. If the application was an order of magnitude larger, had more user stories than a single QA person could check in a reasonable time, had massively more development activity, and had a substantial user base who would be negatively impacted by regressions, then I would consider it.
 
 ## Blog
 I have also been keeping a [blog](https://go.chiquit.ooo/blog/) chronicling my efforts. There is no intended audience for it, it's more of a meditative retrospective for me to maintain focus on what I've been working on.

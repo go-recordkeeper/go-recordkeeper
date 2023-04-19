@@ -7,7 +7,12 @@
 <img src="https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/django.yml/badge.svg" />
 </p>
 
-Written entirely in Django. This was the first server written and serves as the reference implementation.
+A Python implementation using the [Django](https://www.djangoproject.com/) framework. This was the first server written and serves as the reference implementation.
+
+## Architecture
+Django only does static rendering and forms out of the box, so I used [Django REST framework](https://www.django-rest-framework.org/) to provide REST API functionality. 
+
+I laid out the project in the most canonical way I knew how. The `goban` app contains high level settings and configurations, while the `record` app contains all the business logic. There is a single `models.py` containing all the SQL ORM classes, a `views.py` that defines all the endpoints, and various helper files like `auth.py`, `go.py`, and `sgf.py` that describe isolated bits of logic. Django is opinionated and batteries included, so I just trusted its defaults and everything was reasonably concise.
 
 ## Migrations
 In addition to acting as the de facto reference, the database schema is also managed using Django's migration system. Any changes to the schema should be made here first, added as a migration, and propagated to other implementations after testing.
