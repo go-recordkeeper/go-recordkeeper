@@ -17,7 +17,7 @@ services:
     volumes:
       - ../server/django:/goban
     ports:
-      - 8000:8000
+      - 8001:8000
     environment:
       GOBAN_DEVELOPMENT: true
       POSTGRES_NAME: default
@@ -35,7 +35,7 @@ services:
     volumes:
       - ../server/fastapi:/goban
     ports:
-      - 8000:8000
+      - 8002:8000
     environment:
       GOBAN_DEVELOPMENT: true
       POSTGRES_NAME: default
@@ -53,7 +53,7 @@ services:
     volumes:
       - ../server/haskell:/goban
     ports:
-      - 8000:8000
+      - 8003:8000
     environment:
       GOBAN_DEVELOPMENT: true
       POSTGRES_NAME: default
@@ -71,7 +71,7 @@ services:
     volumes:
       - ../server/rust:/goban
     ports:
-      - 8000:8000
+      - 8004:8000
     environment:
       GOBAN_DEVELOPMENT: true
       POSTGRES_NAME: default

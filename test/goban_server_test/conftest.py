@@ -50,9 +50,10 @@ def clean_db():
     yield
 
 
-@pytest.fixture(
-    scope="session", params=["django", "fastapi", "haskell", "rust"], autouse=True
-)
+implementations = {"django": 8001, "fastapi": 8002, "haskell": 8003, "rust": 8004}
+
+
+@pytest.fixture(scope="session", params=list(implementations.keys()), autouse=True)
 def impl(request):
     return request.param
 
@@ -68,15 +69,15 @@ def server_under_test(impl):
     # Wait for the service to be ready to receive requests.
     # This should be a healthcheck or something, but hey
     time.sleep(5)
-    yield
+    yield impl
     run(["docker", "compose", "--profile", impl, "stop", impl])
     run(["docker", "compose", "--profile", impl, "rm", "--force", impl])
 
 
 class LocalhostSession(requests.Session):
-    def __init__(self):
+    def __init__(self, impl: str):
         super().__init__()
-        self.base_url = "http://localhost:8000"
+        self.base_url = f"http://localhost:{implementations[impl]}"
 
     def request(self, method, url, *args, **kwargs):
         url = urljoin(self.base_url, url)
@@ -85,13 +86,13 @@ class LocalhostSession(requests.Session):
 
 @pytest.fixture
 def client(server_under_test):
-    return LocalhostSession()
+    return LocalhostSession(server_under_test)
 
 
 @pytest.fixture
 def user_client_factory(server_under_test):
     def factory(user):
-        client = LocalhostSession()
+        client = LocalhostSession(server_under_test)
         response = client.post(
             "/api/login/",
             json={"username": user["username"], "password": user["password"]},
