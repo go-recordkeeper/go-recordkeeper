@@ -10,4 +10,4 @@ COPY setup.py /goban/
 RUN pip install --no-cache-dir . uvicorn
 COPY . /goban/
 
-CMD ["uvicorn", "goban.asgi:application", "--reload"] 
+CMD ["uvicorn", "goban.asgi:application", "--host", "0.0.0.0", "--reload"] 
