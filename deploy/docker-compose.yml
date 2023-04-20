@@ -12,7 +12,6 @@ services:
 
   django:
     build: ../server/django
-    command: python manage.py runserver 0.0.0.0:8000 # TODO gunicorn
     init: true
     volumes:
       - ../server/django/:/goban

@@ -13,7 +13,6 @@ services:
     profiles:
       - django
     build: ../server/django
-    command: python manage.py runserver 0.0.0.0:8000
     init: true
     volumes:
       - ../server/django:/goban
