@@ -1,6 +1,3 @@
-from sys import breakpointhook
-
-import pytest
 from anys import ANY_INT
 
 

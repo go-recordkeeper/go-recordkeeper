@@ -18,6 +18,8 @@ def init_db():
     run(["docker", "compose", "up", "postgres", "-d", "--wait"])
     # Wait to be sure the DB comes up
     time.sleep(5)
+    # Now that the database is up, bring up the rest of the services
+    run(["docker", "compose", "up", "-d"])
     run(["poetry", "run", "python", "../server/django/manage.py", "migrate"])
     flush = run(
         ["poetry", "run", "python", "../server/django/manage.py", "sqlflush"],
@@ -63,17 +65,6 @@ def factory_method(request):
     return request.param
 
 
-@pytest.fixture(scope="session")
-def server_under_test(impl):
-    run(["docker", "compose", "--profile", impl, "up", "-d", "--wait"])
-    # Wait for the service to be ready to receive requests.
-    # This should be a healthcheck or something, but hey
-    time.sleep(5)
-    yield impl
-    run(["docker", "compose", "--profile", impl, "stop", impl])
-    run(["docker", "compose", "--profile", impl, "rm", "--force", impl])
-
-
 class LocalhostSession(requests.Session):
     def __init__(self, impl: str):
         super().__init__()
@@ -85,14 +76,14 @@ class LocalhostSession(requests.Session):
 
 
 @pytest.fixture
-def client(server_under_test):
-    return LocalhostSession(server_under_test)
+def client(impl):
+    return LocalhostSession(impl)
 
 
 @pytest.fixture
-def user_client_factory(server_under_test):
+def user_client_factory(impl):
     def factory(user):
-        client = LocalhostSession(server_under_test)
+        client = LocalhostSession(impl)
         response = client.post(
             "/api/login/",
             json={"username": user["username"], "password": user["password"]},
