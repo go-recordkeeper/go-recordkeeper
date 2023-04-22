@@ -69,11 +69,6 @@ jobs:
           set +a
           poetry install
       - name: Run tests
-        run: |
-          set -e
-          # Required to export all the values in the .env file
-          set -a
-          source .env
-          set +a
-          poetry run test -- -k "django and create" || exit 1
+        # The -a/+a are required to export all the values in the .env file
+        run: set -a && source .env && set +a && poetry run test -- -k "django"
 
