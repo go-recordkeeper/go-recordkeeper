@@ -4,7 +4,7 @@ use std::env;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Claims {
-    sub: i32,
+    sub: String,
     iat: u64,
     exp: u64,
     iss: String,
@@ -15,7 +15,7 @@ impl Claims {
     fn new(id: i32) -> Claims {
         let now = jsonwebtoken::get_current_timestamp();
         Claims {
-            sub: id,
+            sub: id.to_string(),
             iat: now,
             // Increment the timestamp by one day's worth of seconds
             exp: now + (24 * 60 * 60),
@@ -48,5 +48,5 @@ pub fn decode_jwt(jwt: &str) -> Result<i32, jsonwebtoken::errors::Error> {
         &DecodingKey::from_secret(secret().as_ref()),
         &Validation::new(Algorithm::HS256),
     )
-    .map(|data| data.claims.sub)
+    .map(|data| data.claims.sub.parse().unwrap())
 }

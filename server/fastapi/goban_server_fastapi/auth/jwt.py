@@ -15,7 +15,7 @@ def generate_token(user_id):
     now = datetime.now(tz=timezone.utc)
     return jwt.encode(
         {
-            "sub": user_id,
+            "sub": str(user_id),
             "iat": now,
             "exp": now + timedelta(days=1),
             "iss": "go-recordkeeper",
@@ -33,7 +33,6 @@ def jwt_user(
     db: DbClient = Depends(),
     token: HTTPAuthorizationCredentials = Depends(bearer_scheme),
 ) -> User:
-
     try:
         payload = jwt.decode(
             token.credentials,

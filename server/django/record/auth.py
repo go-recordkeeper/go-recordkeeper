@@ -11,7 +11,7 @@ def generate_token(user: User):
     now = datetime.now(tz=timezone.utc)
     return jwt.encode(
         {
-            'sub': user.id,
+            'sub': str(user.id),
             'iat': now,
             'exp': now + timedelta(days=1),
             'iss': 'go-recordkeeper',
