@@ -70,6 +70,7 @@ jobs:
           poetry install
       - name: Run tests
         run: |
+          set -e
           # Required to export all the values in the .env file
           set -a
           source .env
