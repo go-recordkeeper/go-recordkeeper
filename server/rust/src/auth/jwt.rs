@@ -5,20 +5,20 @@ use std::env;
 #[derive(Debug, Serialize, Deserialize)]
 struct Claims {
     sub: String,
-    iat: u64,
-    exp: u64,
+    iat: f64,
+    exp: f64,
     iss: String,
     aud: String,
 }
 
 impl Claims {
     fn new(id: i32) -> Claims {
-        let now = jsonwebtoken::get_current_timestamp();
+        let now = jsonwebtoken::get_current_timestamp() as f64;
         Claims {
             sub: id.to_string(),
             iat: now,
             // Increment the timestamp by one day's worth of seconds
-            exp: now + (24 * 60 * 60),
+            exp: now + (24 * 60 * 60) as f64,
             iss: "go-recordkeeper".into(),
             aud: "go-recordkeeper".into(),
         }
