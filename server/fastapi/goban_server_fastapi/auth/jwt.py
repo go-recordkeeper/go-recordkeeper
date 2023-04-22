@@ -40,6 +40,7 @@ def jwt_user(
             algorithms="HS256",
             audience="go-recordkeeper",
             issuer="go-recordkeeper",
+            leeway=2,
         )
     except jwt.InvalidTokenError:
         raise HTTPException(status_code=403, detail="invalid authorization token")

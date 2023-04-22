@@ -36,6 +36,7 @@ class JWTAuthentication(authentication.BaseAuthentication):
                 algorithms='HS256',
                 audience='go-recordkeeper',
                 issuer='go-recordkeeper',
+                leeway=2,
             )
         except jwt.InvalidTokenError:
             raise exceptions.AuthenticationFailed('invalid authorization token')
