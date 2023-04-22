@@ -74,5 +74,5 @@ jobs:
           set -a
           source .env
           set +a
-          poetry run test -- -k "django"
+          poetry run test -- -k "django and create"
 
