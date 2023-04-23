@@ -68,8 +68,6 @@ jobs:
           poetry-install: false
       - name: Install tests
         run: poetry install
-      - name: Fail Fast
-        run: exit 1
       - name: Run tests
         run: poetry run test -- -k "django"
 
