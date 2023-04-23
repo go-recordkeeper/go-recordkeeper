@@ -5,7 +5,6 @@ from record.models import Record
 
 
 @pytest.mark.django_db
-@pytest.mark.skip('temporarily disabling to test GitHub workflow')
 # The admin user fixture is ensuring there is another user in the DB
 def test_create_sparse_record(authenticated_client, admin_user, user):
     response = authenticated_client.post(
@@ -30,7 +29,6 @@ def test_create_sparse_record(authenticated_client, admin_user, user):
 
 
 @pytest.mark.django_db
-@pytest.mark.skip('temporarily disabling to test GitHub workflow')
 def test_create_record(authenticated_client, user):
     response = authenticated_client.post(
         '/api/records/',
