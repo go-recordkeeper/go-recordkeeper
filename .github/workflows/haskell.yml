@@ -38,6 +38,12 @@ jobs:
       run:
         shell: bash
         working-directory: test
+    env:
+      POSTGRES_NAME: default
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: localhost
+      GOBAN_DEVELOPMENT: true
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -50,20 +56,8 @@ jobs:
           poetry-install: false
       - name: Install tests
         shell: bash
-        run: |
-          cp .env.template .env
-          # Required to export all the values in the .env file
-          set -a
-          source .env
-          set +a
-          poetry install
+        run: poetry install
       - name: Run tests
         shell: bash
-        run: |
-          # Required to export all the values in the .env file
-          set -a &&
-          source .env &&
-          set +a &&
-          set -e &&
-          poetry run test -- -k "haskell"
+        run: poetry run test -- -k "haskell"
 
