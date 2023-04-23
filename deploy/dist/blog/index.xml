@@ -6,7 +6,16 @@
     <description>Recent content on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 20 Apr 2023 14:33:42 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 22 Apr 2023 17:02:17 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Debugging JWT</title>
+      <link>https://go.chiquit.ooo/blog/posts/26-debugging-jwt/</link>
+      <pubDate>Sat, 22 Apr 2023 17:02:17 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/26-debugging-jwt/</guid>
+      <description>The last remaining significant bug, and also the very first GitHub issue, is a JWT compatibility problem. All the implementations use the same authentication API, so hypothetically they should be able to use each other&amp;rsquo;s JWT auth tokens. When I added the ability to switch the implementation in the UI, I tested that each implementation worked in isolation. However, sometimes when switching implementations, you would be spontaneously logged out. This isn&amp;rsquo;t a huge problem as you can simply log in again, so I decided (correctly) that it would be a PITA to solve, and filed an issue to deal with it later.</description>
+    </item>
+    
     <item>
       <title>Cleanup</title>
       <link>https://go.chiquit.ooo/blog/posts/25-cleanup/</link>

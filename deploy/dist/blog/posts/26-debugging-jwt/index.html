@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Debugging JWT</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='haskell, django, fastapi, rust, jwt'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/26-debugging-jwt/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Debugging JWT">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Debugging JWT">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/26-debugging-jwt/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/26-debugging-jwt/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/26-debugging-jwt/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Debugging JWT</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            April 22, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/haskell">haskell</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/django">django</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/fastapi">fastapi</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/rust">rust</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/jwt">jwt</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>The last remaining significant bug, and also the very first GitHub issue, is a <a href="https://github.com/go-recordkeeper/go-recordkeeper/issues/1">JWT compatibility problem</a>. All the implementations use the same authentication API, so hypothetically they should be able to use each other&rsquo;s JWT auth tokens. When I added the ability to switch the implementation in the UI, I tested that each implementation worked in isolation. However, sometimes when switching implementations, you would be spontaneously logged out. This isn&rsquo;t a huge problem as you can simply log in again, so I decided (correctly) that it would be a PITA to solve, and filed an issue to deal with it later.</p>
+<p>Now it is later, so it&rsquo;s time to fix it. The debugging process was considerably more involved than any of the general tidying I was doing, so this gets its own post.</p>
+<h2 id="the-problem">The problem</h2>
+<p>The first step was to isolate exactly when and how the bug occurs. At this point there are four implementations, so there are sixteen different ways to log in to one implementation and then try to use that auth token in another (or the same) implementation. This is the table of where the bugs are, columns being the login service and rows being the usage service:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Django</th>
+<th>FastAPI</th>
+<th>Haskell</th>
+<th>Rust</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Django</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+</tr>
+<tr>
+<td>FastAPI</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+</tr>
+<tr>
+<td>Haskell</td>
+<td>❌</td>
+<td>❌</td>
+<td>✔</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Rust</td>
+<td>✔</td>
+<td>✔</td>
+<td>❌</td>
+<td>✔</td>
+</tr>
+</tbody>
+</table>
+<p>This indicates that the Haskell server works with itself, but will not accept any other server&rsquo;s JWTs. Also, Rust won&rsquo;t accept Haskell&rsquo;s JWTs either. Because there&rsquo;s no obvious bingo here, there are probably multiple errors at play. At least we have some degree of confidence that Haskell is involved somehow.</p>
+<h2 id="reproducing-the-problem">Reproducing the problem</h2>
+<p>As a general rule, I&rsquo;ve found that when confronting a new, untested bug, it&rsquo;s useful to have a failing test for it before doing anything else. A test lets you figure out precisely what the failure conditions of the bug are, provides an easy way to reproduce the problem while trying to isolate it, gives you confidence that your fix works, and lives on in the test suite forever to prevent regressions.</p>
+<p>This is the first integration test that involves multiple services, so I had to rearchitect the testing harness a bit. Originally, I had an autouse pytest fixture that would invoke a <code>docker compose</code> up command before every test, parametrized so that it ran each test once per implementation. The docker compose services were all bound to port 8000, so all the tests had to do was send their requests to <code>http://localhost:8000/...</code>.</p>
+<p>This new JWT compatibility test involves having multiple services running simultaneously, so I had to refactor things a bit so that each service has its own unique port, and the test client sends traffic to the correct port for the implementation being tested. With that done, I realized there wasn&rsquo;t really a point to bringing services up/down between tests, so now all services are started at the start of every test run. This cuts down substantially on the number of moving parts and improves the test runtime a bit.</p>
+<p>Sadly, this change had the unintended side effect of drastically slowing down integration testing in CI. Where previously only the service being tested needed to be built into a Docker image, now all services need to be built, which approximately quadruples the runtime and will only get worse as more implementations are added. It&rsquo;s &ldquo;just&rdquo; CI so it&rsquo;s not the end of the world, but it is painful. The only real solution that comes to mind is building all the images in parallel as a separate workflow and uploading to a Docker hub. I don&rsquo;t really enjoy doing all that fiddly devops configuration, so I&rsquo;m going to procrastinate on that.</p>
+<p>The actual test isn&rsquo;t very interesting, it just logs in with one server and tries to use the auth token on a different server.</p>
+<h2 id="finding-the-problem">Finding the problem</h2>
+<p>Having a test did indeed make debugging very easy. Sprinkling some prints revealed that Haskell was rejecting the Django and FastAPI JWTs because of deserealization errors.</p>
+<p>For the uninitiated, <a href="https://jwt.io/">JWTs</a> are basically just little blobs of JSON data that are cryptographically signed by the server and handed out to clients. The client holds on to the JWT and provides it to the server whenever it needs to provide proof of identity. The server checks that the signature is correct, which proves that the server signed that blob of JSON in the past. JWTs are cool because the server doesn&rsquo;t need to keep a ledger of clients to have a session with them; it can offload that bit of data storage to the client in the payload of the JWT.</p>
+<p>The <a href="https://www.rfc-editor.org/rfc/rfc7519#section-4">JWT specification</a> is quite precise about what is and isn&rsquo;t allowed in the payload. The fields all have specific names, types, and semantics. I had previously run afoul of this when I tried to include the user ID in the JWT by setting the <code>id</code> field. It turns out that the correct field name is <code>sub</code>, and various frameworks refused to cooperate with me until I renamed it.</p>
+<h3 id="sub"><code>sub</code></h3>
+<p>In this case, the problem was that Haskell implemented the specification with great exactitude; it refused to accept any <code>sub</code> that was not a string. Django and FastAPI both grabbed the user ID from the database as an <code>int</code> and used that as the <code>sub</code>. The Django and FastAPI implementations were apparently all sufficiently permissive, but Haskell was not. Regardless, the fix was easy.</p>
+<h3 id="iat-and-exp"><code>iat</code> and <code>exp</code></h3>
+<p>The Rust implementation was working because it allows arbitrary payloads, and I naively typed <code>sub</code> as an <code>i32</code>. In addition to that, I had also typed the <code>iat</code> (&ldquo;Issued At&rdquo;) and <code>exp</code> (&ldquo;Expiration Time&rdquo;) fields as <code>u64</code> instead of <code>f64</code>. These timestamps are technically required to be &ldquo;NumericDates&rdquo;, which apparently includes floats? Regardless, the fix was to fix those type signatures and add some type casts.</p>
+<h3 id="leeway">Leeway</h3>
+<p>Fixing all the type errors resolved all the bugs in the matrix above. Sadly, this only revealed a new bug: most of the time (but not all the time), Django and FastAPI would fail when trying to use JWTs from Haskell or Rust. The problem was not reproducible manually at all, it only happened when running the test, which pointed to a race condition of some kind.</p>
+<p>More debug prints indicated that the Python implementations were rejecting the JWTs because the <code>iat</code> field was <em>after</em> the current time, a temporal impossibility. However, when I compared all the timestamps, they were in the correct order. The <code>iat</code> field was always <em>before</em> the current time at verification.</p>
+<p>Because the Python service code was running in a container, I didn&rsquo;t want to spend the time and effort figuring out exactly what was happening in the guts of the JWT library I was using. My hypothesis is that the Python JWT library works with integer timestamps, while the Haskell and Rust libraries use floats. The <a href="https://www.rfc-editor.org/rfc/rfc7519#section-2">RFC</a> says &ldquo;JSON numeric value&rdquo;, which does technically include floats. Somehow, when rounding the float <code>iat</code> field, it lost some resolution and got an <code>iat</code> value that was after the current time. That shouldn&rsquo;t be possible since <code>int()</code> always rounds down, but it&rsquo;s my best guess.</p>
+<p>Regardless of the root cause, I fixed it by adding two seconds of leeway to the verification step. Apparently clock synchronization is a ubiquitous problem, enough so that a <code>leeway</code> field is conveniently available on the <code>jwt.decode()</code> method.</p>
+<h2 id="moral-of-the-story">Moral of the Story</h2>
+<p>Tests are great, love my integration testing harness.</p>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/25-cleanup/"> Cleanup </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#the-problem">The problem</a></li>
+        <li><a href="#reproducing-the-problem">Reproducing the problem</a></li>
+        <li><a href="#finding-the-problem">Finding the problem</a>
+          <ul>
+            <li><a href="#sub"><code>sub</code></a></li>
+            <li><a href="#iat-and-exp"><code>iat</code> and <code>exp</code></a></li>
+            <li><a href="#leeway">Leeway</a></li>
+          </ul>
+        </li>
+        <li><a href="#moral-of-the-story">Moral of the Story</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

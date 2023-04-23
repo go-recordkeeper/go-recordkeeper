@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>rust on Dev Blog</title>
-    <link>https://go.chiquit.ooo/blog/tags/rust/</link>
-    <description>Recent content in rust on Dev Blog</description>
+    <title>jwt on Dev Blog</title>
+    <link>https://go.chiquit.ooo/blog/tags/jwt/</link>
+    <description>Recent content in jwt on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 22 Apr 2023 17:02:17 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/rust/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 22 Apr 2023 17:02:17 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/jwt/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Debugging JWT</title>
       <link>https://go.chiquit.ooo/blog/posts/26-debugging-jwt/</link>
@@ -14,18 +14,6 @@
       
       <guid>https://go.chiquit.ooo/blog/posts/26-debugging-jwt/</guid>
       <description>The last remaining significant bug, and also the very first GitHub issue, is a JWT compatibility problem. All the implementations use the same authentication API, so hypothetically they should be able to use each other&amp;rsquo;s JWT auth tokens. When I added the ability to switch the implementation in the UI, I tested that each implementation worked in isolation. However, sometimes when switching implementations, you would be spontaneously logged out. This isn&amp;rsquo;t a huge problem as you can simply log in again, so I decided (correctly) that it would be a PITA to solve, and filed an issue to deal with it later.</description>
-    </item>
-    
-    <item>
-      <title>Rusting</title>
-      <link>https://go.chiquit.ooo/blog/posts/24-rusting/</link>
-      <pubDate>Tue, 11 Apr 2023 11:33:10 -0400</pubDate>
-      
-      <guid>https://go.chiquit.ooo/blog/posts/24-rusting/</guid>
-      <description>The Rust implementation is finished! Surprise!
-Usually it takes several blog posts to finish an implementation, but Rust was quite straightforward. It definitely helped that I was already conversant in Rust, and I had a decent template from the Haskell implementation.
-Workflow The implementation plan I&amp;rsquo;ve settled on looks something like this:
- Hello World - Get the language installed. Choose your frameworks - Specifically the REST API framework and the postgres library.</description>
     </item>
     
   </channel>
