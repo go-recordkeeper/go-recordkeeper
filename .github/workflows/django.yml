@@ -25,6 +25,12 @@ jobs:
     defaults:
       run:
         working-directory: server/django
+        env:
+          POSTGRES_NAME: default
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_HOST: localhost
+          GOBAN_DEVELOPMENT: true
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -36,12 +42,6 @@ jobs:
         run: pip install tox
       - name: Run tox
         run: tox
-        env:
-          POSTGRES_NAME: default
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_HOST: localhost
-          GOBAN_DEVELOPMENT: true
 
   integration-tests:
     runs-on: ubuntu-latest
@@ -50,6 +50,12 @@ jobs:
       run:
         shell: bash
         working-directory: test
+        env:
+          POSTGRES_NAME: default
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_HOST: localhost
+          GOBAN_DEVELOPMENT: true
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -61,14 +67,9 @@ jobs:
           poetry-version: 1.3.2
           poetry-install: false
       - name: Install tests
-        run: |
-          cp .env.template .env
-          # Required to export all the values in the .env file
-          set -a
-          source .env
-          set +a
-          poetry install
+        run: poetry install
+      - name: Fail Fast
+        run: exit 1
       - name: Run tests
-        # The -a/+a are required to export all the values in the .env file
-        run: set -e && set -a && source .env && set +a && poetry run test -- -k "django"
+        run: poetry run test -- -k "django"
 
