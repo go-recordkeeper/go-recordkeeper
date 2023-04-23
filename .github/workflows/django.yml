@@ -69,5 +69,5 @@ jobs:
       - name: Install tests
         run: poetry install
       - name: Run tests
-        run: poetry run test -- -k "django"
+        run: poetry run test -- -k "django" || exit 1
 
