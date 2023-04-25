@@ -3,15 +3,14 @@
 
 <head>
     <title>hello</title>
-    <script> var exports = {}; </script>
-    <script src="lib/goban.js"></script>
 </head>
 
 <body>
     <div style="width:100%; padding-top: 100%; position: relative;">
         <canvas id="goban" style="position:absolute; top: 0; width: 100%;"></canvas>
     </div>
-    <script>
+    <script type="module">
+      import { Goban, Stone } from "./lib/goban.js";
         let nextStone = Stone.Black;
         let matrix = [];
         let size = 19;
