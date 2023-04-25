@@ -45,15 +45,21 @@ class Goban {
             this.isPointerDown = false;
             this.draw();
         });
-        canvas.addEventListener("pointercancel", (event) => {
-            // lg('tc');
+        canvas.addEventListener("touchend", (event) => {
+            let { x, y } = __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_getPointerEventCoordinates).call(this, canvas, event.changedTouches[0]);
+            this.onClick(x, y);
             this.isPointerDown = false;
             this.draw();
         });
         canvas.addEventListener("pointermove", (event) => {
-            // lg('tm');
             if (this.isPointerDown) {
                 this.pointerCoordinates = __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_getPointerEventCoordinates).call(this, canvas, event);
+                this.draw();
+            }
+        });
+        canvas.addEventListener("touchmove", (event) => {
+            if (this.isPointerDown) {
+                this.pointerCoordinates = __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_getPointerEventCoordinates).call(this, canvas, event.changedTouches[0]);
                 this.draw();
             }
         });
@@ -83,9 +89,13 @@ class Goban {
 _Goban_instances = new WeakSet(), _Goban_getCanvas = function _Goban_getCanvas() {
     return document.querySelector(this.canvasSelector);
 }, _Goban_getPointerEventCoordinates = function _Goban_getPointerEventCoordinates(canvas, event) {
+    // Calculate offfsetX instead of getting it from the event because Touch events don't have it >:(
+    let { x, y } = canvas.getBoundingClientRect();
+    let offsetX = event.clientX - x;
+    let offsetY = event.clientY - y;
     return {
-        x: Math.floor(this.size * event.offsetX / canvas.clientWidth),
-        y: Math.floor(this.size * event.offsetY / canvas.clientHeight),
+        x: Math.floor(this.size * offsetX / canvas.clientWidth),
+        y: Math.floor(this.size * offsetY / canvas.clientHeight),
     };
 }, _Goban_fillBackground = function _Goban_fillBackground(ctx) {
     let canvas = __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_getCanvas).call(this);

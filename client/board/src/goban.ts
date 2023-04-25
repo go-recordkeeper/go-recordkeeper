@@ -32,10 +32,14 @@ class Goban {
         return document.querySelector(this.canvasSelector) as HTMLCanvasElement;
     }
 
-    #getPointerEventCoordinates(canvas: HTMLCanvasElement, event: PointerEvent) {
+    #getPointerEventCoordinates(canvas: HTMLCanvasElement, event: PointerEvent | Touch) {
+      // Calculate offfsetX instead of getting it from the event because Touch events don't have it >:(
+      let {x, y} = canvas.getBoundingClientRect();
+      let offsetX = event.clientX - x;
+      let offsetY = event.clientY - y;
         return {
-            x: Math.floor(this.size * event.offsetX / canvas.clientWidth),
-            y: Math.floor(this.size * event.offsetY / canvas.clientHeight),
+            x: Math.floor(this.size * offsetX / canvas.clientWidth),
+            y: Math.floor(this.size * offsetY / canvas.clientHeight),
         }
     }
 
@@ -57,16 +61,22 @@ class Goban {
             this.isPointerDown = false;
             this.draw();
         });
-        canvas.addEventListener("pointercancel", (event: PointerEvent) => {
-            // lg('tc');
+        canvas.addEventListener("touchend", (event: TouchEvent) => {
+            let { x, y } = this.#getPointerEventCoordinates(canvas, event.changedTouches[0]);
+            this.onClick(x, y);
             this.isPointerDown = false;
             this.draw();
         });
         canvas.addEventListener("pointermove", (event: PointerEvent) => {
-            // lg('tm');
             if (this.isPointerDown) {
                 this.pointerCoordinates = this.#getPointerEventCoordinates(canvas, event);
-                this.draw()
+                this.draw();
+            }
+        });
+        canvas.addEventListener("touchmove", (event: TouchEvent) => {
+            if (this.isPointerDown) {
+                this.pointerCoordinates = this.#getPointerEventCoordinates(canvas, event.changedTouches[0]);
+                this.draw();
             }
         });
     }
