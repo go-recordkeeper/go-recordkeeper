@@ -23,5 +23,8 @@
   "homepage": "https://github.com/dchiquito/go-board#readme",
   "dependencies": {
     "typescript": "^4.8.2"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.8"
   }
 }
