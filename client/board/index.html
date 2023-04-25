@@ -1,39 +1,40 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <title>hello</title>
-</head>
+  </head>
 
-<body>
-    <div style="width:100%; padding-top: 100%; position: relative;">
-        <canvas id="goban" style="position:absolute; top: 0; width: 100%;"></canvas>
+  <body>
+    <div style="width: 100%; padding-top: 100%; position: relative">
+      <canvas
+        id="goban"
+        style="position: absolute; top: 0; width: 100%"
+      ></canvas>
     </div>
     <script type="module">
       import { Goban, Stone } from "./lib/goban.js";
-        let nextStone = Stone.Black;
-        let matrix = [];
-        let size = 19;
-        for (let x = 0; x < size; x += 1) {
-            let column = [];
-            for (let y = 0; y < size; y += 1) {
-                column.push(Stone.None);
-            }
-            matrix.push(column);
+      let nextStone = Stone.Black;
+      let matrix = [];
+      let size = 19;
+      for (let x = 0; x < size; x += 1) {
+        let column = [];
+        for (let y = 0; y < size; y += 1) {
+          column.push(Stone.None);
         }
-        let onClick = function (x, y) {
-            matrix[x][y] = nextStone;
-            goban.draw(matrix);
-            if (nextStone == Stone.Black) {
-                nextStone = Stone.White;
-            } else {
-                nextStone = Stone.Black;
-            }
-        }
-        let goban = new Goban('#goban', size, onClick);
-        goban.initialize();
+        matrix.push(column);
+      }
+      let onClick = function (x, y) {
+        matrix[x][y] = nextStone;
         goban.draw(matrix);
+        if (nextStone == Stone.Black) {
+          nextStone = Stone.White;
+        } else {
+          nextStone = Stone.Black;
+        }
+      };
+      let goban = new Goban("#goban", size, onClick);
+      goban.initialize();
+      goban.draw(matrix);
     </script>
-</body>
-
+  </body>
 </html>
