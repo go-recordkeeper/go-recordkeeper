@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Click and Drag</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='javascript'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/27-click-and-drag/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Click and Drag">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Click and Drag">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/27-click-and-drag/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/27-click-and-drag/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/27-click-and-drag/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Click and Drag</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            April 25, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/javascript">javascript</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>The motivating pain point for filing the <a href="https://github.com/go-recordkeeper/go-recordkeeper/issues/7">Mobile UX</a> issue was click-and-drag on mobile. In fact, the major pain point with recording games on OGS was fat fingering inputs on my phone, so it&rsquo;s honestly embarrassing that the issue has been around this long.</p>
+<p>The problem is that using a mouse fires different DOM input events than using a finger on a touch screen. I was able to easily develop and work with the mouse events because that&rsquo;s how my dev machine worked, but when I was originally writing the board code I didn&rsquo;t bother hooking up my phone. When I realized that entering moves didn&rsquo;t work at all on mobile devices, I spent some time researching the problem, but I was hindered by the fact that I had no useful debugging tools on my phone. I eventually got it mostly working, but clicking and dragging to make fine adjustments did not work, which was annoying.</p>
+<h2 id="mouse-pointer-and-touch">Mouse, Pointer, and Touch</h2>
+<p>There are three general categories of input events that I found to be relevant to the problem:</p>
+<ul>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent"><strong>Mouse</strong></a> (<code>mousedown</code>, <code>mousemove</code>, <code>mouseup</code>) - These events are fired when your mouse or touchpad (basically a mouse) does things. These are the events I was already familiar with, so they were my first guess.</p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/PointerEvent#pointer_event_types"><strong>Pointer</strong></a> (<code>pointerdown</code>, <code>pointerup</code>, <code>pointermove</code>, <code>pointercancel</code>) - These events are a superset of the mouse events. According to the docs:</p>
+<blockquote>
+<p>A pointer is a hardware agnostic representation of input devices (such as a mouse, pen or contact point on a touch-enable surface).</p>
+</blockquote>
+<p>I don&rsquo;t have a stylus, but pointer events are indeed fired on mobile devies (sometimes).</p>
+<p>One other weirdity is the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/pointercancel_event"><code>pointercancel</code></a> event. Instead of the simple stream of <code>down</code>, <code>move</code>, and <code>up</code> mouse events, pointer events are assumed to be grouped into some kind of abortable action. The docs mention all kinds of weird hardware corner cases that might cause a &ldquo;pointing&rdquo; to be cancelled.</p>
+</li>
+<li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Touch_events"><strong>Touch</strong></a> (<code>touchstart</code>, <code>touchmove</code>, <code>touchend</code>) - These events are layed out similarly to the mouse/pointer events, but they are specifically designed to support multi-touch displays. Each <code>TouchEvent</code> doesn&rsquo;t correspond to a single state change of a single variable. Instead, the browser tracks a number of <code>Touch</code> objects that each correspond to a finger touching the screen, and a <code>TouchEvent</code> can contain updates to multiple <code>Touch</code>es.</p>
+</li>
+</ul>
+<h2 id="actual-behavior">Actual behavior</h2>
+<p>These three event APIs have a complicated, overlapping Venn diagram thing going on, so it&rsquo;s useful to understand what events are actually fired when on what platform.</p>
+<p>On a desktop or laptop using a mouse or trackpad, both mouse and pointer events are generated for clicks as well as clicks and drags. Every mouse event has a corresponding pointer event, so don&rsquo;t listen to both, or you will handle the event twice. No touch events are generated.</p>
+<p>On a mobile device, things are more complicated:</p>
+<ul>
+<li>The initial contact with the screen generates a <code>mousedown</code> and a <code>pointerdown</code> event. No touch events are generated.</li>
+<li>Very small motions, like rocking your finger to the side slightly, generate <code>pointermove</code> events, but no <code>mousemove</code>. Still no touch events are generated. This will continue indefinitely as long as you don&rsquo;t lift your finger or move too far away from the initial point of contact.</li>
+<li>If you pick your finger at this point, a <code>pointerup</code> event is fired. This means that simple taps work fine using just pointer events, which is what my bandaid solution relied on.</li>
+<li>If the motion progresses too far from the initial point of contact, a <code>pointercancel</code> is fired, further pointer events cease, and touch events begin happening.</li>
+</ul>
+<p>Basically, your touch screen will try to act like a generic pointer as long as you are only tapping the screen, but as soon as you get too cheeky with sliding your finger around, it will transition you to touch events. I assume this is because my phone support multi-touch; perhaps older phones will continue to fire pointer events?</p>
+<h2 id="the-solution">The solution</h2>
+<p>Since both devices always fire pointer events or touch events, but never both, I just kept the existing pointer event handlers and added handlers for <code>touchmove</code> and <code>touchend</code> and everything worked fine.</p>
+<p>Mouse and pointer events have <code>clientX</code>/<code>clientY</code> properties that describe the position of the event relative the window, and also <code>offsetX</code>/<code>offsetY</code> properties that describe the position of the event relative to the DOM element that caught the event. For whatever reason, the powers that be decided that touch events only get <code>clientX</code>/<code>clientY</code>, so I had to calculate the <code>offsetX</code>/<code>offsetY</code> myself, which was obnoxious.</p>
+<p>Anyway, it works now!</p>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/26-debugging-jwt/"> Debugging JWT </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

@@ -2,10 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://go.chiquit.ooo/blog/posts/26-debugging-jwt/</loc>
-    <lastmod>2023-04-22T17:02:17-04:00</lastmod>
+    <loc>https://go.chiquit.ooo/blog/posts/27-click-and-drag/</loc>
+    <lastmod>2023-04-25T18:46:52-04:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/</loc>
+    <lastmod>2023-04-25T18:46:52-04:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/tags/javascript/</loc>
+    <lastmod>2023-04-25T18:46:52-04:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/posts/</loc>
+    <lastmod>2023-04-25T18:46:52-04:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/tags/</loc>
+    <lastmod>2023-04-25T18:46:52-04:00</lastmod>
+  </url><url>
+    <loc>https://go.chiquit.ooo/blog/posts/26-debugging-jwt/</loc>
     <lastmod>2023-04-22T17:02:17-04:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/tags/django/</loc>
@@ -20,13 +32,7 @@
     <loc>https://go.chiquit.ooo/blog/tags/jwt/</loc>
     <lastmod>2023-04-22T17:02:17-04:00</lastmod>
   </url><url>
-    <loc>https://go.chiquit.ooo/blog/posts/</loc>
-    <lastmod>2023-04-22T17:02:17-04:00</lastmod>
-  </url><url>
     <loc>https://go.chiquit.ooo/blog/tags/rust/</loc>
-    <lastmod>2023-04-22T17:02:17-04:00</lastmod>
-  </url><url>
-    <loc>https://go.chiquit.ooo/blog/tags/</loc>
     <lastmod>2023-04-22T17:02:17-04:00</lastmod>
   </url><url>
     <loc>https://go.chiquit.ooo/blog/posts/25-cleanup/</loc>

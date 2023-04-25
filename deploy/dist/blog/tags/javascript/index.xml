@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>javascript on Dev Blog</title>
+    <link>https://go.chiquit.ooo/blog/tags/javascript/</link>
+    <description>Recent content in javascript on Dev Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 25 Apr 2023 18:46:52 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Click and Drag</title>
+      <link>https://go.chiquit.ooo/blog/posts/27-click-and-drag/</link>
+      <pubDate>Tue, 25 Apr 2023 18:46:52 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/27-click-and-drag/</guid>
+      <description>The motivating pain point for filing the Mobile UX issue was click-and-drag on mobile. In fact, the major pain point with recording games on OGS was fat fingering inputs on my phone, so it&amp;rsquo;s honestly embarrassing that the issue has been around this long.
+The problem is that using a mouse fires different DOM input events than using a finger on a touch screen. I was able to easily develop and work with the mouse events because that&amp;rsquo;s how my dev machine worked, but when I was originally writing the board code I didn&amp;rsquo;t bother hooking up my phone.</description>
+    </item>
+    
+  </channel>
+</rss>
