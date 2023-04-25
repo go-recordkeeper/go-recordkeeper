@@ -3,9 +3,9 @@ A simple go board renderer in Typescript.
 
 ## Building
 ```
-npx run build
+npm run build
 ```
 For convenience:
 ```
-find src | entr -s "npx run build"
+find src | entr -s "npm run build"
 ```
