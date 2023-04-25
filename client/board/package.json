@@ -4,7 +4,8 @@
   "description": "A go board renderer",
   "main": "lib/goban.js",
   "scripts": {
-    "build": "npx tsc --module es6"
+    "build": "npx tsc --module es6",
+    "lint": "npx prettier --write ."
   },
   "repository": {
     "type": "git",
