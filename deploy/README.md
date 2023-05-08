@@ -20,6 +20,7 @@ You can also build specific parts using `build-blog.sh`, `build-django.sh`, and 
 ## First deploy
 ```
 ./generate-secret-key.sh
+# Adjust the values in .env to point to your DB
 docker compose build
 docker compose run django ./manage.py migrate
 docker compose run django ./manage.py createsuperuser
@@ -36,6 +37,9 @@ docker compose build --no-cache
 docker compose run django ./manage.py migrate
 docker compose up -d
 ```
+
+## No DB?
+You can optionally deploy using a postgres container using `docker compose --profile postgres up -d`. The default values in `.env.template` will work with this postgres container out of the box. This deployment is useful for test or dev deployments when you don't have a separate postgres DB handy.
 
 ## systemd
 Rather than using `docker compose up -d` to start a backup process, you can instead use the included systemd service. This has the advantage of automatically restarting the service should it crash, and starting the service automatically when the server boots.

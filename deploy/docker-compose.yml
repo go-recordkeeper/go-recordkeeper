@@ -3,6 +3,7 @@ services:
 
   postgres:
     image: 'postgres:latest'
+    profiles: ['postgres']
     ports:
       - 5432:5432
     environment:
@@ -18,13 +19,7 @@ services:
     ports:
       - 8000:8000
     env_file:
-      - .env.django
-    environment:
-      POSTGRES_NAME: default
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_HOST: postgres # this refers to the postgres service above ^
-      GOBAN_HOST: go.chiquit.ooo
+      - .env
     depends_on:
       - postgres
 
@@ -36,14 +31,9 @@ services:
     ports:
       - 8001:8000
     env_file:
-      - .env.django
+      - .env
     environment:
-      POSTGRES_NAME: default
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_HOST: postgres # this refers to the postgres service above ^
       OPENAPI_PREFIX: /fastapi
-      GOBAN_HOST: go.chiquit.ooo
     depends_on:
       - postgres
 
@@ -53,13 +43,7 @@ services:
     ports:
       - 8002:8000
     env_file:
-      - .env.django
-    environment:
-      POSTGRES_NAME: default
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_HOST: postgres # this refers to the postgres service above ^
-      GOBAN_HOST: go.chiquit.ooo
+      - .env
     depends_on:
       - postgres
 
@@ -69,13 +53,7 @@ services:
     ports:
       - 8003:8000
     env_file:
-      - .env.django
-    environment:
-      POSTGRES_NAME: default
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_HOST: postgres # this refers to the postgres service above ^
-      GOBAN_HOST: go.chiquit.ooo
+      - .env
     depends_on:
       - postgres
 
