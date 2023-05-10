@@ -1,11 +1,25 @@
-export function add(a: number, b: number): number {
-  return a + b;
-}
+// export function add(a: number, b: number): number {
+//   return a + b;
+// }
+//
+// // Learn more at https://deno.land/manual/examples/module_metadata#concepts
+// if (import.meta.main) {
+//   console.log("Add 2 + 3 =", add(2, 3));
+// }
 
-// Learn more at https://deno.land/manual/examples/module_metadata#concepts
-if (import.meta.main) {
-  console.log("Add 2 + 3 =", add(2, 3));
-}
+import { handle, register } from "./src/router.ts";
+
+// Testing the router.
+register(
+  "/foo/",
+  (request, params) => {
+    console.log("fooo", params);
+    return new Response("aaa", { status: 200 });
+  },
+);
+register("/bar/{baz}/", (request, { baz }) => {
+  return new Response(baz, { status: 200 });
+});
 
 // Start listening on port 8080 of localhost.
 const server = Deno.listen({ port: 8080 });
@@ -23,21 +37,7 @@ async function serveHttp(conn: Deno.Conn) {
   const httpConn = Deno.serveHttp(conn);
   // Each request sent over the HTTP connection will be yielded as an async
   // iterator from the HTTP connection.
-  for await (const requestEvent of httpConn) {
-    // The native HTTP server uses the web standard `Request` and `Response`
-    // objects.
-    const body = `Your user-agent is:\n\n${
-      requestEvent.request.headers.get("user-agent") ?? "Unknown"
-    }`;
-    console.log(body);
-    console.log(body);
-    console.log(body);
-    // The requestEvent's `.respondWith()` method is how we send the response
-    // back to the client.
-    requestEvent.respondWith(
-      new Response(body, {
-        status: 200,
-      }),
-    );
+  for await (const event of httpConn) {
+    handle(event);
   }
 }
