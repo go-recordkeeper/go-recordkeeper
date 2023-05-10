@@ -1,9 +1,11 @@
 const handlers: [
+  string,
   RegExp,
   (event: Request, params: { [key: string]: string }) => Response,
 ][] = [];
 
 export function register(
+  method: string,
   pattern: string,
   handler: (request: Request, params: { [key: string]: string }) => Response,
 ) {
@@ -14,12 +16,14 @@ export function register(
       (_, name) => `(?<${name}>[a-zA-Z0-9]+)`,
     ) + "$",
   );
-  handlers.push([regex, handler]);
+  handlers.push([method, regex, handler]);
 }
 
 export function handle(event: Deno.RequestEvent) {
-  console.log(event.request.url);
-  for (const [regex, handler] of handlers) {
+  for (const [method, regex, handler] of handlers) {
+    if (event.request.method != method) {
+      continue;
+    }
     const match = regex.exec(event.request.url);
     if (match) {
       const groups = match.groups || {};
