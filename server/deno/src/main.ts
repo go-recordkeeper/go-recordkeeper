@@ -10,11 +10,11 @@
 import { handle } from "/router.ts";
 
 // Import endpoint files to register all endpoints.
-import "./src/auth.ts";
+import "/auth.ts";
 
-// Start listening on port 8080 of localhost.
-const server = Deno.listen({ port: 8080 });
-console.log(`HTTP webserver running.  Access it at:  http://localhost:8080/`);
+// Start listening on port 8000 of 0.0.0.0
+const server = Deno.listen({ port: 8000 });
+console.log(`HTTP webserver running.  Access it at:  http://localhost:8000/`);
 
 // Connections to the server will be yielded up as an async iterable.
 for await (const conn of server) {
