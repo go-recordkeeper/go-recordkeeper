@@ -2,4 +2,9 @@
   "tasks": {
     "dev": "deno run --watch --allow-net main.ts"
   }
+  // Map "/" to "./src/" for imports
+  "imports": {
+    "/": "./src/",
+    "./": "./"
+  }
 }

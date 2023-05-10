@@ -7,19 +7,10 @@
 //   console.log("Add 2 + 3 =", add(2, 3));
 // }
 
-import { handle, register } from "./src/router.ts";
+import { handle } from "/router.ts";
 
-// Testing the router.
-register(
-  "/foo/",
-  (request, params) => {
-    console.log("fooo", params);
-    return new Response("aaa", { status: 200 });
-  },
-);
-register("/bar/{baz}/", (request, { baz }) => {
-  return new Response(baz, { status: 200 });
-});
+// Import endpoint files to register all endpoints.
+import "./src/auth.ts";
 
 // Start listening on port 8080 of localhost.
 const server = Deno.listen({ port: 8080 });
