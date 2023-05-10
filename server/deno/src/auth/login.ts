@@ -1,19 +1,16 @@
-import { register } from "/router.ts";
+import { register, validator } from "/router.ts";
 import { sql } from "/db.ts";
-import { ajv, json_schema as J } from "/deps.ts";
+import { json_schema as J } from "/deps.ts";
 
 // type LoginRequest = { username: string; password: string };
-const LR = J.struct({ username: J.string(), password: J.string() });
-
-const validate = ajv.compile(J.print(LR));
+const LoginRequest = J.struct({ username: J.string(), password: J.string() });
+const body = validator(LoginRequest);
 
 register(
   "POST",
   "/api/login/",
   async (request, params) => {
-    let json: J.TypeOf<typeof LR> = await request.json();
-    console.log(json);
-    console.log(validate(json));
+    let json = await body(request);
     let x = await sql`SELECT id, password, is_active FROM auth_user;`;
     console.log(x);
     return new Response("aaa", { status: 200 });

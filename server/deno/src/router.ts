@@ -1,3 +1,7 @@
+import { ajv, json_schema as J } from "/deps.ts";
+
+class ValidationError extends Error {}
+
 const handlers: [
   string,
   RegExp,
@@ -35,9 +39,15 @@ export async function handle(event: Deno.RequestEvent) {
         await event.respondWith(response);
       } catch (e) {
         console.error(e);
-        await event.respondWith(
-          new Response("Internal Server Error", { status: 500 }),
-        );
+        if (e instanceof ValidationError) {
+          await event.respondWith(
+            new Response("Validation Error", { status: 400 }),
+          );
+        } else {
+          await event.respondWith(
+            new Response("Internal Server Error", { status: 500 }),
+          );
+        }
       }
       return;
     }
@@ -48,4 +58,16 @@ export async function handle(event: Deno.RequestEvent) {
       status: 404,
     }),
   );
+}
+
+export function validator<T>(schema: J.JsonBuilder<T>) {
+  const validate = ajv.compile(J.print(schema));
+  return async (request: Request) => {
+    const json: J.TypeOf<typeof schema> = await request.json();
+    if (!validate(json)) {
+      console.log(validate.errors);
+      throw new ValidationError();
+    }
+    return json;
+  };
 }
