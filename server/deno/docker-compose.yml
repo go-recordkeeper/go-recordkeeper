@@ -13,6 +13,7 @@ services:
     init: true
     volumes:
       - .:/opt/deno
+    command: ["task", "dev"]
     ports:
       - 8000:8000
     environment:
