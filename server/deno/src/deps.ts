@@ -4,3 +4,5 @@ export * as json_schema from "https://deno.land/x/fun@v.2.0.0-alpha.11/json_sche
 // idk what's up with this hideousness
 import Ajv from "npm:ajv@8.12.0";
 export const ajv = new Ajv.default();
+
+export * as djwt from "https://deno.land/x/djwt@v2.8/mod.ts";
