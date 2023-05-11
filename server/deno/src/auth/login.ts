@@ -9,7 +9,7 @@ const body = validator(LoginRequest);
 register(
   "POST",
   "/api/login/",
-  async (request, params) => {
+  async (request) => {
     const json = await body(request);
     const x =
       await sql`SELECT id, password, is_active FROM auth_user WHERE username=${json.username};`;
