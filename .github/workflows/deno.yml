@@ -61,7 +61,7 @@ jobs:
 
   integration-tests:
     runs-on: ubuntu-latest
-    needs: unit-tests
+    # needs: unit-tests
     defaults:
       run:
         shell: bash
