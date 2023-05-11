@@ -4,6 +4,7 @@
 ![FastAPI](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/fastapi.yml/badge.svg)
 ![Haskell](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/haskell.yml/badge.svg)
 ![Rust](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/rust.yml/badge.svg)
+![Deno](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/deno.yml/badge.svg)
 
 <p align="center">
 <img src="https://go.chiquit.ooo/logo.png" width="200" />
