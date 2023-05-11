@@ -52,7 +52,13 @@ def clean_db():
     yield
 
 
-implementations = {"django": 8001, "fastapi": 8002, "haskell": 8003, "rust": 8004}
+implementations = {
+    "django": 8001,
+    "fastapi": 8002,
+    "haskell": 8003,
+    "rust": 8004,
+    "deno": 8005,
+}
 
 
 @pytest.fixture(scope="session", params=list(implementations.keys()), autouse=True)
