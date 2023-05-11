@@ -78,7 +78,7 @@ register(
     );
     console.log(jwt);
     if (buf2b64(out) == hash) {
-      return new Response(jwt, { status: 200 });
+      return new Response(`"${jwt}"`, { status: 200 });
     } else {
       return new Response("", { status: 401 });
     }
