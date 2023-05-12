@@ -28,7 +28,21 @@ register(
         "verify",
       ],
     );
-    const salt = await crypto.subtle.exportKey("raw", saltkey);
+    const buf2b64 = (buffer: ArrayBuffer) =>
+      self.btoa(
+        Array.prototype.map.call(
+          new Uint8Array(buffer),
+          (x) => String.fromCharCode(x),
+        ).join(""),
+      );
+    const salt = buf2b64(await crypto.subtle.exportKey("raw", saltkey));
+    // const saltkeyagain = await crypto.subtle.importKey(
+    //   "raw",
+    //   new TextEncoder().encode(salt),
+    //   { name: "PBKDF2" },
+    //   false,
+    //   ["deriveKey", "deriveBits"],
+    // );
     const passkey: CryptoKey = await crypto.subtle.importKey(
       "raw",
       new TextEncoder().encode(password),
@@ -39,7 +53,7 @@ register(
     const kk = await crypto.subtle.deriveKey(
       {
         name: "PBKDF2",
-        salt: salt,
+        salt: new TextEncoder().encode(salt),
         iterations: 390000,
         hash: "SHA-256",
       },
@@ -49,15 +63,8 @@ register(
       ["sign", "verify"],
     );
     const hash = await crypto.subtle.exportKey("raw", kk);
-    const buf2b64 = (buffer: ArrayBuffer) =>
-      self.btoa(
-        Array.prototype.map.call(
-          new Uint8Array(buffer),
-          (x) => String.fromCharCode(x),
-        ).join(""),
-      );
     const now = new Date();
-    const pppp = `pbkdf2_sha256$390000$${buf2b64(salt)}$${buf2b64(hash)}`;
+    const pppp = `pbkdf2_sha256$390000$${salt}$${buf2b64(hash)}`;
     console.log(pppp);
     try {
       const rrr =
