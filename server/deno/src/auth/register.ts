@@ -1,6 +1,6 @@
 import { register, validator } from "/router.ts";
 import { sql } from "/db.ts";
-import { djwt, json_schema as J } from "/deps.ts";
+import { json_schema as J } from "/deps.ts";
 
 const RegisterRequest = J.struct({
   email: J.string(),
@@ -48,7 +48,7 @@ register(
       true,
       ["sign", "verify"],
     );
-    let hash = await crypto.subtle.exportKey("raw", kk);
+    const hash = await crypto.subtle.exportKey("raw", kk);
     const buf2b64 = (buffer: ArrayBuffer) =>
       self.btoa(
         Array.prototype.map.call(

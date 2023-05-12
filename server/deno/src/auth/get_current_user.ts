@@ -1,6 +1,6 @@
-import { register, validator } from "/router.ts";
+import { register } from "/router.ts";
 import { sql } from "/db.ts";
-import { djwt, json_schema as J } from "/deps.ts";
+import { djwt } from "/deps.ts";
 
 register("GET", "/api/user/", async (request) => {
   const header = request.headers.get("Authorization");
