@@ -1,8 +1,8 @@
 import { register, validator } from "/router.ts";
 import { sql } from "/db.ts";
-import { djwt, json_schema as J } from "/deps.ts";
+import { json_schema as J } from "/deps.ts";
+import { createJwt, hashPassword } from "/auth/util.ts";
 
-// type LoginRequest = { username: string; password: string };
 const LoginRequest = J.struct({ username: J.string(), password: J.string() });
 const body = validator(LoginRequest);
 
@@ -10,74 +10,35 @@ register(
   "POST",
   "/api/login/",
   async (request) => {
-    const json = await body(request);
-    const x =
-      await sql`SELECT id, password, is_active FROM auth_user WHERE username=${json.username};`;
-    console.log(x);
-    if (x.length == 0) {
-      return new Response("", { status: 401 });
+    const { username, password } = await body(request);
+    // This is a dumb looking way to organize things, but we don't want to fail early to avoid leaking information to timing attacks
+
+    // not a valid identifier
+    let id = -1;
+    let db_password = "pbkdf2_sha256$390000$notvalidsalt$notvalidhash";
+    console.log(db_password);
+    const selection =
+      await sql`SELECT id, password, is_active FROM auth_user WHERE username=${username};`;
+    if (selection.length == 1) {
+      ({ id, password: db_password } = selection[0]);
     }
-    const dbthingy: string = x[0].password;
-    const match = dbthingy.match(
+    console.log(selection, db_password);
+
+    let salt = "not valid salt";
+    let db_hash = "not valid hash";
+    const match = db_password.match(
       /^pbkdf2_sha256\$([0-9]+)\$([a-zA-Z0-9+/]+)\$([a-zA-Z0-9+/=]+)$/,
     );
-    if (!match) {
-      // TODO
-      throw "bad juju";
+    if (match) {
+      salt = match[2];
+      db_hash = match[3];
+    } else {
+      console.error("Error parsing password field", username);
     }
-    const [_, iterations, salt, hash] = match;
-    const passkey: CryptoKey = await crypto.subtle.importKey(
-      "raw",
-      new TextEncoder().encode(json.password),
-      { name: "PBKDF2" },
-      false,
-      ["deriveKey", "deriveBits"],
-    );
-    const kk = await crypto.subtle.deriveKey(
-      {
-        name: "PBKDF2",
-        salt: new TextEncoder().encode(salt),
-        iterations: parseInt(iterations, 10),
-        hash: "SHA-256",
-      },
-      passkey,
-      { name: "HMAC", hash: "SHA-256", length: 32 * 8 },
-      true,
-      ["sign", "verify"],
-    );
-    const out = await crypto.subtle.exportKey("raw", kk);
-    const buf2b64 = (buffer: ArrayBuffer) =>
-      self.btoa(
-        Array.prototype.map.call(
-          new Uint8Array(buffer),
-          (x) => String.fromCharCode(x),
-        ).join(""),
-      );
-    console.log("computed", buf2b64(out));
-    console.log("from db ", hash);
 
-    const secret_key = Deno.env.get("GOBAN_SECRET_KEY") ||
-      "django-insecure-(@ppnpk$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj";
-    const jwtkey = await crypto.subtle.importKey(
-      "raw",
-      new TextEncoder().encode(secret_key),
-      { name: "HMAC", hash: "SHA-512" },
-      true,
-      ["sign", "verify"],
-    );
-    const jwt = await djwt.create(
-      { alg: "HS512" },
-      {
-        aud: "go-recordkeeper",
-        exp: djwt.getNumericDate(24 * 60 * 60),
-        iat: djwt.getNumericDate(new Date()),
-        iss: "go-recordkeeper",
-        sub: x[0].id.toString(),
-      },
-      jwtkey,
-    );
-    console.log(jwt);
-    if (buf2b64(out) == hash) {
+    const hashed_password = await hashPassword(password, salt);
+    if (hashed_password == db_hash) {
+      const jwt = await createJwt(id);
       return new Response(`"${jwt}"`, { status: 200 });
     } else {
       return new Response("", { status: 401 });

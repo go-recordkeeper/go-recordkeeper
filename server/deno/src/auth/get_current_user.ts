@@ -1,6 +1,6 @@
 import { register } from "/router.ts";
 import { sql } from "/db.ts";
-import { djwt } from "/deps.ts";
+import { verifyJwt } from "/auth/util.ts";
 
 register("GET", "/api/user/", async (request) => {
   const header = request.headers.get("Authorization");
@@ -8,29 +8,17 @@ register("GET", "/api/user/", async (request) => {
     return new Response("Failed to authenticate", { status: 403 });
   }
   const token = header.replace("Bearer ", "");
-  const secret_key = Deno.env.get("GOBAN_SECRET_KEY") ||
-    "django-insecure-(@ppnpk$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj";
-  const jwtkey = await crypto.subtle.importKey(
-    "raw",
-    new TextEncoder().encode(secret_key),
-    { name: "HMAC", hash: "SHA-512" },
-    true,
-    ["sign", "verify"],
-  );
-  const { sub } = await djwt.verify(token, jwtkey, {
-    audience: "go-recordkeeper",
-  });
+  const sub = await verifyJwt(token);
   if (!sub) {
     return new Response("Failed to authenticate", { status: 403 });
   }
   const id = parseInt(sub, 10);
-  const xxx =
+  const selection =
     await sql`SELECT username, email, is_active FROM auth_user WHERE id=${id}`;
-  console.log(xxx);
-  if (xxx.length != 1) {
+  if (selection.length != 1) {
     return new Response("Failed to authenticate", { status: 403 });
   }
-  const { username, email } = xxx[0];
+  const { username, email } = selection[0];
 
   return new Response(JSON.stringify({ id, username, email }));
 });
