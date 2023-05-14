@@ -43,6 +43,8 @@ export async function handle(event: Deno.RequestEvent) {
           await event.respondWith(
             new Response("Validation Error", { status: 400 }),
           );
+        } else if (e instanceof Response) {
+          await event.respondWith(e);
         } else {
           await event.respondWith(
             new Response("Internal Server Error", { status: 500 }),

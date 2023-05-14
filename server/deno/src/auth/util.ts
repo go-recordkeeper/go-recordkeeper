@@ -72,7 +72,7 @@ export async function createJwt(id: number) {
   return jwt;
 }
 
-export async function verifyJwt(token: string) {
+async function verifyJwt(token: string) {
   const secret_key = Deno.env.get("GOBAN_SECRET_KEY") ||
     "django-insecure-(@ppnpk$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj";
   const jwtkey = await crypto.subtle.importKey(
@@ -86,4 +86,17 @@ export async function verifyJwt(token: string) {
     audience: "go-recordkeeper",
   });
   return sub;
+}
+
+export async function getUserId(request: Request) {
+  const header = request.headers.get("Authorization");
+  if (!header || !header.startsWith("Bearer ")) {
+    throw new Response("Failed to authenticate", { status: 403 });
+  }
+  const token = header.replace("Bearer ", "");
+  const sub = await verifyJwt(token);
+  if (!sub) {
+    throw new Response("Failed to authenticate", { status: 403 });
+  }
+  return parseInt(sub, 10);
 }
