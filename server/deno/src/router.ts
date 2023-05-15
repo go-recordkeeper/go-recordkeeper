@@ -21,7 +21,7 @@ export function register(
     pattern.replace(
       /{([a-zA-Z0-9]+)}/,
       (_, name) => `(?<${name}>[a-zA-Z0-9]+)`,
-    ) + "$",
+    ) + "(\\\?.*)?$",
   );
   handlers.push([method, regex, handler]);
 }

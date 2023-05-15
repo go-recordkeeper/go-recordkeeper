@@ -11,6 +11,7 @@ import { handle } from "/router.ts";
 
 // Import endpoint files to register all endpoints.
 import "/auth.ts";
+import "/record.ts";
 
 // Start listening on port 8000 of 0.0.0.0
 const server = Deno.listen({ port: 8000 });
