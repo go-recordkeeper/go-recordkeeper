@@ -52,6 +52,14 @@ def clean_db():
     yield
 
 
+def pytest_exception_interact(node, call, report):
+    """Dump the docker compose logs on test failure"""
+    # user_properties["impl"] is set by the set_impl_property fixture
+    impl = dict(report.user_properties)["impl"]
+    stdout = run(["docker", "compose", "logs", impl], capture_output=True).stdout
+    report.sections.append(("Docker logs", stdout.decode("utf-8")))
+
+
 implementations = {
     "django": 8001,
     "fastapi": 8002,
@@ -64,6 +72,17 @@ implementations = {
 @pytest.fixture(scope="session", params=list(implementations.keys()), autouse=True)
 def impl(request):
     return request.param
+
+
+@pytest.fixture(scope="function", autouse=True)
+def set_impl_property(record_property, impl):
+    """
+    Set the "impl" property for the test so that it can be accessed when
+    dumping docker logs.
+
+    impl is session scoped, but record_property is function scoped, so we need
+    this awkward helper."""
+    record_property("impl", impl)
 
 
 @pytest.fixture(scope="session", params=["api_factory", "db_factory"], autouse=True)
