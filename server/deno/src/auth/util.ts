@@ -54,12 +54,12 @@ export async function createJwt(id: number) {
   const jwtkey = await crypto.subtle.importKey(
     "raw",
     new TextEncoder().encode(secret_key),
-    { name: "HMAC", hash: "SHA-512" },
+    { name: "HMAC", hash: "SHA-256" },
     true,
     ["sign", "verify"],
   );
   const jwt = await djwt.create(
-    { alg: "HS512" },
+    { alg: "HS256" },
     {
       aud: "go-recordkeeper",
       exp: djwt.getNumericDate(24 * 60 * 60),
@@ -78,7 +78,7 @@ async function verifyJwt(token: string) {
   const jwtkey = await crypto.subtle.importKey(
     "raw",
     new TextEncoder().encode(secret_key),
-    { name: "HMAC", hash: "SHA-512" },
+    { name: "HMAC", hash: "SHA-256" },
     true,
     ["sign", "verify"],
   );
