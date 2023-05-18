@@ -1,6 +1,5 @@
-import { register, validator } from "/router.ts";
+import { register } from "/router.ts";
 import { sql } from "/db.ts";
-import { json_schema as J } from "/deps.ts";
 import { getUserId } from "/auth/util.ts";
 
 register("GET", "/api/records/{id}/", async (request, { id: recordId }) => {
