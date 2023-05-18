@@ -4,11 +4,12 @@
 module Auth.JWT (generateJWK, authorizedUserId) where
 
 import Control.Lens (view, (^?))
+import Control.Lens.Setter (set)
 import Control.Monad.Except (runExceptT)
 import Control.Monad.IO.Class (MonadIO (liftIO))
 import Crypto.JOSE (JWK, decodeCompact)
 import Crypto.JOSE.JWK (fromOctets)
-import Crypto.JWT (AsError, ClaimsSet, JWTError, SignedJWT, claimSub, defaultJWTValidationSettings, string, verifyClaims)
+import Crypto.JWT (AsError, ClaimsSet, JWTError, SignedJWT, allowedSkew, claimSub, defaultJWTValidationSettings, string, verifyClaims)
 import Data.Int (Int64)
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
@@ -34,7 +35,7 @@ generateJWK = do
 
 verifyJWT :: JWK -> SignedJWT -> IO (Either JWTError ClaimsSet)
 verifyJWT jwk jwt = runExceptT $ do
-  let config = defaultJWTValidationSettings (== "go-recordkeeper")
+  let config = set allowedSkew 10 $ defaultJWTValidationSettings (== "go-recordkeeper")
   verifyClaims config jwk jwt
 
 -- TODO figure out exactly what's up here
