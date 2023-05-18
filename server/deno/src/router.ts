@@ -27,6 +27,7 @@ export function register(
 }
 
 export async function handle(event: Deno.RequestEvent) {
+  console.debug("Handling", event.request.method, event.request.url);
   for (const [method, regex, handler] of handlers) {
     if (event.request.method != method) {
       continue;
@@ -55,6 +56,7 @@ export async function handle(event: Deno.RequestEvent) {
     }
   }
   // Nothing matched, 404
+  console.log("404", event.request.url);
   await event.respondWith(
     new Response("Not found", {
       status: 404,

@@ -63,7 +63,7 @@ register("POST", "/api/records/", async (request) => {
       white_player,
       comment,
       handicap,
-      komi: komi,
+      komi,
       ruleset,
       winner,
     }),
