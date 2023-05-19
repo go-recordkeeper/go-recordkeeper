@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "dev": "deno run --watch --allow-net --allow-env src/main.ts"
+    "dev": "deno run --watch --allow-net --allow-env main.ts"
   }
   // Map "/" to "./src/" for imports
   "imports": {
