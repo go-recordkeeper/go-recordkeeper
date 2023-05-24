@@ -33,6 +33,6 @@ register(
       (record_id, position, color, move)
       VALUES
       (${recordId}, NULL, ${Color.toString(color)}, ${move_number})`;
-    return new Response("", { status: 201 });
+    return new Response(null, { status: 201 });
   },
 );

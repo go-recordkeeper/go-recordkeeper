@@ -39,7 +39,7 @@ register(
       const jwt = await createJwt(id);
       return new Response(`"${jwt}"`, { status: 200 });
     } else {
-      return new Response("", { status: 401 });
+      return new Response(null, { status: 401 });
     }
   },
 );
