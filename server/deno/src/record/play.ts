@@ -38,16 +38,12 @@ register(
     const board = new Board(board_size);
     let captures: Coord[];
     try {
-      const movesAndCaptures = board.playMoves(
+      board.playMoves(
         moves.map((
           row,
         ) => [board.toCoord(row.position), Color.fromString(row.color)]),
       );
-      if (moves.length > 0) {
-        captures = movesAndCaptures[moves.length - 1][1];
-      } else {
-        captures = [];
-      }
+      captures = board.playMove([[x, y], color]);
     } catch (e) {
       if (e instanceof GoError) {
         return new Response(e.message, { status: 403 });
