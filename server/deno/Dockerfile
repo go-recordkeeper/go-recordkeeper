@@ -9,6 +9,7 @@ RUN deno cache src/deps.ts
 
 COPY deno.* /opt/deno/
 COPY ./src /opt/deno/src
+COPY main.ts /opt/deno/main.ts
 
 
-CMD ["run", "--allow-net", "--allow-env", "src/main.ts"]
+CMD ["run", "--allow-net", "--allow-env", "main.ts"]
