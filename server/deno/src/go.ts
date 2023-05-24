@@ -25,13 +25,13 @@ export namespace Color {
   }
 }
 
-type Coord = [number, number];
+export type Coord = [number, number];
 
 type Pos = number;
 
 type Group = Set<Pos>;
 
-type Move = [Coord | null, Color];
+export type Move = [Coord | null, Color];
 
 export class GoError extends Error {}
 export class OutOfBoundsError extends GoError {}
@@ -142,9 +142,9 @@ export class Board {
   }
 
   playMoves(moves: Move[]) {
-    let kills: Coord[] = [];
+    const kills: [Move, Coord[]][] = [];
     for (const move of moves) {
-      kills = this.playMove(move);
+      kills.push([move, this.playMove(move)]);
     }
     return kills;
   }
