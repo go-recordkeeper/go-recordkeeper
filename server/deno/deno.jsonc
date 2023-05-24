@@ -1,7 +1,7 @@
 {
   "tasks": {
     "dev": "deno run --watch --allow-net --allow-env main.ts",
-    "test": "deno test --allow-env --coverage=coverage src/go.ts && deno coverage --lcov --output=coverage/lcov.info coverage/"
+    "test": "deno test --allow-env --coverage=coverage && deno coverage --lcov --output=coverage/lcov.info coverage/"
   }
   // Map "/" to "./src/" for imports
   "imports": {

@@ -1,8 +1,28 @@
 import { assertEquals, assertThrows } from "/deps.ts";
 
-enum Color {
+export enum Color {
   White,
   Black,
+}
+
+// deno-lint-ignore no-namespace
+export namespace Color {
+  export function toString(color: Color) {
+    if (color == Color.White) {
+      return "W";
+    } else {
+      return "B";
+    }
+  }
+  export function fromString(str: string) {
+    if (str == "W") {
+      return Color.White;
+    } else if (str == "B") {
+      return Color.Black;
+    } else {
+      throw new Error(`Unknown color string ${str}`);
+    }
+  }
 }
 
 type Coord = [number, number];
@@ -13,13 +33,13 @@ type Group = Set<Pos>;
 
 type Move = [Coord | null, Color];
 
-class GoError extends Error {}
-class OutOfBoundsError extends GoError {}
-class SpaceOccupiedError extends GoError {}
-class SuicideError extends GoError {}
+export class GoError extends Error {}
+export class OutOfBoundsError extends GoError {}
+export class SpaceOccupiedError extends GoError {}
+export class SuicideError extends GoError {}
 
 // type Board = (Color | null)[];
-class Board {
+export class Board {
   size: number;
   stones: (Color | null)[];
   constructor(size: number) {
@@ -118,6 +138,14 @@ class Board {
       this.stones[this.toPos(kill)] = null;
     }
     kills.sort();
+    return kills;
+  }
+
+  playMoves(moves: Move[]) {
+    let kills: Coord[] = [];
+    for (const move of moves) {
+      kills = this.playMove(move);
+    }
     return kills;
   }
 }
@@ -251,4 +279,28 @@ Deno.test("playMove kill group", () => {
   assertEquals(kills, [[0, 0], [0, 1]]);
   assertEquals(board.stones[board.toPos([0, 0])], null);
   assertEquals(board.stones[board.toPos([0, 1])], null);
+});
+
+Deno.test("playMove suicide", () => {
+  const board = new Board(9);
+  board.playMove([[0, 1], Color.Black]);
+  board.playMove([[1, 0], Color.Black]);
+  assertThrows(
+    () => {
+      board.playMove([[0, 0], Color.White]);
+    },
+    SuicideError,
+  );
+});
+
+Deno.test("playMove kill is not suicide", () => {
+  const board = new Board(9);
+  board.playMove([[1, 0], Color.Black]);
+  board.playMove([[0, 1], Color.Black]);
+  board.playMove([[1, 1], Color.White]);
+  board.playMove([[2, 0], Color.White]);
+  const kills = board.playMove([[0, 0], Color.White]);
+  assertEquals(kills, [[1, 0]]);
+  assertEquals(board.stones[board.toPos([1, 0])], null);
+  assertEquals(board.stones[board.toPos([0, 0])], Color.White);
 });
