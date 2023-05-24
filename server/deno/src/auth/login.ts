@@ -16,13 +16,11 @@ register(
     // not a valid identifier
     let id = -1;
     let db_password = "pbkdf2_sha256$390000$notvalidsalt$notvalidhash";
-    console.log(db_password);
     const selection =
       await sql`SELECT id, password, is_active FROM auth_user WHERE username=${username};`;
     if (selection.length == 1) {
       ({ id, password: db_password } = selection[0]);
     }
-    console.log(selection, db_password);
 
     let salt = "not valid salt";
     let db_hash = "not valid hash";
