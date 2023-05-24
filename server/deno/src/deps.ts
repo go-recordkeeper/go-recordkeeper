@@ -6,3 +6,9 @@ import Ajv from "npm:ajv@8.12.0";
 export const ajv = new Ajv.default();
 
 export * as djwt from "https://deno.land/x/djwt@v2.8/mod.ts";
+
+// For testing
+export {
+  assertEquals,
+  assertThrows,
+} from "https://deno.land/std/testing/asserts.ts";
