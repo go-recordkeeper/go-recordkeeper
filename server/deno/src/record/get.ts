@@ -29,6 +29,9 @@ register("GET", "/api/records/{id}/", async (request, { id: recordId }) => {
   console.log("mmoves", rows);
   const board = new Board(board_size);
   const moves: Move[] = rows.map((row) => {
+    if (row.position === null) {
+      return [null, Color.fromString(row.color)];
+    }
     return [board.toCoord(row.position), Color.fromString(row.color)];
   });
   const movesAndCaptures = board.playMoves(moves);
