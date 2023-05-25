@@ -47,36 +47,43 @@ def undo_move(
             raise HTTPException(status_code=404)
         moves = list(
             session.scalars(
-                select(Move).where(Move.record_id == record.id).order_by(asc(Move.move))
+                select(Move).where(Move.record_id ==
+                                   record.id).order_by(asc(Move.move))
             )
         )
         if len(moves) == 0:
             raise HTTPException(status_code=403, detail="No moves to undo")
         move_to_undo = moves[-1]
-        undo_x = move_to_undo.position % record.board_size
-        undo_y = move_to_undo.position // record.board_size
+        if move_to_undo.position is None:
+            session.delete(move_to_undo)
+            session.commit()
+            return {"add": [], "remove": []}
+        else:
+            undo_x = move_to_undo.position % record.board_size
+            undo_y = move_to_undo.position // record.board_size
 
-        board_state = BoardState(size=record.board_size)
-        # Play all the moves up to the last move
-        for move in moves[:-1]:
-            if move.position is not None:
-                x = move.position % record.board_size
-                y = move.position // record.board_size
-                board_state.play_move(x, y, move.color)
-        # Simulate playing the last move to determine which stones need to be restored
-        captures_to_restore = board_state.play_move(undo_x, undo_y, move_to_undo.color)
-        sorted_captures_to_restore = sorted(
-            captures_to_restore, key=lambda x: tuple(reversed(x))
-        )
-        capture_color = next_color(record, moves)
+            board_state = BoardState(size=record.board_size)
+            # Play all the moves up to the last move
+            for move in moves[:-1]:
+                if move.position is not None:
+                    x = move.position % record.board_size
+                    y = move.position // record.board_size
+                    board_state.play_move(x, y, move.color)
+            # Simulate playing the last move to determine which stones need to be restored
+            captures_to_restore = board_state.play_move(
+                undo_x, undo_y, move_to_undo.color)
+            sorted_captures_to_restore = sorted(
+                captures_to_restore, key=lambda x: tuple(reversed(x))
+            )
+            capture_color = next_color(record, moves)
 
-        session.delete(move_to_undo)
-        session.commit()
+            session.delete(move_to_undo)
+            session.commit()
 
-        return {
-            "add": [
-                {"x": x, "y": y, "color": capture_color}
-                for (x, y) in sorted_captures_to_restore
-            ],
-            "remove": [{"x": undo_x, "y": undo_y}],
-        }
+            return {
+                "add": [
+                    {"x": x, "y": y, "color": capture_color}
+                    for (x, y) in sorted_captures_to_restore
+                ],
+                "remove": [{"x": undo_x, "y": undo_y}],
+            }
