@@ -22,6 +22,8 @@ jobs:
         run: deno lint
       - name: Run deno check
         run: deno check src/main.ts
+      - name: Run deno task test
+        run: deno task test
   # unit-tests:
   #   runs-on: ubuntu-latest
   #   needs: linting
