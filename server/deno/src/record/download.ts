@@ -1,7 +1,7 @@
 import { register } from "/router.ts";
 import { sql } from "/db.ts";
 import { getUserId } from "/auth/util.ts";
-import { Board, Color, Move } from "/go.ts";
+import { Board } from "/go.ts";
 import { format } from "/deps.ts";
 
 register(
@@ -20,7 +20,7 @@ register(
       white_player,
       handicap,
       komi,
-      ruleset,
+      _ruleset,
       created,
     } = rows[0];
     let { name, comment, winner } = rows[0];
