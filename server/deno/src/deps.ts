@@ -7,6 +7,8 @@ export const ajv = new Ajv.default();
 
 export * as djwt from "https://deno.land/x/djwt@v2.8/mod.ts";
 
+export { format } from "https://deno.land/std@0.188.0/datetime/format.ts";
+
 // For testing
 export {
   assertEquals,
