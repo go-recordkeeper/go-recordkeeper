@@ -85,6 +85,8 @@ jobs:
       - name: Install tests
         shell: bash
         run: poetry install
+      - name: Build images
+        run: docker compose build
       - name: Run tests
         shell: bash
         run: poetry run test -- -k "deno"
