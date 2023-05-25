@@ -2,7 +2,7 @@ import { register, validator } from "/router.ts";
 import { sql } from "/db.ts";
 import { json_schema as J } from "/deps.ts";
 import { getUserId } from "/auth/util.ts";
-import { Board, Color, Coord, GoError } from "/go.ts";
+import { Board, Color, Coord, deserializeMoves, GoError } from "/go.ts";
 
 const PlayRequest = J.struct({
   x: J.number(),
@@ -38,11 +38,7 @@ register(
     const board = new Board(board_size);
     let captures: Coord[];
     try {
-      board.playMoves(
-        moves.map((
-          row,
-        ) => [board.toCoord(row.position), Color.fromString(row.color)]),
-      );
+      board.playMoves(deserializeMoves(board, moves));
       captures = board.playMove([[x, y], color]);
     } catch (e) {
       if (e instanceof GoError) {

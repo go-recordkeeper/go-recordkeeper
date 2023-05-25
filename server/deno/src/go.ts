@@ -33,6 +33,22 @@ type Group = Set<Pos>;
 
 export type Move = [Coord | null, Color];
 
+export function deserializeMoves(
+  board: Board,
+  // moves: { position: number | null; color: string }[],
+  // deno-lint-ignore no-explicit-any
+  moves: any[],
+): Move[] {
+  return moves.map(
+    (
+      { position, color },
+    ) => [
+      (position === null) ? null : board.toCoord(position as number),
+      Color.fromString(color),
+    ],
+  );
+}
+
 export class GoError extends Error {}
 export class OutOfBoundsError extends GoError {}
 export class SpaceOccupiedError extends GoError {}
