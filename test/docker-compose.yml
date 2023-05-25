@@ -10,7 +10,12 @@ services:
       POSTGRES_DB: default
   
   django:
-    build: ../server/django
+    build:
+      context: ../server/django
+      cache_from:
+        - type=gha
+      cache_to:
+        - type=gha
     init: true
     volumes:
       - ../server/django:/goban
@@ -26,7 +31,12 @@ services:
       - postgres
   
   fastapi:
-    build: ../server/fastapi
+    build:
+      context: ../server/fastapi
+      cache_from:
+        - type=gha
+      cache_to:
+        - type=gha
     init: true
     volumes:
       - ../server/fastapi:/goban
@@ -42,7 +52,12 @@ services:
       - postgres
 
   haskell:
-    build: ../server/haskell
+    build:
+      context: ../server/haskell
+      cache_from:
+        - type=gha
+      cache_to:
+        - type=gha
     init: true
     volumes:
       - ../server/haskell:/goban
@@ -58,7 +73,12 @@ services:
       - postgres
 
   rust:
-    build: ../server/rust
+    build:
+      context: ../server/rust
+      cache_from:
+        - type=gha
+      cache_to:
+        - type=gha
     init: true
     volumes:
       - ../server/rust:/goban
@@ -74,7 +94,12 @@ services:
       - postgres
 
   deno:
-    build: ../server/deno
+    build:
+      context: ../server/deno
+      cache_from:
+        - type=gha
+      cache_to:
+        - type=gha
     init: true
     volumes:
       - ../server/deno:/goban
