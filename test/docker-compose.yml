@@ -13,9 +13,9 @@ services:
     build:
       context: ../server/django
       cache_from:
-        - type=gha
+        - type=gha,scope=$GITHUB_REF_NAME-django
       cache_to:
-        - type=gha
+        - type=gha,scope=$GITHUB_REF_NAME-django
     init: true
     volumes:
       - ../server/django:/goban
@@ -34,9 +34,9 @@ services:
     build:
       context: ../server/fastapi
       cache_from:
-        - type=gha
+        - type=gha,scope=$GITHUB_REF_NAME-fastapi
       cache_to:
-        - type=gha
+        - type=gha,scope=$GITHUB_REF_NAME-fastapi
     init: true
     volumes:
       - ../server/fastapi:/goban
@@ -55,9 +55,9 @@ services:
     build:
       context: ../server/haskell
       cache_from:
-        - type=gha
+        - type=gha,scope=$GITHUB_REF_NAME-haskell
       cache_to:
-        - type=gha
+        - type=gha,scope=$GITHUB_REF_NAME-haskell
     init: true
     volumes:
       - ../server/haskell:/goban
@@ -76,9 +76,9 @@ services:
     build:
       context: ../server/rust
       cache_from:
-        - type=gha
+        - type=gha,scope=$GITHUB_REF_NAME-rust
       cache_to:
-        - type=gha
+        - type=gha,scope=$GITHUB_REF_NAME-rust
     init: true
     volumes:
       - ../server/rust:/goban
@@ -97,9 +97,9 @@ services:
     build:
       context: ../server/deno
       cache_from:
-        - type=gha
+        - type=gha,scope=$GITHUB_REF_NAME-deno
       cache_to:
-        - type=gha
+        - type=gha,scope=$GITHUB_REF_NAME-deno
     init: true
     volumes:
       - ../server/deno:/goban
