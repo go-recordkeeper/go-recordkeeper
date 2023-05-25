@@ -56,6 +56,8 @@ jobs:
       POSTGRES_PASSWORD: postgres
       POSTGRES_HOST: localhost
       GOBAN_DEVELOPMENT: true
+      DOCKER_BUILDKIT: 1
+      COMPOSE_DOCKER_CLI_BUILD: 1
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -68,6 +70,8 @@ jobs:
           poetry-install: false
       - name: Install tests
         run: poetry install
+      - name: Build images
+        run: docker compose build
       - name: Run tests
         run: poetry run test -- -k "django" || exit 1
 
