@@ -26,7 +26,6 @@ register("GET", "/api/records/{id}/", async (request, { id: recordId }) => {
   } = rows[0];
   rows =
     await sql`SELECT position, color FROM record_move WHERE record_id=${recordId} ORDER BY move ASC`;
-  console.log("mmoves", rows);
   const board = new Board(board_size);
   const moves: Move[] = rows.map((row) => {
     if (row.position === null) {
