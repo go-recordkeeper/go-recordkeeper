@@ -56,7 +56,8 @@ def pytest_exception_interact(node, call, report):
     """Dump the docker compose logs on test failure"""
     # user_properties["impl"] is set by the set_impl_property fixture
     impl = dict(report.user_properties)["impl"]
-    stdout = run(["docker", "compose", "logs", impl], capture_output=True).stdout
+    stdout = run(["docker", "compose", "logs", impl],
+                 capture_output=True).stdout
     report.sections.append(("Docker logs", stdout.decode("utf-8")))
 
 
@@ -138,7 +139,8 @@ def user_factory(factory_method, client, fastapi_db, faker):
         return {
             **client.post(
                 "/api/register/",
-                json={"username": username, "email": email, "password": password},
+                json={"username": username,
+                      "email": email, "password": password},
             ).json(),
             "password": password,
         }
@@ -252,6 +254,49 @@ def move_factory(factory_method, fastapi_db, user_client, record, user):
             )
             color = next_color(record_model, moves)
             position = x + (y * record_model.board_size)
+            move_number = len(moves) + 1
+            move = Move(
+                position=position,
+                color=color,
+                move=move_number,
+                record_id=record_model.id,
+            )
+            session.add(move)
+            session.commit()
+
+    if factory_method == "api_factory":
+        return api_factory
+    elif factory_method == "db_factory":
+        return db_factory
+
+
+@pytest.fixture
+def pass_factory(factory_method, fastapi_db, user_client, record, user):
+    default_record = record
+
+    def api_factory(record=None):
+        if record is None:
+            record = default_record
+        user_client.post(f"/api/records/{record['id']}/pass/")
+
+    def db_factory(record=None):
+        if record is None:
+            record = default_record
+        with fastapi_db.session() as session:
+            record_model: Record = session.scalar(
+                select(Record)
+                .where(Record.id == record["id"])
+                .where(Record.owner_id == user["id"])
+            )
+            moves = list(
+                session.scalars(
+                    select(Move)
+                    .where(Move.record_id == record_model.id)
+                    .order_by(asc(Move.move))
+                )
+            )
+            color = next_color(record_model, moves)
+            position = None
             move_number = len(moves) + 1
             move = Move(
                 position=position,
