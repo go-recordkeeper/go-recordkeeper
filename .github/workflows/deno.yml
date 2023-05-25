@@ -95,6 +95,8 @@ jobs:
       - name: Install tests
         shell: bash
         run: poetry install
+      - name: Set up docker buildx driver
+        run: docker buildx create --use --driver=docker-container
       - name: Build images
         run: docker compose build
       - name: Run tests
