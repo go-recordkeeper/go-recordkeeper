@@ -23,6 +23,12 @@ jobs:
       - name: Run deno check
         run: deno check src/main.ts
       - name: Run deno task test
+        env:
+          # These are just dummy values so that a valid postgres URL can be built
+          POSTGRES_NAME: default
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_HOST: postgres
         run: deno task test
   # unit-tests:
   #   runs-on: ubuntu-latest
