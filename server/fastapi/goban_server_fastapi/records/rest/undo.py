@@ -47,8 +47,7 @@ def undo_move(
             raise HTTPException(status_code=404)
         moves = list(
             session.scalars(
-                select(Move).where(Move.record_id ==
-                                   record.id).order_by(asc(Move.move))
+                select(Move).where(Move.record_id == record.id).order_by(asc(Move.move))
             )
         )
         if len(moves) == 0:
@@ -71,7 +70,8 @@ def undo_move(
                     board_state.play_move(x, y, move.color)
             # Simulate playing the last move to determine which stones need to be restored
             captures_to_restore = board_state.play_move(
-                undo_x, undo_y, move_to_undo.color)
+                undo_x, undo_y, move_to_undo.color
+            )
             sorted_captures_to_restore = sorted(
                 captures_to_restore, key=lambda x: tuple(reversed(x))
             )
