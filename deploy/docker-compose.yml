@@ -57,6 +57,16 @@ services:
     depends_on:
       - postgres
 
+  deno:
+    build: ../server/deno
+    init: true
+    ports:
+      - 8004:8000
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+
   nginx:
     image: nginx
     container_name: nginx
