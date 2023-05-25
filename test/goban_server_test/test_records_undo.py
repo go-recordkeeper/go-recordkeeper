@@ -2,7 +2,7 @@ import pytest
 from anys import ANY_DATETIME_STR
 
 
-def test_undo_move(user_client, record, move_factory):
+def test_undo_move(user_client, record, move_factory, pass_factory):
     move_factory(0, 0)
     response = user_client.post(f"/api/records/{record['id']}/undo/")
     assert response.status_code == 200
@@ -47,3 +47,12 @@ def test_undo_move(user_client, record, move_factory):
     # Verify that you can't undo when there are no moves
     response = user_client.post(f"/api/records/{record['id']}/undo/")
     assert response.status_code == 403
+
+    # Verify that passes can be undone
+    pass_factory()
+    response = user_client.post(f"/api/records/{record['id']}/undo/")
+    assert response.status_code == 200
+    assert response.json() == {
+        "add": [],
+        "remove": [],
+    }
