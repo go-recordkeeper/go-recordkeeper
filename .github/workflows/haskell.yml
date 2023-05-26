@@ -59,6 +59,8 @@ jobs:
       - name: Install tests
         shell: bash
         run: poetry install
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
       - name: Build and cache django
         uses: docker/build-push-action@v4
         with:
