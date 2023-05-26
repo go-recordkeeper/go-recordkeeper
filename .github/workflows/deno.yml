@@ -33,7 +33,7 @@ jobs:
 
   integration-tests:
     runs-on: ubuntu-latest
-    # needs: unit-tests
+    needs: linting
     defaults:
       run:
         shell: bash

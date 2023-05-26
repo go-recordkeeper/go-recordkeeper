@@ -70,7 +70,49 @@ jobs:
           poetry-install: false
       - name: Install tests
         run: poetry install
-      - name: Build images
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build and cache django
+        uses: docker/build-push-action@v4
+        with:
+          context: server/django
+          push: false
+          load: true
+          cache-from: type=gha,scope=django
+          cache-to: type=gha,scope=django,mode=min
+      - name: Build and cache fastapi
+        uses: docker/build-push-action@v4
+        with:
+          context: server/fastapi
+          push: false
+          load: true
+          cache-from: type=gha,scope=fastapi
+          cache-to: type=gha,scope=fastapi,mode=min
+      - name: Build and cache haskell
+        uses: docker/build-push-action@v4
+        with:
+          context: server/haskell
+          push: false
+          load: true
+          cache-from: type=gha,scope=haskell
+          cache-to: type=gha,scope=haskell,mode=min
+      - name: Build and cache rust
+        uses: docker/build-push-action@v4
+        with:
+          context: server/rust
+          push: false
+          load: true
+          cache-from: type=gha,scope=rust
+          cache-to: type=gha,scope=rust,mode=min
+      - name: Build and cache deno
+        uses: docker/build-push-action@v4
+        with:
+          context: server/deno
+          push: false
+          load: true
+          cache-from: type=gha,scope=deno
+          cache-to: type=gha,scope=deno,mode=min
+      - name: Build all docker compose images
         run: docker compose build
       - name: Run tests
         run: poetry run test -- -k "django" || exit 1
