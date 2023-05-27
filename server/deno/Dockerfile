@@ -8,7 +8,7 @@ RUN sh /opt/deno/deno_install.sh
 
 FROM debian:buster-slim
 
-COPY --from=install /root/.deno/bin/deno /bin/deno
+COPY --from=install /root/.deno/bin/deno /usr/bin/deno
 
 EXPOSE 8000
 WORKDIR /opt/deno
@@ -21,5 +21,5 @@ COPY deno.* /opt/deno/
 COPY ./src /opt/deno/src
 COPY main.ts /opt/deno/main.ts
 
-
+ENTRYPOINT ["/usr/bin/deno"]
 CMD ["run", "--allow-net", "--allow-env", "main.ts"]
