@@ -1,4 +1,14 @@
-FROM denoland/deno:debian-1.33.2
+# FROM denoland/deno:debian-1.33.2
+FROM debian:buster-slim as install
+
+RUN apt-get update -y && apt-get upgrade -y
+RUN apt-get install -y unzip curl
+COPY ./deno_install.sh /opt/deno/deno_install.sh
+RUN sh /opt/deno/deno_install.sh
+
+FROM debian:buster-slim
+
+COPY --from=install /root/.deno/bin/deno /bin/deno
 
 EXPOSE 8000
 WORKDIR /opt/deno
