@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Deno</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='deno, typescript'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/28-deno/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Deno">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Deno">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/28-deno/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/28-deno/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/28-deno/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Deno</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            May 25, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/deno">deno</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/typescript">typescript</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>For the fifth implementation, I have chosen to use <a href="https://deno.com/runtime">Deno</a>, a JavaScript runtime and competitor to <a href="https://nodejs.org/en">Node.js</a>. I&rsquo;ve been avoiding a JavaScript/TypeScript implementation because I frankly don&rsquo;t like JavaScript or Node very much, so when I was reminded of Deno I thought I&rsquo;d give it a shot.</p>
+<h2 id="thoughts-on-deno">Thoughts on Deno</h2>
+<p>Overall, I quite enjoyed the UX. Deno supports TypeScript out of the box with no headache configuring Babel or webpack or what have you. Deno has an opinionated linter/formatter, so no wrangling ESLint or prettier. The package file, <code>deno.jsonc</code>, is incredibly terse:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;tasks&#34;</span>: {
+    <span style="color:#f92672">&#34;dev&#34;</span>: <span style="color:#e6db74">&#34;deno run --watch --allow-net --allow-env main.ts&#34;</span>,
+    <span style="color:#f92672">&#34;test&#34;</span>: <span style="color:#e6db74">&#34;deno test --allow-env --coverage=coverage &amp;&amp; deno coverage --lcov --output=coverage/lcov.info coverage/&#34;</span>
+  }
+  <span style="color:#75715e">// Map &#34;/&#34; to &#34;./src/&#34; for imports
+</span><span style="color:#75715e"></span>  <span style="color:#e6db74">&#34;imports&#34;</span>: {
+    <span style="color:#f92672">&#34;/&#34;</span>: <span style="color:#e6db74">&#34;./src/&#34;</span>,
+    <span style="color:#f92672">&#34;./&#34;</span>: <span style="color:#e6db74">&#34;./&#34;</span>
+  }
+}
+</code></pre></div><p>It consists solely of some build scripts that make development easier, and some import mapping to make relative imports slightly less verbose.</p>
+<p>Most interestingly, Deno doesn&rsquo;t have a package manager. Dependencies are specified in the import statement via URL:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">import</span> { <span style="color:#66d9ef">default</span> <span style="color:#a6e22e">as</span> <span style="color:#a6e22e">postgres</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;https://deno.land/x/postgresjs@v3.3.4/mod.js&#34;</span>;
+</code></pre></div><p>Anyone can host a blob of code anywhere and import it with Deno. There&rsquo;s still a central repository of Deno specific packages (<code>deno.land</code>, as per the example above), but it is optional. Deno caches these dependencies locally and manages a lockfile for you. To avoid respecifying dependencies everywhere, the standard methodology is to have a central <code>deps.ts</code> file where you import all of your dependencies, export them from there, and import them from <code>deps.ts</code> as needed. It&rsquo;s a neat concept, and it worked well for me.</p>
+<h3 id="no-web-framework">No web framework</h3>
+<p>Deno has a remarkably complete standard library for web development. Ultimately, my dependencies are:</p>
+<ul>
+<li><a href="https://deno.land/x/postgresjs@v3.3.4">postgresjs</a> - The DB engine</li>
+<li><a href="https://deno.land/x/fun@v.2.0.0-alpha.11">fun</a> - Used exclusively for the <a href="https://doc.deno.land/https://raw.githubusercontent.com/baetheus/fun/main/json_schema.ts">json_schema</a> module, which I use for generating schemas for request body validation.</li>
+<li><a href="https://ajv.js.org/">ajv</a> - The JSON schema validator</li>
+<li><a href="https://deno.land/x/djwt@v2.8">djwt</a> - JWT library</li>
+</ul>
+<p>Notable absences from that list include a crypto library and a web framework. Deno has builtin support for all the password hashing I needed to do from the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API">WebCrypto API</a>. After poking around <a href="http://expressjs.com/">ExpressJS</a>, I decided it would be simpler and more informative to just use the tools Deno has out of the box to build my own rudimentary framework. This is the entirety of the boilerplate for handling incoming connections:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#75715e">// main.ts
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">handle</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;/router.ts&#34;</span>;
+
+<span style="color:#75715e">// Import endpoint files to register all endpoints.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#34;/auth.ts&#34;</span>;
+<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#34;/record.ts&#34;</span>;
+
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">main() {</span>
+  <span style="color:#75715e">// Start listening on port 8000 of 0.0.0.0
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">server</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Deno</span>.<span style="color:#a6e22e">listen</span>({ <span style="color:#a6e22e">port</span>: <span style="color:#66d9ef">8000</span> });
+  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`HTTP webserver running.  Access it at:  http://localhost:8000/`</span>);
+
+  <span style="color:#75715e">// Connections to the server will be yielded up as an async iterable.
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">await</span> (<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">conn</span> <span style="color:#66d9ef">of</span> <span style="color:#a6e22e">server</span>) {
+    <span style="color:#75715e">// In order to not be blocking, we need to handle each connection individually
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// without awaiting the function
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">serveHttp</span>(<span style="color:#a6e22e">conn</span>);
+  }
+
+  <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">serveHttp</span>(<span style="color:#a6e22e">conn</span>: <span style="color:#66d9ef">Deno.Conn</span>) {
+    <span style="color:#75715e">// This &#34;upgrades&#34; a network connection into an HTTP connection.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">httpConn</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Deno</span>.<span style="color:#a6e22e">serveHttp</span>(<span style="color:#a6e22e">conn</span>);
+    <span style="color:#75715e">// Each request sent over the HTTP connection will be yielded as an async
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// iterator from the HTTP connection.
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">await</span> (<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">event</span> <span style="color:#66d9ef">of</span> <span style="color:#a6e22e">httpConn</span>) {
+      <span style="color:#a6e22e">handle</span>(<span style="color:#a6e22e">event</span>);
+    }
+  }
+}
+</code></pre></div><p>And this is the entirety of my router code that dispatches requests to the correct handler. It also parses out URL parameters like <code>/record/{id}/undo/</code> and does rudimentary validation error handling:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#75715e">// router.ts
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ValidationError</span> <span style="color:#66d9ef">extends</span> Error {}
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">handlers</span><span style="color:#f92672">:</span> [
+  <span style="color:#66d9ef">string</span>,
+  RegExp,
+  (<span style="color:#a6e22e">event</span>: <span style="color:#66d9ef">Request</span>, <span style="color:#a6e22e">params</span><span style="color:#f92672">:</span> { [<span style="color:#a6e22e">key</span>: <span style="color:#66d9ef">string</span>]<span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span> }) <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Promise</span>&lt;<span style="color:#f92672">Response</span>&gt;,
+][] <span style="color:#f92672">=</span> [];
+
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">register</span>(
+  <span style="color:#a6e22e">method</span>: <span style="color:#66d9ef">string</span>,
+  <span style="color:#a6e22e">pattern</span>: <span style="color:#66d9ef">string</span>,
+  <span style="color:#a6e22e">handler</span><span style="color:#f92672">:</span> (
+    <span style="color:#a6e22e">request</span>: <span style="color:#66d9ef">Request</span>,
+    <span style="color:#a6e22e">params</span><span style="color:#f92672">:</span> { [<span style="color:#a6e22e">key</span>: <span style="color:#66d9ef">string</span>]<span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span> },
+  ) <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">Promise</span>&lt;<span style="color:#f92672">Response</span>&gt;,
+) {
+  <span style="color:#75715e">// Replace &#34;{foo}&#34; with &#34;(?&lt;foo&gt;...)&#34; to make a valid regex.
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">regex</span> <span style="color:#f92672">=</span> RegExp(
+    <span style="color:#a6e22e">pattern</span>.<span style="color:#a6e22e">replace</span>(
+      <span style="color:#e6db74">/{([a-zA-Z0-9]+)}/</span>,
+      (<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">name</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">`(?&lt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">name</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&gt;[a-zA-Z0-9]+)`</span>,
+    ) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;(\\\?.*)?$&#34;</span>,
+  );
+  <span style="color:#a6e22e">handlers</span>.<span style="color:#a6e22e">push</span>([<span style="color:#a6e22e">method</span>, <span style="color:#a6e22e">regex</span>, <span style="color:#a6e22e">handler</span>]);
+}
+
+<span style="color:#66d9ef">export</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">handle</span>(<span style="color:#a6e22e">event</span>: <span style="color:#66d9ef">Deno.RequestEvent</span>) {
+  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#34;Handling&#34;</span>, <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">method</span>, <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">url</span>);
+  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">method</span>, <span style="color:#a6e22e">regex</span>, <span style="color:#a6e22e">handler</span>] <span style="color:#66d9ef">of</span> <span style="color:#a6e22e">handlers</span>) {
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">method</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">method</span>) {
+      <span style="color:#66d9ef">continue</span>;
+    }
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">match</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">regex</span>.<span style="color:#a6e22e">exec</span>(<span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">url</span>);
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">match</span>) {
+      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">groups</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">match</span>.<span style="color:#a6e22e">groups</span> <span style="color:#f92672">||</span> {};
+      <span style="color:#66d9ef">try</span> {
+        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">response</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">handler</span>(<span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">request</span>, <span style="color:#a6e22e">groups</span>);
+        <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">respondWith</span>(<span style="color:#a6e22e">response</span>);
+      } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">e</span>) {
+        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">e</span>);
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">e</span> <span style="color:#66d9ef">instanceof</span> <span style="color:#a6e22e">ValidationError</span>) {
+          <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">respondWith</span>(
+            <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Response</span>(<span style="color:#e6db74">&#34;Validation Error&#34;</span>, { <span style="color:#a6e22e">status</span>: <span style="color:#66d9ef">400</span> }),
+          );
+        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">e</span> <span style="color:#66d9ef">instanceof</span> <span style="color:#a6e22e">Response</span>) {
+          <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">respondWith</span>(<span style="color:#a6e22e">e</span>);
+        } <span style="color:#66d9ef">else</span> {
+          <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">respondWith</span>(
+            <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Response</span>(<span style="color:#e6db74">&#34;Internal Server Error&#34;</span>, { <span style="color:#a6e22e">status</span>: <span style="color:#66d9ef">500</span> }),
+          );
+        }
+      }
+      <span style="color:#66d9ef">return</span>;
+    }
+  }
+  <span style="color:#75715e">// Nothing matched, 404
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;404&#34;</span>, <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">url</span>);
+  <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">respondWith</span>(
+    <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Response</span>(<span style="color:#e6db74">&#34;Not found&#34;</span>, {
+      <span style="color:#a6e22e">status</span>: <span style="color:#66d9ef">404</span>,
+    }),
+  );
+}
+</code></pre></div><p>There are some more utility functions for validation and authentication that would be implemented as middleware in a normal web framework, but the fundamentals are all there in less than 100 lines of code. That&rsquo;s pretty cool.</p>
+<h3 id="sql">SQL</h3>
+<p><a href="https://deno.land/x/postgresjs@v3.3.4">postgresjs</a> has an interesting API for executing sql queries that uses <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates">tagged templates</a>. A simple query would look like this:</p>
+<pre tabindex="0"><code>const rows = await sql`SELECT board_size FROM record_record WHERE id=${recordId}`;
+</code></pre><p>The <code>sql</code> is actually a function that is applied with the template string and template parameters, which handles input sanitization and dispatching the query. I&rsquo;d never heard of this syntax feature of JavaScript, but it works remarkably well for this use case.</p>
+<h3 id="request-body-validation">Request body validation</h3>
+<p>When handling a request with a JSON body, it&rsquo;s nice to verify that all required fields are present and typed correctly before doing anything else. Sadly, despite using TypeScript and everything in JavaScript basically being a JSON blob, there is no nice way to do this natively. TypeScript is entirely transpile time and cannot be enforced at runtime, and <a href="http://json-schema.org/">JSON Schema</a> is annoying to write and work with.</p>
+<p>I ended up using <a href="https://doc.deno.land/https://raw.githubusercontent.com/baetheus/fun/main/json_schema.ts">json_schema</a> to generate a JSON schema in a legible way, then use <a href="https://ajv.js.org/">ajv</a> to validate it.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#75715e">// router.ts
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">validator</span>&lt;<span style="color:#f92672">T</span>&gt;(<span style="color:#a6e22e">schema</span>: <span style="color:#66d9ef">J.JsonBuilder</span>&lt;<span style="color:#f92672">T</span>&gt;) {
+  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">validate</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ajv</span>.<span style="color:#a6e22e">compile</span>(<span style="color:#a6e22e">J</span>.<span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">schema</span>));
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">request</span>: <span style="color:#66d9ef">Request</span>) <span style="color:#f92672">=&gt;</span> {
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">json</span>: <span style="color:#66d9ef">J.TypeOf</span>&lt;<span style="color:#f92672">typeof</span> <span style="color:#a6e22e">schema</span>&gt; <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">json</span>();
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">validate</span>(<span style="color:#a6e22e">json</span>)) {
+      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">validate</span>.<span style="color:#a6e22e">errors</span>);
+      <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">ValidationError</span>();
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">json</span>;
+  };
+}
+
+<span style="color:#75715e">// inside a request handler
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">PlayRequest</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">J</span>.<span style="color:#a6e22e">struct</span>({
+  <span style="color:#a6e22e">x</span>: <span style="color:#66d9ef">J.number</span>(),
+  <span style="color:#a6e22e">y</span>: <span style="color:#66d9ef">J.number</span>(),
+});
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">body</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">validator</span>(<span style="color:#a6e22e">PlayRequest</span>);
+<span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">y</span> } <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">body</span>(<span style="color:#a6e22e">request</span>);
+</code></pre></div><p>It doesn&rsquo;t do any reporting to the client of what failed to validate because I didn&rsquo;t include that in the API specification, and also because I am lazy. The reward for my laziness is a surprisingly terse and usable function that correctly and tersely rejects all malformed requests.</p>
+<h3 id="the-play-endpoint">The <code>play</code> endpoint</h3>
+<p>Now that I&rsquo;ve described all the moving parts, let&rsquo;s take a look at how they work in practice. The <code>play</code> endpoint is traditionally pretty complex, since it needs to look up a record and all the moves for that record, play them out, handle errors, insert a new row, and return a JSON blob. Nothing out of the ordinary, but a little bit of everything.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#75715e">// imports, nothing very interesting here.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">register</span>, <span style="color:#a6e22e">validator</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;/router.ts&#34;</span>;
+<span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">sql</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;/db.ts&#34;</span>;
+<span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">json_schema</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">J</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;/deps.ts&#34;</span>;
+<span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">getUserId</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;/auth/util.ts&#34;</span>;
+<span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Board</span>, <span style="color:#a6e22e">Color</span>, <span style="color:#a6e22e">Coord</span>, <span style="color:#a6e22e">deserializeMoves</span>, <span style="color:#a6e22e">GoError</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;/go.ts&#34;</span>;
+
+<span style="color:#75715e">// request body validator
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">PlayRequest</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">J</span>.<span style="color:#a6e22e">struct</span>({
+  <span style="color:#a6e22e">x</span>: <span style="color:#66d9ef">J.number</span>(),
+  <span style="color:#a6e22e">y</span>: <span style="color:#66d9ef">J.number</span>(),
+});
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">body</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">validator</span>(<span style="color:#a6e22e">PlayRequest</span>);
+</code></pre></div><p><code>body</code> is a function that will throw a ValidationError if the request body doesn&rsquo;t match the schema, and will return the object if it does match. Crucially, the returned object is typed correctly, in this case, <code>{x: number, y: number}</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#a6e22e">register</span>(
+  <span style="color:#e6db74">&#34;POST&#34;</span>,
+  <span style="color:#e6db74">&#34;/api/records/{recordId}/play/&#34;</span>,
+  <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">request</span>, { <span style="color:#a6e22e">recordId</span> }) <span style="color:#f92672">=&gt;</span> {
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">userId</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">getUserId</span>(<span style="color:#a6e22e">request</span>);
+    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">y</span> } <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">body</span>(<span style="color:#a6e22e">request</span>);
+
+    ...
+  },
+);
+</code></pre></div><p>This is the syntax I chose for registering routes. The <code>{recordId}</code> portion of the request URL is parsed out and passed to the closure as the variable <code>recordId</code>.</p>
+<p>The first step of the request handler is to verify that the user is logged in. The <code>getUserId(request)</code> function checks the <code>Authorization</code> header on the request extracts the user ID from the JWT payload, if the JWT is valid.</p>
+<p>The next step is to verify and extract the content of the request body using the previously created <code>body</code> function.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript">    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">records</span> <span style="color:#f92672">=</span>
+      <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">sql</span><span style="color:#e6db74">`SELECT board_size, handicap FROM record_record WHERE owner_id=</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">userId</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> AND id=</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">recordId</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>;
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">records</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">1</span>) {
+      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Response</span>(<span style="color:#e6db74">&#34;Not Found&#34;</span>, { <span style="color:#a6e22e">status</span>: <span style="color:#66d9ef">404</span> });
+    }
+    <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">board_size</span>, <span style="color:#a6e22e">handicap</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">records</span>[<span style="color:#ae81ff">0</span>];
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">moves</span> <span style="color:#f92672">=</span>
+      <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">sql</span><span style="color:#e6db74">`SELECT position, color FROM record_move WHERE record_id=</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">recordId</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> ORDER BY move ASC`</span>;
+</code></pre></div><p>Now we do some SQL queries to get the record and the moves for that record from the DB. I opted to do this clumsy <code>if</code> check to return 404 if the record doesn&rsquo;t exist. It would be nice to abstract this somehow, but I couldn&rsquo;t think of a good way to do it. Having it be extremely explicit has its advantages, I suppose.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript">    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">color</span>: <span style="color:#66d9ef">Color</span>;
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">moves</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">moves</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">handicap</span>) {
+      <span style="color:#75715e">// First move is always black
+</span><span style="color:#75715e"></span>      <span style="color:#75715e">// If we are still in the handicap phase, next move is black
+</span><span style="color:#75715e"></span>      <span style="color:#a6e22e">color</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Color</span>.<span style="color:#a6e22e">Black</span>;
+    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">moves</span>[<span style="color:#a6e22e">moves</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>].<span style="color:#a6e22e">color</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;W&#34;</span>) {
+      <span style="color:#75715e">// If the last move was white, the next move is black
+</span><span style="color:#75715e"></span>      <span style="color:#a6e22e">color</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Color</span>.<span style="color:#a6e22e">Black</span>;
+    } <span style="color:#66d9ef">else</span> {
+      <span style="color:#a6e22e">color</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Color</span>.<span style="color:#a6e22e">White</span>;
+    }
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">board</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Board</span>(<span style="color:#a6e22e">board_size</span>);
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">captures</span>: <span style="color:#66d9ef">Coord</span>[];
+    <span style="color:#66d9ef">try</span> {
+      <span style="color:#a6e22e">board</span>.<span style="color:#a6e22e">playMoves</span>(<span style="color:#a6e22e">deserializeMoves</span>(<span style="color:#a6e22e">board</span>, <span style="color:#a6e22e">moves</span>));
+      <span style="color:#a6e22e">captures</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">board</span>.<span style="color:#a6e22e">playMove</span>([[<span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">y</span>], <span style="color:#a6e22e">color</span>]);
+    } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">e</span>) {
+      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">e</span> <span style="color:#66d9ef">instanceof</span> <span style="color:#a6e22e">GoError</span>) {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Response</span>(<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">message</span>, { <span style="color:#a6e22e">status</span>: <span style="color:#66d9ef">403</span> });
+      }
+      <span style="color:#66d9ef">throw</span> <span style="color:#a6e22e">e</span>;
+    }
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">move_number</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">moves</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">pos</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">board</span>.<span style="color:#a6e22e">toPos</span>([<span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">y</span>]);
+    <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">sql</span><span style="color:#e6db74">`INSERT INTO record_move
+</span><span style="color:#e6db74">      (record_id, position, color, move)
+</span><span style="color:#e6db74">      VALUES
+</span><span style="color:#e6db74">      (</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">recordId</span><span style="color:#e6db74">}</span><span style="color:#e6db74">, </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">pos</span><span style="color:#e6db74">}</span><span style="color:#e6db74">, </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">Color</span>.<span style="color:#a6e22e">toString</span>(<span style="color:#a6e22e">color</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">, </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">move_number</span><span style="color:#e6db74">}</span><span style="color:#e6db74">)`</span>;
+</code></pre></div><p>This is a big blob of logic specific to how moves are played, which isn&rsquo;t Deno specific and also isn&rsquo;t very interesting. We need to make sure the next move is the correct color, accounting for handicaps. We need to play out the moves from the database, then play the latest move and get any captures from it, handling any exceptions encountered from illegal moves. Finally, we need to insert the new move into the database.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript">    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Response</span>(
+      <span style="color:#a6e22e">JSON</span>.<span style="color:#a6e22e">stringify</span>({
+        <span style="color:#a6e22e">add</span><span style="color:#f92672">:</span> [{ <span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">y</span>, <span style="color:#a6e22e">color</span>: <span style="color:#66d9ef">Color.toString</span>(<span style="color:#a6e22e">color</span>) }],
+        <span style="color:#a6e22e">remove</span>: <span style="color:#66d9ef">captures.map</span>(([<span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">y</span>]) <span style="color:#f92672">=&gt;</span> ({ <span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">y</span> })),
+      }),
+      {
+        <span style="color:#a6e22e">status</span>: <span style="color:#66d9ef">201</span>,
+      },
+    );
+  },
+);
+</code></pre></div><p>Finally, we return a JSON blob, after some type corrections.</p>
+<p>Honestly, this is one of the more succinct and legible <code>play</code> implementations I&rsquo;ve done. I&rsquo;m rather pleased with it.</p>
+<h2 id="speed-bumps">Speed bumps</h2>
+<p>As always, some snags were encountered along the way.</p>
+<h3 id="password-hashing">Password hashing</h3>
+<p>Deno includes the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API">WebCrypto API</a> out of the box, so I thought I would just use that to do all the hashing myself. Deciphering the API was difficult, and examples for what I wanted to achieve were thin. I couldn&rsquo;t find a better alternative though, so I soldiered on until it worked.</p>
+<h3 id="haskell-jwt-skew">Haskell JWT skew</h3>
+<p>For some unfathomable reason, the Haskell JWT library works fine with every other API implementation, except for Deno. JWTs signed by the Deno API and then evaluated by the Haskell API would consistently appear to be showing up before they claimed to be signed, which is obviously grounds for rejection. The two APIs were running on two different docker containers, but I have no idea why their system clocks wouldn&rsquo;t be synchronized.</p>
+<p>The solution was to add a bit of allowed clock skew to the Haskell implementation to add some fudge factor for the offset. This was painful, as I needed to decrypt the dubiously documented <code>lens</code> library once again to figure out how to change JWT validation settings. Can&rsquo;t say I enjoy <code>lens</code> very much.</p>
+<h3 id="fastapi-bug">FastAPI bug</h3>
+<p>I noticed that there was no integration testing coverage for undoing a pass, so I added a test and lo and behold, FastAPI didn&rsquo;t pass. It was an easy fix, but not great for my ego. I&rsquo;m sure there are other forgotten bugs which have never been uncovered my solitary QA.</p>
+<h3 id="speeding-up-integration-tests-in-ci">Speeding up integration tests in CI</h3>
+<p>As I continue to stack up implementations, CI time continues to multiply. Specifically, every CI run needed to build every implementation into a fresh Docker image so that it could be tested against. This is especially problematic for Haskell, which takes ~20 minutes to build in CI.</p>
+<p>I had looked into caching docker builds before, but came up empty. This time, I found the <code>gha</code> cache target in Docker buildx. It&rsquo;s labeled &ldquo;experimental&rdquo;, so it&rsquo;s possible that it didn&rsquo;t exist last time I checked. It&rsquo;s also possible I just didn&rsquo;t want to bother figuring out how to enable buildx (which did prove difficult). I really wanted to enable build caching from docker compose somehow, but I wasn&rsquo;t able to crack that nut. I&rsquo;m confident it is possible, but an easier, less elegant solution is acceptable.</p>
+<p>Excerpt from my Haskell GitHub actions workflows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml">      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Set up Docker Buildx</span>
+        <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">docker/setup-buildx-action@v2</span>
+      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Build and cache haskell</span>
+        <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">docker/build-push-action@v4</span>
+        <span style="color:#f92672">with</span>:
+          <span style="color:#f92672">context</span>: <span style="color:#ae81ff">server/haskell</span>
+          <span style="color:#f92672">push</span>: <span style="color:#66d9ef">false</span>
+          <span style="color:#f92672">load</span>: <span style="color:#66d9ef">true</span>
+          <span style="color:#f92672">cache-from</span>: <span style="color:#ae81ff">type=gha,scope=haskell</span>
+          <span style="color:#f92672">cache-to</span>: <span style="color:#ae81ff">type=gha,scope=haskell,mode=min</span>
+      <span style="color:#75715e"># More &#34;Build and cache ...&#34; steps, one for each implementation</span>
+      <span style="color:#75715e"># ...</span>
+      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Build all docker compose images</span>
+        <span style="color:#f92672">run</span>: <span style="color:#ae81ff">docker compose build</span>
+      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Run tests</span>
+        <span style="color:#f92672">shell</span>: <span style="color:#ae81ff">bash</span>
+        <span style="color:#f92672">run</span>: <span style="color:#ae81ff">poetry run test -- -k &#34;haskell&#34;</span>
+</code></pre></div><h3 id="deno-on-the-pi">Deno on the Pi</h3>
+<p>After finishing the implementation, I was quite disappointed to learn that Deno is <a href="https://github.com/denoland/deno/issues/2295">officially unsupported</a> on ARM processors. Apparently the Deno project exclusively uses GitHub Actions for releases, and GitHub Actions doesn&rsquo;t have good enough support for ARM architectures, so they just, don&rsquo;t do that? Fortunately, it still technically works, and since it&rsquo;s written in Rust (yay Rust) it isn&rsquo;t particularly hard to build yourself.</p>
+<p>Using the install script from <a href="https://github.com/LukeChannings/deno-arm64/tree/main">Luke Channings</a>, I built a docker image that would install deno on both x86 and ARM processors:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> debian:buster-slim as install</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apt-get update -y <span style="color:#f92672">&amp;&amp;</span> apt-get upgrade -y<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apt-get install -y unzip curl<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> ./deno_install.sh /opt/deno/deno_install.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> sh /opt/deno/deno_install.sh<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> debian:buster-slim</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>install /root/.deno/bin/deno /usr/bin/deno<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">EXPOSE</span><span style="color:#e6db74"> 8000</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /opt/deno</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#75715e"># Cache the dependencies</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> ./src/deps.ts /opt/deno/src/deps.ts<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> deno cache src/deps.ts<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> deno.* /opt/deno/<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> ./src /opt/deno/src<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> main.ts /opt/deno/main.ts<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/usr/bin/deno&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;run&#34;</span>, <span style="color:#e6db74">&#34;--allow-net&#34;</span>, <span style="color:#e6db74">&#34;--allow-env&#34;</span>, <span style="color:#e6db74">&#34;main.ts&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>I&rsquo;m pretty proud of that, now tests work in development and in CI and the multistage build means there&rsquo;s practically no overhead.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>I&rsquo;m constantly annoyed by the inability to score a game after recording it, so I think it may finally be time to invest into some serious client side logic. My TypeScript chops are all warmed up, anyway.</p>
+<p>I&rsquo;m also feeling a perverse desire to write an implementation in bash. I know for a fact it&rsquo;s technically possible, and it would be beneficial to know more about how to do bash scripting effectively. It&rsquo;s more a question of how much pain I am willing to suffer.</p>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/27-click-and-drag/"> Click and Drag </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+<aside class="post-toc">
+    <nav id="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#thoughts-on-deno">Thoughts on Deno</a>
+          <ul>
+            <li><a href="#no-web-framework">No web framework</a></li>
+            <li><a href="#sql">SQL</a></li>
+            <li><a href="#request-body-validation">Request body validation</a></li>
+            <li><a href="#the-play-endpoint">The <code>play</code> endpoint</a></li>
+          </ul>
+        </li>
+        <li><a href="#speed-bumps">Speed bumps</a>
+          <ul>
+            <li><a href="#password-hashing">Password hashing</a></li>
+            <li><a href="#haskell-jwt-skew">Haskell JWT skew</a></li>
+            <li><a href="#fastapi-bug">FastAPI bug</a></li>
+            <li><a href="#speeding-up-integration-tests-in-ci">Speeding up integration tests in CI</a></li>
+            <li><a href="#deno-on-the-pi">Deno on the Pi</a></li>
+          </ul>
+        </li>
+        <li><a href="#next-steps">Next steps</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+</aside>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

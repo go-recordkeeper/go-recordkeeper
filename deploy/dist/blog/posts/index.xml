@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 25 Apr 2023 18:46:52 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 25 May 2023 15:09:49 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deno</title>
+      <link>https://go.chiquit.ooo/blog/posts/28-deno/</link>
+      <pubDate>Thu, 25 May 2023 15:09:49 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/28-deno/</guid>
+      <description>For the fifth implementation, I have chosen to use Deno, a JavaScript runtime and competitor to Node.js. I&amp;rsquo;ve been avoiding a JavaScript/TypeScript implementation because I frankly don&amp;rsquo;t like JavaScript or Node very much, so when I was reminded of Deno I thought I&amp;rsquo;d give it a shot.
+Thoughts on Deno Overall, I quite enjoyed the UX. Deno supports TypeScript out of the box with no headache configuring Babel or webpack or what have you.</description>
+    </item>
+    
     <item>
       <title>Click and Drag</title>
       <link>https://go.chiquit.ooo/blog/posts/27-click-and-drag/</link>
