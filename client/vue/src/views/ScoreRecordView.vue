@@ -3,7 +3,7 @@ import { ArrowUturnLeftIcon } from "@heroicons/vue/24/outline";
 import Client from "@/client";
 import Goban from "@/components/Goban.vue";
 import router from "@/router";
-import { reactive, ref, watch } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import type { Ref } from "vue";
 
 type Color = "B" | "W";
@@ -31,12 +31,28 @@ const props = defineProps({
 
 const client = new Client();
 const size = ref(0);
+let initialBlackCaptures = 0;
+let initialWhiteCaptures = 0;
+let komi = 0;
+const blackCaptures = ref(0);
+const whiteCaptures = ref(0);
+const blackTerritories = ref(0);
+const whiteTerritories = ref(0);
+function blackPoints() {
+  return initialBlackCaptures + blackCaptures.value + blackTerritories.value;
+}
+function whitePoints() {
+  return komi + initialWhiteCaptures + whiteCaptures.value + whiteTerritories.value;
+}
+
 
 const matrix: (Color | " ")[][] = reactive([]);
 const decorations: (Color | " ")[][] = reactive([]);
 const groups: (Group | null)[][] = reactive([]);
+const territories: (Color | " " | null)[][] = reactive([]);
 
 client.getRecord(props.id).then((record) => {
+  komi = record.komi;
   size.value = record.board_size;
   for (let x = 0; x < size.value; x += 1) {
     const matrixColumn: ("B" | "W" | " ")[] = reactive([]);
@@ -58,8 +74,16 @@ client.getRecord(props.id).then((record) => {
   for (const {x, y, color} of record.stones) {
     matrix[x][y] = color;
   }
+  for (const move of record.moves) {
+    if (move.color == "B") {
+      initialBlackCaptures += move.captures.length;
+    }
+    if (move.color == "W") {
+      initialWhiteCaptures += move.captures.length;
+    }
+  }
   initializeGroups();
-  refresh();
+  findTerritories();
 });
 
 function *adjacents(x: number, y:number) {
@@ -90,11 +114,11 @@ function initializeGroups() {
         continue;
       }
       // There is a new stone in a new group
-      const group = {
+      const group = reactive({
         color: stone,
         dead: false,
         stones: [],
-      };
+      });
       const placesToVisit: {x:number, y:number}[] = [{x,y}];
       while (placesToVisit.length > 0) {
         const { x, y } = placesToVisit.pop();
@@ -110,6 +134,7 @@ function initializeGroups() {
   }
 }
 
+
 function toPos(x:number, y: number) {
   return x + (19*y);
 }
@@ -120,6 +145,8 @@ function toXY(pos: number) {
 
 
 function findTerritories() {
+  blackTerritories.value = 0;
+  whiteTerritories.value = 0;
   const spaces = [];
   for (let x = 0; x < size.value; x += 1) {
     const spaceColumn: (Color | " " | null)[] = reactive([]);
@@ -141,7 +168,6 @@ function findTerritories() {
         continue;
       }
       // There is a new point in a new territory
-      console.log("Starting",x,y)
       let blacks = 0;
       let whites = 0;
       const territory = [];
@@ -164,51 +190,62 @@ function findTerritories() {
           }
         }
       }
-      console.log(x, y, blacks, whites, territory);
       let fill = " ";
       if (blacks == 0 && whites >= 1) {
-        console.log("WHITE");
         fill = "W";
+        whiteTerritories.value += territory.length;
       }
       if (whites == 0 && blacks >= 1) {
-        console.log("BLACK");
         fill = "B";
+        blackTerritories.value += territory.length;
       }
       for (const pos of territory) {
         const {x, y} = toXY(pos);
-        console.log("POINT",x,y);
         spaces[x][y] = fill;
       }
     }
   }
-  return spaces;
+  // territories.value = spaces;
+  Object.assign(territories, spaces);
 }
 
-function refresh() {
-  let territories = findTerritories();
-  console.log(territories);
+watch(territories, ()=>{
   for (let x = 0; x < size.value; x += 1) {
     for (let y = 0; y < size.value; y += 1) {
       let group = groups[x][y];
       if (group && group.dead) {
-        console.log(x,y,"DEAD");
         decorations[x][y] = inverse(matrix[x][y]);
       } else if (territories[x][y] !== " " && territories[x][y] !== null){
-        console.log(x,y,"TERRITORY");
         decorations[x][y] = territories[x][y];
       } else {
         decorations[x][y] = " ";
       }
     }
   }
-}
+});
 
 function click(x, y) {
   let group = groups[x][y];
   if (group) {
     group.dead = !group.dead;
+    if (group.dead && group.color == "B") {
+      // Killed a black group, white gets points
+      whiteCaptures.value += group.stones.length;
+    }
+    if (group.dead && group.color == "W") {
+      // Killed a white group, black gets points
+      blackCaptures.value += group.stones.length;
+    }
+    if (!group.dead && group.color == "B") {
+      // Revived a black group, white loses points
+      whiteCaptures.value -= group.stones.length;
+    }
+    if (!group.dead && group.color == "W") {
+      // Revived a white group, black loses points
+      blackCaptures.value -= group.stones.length;
+    }
   }
-  refresh();
+  findTerritories();
 }
 
 function back() {
@@ -233,6 +270,12 @@ function back() {
       <button @click="back" class="rounded-md ring m-2 bg-green-400">
         <ArrowUturnLeftIcon class="block h-7 w-7 m-2" />
       </button>
+    </div>
+    <div>
+      Black: {{ blackPoints() }}
+    </div>
+    <div>
+      White: {{ whitePoints() }}
     </div>
   </div>
 </template>
