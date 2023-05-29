@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ArrowUturnLeftIcon } from "@heroicons/vue/24/outline";
+import { FlagIcon } from "@heroicons/vue/24/outline";
 import Client from "@/client";
 import Goban from "@/components/Goban.vue";
 import router from "@/router";
@@ -31,18 +32,16 @@ const props = defineProps({
 
 const client = new Client();
 const size = ref(0);
-let initialBlackCaptures = 0;
-let initialWhiteCaptures = 0;
-let komi = 0;
+let komi = ref(0);
 const blackCaptures = ref(0);
 const whiteCaptures = ref(0);
 const blackTerritories = ref(0);
 const whiteTerritories = ref(0);
 function blackPoints() {
-  return initialBlackCaptures + blackCaptures.value + blackTerritories.value;
+  return blackCaptures.value + blackTerritories.value;
 }
 function whitePoints() {
-  return komi + initialWhiteCaptures + whiteCaptures.value + whiteTerritories.value;
+  return komi.value + whiteCaptures.value + whiteTerritories.value;
 }
 
 
@@ -52,7 +51,7 @@ const groups: (Group | null)[][] = reactive([]);
 const territories: (Color | " " | null)[][] = reactive([]);
 
 client.getRecord(props.id).then((record) => {
-  komi = record.komi;
+  komi.value = record.komi;
   size.value = record.board_size;
   for (let x = 0; x < size.value; x += 1) {
     const matrixColumn: ("B" | "W" | " ")[] = reactive([]);
@@ -76,10 +75,10 @@ client.getRecord(props.id).then((record) => {
   }
   for (const move of record.moves) {
     if (move.color == "B") {
-      initialBlackCaptures += move.captures.length;
+      blackCaptures.value += move.captures.length;
     }
     if (move.color == "W") {
-      initialWhiteCaptures += move.captures.length;
+      whiteCaptures.value += move.captures.length;
     }
   }
   initializeGroups();
@@ -252,6 +251,18 @@ function back() {
   router.back();
 }
 
+async function save() {
+  console.log("Saving");
+  const record = await client.getRecord(props.id);
+  if (whitePoints() > blackPoints()) {
+    record.winner = "W";
+  } else {
+    record.winner = "B";
+  }
+  await client.updateRecord(props.id, record);
+  router.back();
+}
+
 </script>
 
 <template>
@@ -270,12 +281,35 @@ function back() {
       <button @click="back" class="rounded-md ring m-2 bg-green-400">
         <ArrowUturnLeftIcon class="block h-7 w-7 m-2" />
       </button>
-    </div>
-    <div>
-      Black: {{ blackPoints() }}
-    </div>
-    <div>
-      White: {{ whitePoints() }}
+      <div class="text-2xl mx-2">
+        Black: {{ blackPoints() }}
+      </div>
+      <div class="text-base mx-2">
+        <div>
+          {{ blackCaptures }} captures
+        </div>
+        <div>
+          {{ blackTerritories }} territory
+        </div>
+      </div>
+      <div class="text-2xl mx-2">
+        White: {{ whitePoints() }}
+      </div>
+      <div class="text-base mx-2">
+        <div>
+          {{ whiteCaptures }} captures
+        </div>
+        <div>
+          {{ whiteTerritories }} territory
+        </div>
+        <div>
+          {{ komi }} komi
+        </div>
+      </div>
+      <button @click="save" class="grow flex items-center rounded-md ring m-2">
+        <FlagIcon class="block h-7 w-7 m-2" />
+        Save Result
+      </button>
     </div>
   </div>
 </template>
