@@ -14,6 +14,10 @@ export default defineComponent({
       type: Array as PropType<("B" | "W" | " ")[][]>,
       required: true,
     },
+    decorations: {
+      type: Array as PropType<("B" | "W" | " ")[][]>,
+      required: false,
+    },
     onClick: {
       type: Function as PropType<(x: number, y: number) => void>,
       required: true,
@@ -29,7 +33,14 @@ export default defineComponent({
       const stoneMatrix = this.matrix.map((column) =>
         column.map((color) => stoneFromColor(color))
       );
-      this.goban.draw(stoneMatrix);
+      if (this.decorations) {
+        const decorationsMatrix = this.decorations.map((column) =>
+          column.map((color) => stoneFromColor(color))
+        );
+        this.goban.draw(stoneMatrix, decorationsMatrix);
+      } else {
+        this.goban.draw(stoneMatrix);
+      }
     });
   },
 });

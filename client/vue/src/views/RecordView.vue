@@ -3,6 +3,7 @@ import {
   DocumentArrowDownIcon,
   PencilIcon,
   EyeIcon,
+  FlagIcon,
 } from "@heroicons/vue/24/outline";
 import Client from "@/client";
 import Goban from "@/components/Goban.vue";
@@ -76,6 +77,10 @@ async function replay() {
 async function pass() {
   await client.pass(props.id);
 }
+
+async function score() {
+  router.push({ name: "score", params: { id: props.id } });
+}
 </script>
 
 <template>
@@ -97,6 +102,9 @@ async function pass() {
     </button>
     <button @click="replay" class="rounded-md ring m-2">
       <EyeIcon class="block h-8 w-8 m-2" />
+    </button>
+    <button @click="score" class="rounded-md ring m-2">
+      <FlagIcon class="block h-8 w-8 m-2" />
     </button>
     <button
       @click="pass"

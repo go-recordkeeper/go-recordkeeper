@@ -39,6 +39,12 @@ const router = createRouter({
       component: () => import("@/views/ReplayRecordView.vue"),
     },
     {
+      path: "/records/:id/score",
+      name: "score",
+      props: (route) => ({ id: Number(route.params.id) }),
+      component: () => import("@/views/ScoreRecordView.vue"),
+    },
+    {
       path: "/login",
       name: "login",
       component: () => import("@/views/LoginView.vue"),

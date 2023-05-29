@@ -17,6 +17,9 @@ function stoneFromColor(color: "B" | "W" | " "): Stone {
 
 type BoardState = Stone[][];
 
+type Decoration = Stone;
+type Decorations = Decoration[][];
+
 class Goban {
   canvasSelector: string;
   size: number;
@@ -24,11 +27,12 @@ class Goban {
   isPointerDown: boolean = false;
   pointerCoordinates: { x: number; y: number } | null = null;
   lastMatrix: BoardState | null = null;
+  lastDecorations: Decorations | null = null;
 
   constructor(
     selector: string,
     size: number,
-    onClick: (x: number, y: number) => void = () => {}
+    onClick: (x: number, y: number) => void = () => {},
   ) {
     this.canvasSelector = selector;
     this.size = size;
@@ -41,7 +45,7 @@ class Goban {
 
   #getPointerEventCoordinates(
     canvas: HTMLCanvasElement,
-    event: PointerEvent | Touch
+    event: PointerEvent | Touch,
   ) {
     // Calculate offfsetX instead of getting it from the event because Touch events don't have it >:(
     let { x, y } = canvas.getBoundingClientRect();
@@ -74,7 +78,7 @@ class Goban {
     canvas.addEventListener("touchend", (event: TouchEvent) => {
       let { x, y } = this.#getPointerEventCoordinates(
         canvas,
-        event.changedTouches[0]
+        event.changedTouches[0],
       );
       this.onClick(x, y);
       this.isPointerDown = false;
@@ -84,7 +88,7 @@ class Goban {
       if (this.isPointerDown) {
         this.pointerCoordinates = this.#getPointerEventCoordinates(
           canvas,
-          event
+          event,
         );
         this.draw();
       }
@@ -93,18 +97,23 @@ class Goban {
       if (this.isPointerDown) {
         this.pointerCoordinates = this.#getPointerEventCoordinates(
           canvas,
-          event.changedTouches[0]
+          event.changedTouches[0],
         );
         this.draw();
       }
     });
   }
 
-  draw(matrix?: BoardState) {
+  draw(matrix?: BoardState, decorations?: Decorations) {
     if (matrix) {
       this.lastMatrix = matrix;
     } else if (this.lastMatrix) {
       matrix = this.lastMatrix;
+    }
+    if (decorations) {
+      this.lastDecorations = decorations;
+    } else if (this.lastDecorations) {
+      decorations = this.lastDecorations;
     }
     let canvas = this.#getCanvas();
     let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
@@ -117,6 +126,13 @@ class Goban {
       for (let x = 0; x < this.size; x += 1) {
         for (let y = 0; y < this.size; y += 1) {
           this.#drawStone(ctx, matrix[x][y], x, y);
+        }
+      }
+    }
+    if (decorations) {
+      for (let x = 0; x < this.size; x += 1) {
+        for (let y = 0; y < this.size; y += 1) {
+          this.#drawDecoration(ctx, decorations[x][y], x, y);
         }
       }
     }
@@ -167,7 +183,7 @@ class Goban {
         ctx,
         this.size * 100 - 250,
         this.size * 100 - 250,
-        dotSize
+        dotSize,
       );
     }
     if (this.size >= 13) {
@@ -179,7 +195,7 @@ class Goban {
         ctx,
         this.size * 100 - 350,
         this.size * 100 - 350,
-        dotSize
+        dotSize,
       );
     }
     if (this.size >= 15) {
@@ -208,7 +224,7 @@ class Goban {
     ctx: CanvasRenderingContext2D,
     stone: Stone,
     x: number,
-    y: number
+    y: number,
   ) {
     if (stone == Stone.None) {
       return;
@@ -230,15 +246,51 @@ class Goban {
     }
   }
 
+  #drawDecoration(
+    ctx: CanvasRenderingContext2D,
+    decoration: Decoration,
+    x: number,
+    y: number,
+  ) {
+    if (decoration == Stone.None) {
+      return;
+    }
+    if (decoration == Stone.Black) {
+      ctx.fillStyle = "#000000";
+    }
+    if (decoration == Stone.White) {
+      ctx.fillStyle = "#ffffff";
+    }
+    // this.#drawCircle(ctx, 100 * x + 50, 100 * y + 50, 48);
+    this.#drawSquare(ctx, 100 * x + 25, 100 * y + 25, 50);
+    // if (stone == Stone.White) {
+    //   // Draw a ring around the stone to make it pop
+    //   ctx.strokeStyle = "#000000";
+    //   ctx.lineWidth = 2;
+    //   ctx.beginPath();
+    //   ctx.arc(100 * x + 50, 100 * y + 50, 48, 0, Math.PI * 2);
+    //   ctx.stroke();
+    // }
+  }
+
   #drawCircle(
     ctx: CanvasRenderingContext2D,
     x: number,
     y: number,
-    radius: number
+    radius: number,
   ) {
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2);
     ctx.fill();
+  }
+
+  #drawSquare(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    size: number,
+  ) {
+    ctx.fillRect(x, y, size, size);
   }
 }
 
