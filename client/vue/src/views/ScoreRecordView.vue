@@ -10,9 +10,9 @@ import type { Ref } from "vue";
 type Color = "B" | "W";
 
 type Group = {
-  color: Color,
-  dead: boolean,
-  stones: {x:number, y:number}[],
+  color: Color;
+  dead: boolean;
+  stones: { x: number; y: number }[];
 };
 
 function inverse(color: Color) {
@@ -32,7 +32,7 @@ const props = defineProps({
 
 const client = new Client();
 const size = ref(0);
-let komi = ref(0);
+const komi = ref(0);
 const blackCaptures = ref(0);
 const whiteCaptures = ref(0);
 const blackTerritories = ref(0);
@@ -43,7 +43,6 @@ function blackPoints() {
 function whitePoints() {
   return komi.value + whiteCaptures.value + whiteTerritories.value;
 }
-
 
 const matrix: (Color | " ")[][] = reactive([]);
 const decorations: (Color | " ")[][] = reactive([]);
@@ -70,7 +69,7 @@ client.getRecord(props.id).then((record) => {
     }
     groups.push(groupColumn);
   }
-  for (const {x, y, color} of record.stones) {
+  for (const { x, y, color } of record.stones) {
     matrix[x][y] = color;
   }
   for (const move of record.moves) {
@@ -85,18 +84,18 @@ client.getRecord(props.id).then((record) => {
   findTerritories();
 });
 
-function *adjacents(x: number, y:number) {
+function* adjacents(x: number, y: number) {
   if (x > 0) {
-    yield {x:x - 1, y};
+    yield { x: x - 1, y };
   }
   if (y > 0) {
-    yield {x, y:y - 1};
+    yield { x, y: y - 1 };
   }
   if (x < size.value - 1) {
-    yield {x:x + 1, y};
+    yield { x: x + 1, y };
   }
   if (y < size.value - 1) {
-    yield {x, y:y + 1};
+    yield { x, y: y + 1 };
   }
 }
 
@@ -113,19 +112,27 @@ function initializeGroups() {
         continue;
       }
       // There is a new stone in a new group
-      const group: {color: Color, dead: boolean, stones: {x:number, y:number}[]} = reactive({
+      const group: {
+        color: Color;
+        dead: boolean;
+        stones: { x: number; y: number }[];
+      } = reactive({
         color: stone,
         dead: false,
         stones: [],
       });
-      const placesToVisit: {x:number, y:number}[] = [{x,y}];
+      const placesToVisit: { x: number; y: number }[] = [{ x, y }];
       while (placesToVisit.length > 0) {
-        const { x, y } = placesToVisit.pop() as {x:number, y:number};
-        group.stones.push({x,y});
+        const { x, y } = placesToVisit.pop() as { x: number; y: number };
+        group.stones.push({ x, y });
         groups[x][y] = group;
-        for (const {x: dx, y: dy} of adjacents(x,y)) {
-          if (matrix[dx][dy] === stone && !placesToVisit.includes({x: dx, y: dy}) && groups[dx][dy] === null) {
-            placesToVisit.push({x: dx, y: dy});
+        for (const { x: dx, y: dy } of adjacents(x, y)) {
+          if (
+            matrix[dx][dy] === stone &&
+            !placesToVisit.includes({ x: dx, y: dy }) &&
+            groups[dx][dy] === null
+          ) {
+            placesToVisit.push({ x: dx, y: dy });
           }
         }
       }
@@ -133,15 +140,13 @@ function initializeGroups() {
   }
 }
 
-
-function toPos(x:number, y: number) {
-  return x + (19*y);
+function toPos(x: number, y: number) {
+  return x + 19 * y;
 }
 
 function toXY(pos: number) {
-  return {x: pos % 19, y: Math.floor(pos/19)};
+  return { x: pos % 19, y: Math.floor(pos / 19) };
 }
-
 
 function findTerritories() {
   blackTerritories.value = 0;
@@ -170,11 +175,11 @@ function findTerritories() {
       let blacks = 0;
       let whites = 0;
       const territory = [];
-      const placesToVisit: number[] = [toPos(x,y)];
+      const placesToVisit: number[] = [toPos(x, y)];
       while (placesToVisit.length > 0) {
         const { x, y } = toXY(placesToVisit.pop() as number);
-        territory.push(toPos(x,y));
-        for (const {x: dx, y: dy} of adjacents(x,y)) {
+        territory.push(toPos(x, y));
+        for (const { x: dx, y: dy } of adjacents(x, y)) {
           const group = groups[dx][dy];
           if (group && !group.dead) {
             // It's a live group, so not territory
@@ -184,8 +189,11 @@ function findTerritories() {
             } else if (group.color === "W") {
               whites += 1;
             }
-          } else if (!placesToVisit.includes(toPos(dx, dy)) && !territory.includes(toPos(dx, dy))) {
-            placesToVisit.push(toPos(dx,dy));
+          } else if (
+            !placesToVisit.includes(toPos(dx, dy)) &&
+            !territory.includes(toPos(dx, dy))
+          ) {
+            placesToVisit.push(toPos(dx, dy));
           }
         }
       }
@@ -199,7 +207,7 @@ function findTerritories() {
         blackTerritories.value += territory.length;
       }
       for (const pos of territory) {
-        const {x, y} = toXY(pos);
+        const { x, y } = toXY(pos);
         spaces[x][y] = fill;
       }
     }
@@ -208,14 +216,14 @@ function findTerritories() {
   Object.assign(territories, spaces);
 }
 
-watch(territories, ()=>{
+watch(territories, () => {
   for (let x = 0; x < size.value; x += 1) {
     for (let y = 0; y < size.value; y += 1) {
-      let group = groups[x][y];
-      let t = territories[x][y];
+      const group = groups[x][y];
+      const t = territories[x][y];
       if (group && group.dead) {
         decorations[x][y] = inverse(group.color);
-      } else if (t !== " " && t !== null){
+      } else if (t !== " " && t !== null) {
         decorations[x][y] = t;
       } else {
         decorations[x][y] = " ";
@@ -224,8 +232,8 @@ watch(territories, ()=>{
   }
 });
 
-function click(x:number, y:number) {
-  let group = groups[x][y];
+function click(x: number, y: number) {
+  const group = groups[x][y];
   if (group) {
     group.dead = !group.dead;
     if (group.dead && group.color == "B") {
@@ -263,7 +271,6 @@ async function save() {
   await client.updateRecord(props.id, record);
   router.back();
 }
-
 </script>
 
 <template>
@@ -282,30 +289,16 @@ async function save() {
       <button @click="back" class="rounded-md ring m-2 bg-green-400">
         <ArrowUturnLeftIcon class="block h-7 w-7 m-2" />
       </button>
-      <div class="text-2xl mx-2">
-        Black: {{ blackPoints() }}
-      </div>
+      <div class="text-2xl mx-2">Black: {{ blackPoints() }}</div>
       <div class="text-base mx-2">
-        <div>
-          {{ blackCaptures }} captures
-        </div>
-        <div>
-          {{ blackTerritories }} territory
-        </div>
+        <div>{{ blackCaptures }} captures</div>
+        <div>{{ blackTerritories }} territory</div>
       </div>
-      <div class="text-2xl mx-2">
-        White: {{ whitePoints() }}
-      </div>
+      <div class="text-2xl mx-2">White: {{ whitePoints() }}</div>
       <div class="text-base mx-2">
-        <div>
-          {{ whiteCaptures }} captures
-        </div>
-        <div>
-          {{ whiteTerritories }} territory
-        </div>
-        <div>
-          {{ komi }} komi
-        </div>
+        <div>{{ whiteCaptures }} captures</div>
+        <div>{{ whiteTerritories }} territory</div>
+        <div>{{ komi }} komi</div>
       </div>
       <button @click="save" class="grow flex items-center rounded-md ring m-2">
         <FlagIcon class="block h-7 w-7 m-2" />

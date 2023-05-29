@@ -174,7 +174,7 @@ class Client {
   }
   async login(
     username: string,
-    password: string,
+    password: string
   ): Promise<APIResponse<User, UserAuthError>> {
     const response = await this.#post("login", { username, password });
     if (response.status == 400) {
@@ -195,7 +195,7 @@ class Client {
   async register(
     username: string,
     email: string,
-    password: string,
+    password: string
   ): Promise<APIResponse<User, UserAuthError>> {
     const response = await this.#post("register", {
       username,
@@ -225,7 +225,7 @@ class Client {
     return json;
   }
   async createNewRecord(
-    request: CreateRecordRequest,
+    request: CreateRecordRequest
   ): Promise<APIResponse<Record, RecordError>> {
     const response = await this.#post("records", request);
     const json = await response.json();
@@ -236,7 +236,7 @@ class Client {
   }
   async updateRecord(
     id: number,
-    request: UpdateRecordRequest,
+    request: UpdateRecordRequest
   ): Promise<APIResponse<Record, RecordError>> {
     const response = await this.#put(`records/${id}`, request);
     const json = await response.json();
@@ -271,7 +271,7 @@ class Client {
     const a = document.createElement("a");
     a.href = urlObject;
     const contentDisposition = response.headers.get(
-      "content-disposition",
+      "content-disposition"
     ) as string;
     const filename = (
       contentDisposition.match(/filename="(.*)"/) as RegExpMatchArray
