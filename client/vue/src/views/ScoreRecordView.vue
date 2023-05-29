@@ -59,12 +59,12 @@ client.getRecord(props.id).then((record) => {
       matrixColumn.push(" ");
     }
     matrix.push(matrixColumn);
-    const decorationColumn = reactive([]);
+    const decorationColumn: (Color | " ")[] = reactive([]);
     for (let y = 0; y < size.value; y += 1) {
       decorationColumn.push(" ");
     }
     decorations.push(decorationColumn);
-    const groupColumn = reactive([]);
+    const groupColumn: (Group | null)[] = reactive([]);
     for (let y = 0; y < size.value; y += 1) {
       groupColumn.push(null);
     }
@@ -113,14 +113,14 @@ function initializeGroups() {
         continue;
       }
       // There is a new stone in a new group
-      const group = reactive({
+      const group: {color: Color, dead: boolean, stones: {x:number, y:number}[]} = reactive({
         color: stone,
         dead: false,
         stones: [],
       });
       const placesToVisit: {x:number, y:number}[] = [{x,y}];
       while (placesToVisit.length > 0) {
-        const { x, y } = placesToVisit.pop();
+        const { x, y } = placesToVisit.pop() as {x:number, y:number};
         group.stones.push({x,y});
         groups[x][y] = group;
         for (const {x: dx, y: dy} of adjacents(x,y)) {
@@ -172,7 +172,7 @@ function findTerritories() {
       const territory = [];
       const placesToVisit: number[] = [toPos(x,y)];
       while (placesToVisit.length > 0) {
-        const { x, y } = toXY(placesToVisit.pop());
+        const { x, y } = toXY(placesToVisit.pop() as number);
         territory.push(toPos(x,y));
         for (const {x: dx, y: dy} of adjacents(x,y)) {
           const group = groups[dx][dy];
@@ -189,7 +189,7 @@ function findTerritories() {
           }
         }
       }
-      let fill = " ";
+      let fill: Color | " " = " ";
       if (blacks == 0 && whites >= 1) {
         fill = "W";
         whiteTerritories.value += territory.length;
@@ -212,10 +212,11 @@ watch(territories, ()=>{
   for (let x = 0; x < size.value; x += 1) {
     for (let y = 0; y < size.value; y += 1) {
       let group = groups[x][y];
+      let t = territories[x][y];
       if (group && group.dead) {
-        decorations[x][y] = inverse(matrix[x][y]);
-      } else if (territories[x][y] !== " " && territories[x][y] !== null){
-        decorations[x][y] = territories[x][y];
+        decorations[x][y] = inverse(group.color);
+      } else if (t !== " " && t !== null){
+        decorations[x][y] = t;
       } else {
         decorations[x][y] = " ";
       }
@@ -223,7 +224,7 @@ watch(territories, ()=>{
   }
 });
 
-function click(x, y) {
+function click(x:number, y:number) {
   let group = groups[x][y];
   if (group) {
     group.dead = !group.dead;
