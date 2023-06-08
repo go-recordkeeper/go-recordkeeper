@@ -1,5 +1,5 @@
-rm -f response
-mkfifo response
+rm -f RESPONSE
+mkfifo RESPONSE
 
 declare -g REQUEST_PATH=""
 declare -gA REQUEST_HEADERS
@@ -40,13 +40,12 @@ function handleRequest() {
 
   case $REQUEST_PATH in
     $(awk "/${AUTH_REGISTER_REGEX}/" <<< ${REQUEST_PATH})) handleAuthRegister ;;
-    *) echo "NO" ;; # TODO 404
+    *) echo -e "HTTP/1.1 404\r\n\r\n" > RESPONSE
   esac
-  echo -e "HTTP/1.1 200\r\n\r\nlol" > response
 }
 
 PORT=8000
 echo "Listening on port $PORT"
 while true; do
-  cat response | nc -lN $PORT | handleRequest
+  cat RESPONSE | nc -lN $PORT | handleRequest
 done
