@@ -1,7 +1,11 @@
 
 # TODO merge this into getJsonField somehow
 function requireJsonField() {
-  local hasField=$(echo $2 | jq -e "has(\"$1\")")
+  if [[ -z $(echo $2 | jq -e .) ]]; then
+    respond 403 "Malformed input"
+    exit 1
+  fi
+  local hasField=$(echo $2 | jq "has(\"$1\")")
   if [[ $hasField == "false" ]]; then
     echo "Missing field \"$1\""
     respond 403 "Missing field \"$1\""
@@ -10,5 +14,5 @@ function requireJsonField() {
 }
 
 function getJsonField() {
-  echo $(echo $2 | jq -r ".$1")
+  echo $2 | jq -r ".$1"
 }
