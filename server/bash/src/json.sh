@@ -4,7 +4,7 @@ function requireJsonField() {
   local hasField=$(echo $2 | jq -e "has(\"$1\")")
   if [[ $hasField == "false" ]]; then
     echo "Missing field \"$1\""
-    echo -e "HTTP/1.1 403\r\n\r\nMissing field \"$1\"" > RESPONSE
+    respond 403 "Missing field \"$1\""
     exit 1
   fi
 }
