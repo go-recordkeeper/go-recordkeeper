@@ -3,6 +3,7 @@ mkfifo response
 
 declare -g REQUEST_PATH=""
 declare -gA REQUEST_HEADERS
+declare -g REQUEST_BODY
 function parseHttpRequest() {
   # Request method and path
   read line
@@ -14,15 +15,20 @@ function parseHttpRequest() {
   declare -gA REQUEST_HEADERS
   while read line; do
     trline=`echo $line | tr -d '[\r\n]'`
-    if [ -z "$trline" ]; then
+    if [[ -z "$trline" ]]; then
       break
     fi
     local header=$(echo $trline | sed -E "s/^([a-zA-Z\-]+): .*\$/\1/")
     local value=$(echo $trline | sed -E "s/^[a-zA-Z\-]+: (.*)\$/\1/")
-    HEADERS+=( [$header]=$value )
+    REQUEST_HEADERS+=( [$header]=$value )
   done
 
-  # TODO request body
+  # Request body
+  if [[ -n ${REQUEST_HEADERS["Content-Length"]} ]]; then
+    echo "READ"
+    read -n ${REQUEST_HEADERS["Content-Length"]} REQUEST_BODY
+  fi
+  echo ${REQUEST_BODY}
 }
 
 function handleRequest() {
