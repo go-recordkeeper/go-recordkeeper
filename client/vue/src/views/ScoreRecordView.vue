@@ -287,18 +287,18 @@ async function save() {
     <div v-else>Loading game...{{ size }}</div>
     <div class="flex items-center">
       <div class="text-2xl mx-2">Black: {{ blackPoints() }}</div>
-      <div class="grow flex flex-row-reverse items-center">
-        <div class="text-base mx-2">{{ blackCaptures }} captures</div>
-        <div class="text-base mx-2">{{ blackTerritories }} territory</div>
-      </div>
+    </div>
+    <div class="flex items-center">
+      <div class="text-base mx-2">{{ blackCaptures }} captures</div>
+      <div class="text-base mx-2">{{ blackTerritories }} territory</div>
     </div>
     <div class="flex items-center">
       <div class="text-2xl mx-2">White: {{ whitePoints() }}</div>
-      <div class="grow flex flex-row-reverse items-center">
-        <div class="text-base mx-2">{{ whiteCaptures }} captures</div>
-        <div class="text-base mx-2">{{ whiteTerritories }} territory</div>
-        <div class="text-base mx-2">{{ komi }} komi</div>
-      </div>
+    </div>
+    <div class="flex items-center">
+      <div class="text-base mx-2">{{ whiteCaptures }} captures</div>
+      <div class="text-base mx-2">{{ whiteTerritories }} territory</div>
+      <div class="text-base mx-2">{{ komi }} komi</div>
     </div>
     <div class="flex items-center">
       <button @click="back" class="grow rounded-md ring m-2 bg-green-400 flex justify-center">
