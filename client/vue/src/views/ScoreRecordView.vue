@@ -286,21 +286,25 @@ async function save() {
     </Goban>
     <div v-else>Loading game...{{ size }}</div>
     <div class="flex items-center">
-      <button @click="back" class="rounded-md ring m-2 bg-green-400">
+      <div class="text-2xl mx-2">Black: {{ blackPoints() }}</div>
+      <div class="grow flex flex-row-reverse items-center">
+        <div class="text-base mx-2">{{ blackCaptures }} captures</div>
+        <div class="text-base mx-2">{{ blackTerritories }} territory</div>
+      </div>
+    </div>
+    <div class="flex items-center">
+      <div class="text-2xl mx-2">White: {{ whitePoints() }}</div>
+      <div class="grow flex flex-row-reverse items-center">
+        <div class="text-base mx-2">{{ whiteCaptures }} captures</div>
+        <div class="text-base mx-2">{{ whiteTerritories }} territory</div>
+        <div class="text-base mx-2">{{ komi }} komi</div>
+      </div>
+    </div>
+    <div class="flex items-center">
+      <button @click="back" class="grow rounded-md ring m-2 bg-green-400 flex justify-center">
         <ArrowUturnLeftIcon class="block h-7 w-7 m-2" />
       </button>
-      <div class="text-2xl mx-2">Black: {{ blackPoints() }}</div>
-      <div class="text-base mx-2">
-        <div>{{ blackCaptures }} captures</div>
-        <div>{{ blackTerritories }} territory</div>
-      </div>
-      <div class="text-2xl mx-2">White: {{ whitePoints() }}</div>
-      <div class="text-base mx-2">
-        <div>{{ whiteCaptures }} captures</div>
-        <div>{{ whiteTerritories }} territory</div>
-        <div>{{ komi }} komi</div>
-      </div>
-      <button @click="save" class="grow flex items-center rounded-md ring m-2">
+      <button @click="save" class="grow flex items-center rounded-md ring m-2 flex justify-center">
         <FlagIcon class="block h-7 w-7 m-2" />
         Save Result
       </button>
