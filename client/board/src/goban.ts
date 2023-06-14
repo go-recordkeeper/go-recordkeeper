@@ -75,15 +75,15 @@ class Goban {
       this.isPointerDown = false;
       this.draw();
     });
-    canvas.addEventListener("touchend", (event: TouchEvent) => {
-      let { x, y } = this.#getPointerEventCoordinates(
-        canvas,
-        event.changedTouches[0],
-      );
-      this.onClick(x, y);
-      this.isPointerDown = false;
-      this.draw();
-    });
+    // canvas.addEventListener("touchend", (event: TouchEvent) => {
+    //   let { x, y } = this.#getPointerEventCoordinates(
+    //     canvas,
+    //     event.changedTouches[0],
+    //   );
+    //   this.onClick(x, y);
+    //   this.isPointerDown = false;
+    //   this.draw();
+    // });
     canvas.addEventListener("pointermove", (event: PointerEvent) => {
       if (this.isPointerDown) {
         this.pointerCoordinates = this.#getPointerEventCoordinates(

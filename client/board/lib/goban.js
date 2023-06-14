@@ -49,12 +49,15 @@ class Goban {
             this.isPointerDown = false;
             this.draw();
         });
-        canvas.addEventListener("touchend", (event) => {
-            let { x, y } = __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_getPointerEventCoordinates).call(this, canvas, event.changedTouches[0]);
-            this.onClick(x, y);
-            this.isPointerDown = false;
-            this.draw();
-        });
+        // canvas.addEventListener("touchend", (event: TouchEvent) => {
+        //   let { x, y } = this.#getPointerEventCoordinates(
+        //     canvas,
+        //     event.changedTouches[0],
+        //   );
+        //   this.onClick(x, y);
+        //   this.isPointerDown = false;
+        //   this.draw();
+        // });
         canvas.addEventListener("pointermove", (event) => {
             if (this.isPointerDown) {
                 this.pointerCoordinates = __classPrivateFieldGet(this, _Goban_instances, "m", _Goban_getPointerEventCoordinates).call(this, canvas, event);
