@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd src
-bash main.sh
+source main.sh
