@@ -6,7 +6,18 @@
     <description>Recent content in Posts on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 25 May 2023 15:09:49 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 09 Oct 2023 11:59:36 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Progress &#43; Kotlin</title>
+      <link>https://go.chiquit.ooo/blog/posts/29-kotlin/</link>
+      <pubDate>Mon, 09 Oct 2023 11:59:36 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/29-kotlin/</guid>
+      <description>It&amp;rsquo;s been a few months! I&amp;rsquo;ve been busy playing Factorio, which scratches all the same itches as programming.
+I did make some progress I forgot to document, so let&amp;rsquo;s go over that first.
+Calculating score After finishing a game, it&amp;rsquo;s nice to be able to know who won. In go this is a rather involved process involving lots of arithmetic. You need to remove any dead groups, count all the empty intersections you control, add any prisoners you took, and add any handicap+komi to get your final score, which you can compare with your opponents.</description>
+    </item>
+    
     <item>
       <title>Deno</title>
       <link>https://go.chiquit.ooo/blog/posts/28-deno/</link>

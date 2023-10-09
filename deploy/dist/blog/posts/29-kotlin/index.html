@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Progress &#43; Kotlin</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='kotlin, nvim, bash, typescript'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/29-kotlin/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Progress &#43; Kotlin">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Progress &#43; Kotlin">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/29-kotlin/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/29-kotlin/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/29-kotlin/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Progress &#43; Kotlin</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 9, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/kotlin">kotlin</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/nvim">nvim</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/bash">bash</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/typescript">typescript</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>It&rsquo;s been a few months! I&rsquo;ve been busy playing <a href="https://www.factorio.com/">Factorio</a>, which scratches all the same itches as programming.</p>
+<p>I did make some progress I forgot to document, so let&rsquo;s go over that first.</p>
+<h2 id="calculating-score">Calculating score</h2>
+<p>After finishing a game, it&rsquo;s nice to be able to know who won. In go this is a rather involved process involving lots of arithmetic. You need to remove any dead groups, count all the empty intersections you control, add any prisoners you took, and add any handicap+komi to get your final score, which you can compare with your opponents. Doing this calculation manually is tedious, and entering the final results once you have them is not a good UX, since you have to edit the game info.</p>
+<p>As an aside, many go boards offer score estimation to get a feel for who is generally ahead/behind. This is much more subjective and difficult, so I&rsquo;m not touching that. I am only interested in score at the end of the game.</p>
+<p>The solution I landed on involves a new button that opens up a score calculator view of the board. On this view you cannot add or remove stones, so you must have completely filled in all the borders before it can be used. Selecting a group will toggle its status between alive and dead, regardless of whether or not it actually has two eyes. These expedients shift the responsibility for a whole passel of edge cases to the user, which is great for me as the implementor. Once you have resolved the board state, you can confirm the results and save the winner to the DB. It&rsquo;s not really displayed anywhere, but it is exported to SGF and at least the information is there for the future.</p>
+<p>All this logic was surprisingly easy to just roll into the client side code. The most interesting part was probably rendering territory as belonging to one side or the other. Everything else was just bookkeeping and some API calls.</p>
+<h2 id="bash-implementation">Bash implementation</h2>
+<p>Yeah, this was a terrible idea. I got far enough to confirm that it is in fact possible, but manipulating data is so grueling that there&rsquo;s no way I&rsquo;m ever finishing it. Basically the only data types bash has are strings and arrays, so every operation on data involves awk/sed/grep, which is frankly disgusting.</p>
+<p>It&rsquo;s cool that it&rsquo;s possible though.</p>
+<h2 id="kotlin">Kotlin</h2>
+<p>I&rsquo;m working on Kotlin instead. It&rsquo;s been a hot minute since I&rsquo;ve touched the Java ecosystem, so I thought a refresher would be good. I decided on Spring as the web framework because it&rsquo;s so ubiquitous, and I frankly didn&rsquo;t fully understand the generic web framework when I used it in the past. I&rsquo;m going to try using the lowest level Postgres driver possible so I can recycle the SQL statements I&rsquo;ve already settled on rather than rewriting everything in an ORM like Hibernate.</p>
+<p>I used <a href="https://start.spring.io/">https://start.spring.io/</a> to bootstrap the project. I wanted to use Java 21 since it&rsquo;s the freshest, but sadly it isn&rsquo;t bundled in <code>apt</code> yet, so I settled on 17 as it is the previous LTS.</p>
+<p>The only major pain point in the bootstrapping process was getting <a href="https://github.com/fwcd/kotlin-language-server">kotlin-language-server</a> to work in neovim. As far as I can tell, it just defaults to Java 8 instead of doing any kind of intelligent assessment of the correct version from the project files. I had to explicitly set <code>kotlin.compiler.jvm.target</code> to 17 in my <code>init.lua</code> when loading the plugin, which is a frustrating exception to need to include.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>More Kotlin, coming soon! I&rsquo;ve done a tiny bit of Kotlin in the past, but I don&rsquo;t remember anything about the syntax, so I&rsquo;ll probably knock out a few Hello World&rsquo;s and get cooking on the checklist.</p>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/28-deno/"> Deno </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

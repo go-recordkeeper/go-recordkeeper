@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>typescript on Dev Blog</title>
-    <link>https://go.chiquit.ooo/blog/tags/typescript/</link>
-    <description>Recent content in typescript on Dev Blog</description>
+    <title>nvim on Dev Blog</title>
+    <link>https://go.chiquit.ooo/blog/tags/nvim/</link>
+    <description>Recent content in nvim on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Oct 2023 11:59:36 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/typescript/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 09 Oct 2023 11:59:36 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/nvim/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Progress &#43; Kotlin</title>
       <link>https://go.chiquit.ooo/blog/posts/29-kotlin/</link>
@@ -16,16 +16,6 @@
       <description>It&amp;rsquo;s been a few months! I&amp;rsquo;ve been busy playing Factorio, which scratches all the same itches as programming.
 I did make some progress I forgot to document, so let&amp;rsquo;s go over that first.
 Calculating score After finishing a game, it&amp;rsquo;s nice to be able to know who won. In go this is a rather involved process involving lots of arithmetic. You need to remove any dead groups, count all the empty intersections you control, add any prisoners you took, and add any handicap+komi to get your final score, which you can compare with your opponents.</description>
-    </item>
-    
-    <item>
-      <title>Deno</title>
-      <link>https://go.chiquit.ooo/blog/posts/28-deno/</link>
-      <pubDate>Thu, 25 May 2023 15:09:49 -0400</pubDate>
-      
-      <guid>https://go.chiquit.ooo/blog/posts/28-deno/</guid>
-      <description>For the fifth implementation, I have chosen to use Deno, a JavaScript runtime and competitor to Node.js. I&amp;rsquo;ve been avoiding a JavaScript/TypeScript implementation because I frankly don&amp;rsquo;t like JavaScript or Node very much, so when I was reminded of Deno I thought I&amp;rsquo;d give it a shot.
-Thoughts on Deno Overall, I quite enjoyed the UX. Deno supports TypeScript out of the box with no headache configuring Babel or webpack or what have you.</description>
     </item>
     
   </channel>

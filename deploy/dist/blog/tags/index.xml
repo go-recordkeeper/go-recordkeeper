@@ -6,22 +6,49 @@
     <description>Recent content in Tags on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 25 May 2023 15:09:49 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 09 Oct 2023 11:59:36 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>deno</title>
-      <link>https://go.chiquit.ooo/blog/tags/deno/</link>
-      <pubDate>Thu, 25 May 2023 15:09:49 -0400</pubDate>
+      <title>bash</title>
+      <link>https://go.chiquit.ooo/blog/tags/bash/</link>
+      <pubDate>Mon, 09 Oct 2023 11:59:36 -0400</pubDate>
       
-      <guid>https://go.chiquit.ooo/blog/tags/deno/</guid>
+      <guid>https://go.chiquit.ooo/blog/tags/bash/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kotlin</title>
+      <link>https://go.chiquit.ooo/blog/tags/kotlin/</link>
+      <pubDate>Mon, 09 Oct 2023 11:59:36 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/tags/kotlin/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>nvim</title>
+      <link>https://go.chiquit.ooo/blog/tags/nvim/</link>
+      <pubDate>Mon, 09 Oct 2023 11:59:36 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/tags/nvim/</guid>
       <description></description>
     </item>
     
     <item>
       <title>typescript</title>
       <link>https://go.chiquit.ooo/blog/tags/typescript/</link>
-      <pubDate>Thu, 25 May 2023 15:09:49 -0400</pubDate>
+      <pubDate>Mon, 09 Oct 2023 11:59:36 -0400</pubDate>
       
       <guid>https://go.chiquit.ooo/blog/tags/typescript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>deno</title>
+      <link>https://go.chiquit.ooo/blog/tags/deno/</link>
+      <pubDate>Thu, 25 May 2023 15:09:49 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/tags/deno/</guid>
       <description></description>
     </item>
     
