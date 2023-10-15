@@ -1,1 +1,1 @@
-rootProject.name = "kotlin"
+rootProject.name = "go-recordkeeper"
