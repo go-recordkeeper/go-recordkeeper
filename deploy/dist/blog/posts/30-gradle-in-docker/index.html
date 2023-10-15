@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --accent-color: #FF4D4D;
+        }
+    </style>
+
+    
+    
+    
+    
+    
+    
+
+    
+    <title>Gradle in Docker</title>
+    <meta name="description" content="Records of the Go Recordkeeper">
+    <meta name="keywords" content='docker, kotlin, gradle'>
+
+    <meta property="og:url" content="https://go.chiquit.ooo/blog/posts/30-gradle-in-docker/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Gradle in Docker">
+    <meta property="og:description" content="Records of the Go Recordkeeper">
+    <meta property="og:image" content="/images/mrbubz.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gradle in Docker">
+    <meta name="twitter:description" content="Records of the Go Recordkeeper">
+    <meta property="twitter:domain" content="https://go.chiquit.ooo/blog/posts/30-gradle-in-docker/">
+    <meta property="twitter:url" content="https://go.chiquit.ooo/blog/posts/30-gradle-in-docker/">
+    <meta name="twitter:image" content="/images/mrbubz.jpg">
+
+    
+    <link rel="canonical" href="https://go.chiquit.ooo/blog/posts/30-gradle-in-docker/" />
+
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/normalize.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" type="text/css" href="https://go.chiquit.ooo/blog/css/main.css">
+    <link disabled id="dark-theme" rel="stylesheet" href="https://go.chiquit.ooo/blog/css/dark.css">
+
+    <script src="https://go.chiquit.ooo/blog/js/svg-injector.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/feather-icons.min.js"></script>
+    <script src="https://go.chiquit.ooo/blog/js/main.js"></script>
+
+    
+    
+</head>
+<body>
+        <script type="text/javascript">
+            
+            setThemeByUserPref();
+        </script><header class="header">
+    <nav class="header-nav">
+
+        
+        <div class="avatar">
+            <a href="https://go.chiquit.ooo/blog">
+                <img src="https://go.chiquit.ooo/blog/images/mrbubz.jpg" alt="avatar" />
+            </a>
+        </div>
+        
+
+        <div class="nav-title">
+            <a class="nav-brand" href="https://go.chiquit.ooo/blog">Dev Blog</a>
+        </div>
+
+        <div class="nav-links">
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+            </div>
+            
+            <div class="nav-link">
+                <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+            </div>
+            
+
+            <span class="nav-icons-divider"></span>
+            <div class="nav-link dark-theme-toggle">
+                <span id="dark-theme-toggle-screen-reader-target" class="sr-only"></span>
+                <a>
+                    <span id="theme-toggle-icon" data-feather="moon"></span>
+                </a>
+            </div>
+
+            <div class="nav-link" id="hamburger-menu-toggle">
+                <span id="hamburger-menu-toggle-screen-reader-target" class="sr-only">menu</span>
+                <a>
+                    <span data-feather="menu"></span>
+                </a>
+            </div>
+
+            
+            <ul class="nav-hamburger-list visibility-hidden">
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/"><span data-feather='external-link'></span> App </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/"><span data-feather='home'></span> Home </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/posts/"><span data-feather='book'></span> Posts </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://go.chiquit.ooo/blog/tags/"><span data-feather='tag'></span> Tags </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="https://github.com/go-recordkeeper"><span data-feather='github'></span>  </a>
+                </li>
+                
+                <li class="nav-item dark-theme-toggle">
+                    <span id="dark-theme-toggle-screen-reader-target" class="sr-only">theme</span>
+                    <a>
+                        <span id="theme-toggle-icon" data-feather="moon"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+</header>
+<main id="content">
+    <div class="post container">
+    <div class="post-header-section">
+        <h1>Gradle in Docker</h1>
+        <small role="doc-subtitle"></small>
+        <p class="post-date">
+            October 15, 2023
+        </p>
+
+        <ul class="post-tags">
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/docker">docker</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/kotlin">kotlin</a></li>
+        
+            <li class="post-tag"><a href="https://go.chiquit.ooo/blog/tags/gradle">gradle</a></li>
+        
+        </ul>
+    </div>
+
+    <div class="post-content">
+        <p>
+            <p>The first step in starting a new implementation after the Hello World is to get it Hello World&rsquo;ing in a docker image. After copy/pasting a boilerplate <code>docker-compose.yml</code>, we get integration tests and a local deployment DB for free.</p>
+<p>Writing Dockerfiles that technically work is pretty trivial; you just <code>COPY</code> the entire project directory in, run your build tool (<code>gradle</code> in this case), and there you go. However, this is problematic in practice for compiled languages (like Kotlin), since the build is generally very expensive and time-consuming to run from scratch every time. Since the image needs to be rebuilt every time we want to rerun an integration test, it&rsquo;s very important to this project that the <code>docker compose build</code> be snappy.</p>
+<h2 id="introducing-gradle">Introducing Gradle</h2>
+<p>It&rsquo;s been a long time since I&rsquo;ve used Java or anything in the Java ecosystem, so all of my JVM build tooling experience is with <a href="https://maven.apache.org/">Maven</a> (in Eclipse lol). I don&rsquo;t miss working with XML files, so I decided to give <a href="https://gradle.org/">Gradle</a> a shot.</p>
+<p>Gradle has, shall we say, a unique set of best practices for usage. The main entrypoint is a shell script <code>gradlew</code> (or <code>gradlew.bat</code>, if that&rsquo;s how you want to live your life) in the project root which is (ironically) a wrapper around an executable JAR, <code>./gradle/wrapper/gradle-wrapper.jar</code>. This Gradle Wrapper™ will automatically download the latest/pinned version of Gradle into <code>~/.gradle/</code>. The Wrapper then transparently proxies all invocations to this Gradle binary. This is cool and great for people who care deeply about maintaining multiple Gradle builds with multiple versions on the same machine, but really makes it a headache for me to Dockerize effectively.</p>
+<h3 id="jib">Jib</h3>
+<p>I am obligated to mention <a href="https://github.com/GoogleContainerTools/jib">Jib</a> here. Jib seems to be the accepted tool for building Docker images instead of JAR files, which is basically exactly what I want. It plugs in nicely into Gradle and will automatically recognize and handle Spring applications properly, which is exactly my use case.</p>
+<p>The only problem is that it is a Gradle plugin, so I would need to install and run Gradle as part of my global deployment process. I already have so many implementations that the only thing keeping everything sane is that all the build details can be abstracted away behind a <code>docker-compose build</code>. Even then, if it were possible to use a container registry, I would still probably prefer Jib. Sadly the alternative CPU architecture of my Raspberry Pis makes this more or less impossible.</p>
+<h2 id="docker-build-caching">Docker build caching</h2>
+<p>I&rsquo;ve probably mentioned the process of optimizing Docker builds in the past, but it&rsquo;s quite important and bears repeating. I encountered a lot of problems getting Gradle builds to run quickly and burnt several hours refining the process, so I&rsquo;d might as well document it.</p>
+<p>The primary use case I am optimizing for is incremental builds of minor source code changes. A common DX experience is to write a new feature, run an integration test, have it fail, make a small adjustment, rerun the test, and repeat ad nauseam. Because each integration test run requires a fresh build of the image, it needs to be fast. There are a different set of optimizations that might be practical in a different project to reduce overall build time, but I frankly don&rsquo;t care very much about that. 95% percent of my time is spent developing, so that&rsquo;s where my optimizations go.</p>
+<p>The key to incremental build performance is spacing out your <code>COPY</code> statements in your <code>Dockerfile</code>. Whenever <code>docker build</code> is run, Docker will cache each build step and reuse that cache if nothing has changed. As soon as a file that was <code>COPY</code>&rsquo;d into the build is modified, that invalidates the cache for the rest of the file, meaning every subsequent step needs to be rerun. Therefore, your least frequently changed files need to be copied over first, while your most frequently changed files (i.e., <code>src</code>) need to be copied last.</p>
+<p>I wound up using three build phases in total:</p>
+<ul>
+<li>Install Gradle</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#66d9ef">COPY</span> --link ./gradle /goban/gradle<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> --link ./gradlew /goban/gradlew<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /goban</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> ./gradlew<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>This copies over only the Gradle Wrapper and invokes it with no arguments, which triggers a fresh installation of Gradle. The installation isn&rsquo;t referenced explicitly, but it is living in this layer of the imaged and can be accessed by all subsequent invocations of <code>./gradlew</code> in the build process. The <code>gradlew</code> file should basically never be modified, so this step should basically only be run once. This step takes about a minute.</p>
+<ul>
+<li>Cache dependencies</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#66d9ef">COPY</span> *.gradle.kts /goban<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> ./gradlew --profile --build-cache --configuration-cache bootJar <span style="color:#f92672">||</span> echo <span style="color:#e6db74">&#34;Failed build, as expected&#34;</span><span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>This copies over the Gradle configuration files and attempts to run a build (<code>bootJar</code> means build a JAR file that runs the Spring Boot application). Because we haven&rsquo;t copied over the source yet, this build will fail, which we are OK with. All we really want it to do is resolve and download dependencies, which it conveniently does. Whenever we need to add or modify dependencies, we will modify <code>build.gradle.kts</code>, which will trigger this step to run again. This step takes about a minute and a half.</p>
+<ul>
+<li>Build the project</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Dockerfile" data-lang="Dockerfile"><span style="color:#66d9ef">COPY</span> --link ./src /goban/src<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> ./gradlew --no-daemon --build-cache --configuration-cache bootJar<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>This copies all of our project sources and runs the build. Thanks to our cached layers, this step only takes about 8 seconds.</p>
+<h2 id="next-steps">Next steps</h2>
+<p><code>docker compose build</code> runs in ~11 seconds now, which is acceptable. I don&rsquo;t see any more configuration options available in Gradle, so that&rsquo;s probably the best I can do. The next step is to actually learn some Kotlin and start working on the auth endpoints.</p>
+
+        </p>
+    </div>
+
+    <div style="display: flex; margin-top: 50px;">
+        
+            <div style="flex-grow: 1; font-size: 16px;">
+                Previous: <a href="/blog/posts/29-kotlin/"> Progress &#43; Kotlin </a>
+            </div>
+        
+        
+    </div>
+</div>
+
+
+
+    
+
+        </main><footer class="footer">
+    <span>&copy; 2023 Daniel Chiquito</span>
+    <span>
+        Made with &#10084;&#65039; using <a target="_blank" href="https://github.com/526avijitgupta/gokarna">Gokarna</a>
+    </span>
+</footer>
+</body>
+</html>

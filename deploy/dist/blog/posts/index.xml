@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Oct 2023 11:59:36 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 15 Oct 2023 14:18:59 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Gradle in Docker</title>
+      <link>https://go.chiquit.ooo/blog/posts/30-gradle-in-docker/</link>
+      <pubDate>Sun, 15 Oct 2023 14:18:59 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/30-gradle-in-docker/</guid>
+      <description>The first step in starting a new implementation after the Hello World is to get it Hello World&amp;rsquo;ing in a docker image. After copy/pasting a boilerplate docker-compose.yml, we get integration tests and a local deployment DB for free.
+Writing Dockerfiles that technically work is pretty trivial; you just COPY the entire project directory in, run your build tool (gradle in this case), and there you go. However, this is problematic in practice for compiled languages (like Kotlin), since the build is generally very expensive and time-consuming to run from scratch every time.</description>
+    </item>
+    
     <item>
       <title>Progress &#43; Kotlin</title>
       <link>https://go.chiquit.ooo/blog/posts/29-kotlin/</link>

@@ -6,22 +6,40 @@
     <description>Recent content in Tags on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Oct 2023 11:59:36 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 15 Oct 2023 14:18:59 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>bash</title>
-      <link>https://go.chiquit.ooo/blog/tags/bash/</link>
-      <pubDate>Mon, 09 Oct 2023 11:59:36 -0400</pubDate>
+      <title>docker</title>
+      <link>https://go.chiquit.ooo/blog/tags/docker/</link>
+      <pubDate>Sun, 15 Oct 2023 14:18:59 -0400</pubDate>
       
-      <guid>https://go.chiquit.ooo/blog/tags/bash/</guid>
+      <guid>https://go.chiquit.ooo/blog/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gradle</title>
+      <link>https://go.chiquit.ooo/blog/tags/gradle/</link>
+      <pubDate>Sun, 15 Oct 2023 14:18:59 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/tags/gradle/</guid>
       <description></description>
     </item>
     
     <item>
       <title>kotlin</title>
       <link>https://go.chiquit.ooo/blog/tags/kotlin/</link>
-      <pubDate>Mon, 09 Oct 2023 11:59:36 -0400</pubDate>
+      <pubDate>Sun, 15 Oct 2023 14:18:59 -0400</pubDate>
       
       <guid>https://go.chiquit.ooo/blog/tags/kotlin/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bash</title>
+      <link>https://go.chiquit.ooo/blog/tags/bash/</link>
+      <pubDate>Mon, 09 Oct 2023 11:59:36 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/tags/bash/</guid>
       <description></description>
     </item>
     
@@ -130,15 +148,6 @@
       <pubDate>Tue, 11 Apr 2023 11:33:10 -0400</pubDate>
       
       <guid>https://go.chiquit.ooo/blog/tags/axum/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>docker</title>
-      <link>https://go.chiquit.ooo/blog/tags/docker/</link>
-      <pubDate>Thu, 16 Mar 2023 20:26:57 -0400</pubDate>
-      
-      <guid>https://go.chiquit.ooo/blog/tags/docker/</guid>
       <description></description>
     </item>
     
