@@ -67,6 +67,7 @@ implementations = {
     "haskell": 8003,
     "rust": 8004,
     "deno": 8005,
+    "kotlin": 8006,
 }
 
 

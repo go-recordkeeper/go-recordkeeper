@@ -93,3 +93,20 @@ services:
       POSTGRES_HOST: postgres # this refers to the postgres service above ^
     depends_on:
       - postgres
+
+  kotlin:
+    build:
+      context: ../server/kotlin
+    init: true
+    volumes:
+      - ../server/kotlin:/goban
+    ports:
+      - 8006:8000
+    environment:
+      GOBAN_DEVELOPMENT: true
+      POSTGRES_NAME: default
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres # this refers to the postgres service above ^
+    depends_on:
+      - postgres
