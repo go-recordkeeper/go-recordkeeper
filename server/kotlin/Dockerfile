@@ -8,12 +8,12 @@ WORKDIR /goban
 RUN ./gradlew
 
 # COPY --link ./build /goban/build
-COPY --link .gradle /goban/.gradle
+# COPY --link .gradle /goban/.gradle
 COPY *.gradle.kts /goban
 
-RUN ./gradlew --profile --build-cache --configuration-cache bootJar || echo "Failed build, as expected"
+RUN ./gradlew --no-daemon --build-cache --configuration-cache bootJar || echo "Failed build, as expected"
 
-COPY ./src /goban/src
+COPY --link ./src /goban/src
 # This doesn't actually avoid the daemon :(
 RUN ./gradlew --no-daemon --build-cache --configuration-cache bootJar
 
