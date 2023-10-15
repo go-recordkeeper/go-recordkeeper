@@ -1,0 +1,36 @@
+version: '3'
+services:
+  postgres:
+    image: 'postgres:latest'
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: default
+  kotlin:
+    build: .
+    ports:
+      - 8000:8000
+    environment:
+      GOBAN_DEVELOPMENT: true
+      POSTGRES_NAME: default
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres # this refers to the postgres service above ^
+    init: true
+    depends_on:
+      - postgres
+
+  django:
+    build: ../django
+    profiles:
+      - django
+    environment:
+      GOBAN_DEVELOPMENT: true
+      POSTGRES_NAME: default
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: postgres # this refers to the postgres service above ^
+    depends_on:
+      - postgres
