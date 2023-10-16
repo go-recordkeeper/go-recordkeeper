@@ -17,6 +17,7 @@ repositories { mavenCentral() }
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web:3.1.4")
+  implementation("org.springframework.security:spring-security-crypto:6.1.4")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.3")
   implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.10")
   implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
