@@ -16,14 +16,14 @@ java { sourceCompatibility = JavaVersion.VERSION_17 }
 repositories { mavenCentral() }
 
 dependencies {
-  implementation("org.springframework.boot:spring-boot-starter-web")
-  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-  implementation("org.jetbrains.kotlin:kotlin-reflect")
+  implementation("org.springframework.boot:spring-boot-starter-web:3.1.4")
+  implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.3")
+  implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.10")
   implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
   implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
   implementation("com.auth0:java-jwt:4.4.0")
-  runtimeOnly("org.postgresql:postgresql")
-  testImplementation("org.springframework.boot:spring-boot-starter-test")
+  runtimeOnly("org.postgresql:postgresql:42.6.0")
+  testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.4")
 }
 
 tasks.withType<KotlinCompile> {
