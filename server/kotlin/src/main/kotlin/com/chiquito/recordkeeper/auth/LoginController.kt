@@ -3,6 +3,7 @@ package com.chiquito.recordkeeper.auth
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import io.github.oshai.kotlinlogging.KotlinLogging
+import java.sql.DriverManager
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import kotlinx.datetime.Clock
@@ -22,6 +23,18 @@ class LoginController {
   @ResponseBody
   fun login(@RequestBody request: Request): String {
     val (username, password) = request
+    val jdbcUrl = "jdbc:postgresql://postgres:5432/default"
+    val connection = DriverManager.getConnection(jdbcUrl, "postgres", "postgres")
+    val query = connection.prepareStatement("SELECT id, password FROM auth_user WHERE username=?")
+    query.setString(1, username)
+    val result = query.executeQuery()
+    if (!result.next()) {
+      logger.debug("IT DOESN'T EXIST! THROW AN ERROR")
+    }
+    val id = result.getInt("id")
+    val hashed_password = result.getString("password")
+    logger.debug { "$id, $hashed_password" }
+
     // TODO hook up DB
     // TODO pbkdf2 to check password
     val now = Clock.System.now()
