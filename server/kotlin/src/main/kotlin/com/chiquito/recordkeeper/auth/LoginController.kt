@@ -2,6 +2,7 @@ package com.chiquito.recordkeeper.auth
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.chiquito.recordkeeper.GobanConfig
 import io.github.oshai.kotlinlogging.KotlinLogging
 import java.sql.DriverManager
 import java.util.Base64
@@ -21,7 +22,8 @@ import org.springframework.web.server.ResponseStatusException
 private val logger = KotlinLogging.logger {}
 
 @RestController
-class LoginController {
+class LoginController(gobanConfig: GobanConfig) {
+  private val config: GobanConfig = gobanConfig
 
   data class Request(val username: String, val password: String)
 
@@ -29,10 +31,10 @@ class LoginController {
   @ResponseBody
   fun login(@RequestBody request: Request): String {
     val (username, password) = request
-    // TODO load these props from env vars
     // TODO abstract DB connnections
-    val jdbcUrl = "jdbc:postgresql://postgres:5432/default"
-    val connection = DriverManager.getConnection(jdbcUrl, "postgres", "postgres")
+    val jdbcUrl = "jdbc:postgresql://${config.postgresHost}:5432/${config.postgresName}"
+    val connection =
+        DriverManager.getConnection(jdbcUrl, config.postgresUser, config.postgresPassword)
     val query = connection.prepareStatement("SELECT id, password FROM auth_user WHERE username=?")
     query.setString(1, username)
     val result = query.executeQuery()
@@ -52,9 +54,6 @@ class LoginController {
     val salt = matcher.group(2).toByteArray()
     val actual_hashed_password = matcher.group(3)
 
-    // TODO load this from env var
-    val secret = "django-insecure-(@ppnpk\$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj"
-
     // val random = SecureRandom()
     // val salt = ByteArray(16)
     // random.nextBytes(salt)
@@ -73,7 +72,7 @@ class LoginController {
               .withClaim("iss", "go-recordkeeper")
               .withClaim("aud", "go-recordkeeper")
               // TODO grab secret key from env config
-              .sign(Algorithm.HMAC256(secret))
+              .sign(Algorithm.HMAC256(config.secretKey))
       return "\"$jwt\""
     } else {
       throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
