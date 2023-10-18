@@ -6,7 +6,18 @@
     <description>Recent content on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 15 Oct 2023 14:18:59 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 17 Oct 2023 21:20:19 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Spring Suffering</title>
+      <link>https://go.chiquit.ooo/blog/posts/31-spring-suffering/</link>
+      <pubDate>Tue, 17 Oct 2023 21:20:19 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/31-spring-suffering/</guid>
+      <description>Spring sucks, and I hate it. It&amp;rsquo;s late and I&amp;rsquo;m tired, but I&amp;rsquo;m trying to relate my sufferings now while they are still fresh.
+The Goal My objective was to set up the /api/login/ endpoint, which is always my first step when working on a new implementation. There are several foundational components that all need to work together to achieve this:
+ Request handling (obviously), with parameters and serialization/deserialization Password hashing JWT key signing SQL querying Configuration from environment variables  Request handling This was pretty easy.</description>
+    </item>
+    
     <item>
       <title>Gradle in Docker</title>
       <link>https://go.chiquit.ooo/blog/posts/30-gradle-in-docker/</link>

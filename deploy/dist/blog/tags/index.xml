@@ -6,7 +6,25 @@
     <description>Recent content in Tags on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 15 Oct 2023 14:18:59 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 17 Oct 2023 21:20:19 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>kotlin</title>
+      <link>https://go.chiquit.ooo/blog/tags/kotlin/</link>
+      <pubDate>Tue, 17 Oct 2023 21:20:19 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/tags/kotlin/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>spring</title>
+      <link>https://go.chiquit.ooo/blog/tags/spring/</link>
+      <pubDate>Tue, 17 Oct 2023 21:20:19 -0400</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/tags/spring/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>docker</title>
       <link>https://go.chiquit.ooo/blog/tags/docker/</link>
@@ -22,15 +40,6 @@
       <pubDate>Sun, 15 Oct 2023 14:18:59 -0400</pubDate>
       
       <guid>https://go.chiquit.ooo/blog/tags/gradle/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>kotlin</title>
-      <link>https://go.chiquit.ooo/blog/tags/kotlin/</link>
-      <pubDate>Sun, 15 Oct 2023 14:18:59 -0400</pubDate>
-      
-      <guid>https://go.chiquit.ooo/blog/tags/kotlin/</guid>
       <description></description>
     </item>
     
