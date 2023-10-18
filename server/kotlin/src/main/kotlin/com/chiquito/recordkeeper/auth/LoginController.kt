@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.chiquito.recordkeeper.GobanConfig
 import io.github.oshai.kotlinlogging.KotlinLogging
-import java.sql.DriverManager
 import java.util.Base64
 import java.util.regex.*
 import javax.crypto.SecretKeyFactory
@@ -31,11 +30,7 @@ class LoginController(gobanConfig: GobanConfig) {
   @ResponseBody
   fun login(@RequestBody request: Request): String {
     val (username, password) = request
-    // TODO abstract DB connnections
-    val jdbcUrl = "jdbc:postgresql://${config.postgresHost}:5432/${config.postgresName}"
-    val connection =
-        DriverManager.getConnection(jdbcUrl, config.postgresUser, config.postgresPassword)
-    val query = connection.prepareStatement("SELECT id, password FROM auth_user WHERE username=?")
+    val query = config.statement("SELECT id, password FROM auth_user WHERE username=?")
     query.setString(1, username)
     val result = query.executeQuery()
     if (!result.next()) {

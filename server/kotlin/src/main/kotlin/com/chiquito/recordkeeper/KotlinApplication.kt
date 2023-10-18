@@ -1,6 +1,8 @@
 package com.chiquito.recordkeeper
 
 import io.github.oshai.kotlinlogging.KotlinLogging
+import java.sql.DriverManager
+import java.sql.PreparedStatement
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
@@ -14,7 +16,13 @@ data class GobanConfig(
     val postgresUser: String,
     val postgresPassword: String,
     val postgresHost: String,
-)
+) {
+  fun statement(statement: String): PreparedStatement {
+    val jdbcUrl = "jdbc:postgresql://${postgresHost}:5432/${postgresName}"
+    val connection = DriverManager.getConnection(jdbcUrl, postgresUser, postgresPassword)
+    return connection.prepareStatement(statement)
+  }
+}
 
 @SpringBootApplication
 class KotlinApplication {
