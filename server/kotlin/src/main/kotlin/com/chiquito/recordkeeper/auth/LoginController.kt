@@ -66,7 +66,6 @@ class LoginController(gobanConfig: GobanConfig) {
               .withClaim("exp", (now + 1.toDuration(DurationUnit.DAYS)).epochSeconds)
               .withClaim("iss", "go-recordkeeper")
               .withClaim("aud", "go-recordkeeper")
-              // TODO grab secret key from env config
               .sign(Algorithm.HMAC256(config.secretKey))
       return "\"$jwt\""
     } else {
