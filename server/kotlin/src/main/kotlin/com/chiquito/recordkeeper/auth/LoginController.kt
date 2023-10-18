@@ -61,7 +61,7 @@ class LoginController(gobanConfig: GobanConfig) {
       val now = Clock.System.now()
       val jwt =
           JWT.create()
-              .withClaim("sub", "666")
+              .withClaim("sub", "$id")
               .withClaim("iat", now.epochSeconds)
               .withClaim("exp", (now + 1.toDuration(DurationUnit.DAYS)).epochSeconds)
               .withClaim("iss", "go-recordkeeper")
