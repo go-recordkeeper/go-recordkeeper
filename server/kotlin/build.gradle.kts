@@ -23,7 +23,7 @@ dependencies {
   implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
   implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
   implementation("com.auth0:java-jwt:4.4.0")
-  runtimeOnly("org.postgresql:postgresql:42.6.0")
+  implementation("org.postgresql:postgresql:42.6.0")
   testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.4")
 }
 
