@@ -43,11 +43,11 @@ class RegisterController(gobanConfig: GobanConfig) {
     val now = java.sql.Timestamp(Clock.System.now().toEpochMilliseconds())
     query.setString(1, username)
     query.setString(2, email)
+    // TODO hash the password
     val passwordHashed = "abc123"
     query.setString(3, passwordHashed)
     query.setTimestamp(4, now)
     query.setTimestamp(5, now)
-    // val result: java.sql.ResultSet
     try {
       val result = query.executeQuery()
       if (!result.next()) {
