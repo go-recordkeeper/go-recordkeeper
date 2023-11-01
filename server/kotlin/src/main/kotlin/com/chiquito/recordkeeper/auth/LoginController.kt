@@ -49,9 +49,6 @@ class LoginController(gobanConfig: GobanConfig) {
     val salt = matcher.group(2).toByteArray()
     val actual_hashed_password = matcher.group(3)
 
-    // val random = SecureRandom()
-    // val salt = ByteArray(16)
-    // random.nextBytes(salt)
     val spec = PBEKeySpec(password.toCharArray(), salt, iterations, 32 * 8)
     val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256")
     val hashed_password_bytes = factory.generateSecret(spec).getEncoded()

@@ -2,9 +2,12 @@ package com.chiquito.recordkeeper.auth
 
 import com.chiquito.recordkeeper.GobanConfig
 import io.github.oshai.kotlinlogging.KotlinLogging
+import java.security.SecureRandom
+import java.util.Base64
 import java.util.regex.*
+import javax.crypto.SecretKeyFactory
+import javax.crypto.spec.PBEKeySpec
 import kotlinx.datetime.Clock
-import org.postgresql.util.PSQLException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -15,18 +18,38 @@ import org.springframework.web.server.ResponseStatusException
 
 private val logger = KotlinLogging.logger {}
 
-private val EMAIL_REGEX = Pattern.compile(".*@.*\\..*")
-
-fun isValidEmail(email: String): Boolean {
-  return EMAIL_REGEX.matcher(email).matches()
-}
-
 @RestController
 class RegisterController(gobanConfig: GobanConfig) {
   private val config: GobanConfig = gobanConfig
 
   data class Request(val username: String, val email: String, val password: String)
   data class Response(val id: Int, val username: String, val email: String)
+
+  fun isValidEmail(email: String): Boolean {
+    return EMAIL_REGEX.matcher(email).matches()
+  }
+
+  fun generateSalt(): ByteArray {
+    val whitelist = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    val random = SecureRandom()
+    val salt = ByteArray(16)
+    for (i in 0 ..< 16) {
+      val c = whitelist[random.nextInt(whitelist.length)]
+      salt[i] = c.code.toByte()
+    }
+    return salt
+  }
+
+  fun hashPassword(password: String): String {
+    val salt = generateSalt()
+    val iterations = 39000
+    val spec = PBEKeySpec(password.toCharArray(), salt, iterations, 32 * 8)
+    val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256")
+    val hashed_password_bytes = factory.generateSecret(spec).getEncoded()
+    val hashed_password = Base64.getEncoder().encodeToString(hashed_password_bytes)
+    val salt_string = salt.toString(Charsets.UTF_8)
+    return "pbkdf2_sha256\$${iterations}\$${salt_string}\$${hashed_password}"
+  }
 
   @PostMapping("/api/register/")
   @ResponseBody
@@ -43,21 +66,18 @@ class RegisterController(gobanConfig: GobanConfig) {
     val now = java.sql.Timestamp(Clock.System.now().toEpochMilliseconds())
     query.setString(1, username)
     query.setString(2, email)
-    // TODO hash the password
-    val passwordHashed = "abc123"
+    val passwordHashed = hashPassword(password)
     query.setString(3, passwordHashed)
     query.setTimestamp(4, now)
     query.setTimestamp(5, now)
     try {
       val result = query.executeQuery()
       if (!result.next()) {
-        // TODO what do
         throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)
       }
       val id = result.getInt("id")
       return ResponseEntity.status(201).body(Response(id, username, email))
     } catch (e: org.postgresql.util.PSQLException) {
-      logger.debug { e.getServerErrorMessage()!!.getSQLState() }
       if (e.getServerErrorMessage()?.getSQLState() == "23505") {
         throw ResponseStatusException(
             HttpStatus.BAD_REQUEST,
@@ -66,38 +86,9 @@ class RegisterController(gobanConfig: GobanConfig) {
       }
       throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR)
     }
-    // val pattern =
-    //     Pattern.compile("^pbkdf2_sha256\\\$([0-9]+)\\\$([a-zA-Z0-9+/]+)\\\$([a-zA-Z0-9+/=]+)\$")
-    // val matcher = pattern.matcher(db_password)
-    // if (!matcher.matches()) {
-    //   throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
-    // }
-    // val iterations = matcher.group(1).toInt()
-    // val salt = matcher.group(2).toByteArray()
-    // val actual_hashed_password = matcher.group(3)
-    //
-    // // val random = SecureRandom()
-    // // val salt = ByteArray(16)
-    // // random.nextBytes(salt)
-    // val spec = PBEKeySpec(password.toCharArray(), salt, iterations, 32 * 8)
-    // val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256")
-    // val hashed_password_bytes = factory.generateSecret(spec).getEncoded()
-    // val hashed_password = Base64.getEncoder().encodeToString(hashed_password_bytes)
-    //
-    // if (hashed_password.equals(actual_hashed_password)) {
-    //   val now = Clock.System.now()
-    //   val jwt =
-    //       JWT.create()
-    //           .withClaim("sub", "666")
-    //           .withClaim("iat", now.epochSeconds)
-    //           .withClaim("exp", (now + 1.toDuration(DurationUnit.DAYS)).epochSeconds)
-    //           .withClaim("iss", "go-recordkeeper")
-    //           .withClaim("aud", "go-recordkeeper")
-    //           // TODO grab secret key from env config
-    //           .sign(Algorithm.HMAC256(config.secretKey))
-    //   return "\"$jwt\""
-    // } else {
-    //   throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
-    // }
   }
 }
+
+// I put these regexes at the bottom because my editor is bad at recognizing string escape sequences
+// and barfs all over my syntax highlighting
+private val EMAIL_REGEX = Pattern.compile(".*@.*\\..*")
