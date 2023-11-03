@@ -28,7 +28,8 @@ class CurrentUserController(gobanConfig: GobanConfig) {
       val matcher = AUTHORIZATION_HEADER_REGEX.matcher(header)
       if (matcher.matches()) {
         val jwt = matcher.group(1)!!
-        val decoded = JWT.require(Algorithm.HMAC256(config.secretKey)).build().verify(jwt)
+        val decoded =
+            JWT.require(Algorithm.HMAC256(config.secretKey)).acceptLeeway(10).build().verify(jwt)
         if (decoded != null) {
           return decoded.getSubject()!!.toInt()
         }
