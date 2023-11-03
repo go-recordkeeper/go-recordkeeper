@@ -101,18 +101,3 @@ class CreateRecordsController(gobanConfig: GobanConfig) {
         )
   }
 }
-
-data class Response(
-    val id: Int,
-    val owner: Int,
-    val board_size: Int,
-    val created: Timestamp,
-    val name: String,
-    val black_player: String,
-    val white_player: String,
-    val comment: String,
-    val handicap: Int,
-    val komi: Double,
-    val ruleset: String,
-    val winner: String,
-)
