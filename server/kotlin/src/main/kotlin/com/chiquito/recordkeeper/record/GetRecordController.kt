@@ -4,7 +4,6 @@ import com.chiquito.recordkeeper.GobanConfig
 import io.github.oshai.kotlinlogging.KotlinLogging
 import java.sql.Timestamp
 import java.util.regex.*
-import kotlinx.datetime.Clock
 import org.springframework.http.*
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
@@ -34,7 +33,7 @@ class GetRecordController(gobanConfig: GobanConfig) {
 
   @GetMapping("/api/records/{recordId}/")
   @ResponseBody
-  fun getUser(
+  fun getRecord(
       @PathVariable recordId: Int,
       @RequestAttribute("getUser") getUser: () -> Int,
   ): ResponseEntity<Response> {
@@ -43,7 +42,6 @@ class GetRecordController(gobanConfig: GobanConfig) {
         config.statement(
             "SELECT id, board_size, name, black_player, white_player, comment, handicap, komi, ruleset, winner, created FROM record_record WHERE owner_id = ? AND id = ?"
         )
-    val now = java.sql.Timestamp(Clock.System.now().toEpochMilliseconds())
     query.setInt(1, ownerId)
     query.setInt(2, recordId)
     val result = query.executeQuery()
