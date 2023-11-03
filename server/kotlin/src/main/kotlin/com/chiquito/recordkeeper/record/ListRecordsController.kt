@@ -67,11 +67,9 @@ class ListRecordsController(gobanConfig: GobanConfig) {
     query.setInt(2, pageSize)
     query.setInt(3, (page - 1) * pageSize)
     val result = query.executeQuery()
-    logger.debug { "leq" }
 
     val records = ArrayList<Record>(pageSize)
     while (result.next()) {
-      logger.debug { "leresult" }
       records.add(
           Record(
               result.getInt("id"),
