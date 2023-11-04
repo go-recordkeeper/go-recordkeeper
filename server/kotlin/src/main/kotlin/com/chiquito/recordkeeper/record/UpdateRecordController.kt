@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 private val logger = KotlinLogging.logger {}
 
 @RestController
-class UpdateRecordsController(gobanConfig: GobanConfig) {
+class UpdateRecordController(gobanConfig: GobanConfig) {
   private val config: GobanConfig = gobanConfig
 
   data class Request(
