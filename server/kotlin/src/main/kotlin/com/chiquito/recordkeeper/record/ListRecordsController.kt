@@ -1,4 +1,4 @@
-package com.chiquito.recordkeeper.auth
+package com.chiquito.recordkeeper.record
 
 import com.chiquito.recordkeeper.GobanConfig
 import io.github.oshai.kotlinlogging.KotlinLogging
