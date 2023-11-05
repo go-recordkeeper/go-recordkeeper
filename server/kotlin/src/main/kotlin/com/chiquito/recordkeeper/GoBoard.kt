@@ -31,7 +31,7 @@ class GoBoard(size: Int) {
 
   data class Move(val pos: Optional<Position>, val color: Color)
 
-  class Group(val color: Color, val stones: Set<Position>, val liberties: Set<Position>) {
+  data class Group(val color: Color, val stones: Set<Position>, val liberties: Set<Position>) {
     companion object {
       fun build(board: GoBoard, seed: Position): Optional<Group> {
         val color = board.stones.get(seed)
@@ -49,7 +49,7 @@ class GoBoard(size: Int) {
             liberties.add(pos)
           } else if (posColor == color) {
             stones.add(pos)
-            board.adjacents(pos).map {
+            board.adjacents(pos).forEach {
               if (!stones.contains(it) && !liberties.contains(it) && !queue.contains(it)) {
                 queue.add(it)
               }
