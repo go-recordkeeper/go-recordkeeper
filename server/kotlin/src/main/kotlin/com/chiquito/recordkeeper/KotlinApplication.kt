@@ -34,24 +34,21 @@ class KotlinApplication {
     val secretKey =
         if (envSecretKey != null) envSecretKey
         else "django-insecure-(@ppnpk\$wx_z%2^#^0sext&+%b58=%e^!_u_*yd2p#d2&9)9cj"
-    val postgresName = System.getenv("POSTGRES_NAME")!!
-    val postgresUser = System.getenv("POSTGRES_USER")!!
-    val postgresPassword = System.getenv("POSTGRES_PASSWORD")!!
-    val postgresHost = System.getenv("POSTGRES_HOST")!!
-    val c =
-        GobanConfig(
-            development,
-            secretKey,
-            postgresName,
-            postgresUser,
-            postgresPassword,
-            postgresHost
-        )
-    return c
+    val postgresName = System.getenv("POSTGRES_NAME") ?: ""
+    val postgresUser = System.getenv("POSTGRES_USER") ?: ""
+    val postgresPassword = System.getenv("POSTGRES_PASSWORD") ?: ""
+    val postgresHost = System.getenv("POSTGRES_HOST") ?: ""
+    return GobanConfig(
+        development,
+        secretKey,
+        postgresName,
+        postgresUser,
+        postgresPassword,
+        postgresHost
+    )
   }
 }
 
 fun main(args: Array<String>) {
-  print("yeeeeeeeeeeeeeeey")
   runApplication<KotlinApplication>(*args) {}
 }
