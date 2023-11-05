@@ -1,5 +1,6 @@
 package com.chiquito.recordkeeper.auth
 
+import com.chiquito.recordkeeper.GoBoard
 import com.chiquito.recordkeeper.GobanConfig
 import io.github.oshai.kotlinlogging.KotlinLogging
 import java.time.ZoneId
@@ -62,13 +63,20 @@ class DownloadRecordController(gobanConfig: GobanConfig) {
         )
     movesQuery.setInt(1, recordId)
     val movesResult = movesQuery.executeQuery()
+    val board = GoBoard(boardSize)
     val moves = StringBuilder()
     while (movesResult.next()) {
-      // TODO
-      // val position = movesResult.getInt("position")
-      val position = "tt"
+      val dbPosition = movesResult.getInt("position")
+      val positionCode =
+          if (dbPosition == null) "tt"
+          else {
+            val position = board.fromIndex(dbPosition)
+            val xChar = (position.x + 'a'.code.toInt()).toChar()
+            val yChar = (position.y + 'a'.code.toInt()).toChar()
+            "${xChar}${yChar}"
+          }
       val color = movesResult.getString("color")
-      moves.append("${color}[${position}]")
+      moves.append("${color}[${positionCode}]")
     }
 
     val sgf_file_contents =
