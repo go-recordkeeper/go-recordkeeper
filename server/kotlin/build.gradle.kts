@@ -25,6 +25,7 @@ dependencies {
   implementation("com.auth0:java-jwt:4.4.0")
   implementation("org.postgresql:postgresql:42.6.0")
   testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.4")
+  testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
 }
 
 tasks.withType<KotlinCompile> {
