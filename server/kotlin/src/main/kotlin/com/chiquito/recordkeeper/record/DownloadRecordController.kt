@@ -66,21 +66,20 @@ class DownloadRecordController(gobanConfig: GobanConfig) {
     val board = GoBoard(boardSize)
     val moves = StringBuilder()
     while (movesResult.next()) {
-      val dbPosition = movesResult.getInt("position")
+      val position = board.fromIndex(movesResult.getInt("position"))
       val positionCode =
-          if (dbPosition == null) "tt"
+          if (movesResult.wasNull()) "tt"
           else {
-            val position = board.fromIndex(dbPosition)
             val xChar = (position.x + 'a'.code.toInt()).toChar()
             val yChar = (position.y + 'a'.code.toInt()).toChar()
             "${xChar}${yChar}"
           }
       val color = movesResult.getString("color")
-      moves.append("${color}[${positionCode}]")
+      moves.append("${color}[${positionCode}];")
     }
 
     val sgf_file_contents =
-        "(;FF[4]CA[UTF-8]${comment}GM[1]${name}HA[${handicap}]KM[${komi}]PB[${blackPlayer}]PW[${whitePlayer}]RE[${winner}]SZ[${boardSize}];${moves})"
+        "(;FF[4]CA[UTF-8]${comment}GM[1]${name}HA[${handicap}]KM[${komi}]PB[${blackPlayer}]PW[${whitePlayer}]RE[${winner}]SZ[${boardSize}];${moves.trimEnd(';')})"
     val formatter =
         DateTimeFormatter.ofPattern("YYYY_MM_dd")
             .withLocale(Locale.getDefault())
