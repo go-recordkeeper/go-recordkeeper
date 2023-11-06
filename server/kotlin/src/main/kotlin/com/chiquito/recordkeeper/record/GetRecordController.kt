@@ -1,8 +1,9 @@
 package com.chiquito.recordkeeper.record
 
-import com.chiquito.recordkeeper.GobanConfig
+import com.chiquito.recordkeeper.*
 import io.github.oshai.kotlinlogging.KotlinLogging
 import java.sql.Timestamp
+import java.util.Optional
 import java.util.regex.*
 import org.springframework.http.*
 import org.springframework.web.bind.annotation.*
@@ -14,6 +15,13 @@ private val logger = KotlinLogging.logger {}
 class GetRecordController(gobanConfig: GobanConfig) {
   private val config: GobanConfig = gobanConfig
 
+  data class Point(val x: Int, val y: Int)
+  data class ResponseMove(
+      val position: Optional<Point>,
+      val color: String,
+      val captures: List<Point>
+  )
+  data class ResponseStone(val x: Int, val y: Int, val color: String)
   data class Response(
       val id: Int,
       val owner: Int,
@@ -27,8 +35,8 @@ class GetRecordController(gobanConfig: GobanConfig) {
       val komi: Double,
       val ruleset: String,
       val winner: String,
-      val moves: Array<Int>,
-      val stones: Array<Int>,
+      val moves: List<ResponseMove>,
+      val stones: List<ResponseStone>,
   )
 
   @GetMapping("/api/records/{recordId}/")
@@ -58,9 +66,28 @@ class GetRecordController(gobanConfig: GobanConfig) {
     val komi = result.getDouble("komi")
     val ruleset = result.getString("ruleset")
     val winner = result.getString("winner")
-    // TODO calculate moves and stones
-    val moves: Array<Int> = emptyArray()
-    val stones: Array<Int> = emptyArray()
+
+    val movesQuery =
+        config.statement(
+            "SELECT position, color FROM record_move WHERE record_id=? ORDER BY move ASC"
+        )
+    movesQuery.setInt(1, recordId)
+
+    val movesResult = movesQuery.executeQuery()
+    val board = GoBoard(boardSize)
+    val moves: ArrayList<ResponseMove> = ArrayList(20)
+    while (movesResult.next()) {
+      val color = Color.valueOf(movesResult.getString("color"))
+      val pos = board.fromIndex(movesResult.getInt("position"))
+      if (movesResult.wasNull()) {
+        // moves.add(GoBoard.Move(color, Optional.empty()))
+        moves.add(ResponseMove(Optional.empty(), color.toString(), listOf()))
+      } else {
+        val captures = board.placeStone(color, pos).map { Point(it.x, it.y) }
+        // moves.add(GoBoard.Move(color, Optional.of(board.fromIndex(position))))
+        moves.add(ResponseMove(Optional.of(Point(pos.x, pos.y)), color.toString(), captures))
+      }
+    }
     return ResponseEntity.ok()
         .body(
             Response(
@@ -77,7 +104,9 @@ class GetRecordController(gobanConfig: GobanConfig) {
                 ruleset,
                 winner,
                 moves,
-                stones,
+                board.stones.asIterable().map {
+                  ResponseStone(it.key.x, it.key.y, it.value.toString())
+                },
             )
         )
   }
