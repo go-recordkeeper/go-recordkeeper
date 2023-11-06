@@ -104,7 +104,7 @@ class GetRecordController(gobanConfig: GobanConfig) {
                 ruleset,
                 winner,
                 moves,
-                board.stones.asIterable().map {
+                board.stones.asIterable().sortedBy { it.key.index }.map {
                   ResponseStone(it.key.x, it.key.y, it.value.toString())
                 },
             )
