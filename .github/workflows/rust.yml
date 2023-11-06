@@ -98,6 +98,14 @@ jobs:
           load: true
           cache-from: type=gha,scope=deno
           cache-to: type=gha,scope=deno,mode=min
+      - name: Build and cache kotlin
+        uses: docker/build-push-action@v4
+        with:
+          context: server/kotlin
+          push: false
+          load: true
+          cache-from: type=gha,scope=kotlin
+          cache-to: type=gha,scope=kotlin,mode=min
       - name: Build all docker compose images
         run: docker compose build
       - name: Run tests
