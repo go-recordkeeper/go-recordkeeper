@@ -23,11 +23,7 @@ struct Point {
 
 impl PartialOrd for Point {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        if self.y == other.y {
-            self.x.partial_cmp(&other.x)
-        } else {
-            self.y.partial_cmp(&other.y)
-        }
+        Some(self.cmp(other))
     }
 }
 impl Ord for Point {
@@ -51,11 +47,7 @@ struct Stone {
 }
 impl PartialOrd for Stone {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        if self.y == other.y {
-            self.x.partial_cmp(&other.x)
-        } else {
-            self.y.partial_cmp(&other.y)
-        }
+        Some(self.cmp(other))
     }
 }
 impl Ord for Stone {
