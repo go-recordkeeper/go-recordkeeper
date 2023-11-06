@@ -5,6 +5,7 @@
 ![Haskell](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/haskell.yml/badge.svg)
 ![Rust](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/rust.yml/badge.svg)
 ![Deno](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/deno.yml/badge.svg)
+![Kotlin](https://github.com/go-recordkeeper/go-recordkeeper/actions/workflows/kotlin.yml/badge.svg)
 
 <p align="center">
 <img src="https://go.chiquit.ooo/logo.png" width="200" />
@@ -28,6 +29,7 @@ So far, I've finished four implementations:
 * [Haskell](https://github.com/go-recordkeeper/go-recordkeeper/tree/main/server/haskell) - Written in [Haskell](https://www.haskell.org/) using [scotty](https://hackage.haskell.org/package/scotty) for the REST API and [hasql](https://hackage.haskell.org/package/hasql) for the DB. It's a powerful language, but the build times are atrocious.
 * [Rust](https://github.com/go-recordkeeper/go-recordkeeper/tree/main/server/rust) - Written in [Rust](https://www.rust-lang.org/) using [axum](https://docs.rs/axum/latest/axum/) for the REST API and [tokio-postgres](https://docs.rs/tokio-postgres/latest/tokio_postgres/) for the DB. Architecturally it's practically identical to the Haskell implementation, but I'm much fonder of Rust as a language.
 * [Deno](https://deno.com/runtime) - Written in [TypeScript](https://www.typescriptlang.org/) using the deno runtime as opposed to the more established [Node.js](https://nodejs.org/en). Deno ships with a surprisingly complete web server API, so I opted to use it directly instead of a more traditional web framework.
+* [Kotlin](https://kotlinlang.org/) - Written in Kotlin, run on the JVM, and using [Spring Boot](https://spring.io/projects/spring-boot) as the web server. Spring is a very mature and rather opaque ecosystem unto itself, so I did most of the DB, authentication, and middleware myself rather than fighting Spring into the shape I wanted.
 
 OpenAPI specs are provided for [FastAPI](https://go.chiquit.ooo/fastapi/redoc) and [Django](https://go.chiquit.ooo/django/swagger/). Because I took some shortcuts on the Django implementation, the FastAPI API is more canonical.
 
