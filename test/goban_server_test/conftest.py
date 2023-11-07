@@ -39,6 +39,9 @@ def init_db():
     with open("reset.sql", "wb") as sql_file:
         sql_file.write(flush)
         sql_file.write(reset_sequence)
+    # Wait to be sure all the services are up
+    # TODO a healthcheck is the correct way to do this
+    time.sleep(5)
     yield
     run(["docker", "compose", "stop"])
 
