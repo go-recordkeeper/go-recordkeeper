@@ -57,6 +57,14 @@ services:
     env_file:
       - .env
 
+  kotlin:
+    build: ../server/kotlin
+    init: true
+    ports:
+      - 8005:8000
+    env_file:
+      - .env
+
   nginx:
     image: nginx
     container_name: nginx
