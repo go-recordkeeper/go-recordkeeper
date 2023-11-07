@@ -28,7 +28,11 @@ impl PartialOrd for Point {
 }
 impl Ord for Point {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        self.partial_cmp(other).unwrap()
+        if self.y == other.y {
+            self.x.cmp(&other.x)
+        } else {
+            self.y.cmp(&other.y)
+        }
     }
 }
 
@@ -52,7 +56,11 @@ impl PartialOrd for Stone {
 }
 impl Ord for Stone {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        self.partial_cmp(other).unwrap()
+        if self.y == other.y {
+            self.x.cmp(&other.x)
+        } else {
+            self.y.cmp(&other.y)
+        }
     }
 }
 
