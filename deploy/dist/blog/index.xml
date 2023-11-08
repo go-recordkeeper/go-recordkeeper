@@ -6,7 +6,17 @@
     <description>Recent content on Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 17 Oct 2023 21:20:19 -0400</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 07 Nov 2023 17:48:59 -0500</lastBuildDate><atom:link href="https://go.chiquit.ooo/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Done With Kotlin</title>
+      <link>https://go.chiquit.ooo/blog/posts/32-done-with-kotlin/</link>
+      <pubDate>Tue, 07 Nov 2023 17:48:59 -0500</pubDate>
+      
+      <guid>https://go.chiquit.ooo/blog/posts/32-done-with-kotlin/</guid>
+      <description>Done and dusted. I confess that using Spring was not very inspiring. I did not have very fond memories of it, and now that seems justified. Kotlin was pretty neat though, considering that it&amp;rsquo;s constrained by running on the JVM.
+Spring In fairness, Spring is very mature and has decades of layers and growth. It is capable of doing everything, and I assume that if I had grown along with it and had some knowledge of its expectations, I would have had a nicer time.</description>
+    </item>
+    
     <item>
       <title>Spring Suffering</title>
       <link>https://go.chiquit.ooo/blog/posts/31-spring-suffering/</link>
